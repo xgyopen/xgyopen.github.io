@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/5_挖矿命令_1.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/6_挖矿命令_2.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/7_挖矿结果.png">
-<meta property="og:updated_time" content="2018-04-14T08:33:04.748Z">
+<meta property="og:updated_time" content="2018-04-14T08:44:23.584Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[区块链]借助以太坊构建私有链">
 <meta name="twitter:description" content="借助以太坊构建私有链创建目录、自定义创世区块先在win10端运行。 123456cd D:/BlockChainmkdir Mychainscd Mychainsmkdir devcd dev粘贴CustomGenesis.json到/Mychains/dev中 创世区块CustomGenesis.json定义如下123456789101112131415161718&amp;#123;    &amp;quot">
@@ -435,6 +435,7 @@
 <p>安装geth客户端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install software-properties-common</span><br><span class="line">sudo add-apt-repository -y ppa:ethereum/ethereum</span><br><span class="line">sudo add-apt-repository -y ppa:ethereum/ethereum-dev</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install ethereum</span><br></pre></td></tr></table></figure></p>
 <p>ubuntu命令：私有链初始化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geth --identity &quot;mydev2&quot; --rpc --rpccorsdomain &quot;*&quot; --datadir &quot;/home/xgy/BlockChain/Mychains/dev&quot; --rpcapi &quot;db,eth,net,web3&quot; --networkid 100 init &quot;./CustomGenesis.json&quot;</span><br></pre></td></tr></table></figure></p>
 <p>ubuntu命令：私有链启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geth --identity &quot;mydev2&quot; --rpccorsdomain &quot;*&quot; --datadir &quot;/home/xgy/BlockChain/Mychains/dev&quot;  --networkid 100 console</span><br></pre></td></tr></table></figure></p>
+<p>启动Mist客户端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/home/xgy/BlockChain/Mist-linux64-0-10-0/mist --rpc &quot;/home/xgy/BlockChain/Mychains/dev/geth.ipc&quot;</span><br></pre></td></tr></table></figure></p>
 <h1 id="一些命令"><a href="#一些命令" class="headerlink" title="一些命令"></a>一些命令</h1><h2 id="节点连接相关"><a href="#节点连接相关" class="headerlink" title="节点连接相关"></a>节点连接相关</h2><table>
 <thead>
 <tr>
@@ -517,6 +518,7 @@
 <p>ubuntu端<br>enode://c76bacf780ba012e62a2e61feaa37684c0cbe8c8372959aa8ab5fff2debb5689f53219a5ad0ccfc190f75129fa65d1ec59231aceeeabf3d0dfd04d63d84b9c59@112.0.127.80:30303</p>
 <h2 id="账户"><a href="#账户" class="headerlink" title="账户"></a>账户</h2><p>win10端的第1个账号（密码w1）<br>0x40aC8D81880Bbc05BB2140F1f918Ad30D3178E21</p>
 <p>ubuntu端的第1个账号（密码u1）<br>0xb5c6e8a0Cd7498B2592f1d32e4752Df8341Cb23c</p>
+<p>ubuntu端的第2个账号（密码u2）<br>0xa4f4be9349c541be17c0e74451a1bc9aa093f783</p>
 <h1 id="私有链简单测试"><a href="#私有链简单测试" class="headerlink" title="私有链简单测试"></a>私有链简单测试</h1><h2 id="钱包转账"><a href="#钱包转账" class="headerlink" title="钱包转账"></a>钱包转账</h2><h2 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h2><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://www.dataguru.cn/article-11286-1.html" target="_blank" rel="noopener">区块链技术从入门到精通</a><br><a href="https://blog.csdn.net/sportshark/article/details/51855007" target="_blank" rel="noopener">区块链开发（一）搭建基于以太坊的私有链环境*</a><br><a href="https://blog.csdn.net/w88193363/article/details/79402074" target="_blank" rel="noopener">ubuntu16.04搭建以太坊私有链并在私有链中进行挖矿及转账</a><br><a href="https://g2ex.github.io/2017/09/12/ethereum-guidance/" target="_blank" rel="noopener">常用命令</a></p>
 
       

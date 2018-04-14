@@ -87,14 +87,18 @@
 <meta property="og:site_name" content="xgyopen blog">
 <meta property="og:description" content="租用HostUS服务器HostUS是一家国外的VPS主机商，实测用来搭建ss服务效果还不错。 访问网站后，注册账号之类的就不详述了。在带宽足够的情况下，尽量买便宜的即可，购买链接传送门。 一年的价格是16美元，据说直连洛杉矶效果更好，所以我这里选择的是地点位于洛杉矶的，再加4美元，共计20美元/年。此处可以设置root的账号密码。提交订单后选择Alipay（也就是支付宝）付款。   付款后主机处于">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/01Buy_VPS.png">
-<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/02Alipay.png">
-<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/03Wait_pedding.png">
-<meta property="og:updated_time" content="2018-04-14T06:20:11.787Z">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/01购买VPS.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/02支付宝付款.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/03等待审核.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/04修改主机密码.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/05重装系统.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/06_配置ss_1.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/07_配置ss_2.png">
+<meta property="og:updated_time" content="2018-04-14T09:19:51.976Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[翻墙]租用服务器搭建ss服务">
 <meta name="twitter:description" content="租用HostUS服务器HostUS是一家国外的VPS主机商，实测用来搭建ss服务效果还不错。 访问网站后，注册账号之类的就不详述了。在带宽足够的情况下，尽量买便宜的即可，购买链接传送门。 一年的价格是16美元，据说直连洛杉矶效果更好，所以我这里选择的是地点位于洛杉矶的，再加4美元，共计20美元/年。此处可以设置root的账号密码。提交订单后选择Alipay（也就是支付宝）付款。   付款后主机处于">
-<meta name="twitter:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/01Buy_VPS.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/01购买VPS.png">
 
 
 
@@ -327,13 +331,19 @@
         <h1 id="租用HostUS服务器"><a href="#租用HostUS服务器" class="headerlink" title="租用HostUS服务器"></a>租用HostUS服务器</h1><p><a href="https://hostus.us/" target="_blank" rel="noopener">HostUS</a>是一家国外的VPS主机商，实测用来搭建ss服务效果还不错。</p>
 <p>访问网站后，注册账号之类的就不详述了。在带宽足够的情况下，尽量买便宜的即可，<a href="http://www.hostusvps.com/url/hostus-us-768mb" target="_blank" rel="noopener">购买链接传送门</a>。</p>
 <p>一年的价格是16美元，据说直连洛杉矶效果更好，所以我这里选择的是地点位于洛杉矶的，再加4美元，共计<strong>20美元/年</strong>。此处可以设置root的账号密码。提交订单后选择Alipay（也就是支付宝）付款。</p>
-<img src="/2018/04/14/2018-04-14-hostus-ss/01Buy_VPS.png" title="购买VPS">
-<img src="/2018/04/14/2018-04-14-hostus-ss/02Alipay.png" title="支付宝付款">
-<p>付款后主机处于Pending状态，等待约1小时的人工审核，即可看到变为Active状态。</p>
-<img src="/2018/04/14/2018-04-14-hostus-ss/03Wait_pedding.png" title="等待审核">
+<img src="/2018/04/14/2018-04-14-hostus-ss/01购买VPS.png" title="购买VPS">
+<img src="/2018/04/14/2018-04-14-hostus-ss/02支付宝付款.png" title="支付宝付款">
+<p>付款后主机处于Pending状态，等待约2小时的人工审核，即可看到变为Active状态。</p>
+<img src="/2018/04/14/2018-04-14-hostus-ss/03等待审核.png" title="等待审核">
+<p>主机变为Active状态后，修改密码、重装系统。</p>
+<img src="/2018/04/14/2018-04-14-hostus-ss/04修改主机密码.png" title="修改主机密码">
+<img src="/2018/04/14/2018-04-14-hostus-ss/05重装系统.png" title="重装系统">
 <h1 id="搭建Shadowsocks服务"><a href="#搭建Shadowsocks服务" class="headerlink" title="搭建Shadowsocks服务"></a>搭建Shadowsocks服务</h1><p>使用ssh登录到服务器后，使用如下命令简单配置即可使用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh</span><br><span class="line">chmod +x shadowsocks.sh</span><br><span class="line">./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log</span><br></pre></td></tr></table></figure>
+<img src="/2018/04/14/2018-04-14-hostus-ss/06_配置ss_1.png" title="配置ss">
+<img src="/2018/04/14/2018-04-14-hostus-ss/07_配置ss_2.png" title="配置ss">
 <p><a href="https://github.com/shadowsocksr-backup/shadowsocksr" target="_blank" rel="noopener">ss客户端下载</a></p>
-<p>zhpmatrix<br>123321123</p>
+<p>iOS端可以从应用商店中下载Wingy。</p>
 <h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://xeworld.com/post/setup-shadowsocks-vpn/" target="_blank" rel="noopener">自建VPN搭建Shadowsocks服务器科学上网全攻略（HostUS）</a><br><a href="https://hadxu.github.io/2017/04/22/最简单的安装ss服务/" target="_blank" rel="noopener">一键安装ss服务</a></p>
 
       
