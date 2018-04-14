@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="区块链," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="借助以太坊构建私有链创建目录、自定义创世区块先在win10端运行。 123456cd D:/BlockChainmkdir Mychainscd Mychainsmkdir devcd dev粘贴CustomGenesis.json到/Mychains/dev中 创世区块CustomGenesis.json定义如下123456789101112131415161718&amp;#123;    &amp;quot">
+<meta name="keywords" content="区块链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[区块链]借助以太坊构建私有链">
+<meta property="og:url" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="借助以太坊构建私有链创建目录、自定义创世区块先在win10端运行。 123456cd D:/BlockChainmkdir Mychainscd Mychainsmkdir devcd dev粘贴CustomGenesis.json到/Mychains/dev中 创世区块CustomGenesis.json定义如下123456789101112131415161718&amp;#123;    &amp;quot">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/1私有链初始化_命令.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/2私有链初始化_结果.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/3私有链启动_命令.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/4私有链启动_mist.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/5_挖矿命令_1.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/6_挖矿命令_2.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/7_挖矿结果.png">
+<meta property="og:updated_time" content="2018-04-14T08:33:04.748Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[区块链]借助以太坊构建私有链">
+<meta name="twitter:description" content="借助以太坊构建私有链创建目录、自定义创世区块先在win10端运行。 123456cd D:/BlockChainmkdir Mychainscd Mychainsmkdir devcd dev粘贴CustomGenesis.json到/Mychains/dev中 创世区块CustomGenesis.json定义如下123456789101112131415161718&amp;#123;    &amp;quot">
+<meta name="twitter:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/1私有链初始化_命令.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/"/>
+
+
+
+
+
+  <title>[区块链]借助以太坊构建私有链 | xgyopen blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[区块链]借助以太坊构建私有链</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-13T13:13:13+08:00">
+                2018-04-13
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="借助以太坊构建私有链"><a href="#借助以太坊构建私有链" class="headerlink" title="借助以太坊构建私有链"></a>借助以太坊构建私有链</h1><h2 id="创建目录、自定义创世区块"><a href="#创建目录、自定义创世区块" class="headerlink" title="创建目录、自定义创世区块"></a>创建目录、自定义创世区块</h2><p>先在win10端运行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">cd D:/BlockChain</span><br><span class="line">mkdir Mychains</span><br><span class="line">cd Mychains</span><br><span class="line">mkdir dev</span><br><span class="line">cd dev</span><br><span class="line">粘贴CustomGenesis.json到/Mychains/dev中</span><br></pre></td></tr></table></figure>
+<p>创世区块CustomGenesis.json定义如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;nonce&quot;: &quot;0x0000000000000042&quot;,     </span><br><span class="line">    &quot;timestamp&quot;: &quot;0x00&quot;,</span><br><span class="line">    &quot;parentHash&quot;: &quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;,</span><br><span class="line">    &quot;extraData&quot;: &quot;0x00&quot;,     </span><br><span class="line">    &quot;gasLimit&quot;: &quot;0x8000000&quot;,     </span><br><span class="line">    &quot;difficulty&quot;: &quot;0x400&quot;,</span><br><span class="line">    &quot;mixhash&quot;: &quot;0x0000000000000000000000000000000000000000000000000000000000000000&quot;,</span><br><span class="line">    &quot;coinbase&quot;: &quot;0x3333333333333333333333333333333333333333&quot;,     </span><br><span class="line">    &quot;alloc&quot;: &#123;</span><br><span class="line">     &#125;,</span><br><span class="line">     &quot;config&quot;: &#123;</span><br><span class="line">        &quot;chainId&quot;: 15,</span><br><span class="line">        &quot;homesteadBlock&quot;: 0,</span><br><span class="line">        &quot;eip155Block&quot;: 0,</span><br><span class="line">        &quot;eip158Block&quot;: 0</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">Mixhash</td>
+<td style="text-align:left">一个256位的哈希值，和nonce配合，一起用来证明在区块链上已经做了足够的计算量（工作证明）。这个nonce 和 mixhash 的组成，必须满足一个在黄皮书中所描述的数学上的条件，黄皮书 4.3.4</td>
+</tr>
+<tr>
+<td style="text-align:left">Nonce</td>
+<td style="text-align:left">一个64位的哈希值，和mixhash配合，一起用来证明在区块链上已经做了足够的计算量（工作证明）</td>
+</tr>
+<tr>
+<td style="text-align:left">Difficulty</td>
+<td style="text-align:left">定义挖矿的目标，可以用上一个区块的难度值和时间戳计算出来，值越高，矿工越难挖到区块</td>
+</tr>
+<tr>
+<td style="text-align:left">Alloc</td>
+<td style="text-align:left">预先填入一些钱包和余额</td>
+</tr>
+<tr>
+<td style="text-align:left">Coinbase</td>
+<td style="text-align:left">160位的钱包地址。在创世区块中可以被定义成任何的地址，因为当每挖到一个区块的时候，这个值会变成矿工的etherbase地址</td>
+</tr>
+<tr>
+<td style="text-align:left">Timestamp</td>
+<td style="text-align:left">一个unix的time()函数的输出值，时间戳</td>
+</tr>
+<tr>
+<td style="text-align:left">extraData</td>
+<td style="text-align:left">32字节长度，可以为私有链留下一些信息，如你的姓名等，用以证明这个私有链是你创建的</td>
+</tr>
+<tr>
+<td style="text-align:left">gasLimit</td>
+<td style="text-align:left">当前链，一个区块所能消耗的gas上限</td>
+</tr>
+</tbody>
+</table>
+<h2 id="初始化私有链"><a href="#初始化私有链" class="headerlink" title="初始化私有链"></a>初始化私有链</h2><p>win10命令：私有链初始化(geth init)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geth --identity &quot;mydev1&quot; --rpc --rpccorsdomain &quot;*&quot; --datadir &quot;D:\BlockChain\Mychains\dev&quot; --rpcapi &quot;db,eth,net,web3&quot; --networkid 100 init &quot;./CustomGenesis.json&quot;</span><br></pre></td></tr></table></figure></p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">参数</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">–nodiscover</td>
+<td style="text-align:left">添加这个参数，确保没有人能发现你的节点。不然的话，可能有人无意中会链接到你的私有区块链。</td>
+</tr>
+<tr>
+<td style="text-align:left">–maxpeers 0</td>
+<td style="text-align:left">使用maxpeers 0,如果你不希望其他人连接到您的测试链。当然，您也可以调整这个数,如果你知道有多少同伴会连接你的节点。</td>
+</tr>
+<tr>
+<td style="text-align:left">–rpc</td>
+<td style="text-align:left">在你的节点上激活RPC接口。这参数在geth中默认启用。</td>
+</tr>
+<tr>
+<td style="text-align:left">–rpcapi “db,eth,net,web3”</td>
+<td style="text-align:left">这个命令描述哪些接口可以通过RPC来访问，默认情况下，geth开启的是web3接口。</td>
+</tr>
+<tr>
+<td style="text-align:left">–rpcport “8080”</td>
+<td style="text-align:left">将端口号设置成8000以上的任何一个你网络中打开的端口。默认是8080。</td>
+</tr>
+<tr>
+<td style="text-align:left">–rpccorsdomain</td>
+<td style="text-align:left">设置可以连接到你的节点的url地址，以执行RPC客户端的任务。最好不要使用通配符 * ,这样将允许任何url都可以链接到你的RPC实例。</td>
+</tr>
+<tr>
+<td style="text-align:left">–datadir “/home/TestChain1”</td>
+<td style="text-align:left">私有链的数据目录，确保与公共以太坊链的数据目录区分开来。</td>
+</tr>
+<tr>
+<td style="text-align:left">–port “30303”</td>
+<td style="text-align:left">这是“网络监听的端口”,您可以用它手动的和你的同伴相连。</td>
+</tr>
+<tr>
+<td style="text-align:left">–identity “TestnetMainNode”</td>
+<td style="text-align:left">为你的节点设置一个ID。用于和你们的一系列同伴进行区分。</td>
+</tr>
+</tbody>
+</table>
+<img src="/2018/04/13/2018-04-13-ethereum-private-chain/1私有链初始化_命令.png" title="私有链初始化_命令">
+<p>命令运行成功后，可以看到/Mychains/dev下多了geth、keystore两个文件夹。</p>
+<img src="/2018/04/13/2018-04-13-ethereum-private-chain/2私有链初始化_结果.png" title="私有链初始化_结果">
+<h2 id="启动私有链"><a href="#启动私有链" class="headerlink" title="启动私有链"></a>启动私有链</h2><p>win10命令：私有链启动(geth console)<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geth --identity &quot;mydev1&quot; --rpccorsdomain &quot;*&quot; --datadir &quot;D:\BlockChain\Mychains\dev&quot;  --networkid 100 console</span><br></pre></td></tr></table></figure></p>
+<img src="/2018/04/13/2018-04-13-ethereum-private-chain/3私有链启动_命令.png" title="私有链初始化_命令">
+<p>启动私有链后，再运行Mist客户端，可以看到客户端启动时右上角有“PRIVATE-NET”，代表客户端连接的是私有链。</p>
+<img src="/2018/04/13/2018-04-13-ethereum-private-chain/4私有链启动_mist.png" title="4私有链启动_mist">
+<h2 id="新建账户、挖矿"><a href="#新建账户、挖矿" class="headerlink" title="新建账户、挖矿"></a>新建账户、挖矿</h2><p>没有账户是不能挖矿的，故先新建账户后挖矿。</p>
+<img src="/2018/04/13/2018-04-13-ethereum-private-chain/5_挖矿命令_1.png" title="私有链初始化_命令">
+<img src="/2018/04/13/2018-04-13-ethereum-private-chain/6_挖矿命令_2.png" title="私有链初始化_结果">
+<img src="/2018/04/13/2018-04-13-ethereum-private-chain/7_挖矿结果.png" title="私有链初始化_结果">
+<h2 id="Ubuntu端：初始化私有链、启动私有链、挖矿"><a href="#Ubuntu端：初始化私有链、启动私有链、挖矿" class="headerlink" title="Ubuntu端：初始化私有链、启动私有链、挖矿"></a>Ubuntu端：初始化私有链、启动私有链、挖矿</h2><p>在Ubuntu端重复win10端的操作。</p>
+<p>安装geth客户端<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install software-properties-common</span><br><span class="line">sudo add-apt-repository -y ppa:ethereum/ethereum</span><br><span class="line">sudo add-apt-repository -y ppa:ethereum/ethereum-dev</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install ethereum</span><br></pre></td></tr></table></figure></p>
+<p>ubuntu命令：私有链初始化<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geth --identity &quot;mydev2&quot; --rpc --rpccorsdomain &quot;*&quot; --datadir &quot;/home/xgy/BlockChain/Mychains/dev&quot; --rpcapi &quot;db,eth,net,web3&quot; --networkid 100 init &quot;./CustomGenesis.json&quot;</span><br></pre></td></tr></table></figure></p>
+<p>ubuntu命令：私有链启动<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">geth --identity &quot;mydev2&quot; --rpccorsdomain &quot;*&quot; --datadir &quot;/home/xgy/BlockChain/Mychains/dev&quot;  --networkid 100 console</span><br></pre></td></tr></table></figure></p>
+<h1 id="一些命令"><a href="#一些命令" class="headerlink" title="一些命令"></a>一些命令</h1><h2 id="节点连接相关"><a href="#节点连接相关" class="headerlink" title="节点连接相关"></a>节点连接相关</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">命令</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">net.listening</td>
+<td style="text-align:left">查看链接状态</td>
+</tr>
+<tr>
+<td style="text-align:left">net.peerCount</td>
+<td style="text-align:left">查看连接的节点数量</td>
+</tr>
+<tr>
+<td style="text-align:left">admin.peers</td>
+<td style="text-align:left">查看自己的伙伴的网络信息</td>
+</tr>
+<tr>
+<td style="text-align:left">admin.nodeInfo</td>
+<td style="text-align:left">查看自己的网络信息</td>
+</tr>
+<tr>
+<td style="text-align:left">admin.datadir</td>
+<td style="text-align:left">查看数据目录</td>
+</tr>
+<tr>
+<td style="text-align:left">admin.addPeer()</td>
+<td style="text-align:left">连接到其他节点</td>
+</tr>
+</tbody>
+</table>
+<h2 id="账户相关"><a href="#账户相关" class="headerlink" title="账户相关"></a>账户相关</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">命令</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">eth.accounts</td>
+<td style="text-align:left">查看账户</td>
+</tr>
+<tr>
+<td style="text-align:left">personal.newAccount(“w1”)</td>
+<td style="text-align:left">增加账户</td>
+</tr>
+<tr>
+<td style="text-align:left">web3.fromWei(eth.getBalance(eth.accounts[0]))</td>
+<td style="text-align:left">查看余额</td>
+</tr>
+</tbody>
+</table>
+<h2 id="区块相关"><a href="#区块相关" class="headerlink" title="区块相关"></a>区块相关</h2><table>
+<thead>
+<tr>
+<th style="text-align:left">命令</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">miner.start()</td>
+<td style="text-align:left">挖矿开始</td>
+</tr>
+<tr>
+<td style="text-align:left">miner.stop()</td>
+<td style="text-align:left">挖矿停止</td>
+</tr>
+<tr>
+<td style="text-align:left">eth.blockNumber</td>
+<td style="text-align:left">列出区块总数</td>
+</tr>
+</tbody>
+</table>
+<h1 id="信息汇总"><a href="#信息汇总" class="headerlink" title="信息汇总"></a>信息汇总</h1><h2 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h2><p>win10端<br>enode://a6ebcc454617dae55113e9cf8de33a2209f57445e1499a9d2e58ce605e31165e884ee2ba800c311a82071f39d59ed4634f375c759bc46bd5b7d5b809063b4390@112.0.127.80:30303</p>
+<p>ubuntu端<br>enode://c76bacf780ba012e62a2e61feaa37684c0cbe8c8372959aa8ab5fff2debb5689f53219a5ad0ccfc190f75129fa65d1ec59231aceeeabf3d0dfd04d63d84b9c59@112.0.127.80:30303</p>
+<h2 id="账户"><a href="#账户" class="headerlink" title="账户"></a>账户</h2><p>win10端的第1个账号（密码w1）<br>0x40aC8D81880Bbc05BB2140F1f918Ad30D3178E21</p>
+<p>ubuntu端的第1个账号（密码u1）<br>0xb5c6e8a0Cd7498B2592f1d32e4752Df8341Cb23c</p>
+<h1 id="私有链简单测试"><a href="#私有链简单测试" class="headerlink" title="私有链简单测试"></a>私有链简单测试</h1><h2 id="钱包转账"><a href="#钱包转账" class="headerlink" title="钱包转账"></a>钱包转账</h2><h2 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h2><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://www.dataguru.cn/article-11286-1.html" target="_blank" rel="noopener">区块链技术从入门到精通</a><br><a href="https://blog.csdn.net/sportshark/article/details/51855007" target="_blank" rel="noopener">区块链开发（一）搭建基于以太坊的私有链环境*</a><br><a href="https://blog.csdn.net/w88193363/article/details/79402074" target="_blank" rel="noopener">ubuntu16.04搭建以太坊私有链并在私有链中进行挖矿及转账</a><br><a href="https://g2ex.github.io/2017/09/12/ethereum-guidance/" target="_blank" rel="noopener">常用命令</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/区块链/" rel="tag"># 区块链</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/04/2018-03-04-finance-alipay/" rel="next" title="[理财]基金/黄金上手">
+                <i class="fa fa-chevron-left"></i> [理财]基金/黄金上手
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/14/2018-04-14-hostus-ss/" rel="prev" title="[翻墙]租用服务器搭建ss服务">
+                [翻墙]租用服务器搭建ss服务 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#借助以太坊构建私有链"><span class="nav-number">1.</span> <span class="nav-text">借助以太坊构建私有链</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#创建目录、自定义创世区块"><span class="nav-number">1.1.</span> <span class="nav-text">创建目录、自定义创世区块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#初始化私有链"><span class="nav-number">1.2.</span> <span class="nav-text">初始化私有链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#启动私有链"><span class="nav-number">1.3.</span> <span class="nav-text">启动私有链</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#新建账户、挖矿"><span class="nav-number">1.4.</span> <span class="nav-text">新建账户、挖矿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ubuntu端：初始化私有链、启动私有链、挖矿"><span class="nav-number">1.5.</span> <span class="nav-text">Ubuntu端：初始化私有链、启动私有链、挖矿</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#一些命令"><span class="nav-number">2.</span> <span class="nav-text">一些命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#节点连接相关"><span class="nav-number">2.1.</span> <span class="nav-text">节点连接相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#账户相关"><span class="nav-number">2.2.</span> <span class="nav-text">账户相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#区块相关"><span class="nav-number">2.3.</span> <span class="nav-text">区块相关</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#信息汇总"><span class="nav-number">3.</span> <span class="nav-text">信息汇总</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#节点"><span class="nav-number">3.1.</span> <span class="nav-text">节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#账户"><span class="nav-number">3.2.</span> <span class="nav-text">账户</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#私有链简单测试"><span class="nav-number">4.</span> <span class="nav-text">私有链简单测试</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#钱包转账"><span class="nav-number">4.1.</span> <span class="nav-text">钱包转账</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#智能合约"><span class="nav-number">4.2.</span> <span class="nav-text">智能合约</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
