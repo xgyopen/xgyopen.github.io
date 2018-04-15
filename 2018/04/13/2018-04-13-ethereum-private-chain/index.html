@@ -99,9 +99,9 @@
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/b_02_w_win10端账户1转账给ubuntu端账户2.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/b_03_w_转账结果.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/b_02_u_转账结果.png">
-<meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/c_01_u_导入多重签名钱包.png">
-<meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/c_02_w_钱包合约地址.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/c_01_w_新建多重签名钱包.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/c_02_w_钱包合约地址.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/c_01_u_导入多重签名钱包.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/c_03_w_win10端账户1转账给钱包.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/c_04_w_往钱包充值.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/c_05_w_钱包转出不超过限额的钱10.png">
@@ -109,7 +109,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/c_07_w_钱包转出超过限额的钱20_win10端确认.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/c_07_u_钱包转出超过限额的钱20_ubuntu端确认.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/c_08_u_钱包转出超过限额的钱20_结果.png">
-<meta property="og:updated_time" content="2018-04-15T10:18:35.178Z">
+<meta property="og:updated_time" content="2018-04-15T11:51:15.112Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[区块链]借助以太坊构建私有链">
 <meta name="twitter:description" content="借助以太坊构建私有链创建目录、自定义创世区块先在win10端运行。 123456cd D:/BlockChainmkdir Mychainscd Mychainsmkdir devcd dev粘贴CustomGenesis.json到/Mychains/dev中 创世区块CustomGenesis.json定义如下123456789101112131415161718&amp;#123;    &amp;quot">
@@ -536,11 +536,11 @@
 <p>ubuntu端的第2个账号（密码u2）<br>0xa4f4be9349c541be17c0e74451a1bc9aa093f783</p>
 <p>钱包地址<br>0x51deA6267EbBa320297417ec8CCE485FcC659245</p>
 <h1 id="私有链简单测试"><a href="#私有链简单测试" class="headerlink" title="私有链简单测试"></a>私有链简单测试</h1><p>要确保2个节点处于同一个私有链网络。首先测试两台电脑能不能ping通，如果ubuntu无法ping通win10，关闭win10防火墙即可。</p>
-<p>本测试共涉及2个节点，共计3个账户。2个节点，一个为win10，拥有1个账号（win10端账户1）；另一个为ubuntu，拥有2个账号（ubuntu端账户1、ubuntu端账户2）。其中，ubuntu端账户1负责挖矿，为私有链提供算力支持。开始时win10端账户1拥有1054.22元，ubuntu端账户2拥有0元。具体的节点和账户信息参见“信息汇总”。</p>
+<p>本测试共涉及2个节点，共计3个账户。2个节点，一个为win10，拥有1个账号（win10端账户1）；另一个为ubuntu，拥有2个账号（ubuntu端账户1、ubuntu端账户2）。其中，ubuntu端账户1负责挖矿，为私有链提供算力支持。开始时win10端账户1拥有1054.22元，ubuntu端账户1拥有1288.59元，ubuntu端账户2拥有0元。具体的节点和账户信息参见“信息汇总”。</p>
 <h2 id="钱包转账"><a href="#钱包转账" class="headerlink" title="钱包转账"></a>钱包转账</h2><p><strong>测试思路：<br>win10端账户1给ubuntu端账户2转账100元。</strong></p>
 <p>首先查看win10端的mist客户端，可以发现当前节点ID为“a6eb…”，连接到的节点有1个，节点ID为“c76b…”。win10端账户1拥有1054.22元，账户ID为“0x40aC….”。</p>
 <img src="/2018/04/13/2018-04-13-ethereum-private-chain/b_01_w_mist.png" title="win10端mist客户端">
-<p>查看ubuntu端的mist客户端，可以发现当前节点ID为“c76b…”，连接到的节点有1个，节点ID为“a6eb…”。ubuntu端账户1拥有1288.59元，账户ID为“0xb5c6….”。ubuntu端账户2拥有0元，账户ID为“0xa4f4….”。由此可以确认，win10端节点和ubuntu端节点于同一个私有链网络。</p>
+<p>查看ubuntu端的mist客户端，可以发现当前节点ID为“c76b…”，连接到的节点有1个，节点ID为“a6eb…”。ubuntu端账户1拥有1288.59元，账户ID为“0xb5c6….”。ubuntu端账户2拥有0元，账户ID为“0xa4f4….”。<strong>由此可以确认，win10端节点和ubuntu端节点于同一个私有链网络。</strong></p>
 <img src="/2018/04/13/2018-04-13-ethereum-private-chain/b_01_u_mist.png" title="ubuntu端mist客户端">
 <p>从win10端账户1给ubuntu端账户2转账100元。</p>
 <img src="/2018/04/13/2018-04-13-ethereum-private-chain/b_02_w_win10端账户1转账给ubuntu端账户2.png" title="win10端账户1转账给ubuntu端账户2_100元">
@@ -551,11 +551,11 @@
 <h2 id="智能合约"><a href="#智能合约" class="headerlink" title="智能合约"></a>智能合约</h2><p>智能合约的应用场景之一是：公司建立合伙人制度，大家把钱存在同一个钱包合约里，为防止挪用资金，设置每日转出限额，超出限额需要其他账户确认。</p>
 <p><strong>测试思路：<br>①win10端新建钱包合约，ubuntu端导入此钱包合约。win10端账户1向钱包合约转账200元。<br>②从钱包合约转出10元给win10端账户1，没超过限额，故直接转出成功。<br>③从钱包合约转出20元给ubuntu端账户2，超过10元的限额，故需另外2个账户确认，才能转出成功。</strong></p>
 <p>win10端新建多重签名钱包合约，设置该合约被3个账号控制（分别为win10端账户1、ubuntu端账户1、ubuntu端账户2），每天最多发送10元，超过限额需要3个账户同时确认。</p>
-<img src="/2018/04/13/2018-04-13-ethereum-private-chain/c_01_u_导入多重签名钱包.png" title="导入多重签名钱包_win10端">
+<img src="/2018/04/13/2018-04-13-ethereum-private-chain/c_01_w_新建多重签名钱包.png" title="新建多重签名钱包_win10端">
 <p>钱包合约生成成功后，记录该合约地址。</p>
 <img src="/2018/04/13/2018-04-13-ethereum-private-chain/c_02_w_钱包合约地址.png" title="钱包合约地址">
 <p>在ubuntu端导入上述合约地址。</p>
-<img src="/2018/04/13/2018-04-13-ethereum-private-chain/c_01_w_新建多重签名钱包.png" title="新建多重签名钱包_ubuntu端">
+<img src="/2018/04/13/2018-04-13-ethereum-private-chain/c_01_u_导入多重签名钱包.png" title="导入多重签名钱包_ubuntu端">
 <p>新生成的合约中没有钱，无法试验，需要转入一部分钱，故从win10端账户1向钱包合约转入200元。</p>
 <img src="/2018/04/13/2018-04-13-ethereum-private-chain/c_03_w_win10端账户1转账给钱包.png" title="win10端账户1转账给钱包合约">
 <p>转账成功后，可以看到钱包合约中已有200元。</p>
@@ -570,7 +570,7 @@
 <img src="/2018/04/13/2018-04-13-ethereum-private-chain/c_07_u_钱包转出超过限额的钱20_ubuntu端确认.png" title="钱包转出超过限额的钱20_ubuntu端确认">
 <p>查看ubuntu端客户端，20元已到账，ubuntu端账户2现有120元。</p>
 <img src="/2018/04/13/2018-04-13-ethereum-private-chain/c_08_u_钱包转出超过限额的钱20_结果.png" title="钱包转出超过限额的钱20_结果">
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://www.dataguru.cn/article-11286-1.html" target="_blank" rel="noopener">区块链技术从入门到精通</a><br><a href="https://blog.csdn.net/w88193363/article/details/79402074" target="_blank" rel="noopener">ubuntu16.04搭建以太坊私有链并在私有链中进行挖矿及转账</a><br><a href="https://g2ex.github.io/2017/09/12/ethereum-guidance/" target="_blank" rel="noopener">常用命令</a><br><a href="https://blog.csdn.net/sportshark/article/details/51855007" target="_blank" rel="noopener">区块链开发（一）搭建基于以太坊的私有链环境*</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://github.com/ethereum/mist/releases/" target="_blank" rel="noopener">以太坊客户端下载</a><br><a href="http://www.dataguru.cn/article-11286-1.html" target="_blank" rel="noopener">区块链技术从入门到精通</a><br><a href="https://blog.csdn.net/w88193363/article/details/79402074" target="_blank" rel="noopener">ubuntu16.04搭建以太坊私有链并在私有链中进行挖矿及转账</a><br><a href="https://g2ex.github.io/2017/09/12/ethereum-guidance/" target="_blank" rel="noopener">常用命令</a><br><a href="https://blog.csdn.net/sportshark/article/details/51855007" target="_blank" rel="noopener">区块链开发（一）搭建基于以太坊的私有链环境*</a></p>
 
       
     </div>
