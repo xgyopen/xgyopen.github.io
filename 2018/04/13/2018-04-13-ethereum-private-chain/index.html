@@ -109,7 +109,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/c_07_w_钱包转出超过限额的钱20_win10端确认.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/c_07_u_钱包转出超过限额的钱20_ubuntu端确认.png">
 <meta property="og:image" content="http://yoursite.com/2018/04/13/2018-04-13-ethereum-private-chain/c_08_u_钱包转出超过限额的钱20_结果.png">
-<meta property="og:updated_time" content="2018-04-15T11:56:08.789Z">
+<meta property="og:updated_time" content="2018-04-18T03:25:51.702Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[区块链]借助以太坊构建私有链">
 <meta name="twitter:description" content="借助以太坊构建私有链创建目录、自定义创世区块先在win10端运行。 123456cd D:/BlockChainmkdir Mychainscd Mychainsmkdir devcd dev粘贴CustomGenesis.json到/Mychains/dev中 创世区块CustomGenesis.json定义如下123456789101112131415161718&amp;#123;    &amp;quot">
@@ -535,7 +535,7 @@
 <p>ubuntu端的第1个账号（密码u1）<br>0xb5c6e8a0Cd7498B2592f1d32e4752Df8341Cb23c</p>
 <p>ubuntu端的第2个账号（密码u2）<br>0xa4f4be9349c541be17c0e74451a1bc9aa093f783</p>
 <p>钱包地址<br>0x51deA6267EbBa320297417ec8CCE485FcC659245</p>
-<h1 id="私有链简单测试"><a href="#私有链简单测试" class="headerlink" title="私有链简单测试"></a>私有链简单测试</h1><p>要确保2个节点处于同一个私有链网络。首先测试两台电脑能不能ping通，如果ubuntu无法ping通win10，关闭win10防火墙即可。</p>
+<h1 id="私有链简单测试"><a href="#私有链简单测试" class="headerlink" title="私有链简单测试"></a>私有链简单测试</h1><p>要确保2个节点处于同一个私有链网络。首先测试两台电脑能不能ping通，如果ubuntu无法ping通win10，关闭win10防火墙即可。另外，实测在ubuntu端添加win10端的节点比较容易连接成功。</p>
 <p>本测试共涉及2个节点，共计3个账户。2个节点，一个为win10，拥有1个账号（win10端账户1）；另一个为ubuntu，拥有2个账号（ubuntu端账户1、ubuntu端账户2）。其中，ubuntu端账户1负责挖矿，为私有链提供算力支持。开始时win10端账户1拥有1054.22元，ubuntu端账户1拥有1288.59元，ubuntu端账户2拥有0元。具体的节点和账户信息参见“信息汇总”。</p>
 <h2 id="钱包转账"><a href="#钱包转账" class="headerlink" title="钱包转账"></a>钱包转账</h2><p><strong>测试思路：<br>win10端账户1给ubuntu端账户2转账100元。</strong></p>
 <p>首先查看win10端的mist客户端，可以发现当前节点ID为“a6eb…”，连接到的节点有1个，节点ID为“c76b…”。win10端账户1拥有1054.22元，账户ID为“0x40aC….”。</p>
@@ -570,7 +570,7 @@
 <img src="/2018/04/13/2018-04-13-ethereum-private-chain/c_07_u_钱包转出超过限额的钱20_ubuntu端确认.png" title="钱包转出超过限额的钱20_ubuntu端确认">
 <p>查看ubuntu端客户端，20元已到账。此时ubuntu端账户2有120元，钱包合约还剩170元。</p>
 <img src="/2018/04/13/2018-04-13-ethereum-private-chain/c_08_u_钱包转出超过限额的钱20_结果.png" title="钱包转出超过限额的钱20_结果">
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://github.com/ethereum/mist/releases/" target="_blank" rel="noopener">以太坊客户端下载</a><br><a href="http://www.dataguru.cn/article-11286-1.html" target="_blank" rel="noopener">区块链技术从入门到精通</a><br><a href="https://blog.csdn.net/w88193363/article/details/79402074" target="_blank" rel="noopener">ubuntu16.04搭建以太坊私有链并在私有链中进行挖矿及转账</a><br><a href="https://g2ex.github.io/2017/09/12/ethereum-guidance/" target="_blank" rel="noopener">常用命令</a><br><a href="https://blog.csdn.net/sportshark/article/details/51855007" target="_blank" rel="noopener">区块链开发（一）搭建基于以太坊的私有链环境*</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://github.com/ethereum/mist/releases/" target="_blank" rel="noopener">以太坊客户端下载</a><br><a href="http://www.dataguru.cn/article-11286-1.html" target="_blank" rel="noopener">炼数成金：区块链技术从入门到精通</a><br><a href="https://www.bilibili.com/video/av18112139?from=search&amp;seid=1502995876833504804" target="_blank" rel="noopener">【公开课】区块链从入门到精通视频（2017）【全】——上一个链接的视频</a><br><a href="https://blog.csdn.net/w88193363/article/details/79402074" target="_blank" rel="noopener">ubuntu16.04搭建以太坊私有链并在私有链中进行挖矿及转账</a><br><a href="https://g2ex.github.io/2017/09/12/ethereum-guidance/" target="_blank" rel="noopener">以太坊私有链搭建指南——控制台常用命令</a><br><a href="https://blog.csdn.net/sportshark/article/details/51855007" target="_blank" rel="noopener">区块链开发（一）搭建基于以太坊的私有链环境——geth参数解释</a></p>
 
       
     </div>
@@ -694,7 +694,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">9</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
