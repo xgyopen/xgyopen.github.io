@@ -1,0 +1,747 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="区块链," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="whisper协议源码以太坊实现源码以太坊官方简介 简介  Whisper是DApps彼此通信的通信协议。 外链（Off-chain）。 可以被认为是分布式哈希表（DTH，Distributed Hash Table）或数据报消息系统。  基本思想  每条消息传递给每个节点。 节点向相邻节点发送消息，但只有收件人有密钥才能解密。所有节点不断地将消息转发到附近的节点，直到收件人接收它。然后收件人甚至">
+<meta name="keywords" content="区块链">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[区块链]基于以太坊whisper协议实现P2P聊天室">
+<meta property="og:url" content="http://yoursite.com/2018/04/20/2018-04-20-whisper-p2p-chat/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="whisper协议源码以太坊实现源码以太坊官方简介 简介  Whisper是DApps彼此通信的通信协议。 外链（Off-chain）。 可以被认为是分布式哈希表（DTH，Distributed Hash Table）或数据报消息系统。  基本思想  每条消息传递给每个节点。 节点向相邻节点发送消息，但只有收件人有密钥才能解密。所有节点不断地将消息转发到附近的节点，直到收件人接收它。然后收件人甚至">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/04/20/2018-04-20-whisper-p2p-chat/a_01_ethereum-protocols.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/20/2018-04-20-whisper-p2p-chat/a_02_dark-routing-diagram.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/20/2018-04-20-whisper-p2p-chat/b_01ubuntu1_xgy.png">
+<meta property="og:image" content="http://yoursite.com/2018/04/20/2018-04-20-whisper-p2p-chat/b_02ubuntu2_dong.png">
+<meta property="og:updated_time" content="2018-04-19T16:52:06.280Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[区块链]基于以太坊whisper协议实现P2P聊天室">
+<meta name="twitter:description" content="whisper协议源码以太坊实现源码以太坊官方简介 简介  Whisper是DApps彼此通信的通信协议。 外链（Off-chain）。 可以被认为是分布式哈希表（DTH，Distributed Hash Table）或数据报消息系统。  基本思想  每条消息传递给每个节点。 节点向相邻节点发送消息，但只有收件人有密钥才能解密。所有节点不断地将消息转发到附近的节点，直到收件人接收它。然后收件人甚至">
+<meta name="twitter:image" content="http://yoursite.com/2018/04/20/2018-04-20-whisper-p2p-chat/a_01_ethereum-protocols.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/04/20/2018-04-20-whisper-p2p-chat/"/>
+
+
+
+
+
+  <title>[区块链]基于以太坊whisper协议实现P2P聊天室 | xgyopen blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/20/2018-04-20-whisper-p2p-chat/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[区块链]基于以太坊whisper协议实现P2P聊天室</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-20T09:09:09+08:00">
+                2018-04-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="whisper协议"><a href="#whisper协议" class="headerlink" title="whisper协议"></a>whisper协议</h1><h2 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h2><p><a href="https://github.com/ethereum/go-ethereum/tree/master/whisper" target="_blank" rel="noopener">以太坊实现源码</a><br><a href="https://github.com/ethereum/go-ethereum/wiki/Whisper-Overview" target="_blank" rel="noopener">以太坊官方简介</a></p>
+<h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><img src="/2018/04/20/2018-04-20-whisper-p2p-chat/a_01_ethereum-protocols.png" title="以太坊协议架构">
+<ul>
+<li>Whisper是DApps彼此通信的通信协议。</li>
+<li>外链（Off-chain）。</li>
+<li>可以被认为是分布式哈希表（DTH，Distributed Hash Table）或数据报消息系统。</li>
+</ul>
+<h2 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h2><img src="/2018/04/20/2018-04-20-whisper-p2p-chat/a_02_dark-routing-diagram.png" title="whisper协议路由图解">
+<ul>
+<li>每条消息传递给每个节点。</li>
+<li>节点向相邻节点发送消息，但只有收件人有密钥才能解密。所有节点不断地将消息转发到附近的节点，直到收件人接收它。然后收件人甚至也转发它（不可追踪）。</li>
+<li>这是一个基于身份的消息传递系统，专为简单高效的广播而设计，也适用于低级异步通信（发布/订阅）。</li>
+<li>在最安全的操作模式下，Whisper理论上可以提供100％的黑暗度。</li>
+<li>在所需隐私级别和性能之间进行权衡。</li>
+<li>以太坊的对等（P2P）协议软件包（go-ethereum/p2p）默认包含此软件，它允许用户通过组成Ethereum网络的机器向他人发送消息。</li>
+<li>为了防止DDoS攻击，使用工作证明（PoW）算法。</li>
+<li>只有当他们的PoW超过某个阈值时，消息才会被处理（并进一步转发），否则它们将被丢弃。</li>
+</ul>
+<h2 id="几点想法"><a href="#几点想法" class="headerlink" title="几点想法"></a>几点想法</h2><ul>
+<li>whisper协议<strong>只支持文字，不支持语言、图片。</strong></li>
+<li>PoW（proof-of-work）的存在是为了反垃圾信息以及降低网络负担。</li>
+</ul>
+<h1 id="用go语言实现P2P聊天室（基于whisper协议）"><a href="#用go语言实现P2P聊天室（基于whisper协议）" class="headerlink" title="用go语言实现P2P聊天室（基于whisper协议）"></a>用go语言实现P2P聊天室（基于whisper协议）</h1><h2 id="项目简介"><a href="#项目简介" class="headerlink" title="项目简介"></a>项目简介</h2><p>完全匿名的P2P聊天系统，基于以太坊的whisper协议。<br>消息加密，无法被追踪。不需要服务器,永不停机。</p>
+<h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2><p>接入whisper网络中的节点，在收到任何消息后，先验证一下工作量，如果没问题就转发。同时通过“主题+密码”匹配是不是发送给我的，如果是就显示给用户。<br>也就是说，必须是我感兴趣的主题，同时加密的密码也是我指定的，才可以愉快地聊天。当然，我没办法知道对方是谁，除非他告诉我。</p>
+<h2 id="源码解读"><a href="#源码解读" class="headerlink" title="源码解读"></a>源码解读</h2><p><a href="https://github.com/nkbai/go-ethereum-example/blob/master/p2pmessage/p2pmessage.go" target="_blank" rel="noopener">源码传送门</a></p>
+<h3 id="连接主节点"><a href="#连接主节点" class="headerlink" title="连接主节点"></a>连接主节点</h3><p>虽然说P2P网络没有服务器，但是必须存在知名节点，否则无从启动网络。<br>首先就是连接以太坊的主节点。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> _, node := <span class="keyword">range</span> ethparams.MainnetBootnodes &#123;</span><br><span class="line">    peer := discover.MustParseNode(node)</span><br><span class="line">    peers = <span class="built_in">append</span>(peers, peer)</span><br><span class="line">&#125;</span><br><span class="line">peer := discover.MustParseNode(<span class="string">"enode://b89172e36cb79202dd0c0822d4238b7a7ddbefe8aa97489049c9afe68f71b10c5c9ce588ef9b5df58939f982c718c59243cc5add6cebf3321b88d752eac02626@182.254.155.208:33333"</span>)</span><br><span class="line">peers = <span class="built_in">append</span>(peers, peer)</span><br></pre></td></tr></table></figure></p>
+<h3 id="我的标识"><a href="#我的标识" class="headerlink" title="我的标识"></a>我的标识</h3><p>每个节点都有自己的私钥，标识就是自己的公钥。<br>当然可以每次都使用相同的私钥，这里简单起见，每次都是自动生成。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">asymKeyID, err = shh.NewKeyPair()</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    utils.Fatalf(<span class="string">"Failed to generate a new key pair: %s"</span>, err)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">asymKey, err = shh.GetPrivateKey(asymKeyID)</span><br><span class="line"><span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">    utils.Fatalf(<span class="string">"Failed to retrieve a new key pair: %s"</span>, err)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="配置我的节点"><a href="#配置我的节点" class="headerlink" title="配置我的节点"></a>配置我的节点</h3><p>一个节点就是不停的转发符合PoW的消息，如果是我这个聊天室的消息，就显示给用户，所以节点要和其他节点进行交互，交互的节点越多，消息传播地越快。<br>当然这些节点数量要有一个上限，这里是80，其中peers变量就是“连接主节点”的主节点.<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">maxPeers := <span class="number">80</span></span><br><span class="line"></span><br><span class="line">server = &amp;p2p.Server&#123;</span><br><span class="line">    Config: p2p.Config&#123;</span><br><span class="line">        PrivateKey:     asymKey,</span><br><span class="line">        MaxPeers:       maxPeers,</span><br><span class="line">        Name:           common.MakeName(<span class="string">"p2p chat group"</span>, <span class="string">"5.0"</span>),</span><br><span class="line">        Protocols:      shh.Protocols(),</span><br><span class="line">        NAT:            nat.Any(),</span><br><span class="line">        BootstrapNodes: peers,</span><br><span class="line">        StaticNodes:    peers,</span><br><span class="line">        TrustedNodes:   peers,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="哪个聊天室"><a href="#哪个聊天室" class="headerlink" title="哪个聊天室"></a>哪个聊天室</h3><p>具有相同的主题和密码的就是同一个聊天室。<br>symKey关联到指定的密码，topic保存四个字节的指定主题。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">configureNode</span><span class="params">()</span></span> &#123;</span><br><span class="line">	symKeyID, err := shh.AddSymKeyFromPassword(*argPass)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		utils.Fatalf(<span class="string">"Failed to create symmetric key: %s"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	symKey, err = shh.GetSymKey(symKeyID)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		utils.Fatalf(<span class="string">"Failed to save symmetric key: %s"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	<span class="built_in">copy</span>(topic[:], common.FromHex(*argTopic))</span><br><span class="line">	fmt.Printf(<span class="string">"Filter is configured for the topic: %x \n"</span>, topic)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="加入聊天室"><a href="#加入聊天室" class="headerlink" title="加入聊天室"></a>加入聊天室</h3><p>我的节点可能会收到千百条各种消息，有些我能解密，有些我不能解密，但是其中只有极少一部分是我想看到的。<br>所以要告诉我的节点我只对这个聊天室感兴趣，如果有消息来就告诉我。<br>SubscribeMessage订阅指定主题和密码的消息，注意filterID，它相当于向系统订阅特定消息的句柄，后面还会用到。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">SubscribeMessage</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">var</span> err error</span><br><span class="line"></span><br><span class="line">	filter := whisper.Filter&#123;</span><br><span class="line">		KeySym:   symKey,</span><br><span class="line">		KeyAsym:  asymKey,</span><br><span class="line">		Topics:   [][]<span class="keyword">byte</span>&#123;topic[:]&#125;,</span><br><span class="line">		AllowP2P: <span class="literal">true</span>,</span><br><span class="line">	&#125;</span><br><span class="line">	filterID, err = shh.Subscribe(&amp;filter)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		utils.Fatalf(<span class="string">"Failed to install filter: %s"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="群发消息"><a href="#群发消息" class="headerlink" title="群发消息"></a>群发消息</h3><p>在P2P网络中群发消息反而是最简单的，如果要点对点发消息，限制反而要多，whisper提供有发送消息的api。<br>主要就是构造一个合法的消息结构，主要是指定topic以及加密的秘钥，还有就是消息体(payload)就可以了，asymKey主要是为了标识ID，不是用作非对称加密。<br>发送消息主要是按照指定的PoW要求（比特币、莱特币、以太币等等都是类似的思路），计算hash，然后把消息发送到网络上。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sendMsg</span><span class="params">(payload []<span class="keyword">byte</span>)</span> <span class="title">common</span>.<span class="title">Hash</span></span> &#123;</span><br><span class="line">	params := whisper.MessageParams&#123;</span><br><span class="line">		Src:      asymKey,</span><br><span class="line">		KeySym:   symKey,</span><br><span class="line">		Payload:  payload,</span><br><span class="line">		Topic:    topic,</span><br><span class="line">		TTL:      whisper.DefaultTTL,</span><br><span class="line">		PoW:      whisper.DefaultMinimumPoW,</span><br><span class="line">		WorkTime: <span class="number">5</span>,</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	msg, err := whisper.NewSentMessage(&amp;params)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		utils.Fatalf(<span class="string">"failed to create new message: %s"</span>, err)</span><br><span class="line">	&#125;</span><br><span class="line">	envelope, err := msg.Wrap(&amp;params)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Printf(<span class="string">"failed to seal message: %v \n"</span>, err)</span><br><span class="line">		<span class="keyword">return</span> common.Hash&#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	err = shh.Send(envelope)</span><br><span class="line">	<span class="keyword">if</span> err != <span class="literal">nil</span> &#123;</span><br><span class="line">		fmt.Printf(<span class="string">"failed to send message: %v \n"</span>, err)</span><br><span class="line">		<span class="keyword">return</span> common.Hash&#123;&#125;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">return</span> envelope.Hash()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="接收消息"><a href="#接收消息" class="headerlink" title="接收消息"></a>接收消息</h3><p>系统实际上一直在不停的接收消息并转发，这里说的接收消息实际上就是把我们感兴趣的消息提取出来，也就是我们这个聊天室的消息。<br>注意这里的filterID就是“哪个聊天室”提到的，这里可以认作是聊天室的ID。<br>可以看出messageLoop就是不停的轮询有没有相关聊天室的消息，目前whisper还没有实现消息推送功能。<br><figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">messageLoop</span><span class="params">()</span></span> &#123;</span><br><span class="line">	f := shh.GetFilter(filterID)</span><br><span class="line">	<span class="keyword">if</span> f == <span class="literal">nil</span> &#123;</span><br><span class="line">		utils.Fatalf(<span class="string">"filter is not installed"</span>)</span><br><span class="line">	&#125;</span><br><span class="line">	ticker := time.NewTicker(time.Millisecond * <span class="number">50</span>)</span><br><span class="line">	<span class="keyword">for</span> &#123;</span><br><span class="line">		<span class="keyword">select</span> &#123;</span><br><span class="line">		<span class="keyword">case</span> &lt;-ticker.C:</span><br><span class="line">			messages := f.Retrieve()</span><br><span class="line">			<span class="keyword">for</span> _, msg := <span class="keyword">range</span> messages &#123;</span><br><span class="line">				printMessageInfo(msg)</span><br><span class="line">			&#125;</span><br><span class="line">		<span class="keyword">case</span> &lt;-done:</span><br><span class="line">			<span class="keyword">return</span></span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="演示效果"><a href="#演示效果" class="headerlink" title="演示效果"></a>演示效果</h2><p>分别在两台ubuntu机器上运行。下面2张效果图，红线是第1台ubuntu机器（xgy）发送的消息，蓝线是第2台ubuntu机器（dong）发送的消息。<br>每个终端既可以收到来自别人的消息,也可以发送消息给别人。</p>
+<img src="/2018/04/20/2018-04-20-whisper-p2p-chat/b_01ubuntu1_xgy.png" title="ubuntu终端1_xgy">
+<img src="/2018/04/20/2018-04-20-whisper-p2p-chat/b_02ubuntu2_dong.png" title="ubuntu终端2_dong">
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><h2 id="以太坊whisper协议"><a href="#以太坊whisper协议" class="headerlink" title="以太坊whisper协议"></a>以太坊whisper协议</h2><p><a href="http://www.cnblogs.com/baizx/p/7898692.html" target="_blank" rel="noopener">以太坊系列之二十 以太坊中的基础应用whisper</a><br><a href="http://www.cnblogs.com/baizx/p/7505096.html" target="_blank" rel="noopener">以太坊系列之十八: 百行go代码构建p2p聊天室</a><br><a href="http://www.huamo.online/2018/04/11/Ethereum%E6%BA%90%E7%A0%81%E9%98%85%E8%AF%BB%E7%AC%94%E8%AE%B0-whisper/" target="_blank" rel="noopener">Ethereum源码阅读笔记-whisper</a><br><a href="https://github.com/ethereum/go-ethereum/wiki/Whisper-Overview#proof-of-work" target="_blank" rel="noopener">Whisper Overview</a><br><a href="http://qjpcpu.github.io/blog/2018/02/07/shen-ru-ethereumyuan-ma-whisperxie-yi-jie-du/" target="_blank" rel="noopener">深入ethereum源码-whisper协议解读</a><br><a href="https://www.youtube.com/watch?v=vVsIHCTGjsE" target="_blank" rel="noopener">Decentralized_Chat视频</a><br><a href="https://github.com/llSourcell/Decentralized_Chat" target="_blank" rel="noopener">Decentralized_Chat源码</a><br><a href="https://github.com/ethereum/meteor-dapp-whisper-chat-client" target="_blank" rel="noopener">*meteor-dapp-whisper-chat-client</a><br><a href="https://github.com/ethereum/web3.js" target="_blank" rel="noopener">*web3.js Ethereum JavaScript API</a></p>
+<h2 id="bitmessage"><a href="#bitmessage" class="headerlink" title="bitmessage"></a>bitmessage</h2><p><a href="https://github.com/Bitmessage/PyBitmessage" target="_blank" rel="noopener">Bitmessage源码</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/区块链/" rel="tag"># 区块链</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/15/2018-04-15-blockchain-platform/" rel="next" title="[区块链]几种区块链开发平台比较">
+                <i class="fa fa-chevron-left"></i> [区块链]几种区块链开发平台比较
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/05/01/2018-05-01-blog/" rel="prev" title="[暂时]不错的博文">
+                [暂时]不错的博文 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#whisper协议"><span class="nav-number">1.</span> <span class="nav-text">whisper协议</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#源码"><span class="nav-number">1.1.</span> <span class="nav-text">源码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#简介"><span class="nav-number">1.2.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本思想"><span class="nav-number">1.3.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几点想法"><span class="nav-number">1.4.</span> <span class="nav-text">几点想法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用go语言实现P2P聊天室（基于whisper协议）"><span class="nav-number">2.</span> <span class="nav-text">用go语言实现P2P聊天室（基于whisper协议）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#项目简介"><span class="nav-number">2.1.</span> <span class="nav-text">项目简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计思路"><span class="nav-number">2.2.</span> <span class="nav-text">设计思路</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#源码解读"><span class="nav-number">2.3.</span> <span class="nav-text">源码解读</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#连接主节点"><span class="nav-number">2.3.1.</span> <span class="nav-text">连接主节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#我的标识"><span class="nav-number">2.3.2.</span> <span class="nav-text">我的标识</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置我的节点"><span class="nav-number">2.3.3.</span> <span class="nav-text">配置我的节点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#哪个聊天室"><span class="nav-number">2.3.4.</span> <span class="nav-text">哪个聊天室</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加入聊天室"><span class="nav-number">2.3.5.</span> <span class="nav-text">加入聊天室</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#群发消息"><span class="nav-number">2.3.6.</span> <span class="nav-text">群发消息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#接收消息"><span class="nav-number">2.3.7.</span> <span class="nav-text">接收消息</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#演示效果"><span class="nav-number">2.4.</span> <span class="nav-text">演示效果</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#以太坊whisper协议"><span class="nav-number">3.1.</span> <span class="nav-text">以太坊whisper协议</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#bitmessage"><span class="nav-number">3.2.</span> <span class="nav-text">bitmessage</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
