@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="软硬结合," />
+  <meta name="keywords" content="软硬结合,项目," />
 
 
 
@@ -79,18 +79,18 @@
 
 
 
-<meta name="description" content="2017年5月，大四快毕业时，受扬州大学某老师委托，开发的一套简易物联网演示系统。本人正式接的第一个私活(๑¯◡¯๑)。 实现的功能包括：Web/Android端查看当前温湿度和继电器开关状态；操纵继电器开关；设置触发器，低于/高于某湿度，打开/关闭继电器。 代码见本人Github。演示视频见bilibili。 用到的硬件包括：Arduino（单片机）、DHT11（温湿度模块）、W5100（以太网">
-<meta name="keywords" content="软硬结合">
+<meta name="description" content="使用Arduino、DHT11、W5100、Node.js、echarts、App Inventor2实现的简易物联网演示系统，涵盖感知层、传输层、应用层。">
+<meta name="keywords" content="软硬结合,项目">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[mcu]Arduino+Node.js实现物联网">
+<meta property="og:title" content="[项目]Arduino+Node.js实现物联网">
 <meta property="og:url" content="http://yoursite.com/2018/02/10/2018-02-10-project-iot/index.html">
 <meta property="og:site_name" content="xgyopen blog">
-<meta property="og:description" content="2017年5月，大四快毕业时，受扬州大学某老师委托，开发的一套简易物联网演示系统。本人正式接的第一个私活(๑¯◡¯๑)。 实现的功能包括：Web/Android端查看当前温湿度和继电器开关状态；操纵继电器开关；设置触发器，低于/高于某湿度，打开/关闭继电器。 代码见本人Github。演示视频见bilibili。 用到的硬件包括：Arduino（单片机）、DHT11（温湿度模块）、W5100（以太网">
+<meta property="og:description" content="使用Arduino、DHT11、W5100、Node.js、echarts、App Inventor2实现的简易物联网演示系统，涵盖感知层、传输层、应用层。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-02-10T00:21:10.485Z">
+<meta property="og:updated_time" content="2018-05-03T12:00:20.670Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[mcu]Arduino+Node.js实现物联网">
-<meta name="twitter:description" content="2017年5月，大四快毕业时，受扬州大学某老师委托，开发的一套简易物联网演示系统。本人正式接的第一个私活(๑¯◡¯๑)。 实现的功能包括：Web/Android端查看当前温湿度和继电器开关状态；操纵继电器开关；设置触发器，低于/高于某湿度，打开/关闭继电器。 代码见本人Github。演示视频见bilibili。 用到的硬件包括：Arduino（单片机）、DHT11（温湿度模块）、W5100（以太网">
+<meta name="twitter:title" content="[项目]Arduino+Node.js实现物联网">
+<meta name="twitter:description" content="使用Arduino、DHT11、W5100、Node.js、echarts、App Inventor2实现的简易物联网演示系统，涵盖感知层、传输层、应用层。">
 
 
 
@@ -126,7 +126,7 @@
 
 
 
-  <title>[mcu]Arduino+Node.js实现物联网 | xgyopen blog</title>
+  <title>[项目]Arduino+Node.js实现物联网 | xgyopen blog</title>
   
 
 
@@ -270,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">[mcu]Arduino+Node.js实现物联网</h1>
+          <h1 class="post-title" itemprop="name headline">[项目]Arduino+Node.js实现物联网</h1>
         
 
         <div class="post-meta">
@@ -306,6 +306,10 @@
           
 
           
+              <div class="post-description">
+                  使用Arduino、DHT11、W5100、Node.js、echarts、App Inventor2实现的简易物联网演示系统，涵盖感知层、传输层、应用层。
+              </div>
+          
 
         </div>
       </header>
@@ -323,7 +327,7 @@
         <p>2017年5月，大四快毕业时，受扬州大学某老师委托，开发的一套简易物联网演示系统。本人正式接的第一个私活(๑¯◡¯๑)。</p>
 <p>实现的功能包括：Web/Android端查看当前温湿度和继电器开关状态；操纵继电器开关；设置触发器，低于/高于某湿度，打开/关闭继电器。</p>
 <p><a href="https://github.com/xgyopen/iot" target="_blank" rel="noopener">代码见本人Github</a>。<a href="https://www.bilibili.com/video/av19382536/" target="_blank" rel="noopener">演示视频见bilibili</a>。</p>
-<p>用到的硬件包括：Arduino（单片机）、DHT11（温湿度模块）、W5100（以太网模块）；<br>软件包括：Node.js（Web后台）、echarts（Web前台），AI2（开发简易安卓APP）。</p>
+<p>用到的硬件包括：Arduino（单片机）、DHT11（温湿度模块）、W5100（以太网模块）；<br>软件包括：Node.js（Web后台）、echarts（Web前台），App Inventor2（开发简易安卓APP）。</p>
 <p>从物联网3层划分的角度：<br>感知层：主要是Arduino，读取温湿度传感器，驱动继电器。①通过Arduino采集DHT11的温湿度数据，并通过W5100上传到服务器；②接收来自服务器的命令，控制继电器开关；<br>传输层：将温湿度数据通过W5100，用以太网传输到服务器数据库中；<br>应用层：主要是Web，后台是Node.js，提供RESTful API。①接收来自Arduino的温湿度数据，并保存到数据库中②响应前端，控制继电器开关③设置触发器，根据阈值控制继电器开关。</p>
 <p>总而言之，本项目仅做演示之用。但架构设计的比较合理，可做诸多横向扩展。</p>
 
@@ -344,6 +348,8 @@
         <div class="post-tags">
           
             <a href="/tags/软硬结合/" rel="tag"># 软硬结合</a>
+          
+            <a href="/tags/项目/" rel="tag"># 项目</a>
           
         </div>
       
@@ -440,7 +446,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">11</span>
+                  <span class="site-state-item-count">12</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -453,7 +459,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">7</span>
+                  <span class="site-state-item-count">8</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
