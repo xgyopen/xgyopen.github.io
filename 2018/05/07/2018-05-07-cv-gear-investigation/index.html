@@ -1,0 +1,1029 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="项目,软硬结合,机器视觉," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="齿轮检测的机器视觉项目的调研。">
+<meta name="keywords" content="项目,软硬结合,机器视觉">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]齿轮检测项目调研">
+<meta property="og:url" content="http://yoursite.com/2018/05/07/2018-05-07-cv-gear-investigation/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="齿轮检测的机器视觉项目的调研。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/05/07/2018-05-07-cv-gear-investigation/论文11_P39图.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/07/2018-05-07-cv-gear-investigation/论文14_P53图.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/07/2018-05-07-cv-gear-investigation/论文23_P72图.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/07/2018-05-07-cv-gear-investigation/论文24_P52图.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/07/2018-05-07-cv-gear-investigation/论文30_P49图.png">
+<meta property="og:updated_time" content="2018-05-07T09:54:25.458Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]齿轮检测项目调研">
+<meta name="twitter:description" content="齿轮检测的机器视觉项目的调研。">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/07/2018-05-07-cv-gear-investigation/论文11_P39图.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/05/07/2018-05-07-cv-gear-investigation/"/>
+
+
+
+
+
+  <title>[机器视觉]齿轮检测项目调研 | xgyopen blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/05/07/2018-05-07-cv-gear-investigation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]齿轮检测项目调研</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-07T19:19:19+08:00">
+                2018-05-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  齿轮检测的机器视觉项目的调研。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="测量精度"><a href="#测量精度" class="headerlink" title="测量精度"></a>测量精度</h1><p>丝=道=条=0.01毫米=10微米=<br>1丝=0.01mm=10μm<br>1米=1000mm</p>
+<h1 id="资料查阅"><a href="#资料查阅" class="headerlink" title="资料查阅"></a>资料查阅</h1><p>知网搜索“齿轮检测 机器视觉”</p>
+<h2 id="硕士（36篇）"><a href="#硕士（36篇）" class="headerlink" title="硕士（36篇）"></a>硕士（36篇）</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">题名</th>
+<th style="text-align:center">作者</th>
+<th style="text-align:center">学校</th>
+<th style="text-align:center">年份</th>
+<th style="text-align:center">实现平台</th>
+<th style="text-align:center">精度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1基于机器视觉的齿轮检测与测量系统的研究</td>
+<td style="text-align:center">尹红敏（信号）</td>
+<td style="text-align:center">聊城大学</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">HALCON</td>
+<td style="text-align:center">P41 0.1mm</td>
+</tr>
+<tr>
+<td style="text-align:center">2基于机器视觉的齿轮多参数测量技术研究</td>
+<td style="text-align:center">张丽鹏（机械）</td>
+<td style="text-align:center">江苏大学</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">MATLAB</td>
+<td style="text-align:center">P59 0.03mm</td>
+</tr>
+<tr>
+<td style="text-align:center">3基于机器视觉齿轮微观缺陷检测技术研究</td>
+<td style="text-align:center">蔺志敏（机械）</td>
+<td style="text-align:center">昆明理工大学</td>
+<td style="text-align:center">2016</td>
+<td style="text-align:center">OpenCV</td>
+<td style="text-align:center">无</td>
+</tr>
+<tr>
+<td style="text-align:center">4基于机器视觉的双联齿轮尺寸精密测试系统</td>
+<td style="text-align:center">高世平（测量）</td>
+<td style="text-align:center">广东工业大学</td>
+<td style="text-align:center">2013</td>
+<td style="text-align:center">LabVIEW(IMAQ Vision)</td>
+<td style="text-align:center">P62 作者没算</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>☆5基于机器视觉的工件检测技术研究</strong></td>
+<td style="text-align:center">高晟丽（测量）</td>
+<td style="text-align:center">解放军信息工程大学</td>
+<td style="text-align:center">2006</td>
+<td style="text-align:center">C++</td>
+<td style="text-align:center">P56 0.01mm</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>☆6基于机器视觉测量的齿轮图像边界提取算法研究</strong></td>
+<td style="text-align:center">单紫薇（机械）</td>
+<td style="text-align:center">沈阳工业大学</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">MATLAB</td>
+<td style="text-align:center">P43 0.05μm</td>
+</tr>
+<tr>
+<td style="text-align:center">7精密注塑成型加工质量在线检测系统的研究</td>
+<td style="text-align:center">徐堰（机械）</td>
+<td style="text-align:center">北京化工大学</td>
+<td style="text-align:center">2010</td>
+<td style="text-align:center">HALCON</td>
+<td style="text-align:center">P51 作者没算</td>
+</tr>
+<tr>
+<td style="text-align:center">8异型齿廓形状的计算机视觉检测技术</td>
+<td style="text-align:center">张莲（机械）</td>
+<td style="text-align:center">山东大学</td>
+<td style="text-align:center">2008</td>
+<td style="text-align:center">C++ OpenCV</td>
+<td style="text-align:center">无</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>☆9基于机器视觉的小模数齿轮轮廓信息提取算法研究</strong></td>
+<td style="text-align:center">沈海珍（精仪）</td>
+<td style="text-align:center">中国计量学院</td>
+<td style="text-align:center">2015</td>
+<td style="text-align:center">C++</td>
+<td style="text-align:center">P52 5μm</td>
+</tr>
+<tr>
+<td style="text-align:center">10基于机器视觉的复杂塑件识别与检测技术研究</td>
+<td style="text-align:center">丁剑彪（机械）</td>
+<td style="text-align:center">北京化工大学</td>
+<td style="text-align:center">2016</td>
+<td style="text-align:center">C++ HALCON OpenCV</td>
+<td style="text-align:center">无</td>
+</tr>
+<tr>
+<td style="text-align:center">11基于机器视觉的标准直齿圆柱齿轮参数的测量</td>
+<td style="text-align:center">饶艳桃（机械）</td>
+<td style="text-align:center">重庆大学</td>
+<td style="text-align:center">2015</td>
+<td style="text-align:center">C++ OpenCV</td>
+<td style="text-align:center">P40 0.5mm</td>
+</tr>
+<tr>
+<td style="text-align:center">12基于机器视觉的工件尺寸检测系统研究</td>
+<td style="text-align:center">马艳辉（控制）</td>
+<td style="text-align:center">长春工业大学</td>
+<td style="text-align:center">2016</td>
+<td style="text-align:center">MATLAB</td>
+<td style="text-align:center">P41 0.6mm</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>☆13基于机器视觉的齿轮图像拼接算法研究</strong></td>
+<td style="text-align:center">张宇驰（机械）</td>
+<td style="text-align:center">沈阳工业大学</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">MATLAB</td>
+<td style="text-align:center">P40 4μm</td>
+</tr>
+<tr>
+<td style="text-align:center">14基于图像处理的齿轮测量系统的研究</td>
+<td style="text-align:center">张华军（机械）</td>
+<td style="text-align:center">重庆大学</td>
+<td style="text-align:center">2015</td>
+<td style="text-align:center">LabVIEW MATLAB</td>
+<td style="text-align:center">P57 0.03mm</td>
+</tr>
+<tr>
+<td style="text-align:center">15基于视觉技术的摆线齿轮参数及误差的快速测量系统研究</td>
+<td style="text-align:center">程丽丽（机械）</td>
+<td style="text-align:center">广西大学</td>
+<td style="text-align:center">2013</td>
+<td style="text-align:center">OpenCV</td>
+<td style="text-align:center">P59 0.1mm</td>
+</tr>
+<tr>
+<td style="text-align:center">16基于图像融合的小模数塑料齿轮齿形缺陷检测技术研究</td>
+<td style="text-align:center">古洪杰（机械）</td>
+<td style="text-align:center">吉林大学</td>
+<td style="text-align:center">2009</td>
+<td style="text-align:center">LabVIEW</td>
+<td style="text-align:center">P72 作者没算</td>
+</tr>
+<tr>
+<td style="text-align:center">17基于机器视觉的齿轮尺寸测量问题研究</td>
+<td style="text-align:center">杜红茹</td>
+<td style="text-align:center">兰州理工大学（测量）</td>
+<td style="text-align:center">2011</td>
+<td style="text-align:center">MATLAB</td>
+<td style="text-align:center">P45 0.6mm</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>☆18自适应光强变化的齿轮视觉测量技术研究</strong></td>
+<td style="text-align:center">李旭</td>
+<td style="text-align:center">中北大学（机械）</td>
+<td style="text-align:center">2016</td>
+<td style="text-align:center">HALCON C#</td>
+<td style="text-align:center">P55 0.0007mm</td>
+</tr>
+<tr>
+<td style="text-align:center">19基于FPGA的微型零件尺寸检测系统研究</td>
+<td style="text-align:center">李前坤（机械）</td>
+<td style="text-align:center">重庆大学</td>
+<td style="text-align:center">2014</td>
+<td style="text-align:center">FPGA MATLAB</td>
+<td style="text-align:center">P54 0.011mm</td>
+</tr>
+<tr>
+<td style="text-align:center">20汽车后桥主减齿轮接触区的单目视觉检测技术研究</td>
+<td style="text-align:center">蒋硕（机械）</td>
+<td style="text-align:center">重庆理工大学</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">HALCON</td>
+<td style="text-align:center">P59 2mm</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>☆21基于机器视觉的齿轮测量技术研究</strong></td>
+<td style="text-align:center">杨丹（机械）</td>
+<td style="text-align:center">沈阳工业大学</td>
+<td style="text-align:center">2015</td>
+<td style="text-align:center">MATLAB C++</td>
+<td style="text-align:center">P52 0.3μm</td>
+</tr>
+<tr>
+<td style="text-align:center">22基于机器视觉的精密注塑零件的识别与检测</td>
+<td style="text-align:center">徐俊成（机械）</td>
+<td style="text-align:center">北京化工大学</td>
+<td style="text-align:center">2011</td>
+<td style="text-align:center">HALCON C++</td>
+<td style="text-align:center">P66 作者没算</td>
+</tr>
+<tr>
+<td style="text-align:center">23基于主动视觉的齿轮测量系统研究</td>
+<td style="text-align:center">蒋海滨（机械）</td>
+<td style="text-align:center">电子科技大学</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">C++ OpenCV</td>
+<td style="text-align:center">P73 0.02mm</td>
+</tr>
+<tr>
+<td style="text-align:center">24基于机器视觉的齿轮齿廓径向跳动测量系统</td>
+<td style="text-align:center">邵芳（机械）</td>
+<td style="text-align:center">吉林大学</td>
+<td style="text-align:center">2015</td>
+<td style="text-align:center">C++</td>
+<td style="text-align:center">P59 作者没算</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>☆25基于机器视觉的渐开线小模数齿轮测量方法的研究</strong></td>
+<td style="text-align:center">郭晓然（测量）</td>
+<td style="text-align:center">西安理工大学</td>
+<td style="text-align:center">2007</td>
+<td style="text-align:center">LabVIEW</td>
+<td style="text-align:center">P50 8μm</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>☆26基于远心镜头的视觉齿轮倒角测量方法研究</strong></td>
+<td style="text-align:center">许敬华（机械）</td>
+<td style="text-align:center">天津科技大学</td>
+<td style="text-align:center">2016</td>
+<td style="text-align:center">C++</td>
+<td style="text-align:center">P51 5μm</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>☆27齿轮倒角测量仪测量误差的分析与研究</strong></td>
+<td style="text-align:center">孙钊（机械）</td>
+<td style="text-align:center">天津科技大学</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">C++</td>
+<td style="text-align:center">P77 15μm</td>
+</tr>
+<tr>
+<td style="text-align:center">28汽车主减速器齿面印痕检测技术研究</td>
+<td style="text-align:center">王宗辉（控制）</td>
+<td style="text-align:center">安徽大学</td>
+<td style="text-align:center">2016</td>
+<td style="text-align:center">LabVIEW MATLAB</td>
+<td style="text-align:center">无</td>
+</tr>
+<tr>
+<td style="text-align:center">29基于机器视觉的机械精度测量技术研究</td>
+<td style="text-align:center">张思佳（机械）</td>
+<td style="text-align:center">沈阳工业大学</td>
+<td style="text-align:center">2014</td>
+<td style="text-align:center">C++ MATLAB</td>
+<td style="text-align:center">P41 0.7mm</td>
+</tr>
+<tr>
+<td style="text-align:center">30齿轮齿形视觉检测系统研究与在对数螺旋锥齿轮上的应用</td>
+<td style="text-align:center">刘奕（机械）</td>
+<td style="text-align:center">内蒙古科技大学</td>
+<td style="text-align:center">2010</td>
+<td style="text-align:center">LabVIEW C++</td>
+<td style="text-align:center">P54 作者没算</td>
+</tr>
+<tr>
+<td style="text-align:center">31基于视觉引导的激光齿轮倒角测量方法研究（机械）</td>
+<td style="text-align:center">张硕</td>
+<td style="text-align:center">天津科技大学</td>
+<td style="text-align:center">2012</td>
+<td style="text-align:center">C++</td>
+<td style="text-align:center">P63 0.036mm</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>☆32小模数齿轮视觉检测系统中的自标定技术研究（仪器）</strong></td>
+<td style="text-align:center">张玉德</td>
+<td style="text-align:center">中国计量学院</td>
+<td style="text-align:center">2014</td>
+<td style="text-align:center">Baumer相机的SDK</td>
+<td style="text-align:center">P50 5μm</td>
+</tr>
+<tr>
+<td style="text-align:center">33基于机器视觉的直齿圆柱齿轮测量系统的设计与实现（计算机）</td>
+<td style="text-align:center">张景辉</td>
+<td style="text-align:center">天津大学</td>
+<td style="text-align:center">2007</td>
+<td style="text-align:center">LabVIEW</td>
+<td style="text-align:center">无</td>
+</tr>
+<tr>
+<td style="text-align:center">34同步器齿环外观机器视觉检测系统研究（材料）</td>
+<td style="text-align:center">王华龙</td>
+<td style="text-align:center">武汉工程大学</td>
+<td style="text-align:center">2016</td>
+<td style="text-align:center">HALCON</td>
+<td style="text-align:center">无</td>
+</tr>
+<tr>
+<td style="text-align:center">35基于IMAQ的轮带偏摆与大齿圈径向跳动测量系统的研究（机械）</td>
+<td style="text-align:center">熊珍艳</td>
+<td style="text-align:center">武汉理工大学</td>
+<td style="text-align:center">2012</td>
+<td style="text-align:center">LabVIEW</td>
+<td style="text-align:center">无</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>☆36非接触式齿轮倒角轮廓测量系统（机械）</strong></td>
+<td style="text-align:center">李冬冬</td>
+<td style="text-align:center">天津科技大学</td>
+<td style="text-align:center">2015</td>
+<td style="text-align:center">C++</td>
+<td style="text-align:center">P75 5μm</td>
+</tr>
+</tbody>
+</table>
+<h2 id="论文中成品图"><a href="#论文中成品图" class="headerlink" title="论文中成品图"></a>论文中成品图</h2><img src="/2018/05/07/2018-05-07-cv-gear-investigation/论文11_P39图.png" title="论文11_P39图">
+<img src="/2018/05/07/2018-05-07-cv-gear-investigation/论文14_P53图.png" title="论文14_P53图">
+<img src="/2018/05/07/2018-05-07-cv-gear-investigation/论文23_P72图.png" title="论文23_P72图">
+<img src="/2018/05/07/2018-05-07-cv-gear-investigation/论文24_P52图.png" title="论文24_P52图">
+<img src="/2018/05/07/2018-05-07-cv-gear-investigation/论文30_P49图.png" title="论文30_P49图">
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><strong>论文题目前带☆的，是精度达到0.01mm要求的。</strong><br>在这个方面几个比较厉害的大学：中国计量学院、沈阳工业大学、天津科技大学。<br>几种可选的开发平台：HALCON、MATLAB、LabVIEW、C++</p>
+<h2 id="专利（还没搜，可做补充）"><a href="#专利（还没搜，可做补充）" class="headerlink" title="专利（还没搜，可做补充）"></a>专利（还没搜，可做补充）</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/项目/" rel="tag"># 项目</a>
+          
+            <a href="/tags/软硬结合/" rel="tag"># 软硬结合</a>
+          
+            <a href="/tags/机器视觉/" rel="tag"># 机器视觉</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/05/01/2018-05-01-house-course/" rel="next" title="[投资]买房的意义和技巧">
+                <i class="fa fa-chevron-left"></i> [投资]买房的意义和技巧
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/01/2018-06-01-blog/" rel="prev" title="[暂时]不错的博文">
+                [暂时]不错的博文 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#测量精度"><span class="nav-number">1.</span> <span class="nav-text">测量精度</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#资料查阅"><span class="nav-number">2.</span> <span class="nav-text">资料查阅</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#硕士（36篇）"><span class="nav-number">2.1.</span> <span class="nav-text">硕士（36篇）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论文中成品图"><span class="nav-number">2.2.</span> <span class="nav-text">论文中成品图</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">2.3.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#专利（还没搜，可做补充）"><span class="nav-number">2.4.</span> <span class="nav-text">专利（还没搜，可做补充）</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
