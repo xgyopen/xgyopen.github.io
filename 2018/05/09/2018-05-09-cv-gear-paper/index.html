@@ -89,7 +89,8 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/a_01系统总体框架图.png">
 <meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/a_02背光照明.png">
-<meta property="og:updated_time" content="2018-05-09T07:34:46.064Z">
+<meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/a_03本文边缘检测方法流程图.png">
+<meta property="og:updated_time" content="2018-05-09T09:22:27.945Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]读论文">
 <meta name="twitter:description" content="精读3篇关于齿轮检测的机器视觉项目的论文。">
@@ -330,7 +331,8 @@
         <h1 id="2基于机器视觉的齿轮多参数测量技术研究-张丽鹏"><a href="#2基于机器视觉的齿轮多参数测量技术研究-张丽鹏" class="headerlink" title="2基于机器视觉的齿轮多参数测量技术研究_张丽鹏"></a>2基于机器视觉的齿轮多参数测量技术研究_张丽鹏</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><ol>
 <li>硬件：背光源式齿轮参数检测平台</li>
 <li>软件：MATLAB</li>
-<li>技术：<ul>
+<li>测量对象：渐开线标准直齿圆柱齿轮</li>
+<li>涉及技术：<ul>
 <li>摄像机标定技术</li>
 <li>基于图像灰度梯度的像素级与<strong>亚像素级</strong>边缘检测技术</li>
 <li>齿轮中心定位技术</li>
@@ -373,26 +375,46 @@
 <td style="text-align:center">照光方式</td>
 <td style="text-align:center">背向照明</td>
 </tr>
-<tr>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center"></td>
-<td style="text-align:center"></td>
-</tr>
-<tr>
-<td style="text-align:center"></td>
-</tr>
 </tbody>
 </table>
-<p>关于照光方式（P13）<br>前向照明：表面质量检测<br>同轴光照明<br>背向照明：边缘检测<br><img src="/2018/05/09/2018-05-09-cv-gear-paper/a_02背光照明.png" title="背光照明"></p>
+<p>关于照光方式（P13）</p>
+<ul>
+<li>前向照明：表面质量检测</li>
+<li>同轴光照明</li>
+<li><strong>背向照明</strong>：边缘检测<img src="/2018/05/09/2018-05-09-cv-gear-paper/a_02背光照明.png" title="背光照明">
+</li>
+</ul>
 <h2 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h2><p>实现功能：</p>
 <ol>
 <li>图像接收和存储</li>
 <li>数字图像处理</li>
 <li>齿轮参数检测</li>
 </ol>
+<h2 id="图像预处理"><a href="#图像预处理" class="headerlink" title="图像预处理"></a>图像预处理</h2><h3 id="图像标定"><a href="#图像标定" class="headerlink" title="图像标定"></a>图像标定</h3><p>尺寸长度单位：<strong>像素</strong>（mm/pixel、μm/pixel）<br>图像的标定：物体在图像所占像素数 → 实际物理尺寸<br><strong>棋盘格标定板</strong></p>
+<p>摄像机线性/非线性成像模型<br><strong>标定实验：MATLAB的标定工具箱</strong></p>
+<h3 id="边缘检测算法"><a href="#边缘检测算法" class="headerlink" title="边缘检测算法"></a>边缘检测算法</h3><p>图像灰度梯度型边缘检测算法</p>
+<p>关于边缘检测算法（P19）</p>
+<ul>
+<li>按照检测方式：<ul>
+<li>基于图像灰度梯度</li>
+<li>基于数学形态学</li>
+<li>基于遗传算法和神经网络</li>
+</ul>
+</li>
+<li>按照可达到的精度：<ul>
+<li>像素级</li>
+<li>亚像素级</li>
+</ul>
+</li>
+</ul>
+<h4 id="像素级边缘检测"><a href="#像素级边缘检测" class="headerlink" title="像素级边缘检测"></a>像素级边缘检测</h4><p>基于一阶导数（P20）：Roberts算子、Prewitt算子、Sobel算子、Canny算子<br>基于二阶导数（P21）：Kirsch算子、Laplacian算子、<strong>LoG算子</strong></p>
+<p>存在问题：①边缘不封闭，存在间断点、②存在伪边缘</p>
+<h4 id="边缘封闭性检测"><a href="#边缘封闭性检测" class="headerlink" title="边缘封闭性检测"></a>边缘封闭性检测</h4><p>亚像素级边缘检测算法：边缘存在型算法<br>16种断点检测模板</p>
+<p>本文选用：<strong>LoG算子</strong><br><strong>区分齿廓上的断点和伪边缘上的断点：各断点间的距离值大于等于5个像素间距离</strong></p>
+<p>至此取得：无中心孔边缘的封闭齿轮轮廓图</p>
+<h4 id="边缘处灰度图像获取"><a href="#边缘处灰度图像获取" class="headerlink" title="边缘处灰度图像获取"></a>边缘处灰度图像获取</h4><p>将轮廓向齿轮轮体内部取5个像素，向外取5个像素，便得到灰度图像中齿轮齿廓附近的像素点</p>
+<h4 id="亚像素级边缘检测"><a href="#亚像素级边缘检测" class="headerlink" title="亚像素级边缘检测"></a>亚像素级边缘检测</h4><p>背景：边缘较宽<br>插值法、矩法、拟合法</p>
+<h3 id="本文采用的边缘检测方法"><a href="#本文采用的边缘检测方法" class="headerlink" title="本文采用的边缘检测方法"></a>本文采用的边缘检测方法</h3><img src="/2018/05/09/2018-05-09-cv-gear-paper/a_03本文边缘检测方法流程图.png" title="本文边缘检测方法流程图">
 <h1 id="9基于机器视觉的小模数齿轮轮廓信息提取算法研究-沈海珍"><a href="#9基于机器视觉的小模数齿轮轮廓信息提取算法研究-沈海珍" class="headerlink" title="9基于机器视觉的小模数齿轮轮廓信息提取算法研究_沈海珍"></a>9基于机器视觉的小模数齿轮轮廓信息提取算法研究_沈海珍</h1><h1 id="18自适应光强变化的齿轮视觉测量技术研究-李旭"><a href="#18自适应光强变化的齿轮视觉测量技术研究-李旭" class="headerlink" title="18自适应光强变化的齿轮视觉测量技术研究_李旭"></a>18自适应光强变化的齿轮视觉测量技术研究_李旭</h1>
       
     </div>
@@ -566,7 +588,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2基于机器视觉的齿轮多参数测量技术研究-张丽鹏"><span class="nav-number">1.</span> <span class="nav-text">2基于机器视觉的齿轮多参数测量技术研究_张丽鹏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件"><span class="nav-number">1.2.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件"><span class="nav-number">1.3.</span> <span class="nav-text">软件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9基于机器视觉的小模数齿轮轮廓信息提取算法研究-沈海珍"><span class="nav-number">2.</span> <span class="nav-text">9基于机器视觉的小模数齿轮轮廓信息提取算法研究_沈海珍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#18自适应光强变化的齿轮视觉测量技术研究-李旭"><span class="nav-number">3.</span> <span class="nav-text">18自适应光强变化的齿轮视觉测量技术研究_李旭</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2基于机器视觉的齿轮多参数测量技术研究-张丽鹏"><span class="nav-number">1.</span> <span class="nav-text">2基于机器视觉的齿轮多参数测量技术研究_张丽鹏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件"><span class="nav-number">1.2.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件"><span class="nav-number">1.3.</span> <span class="nav-text">软件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像预处理"><span class="nav-number">1.4.</span> <span class="nav-text">图像预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图像标定"><span class="nav-number">1.4.1.</span> <span class="nav-text">图像标定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#边缘检测算法"><span class="nav-number">1.4.2.</span> <span class="nav-text">边缘检测算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#像素级边缘检测"><span class="nav-number">1.4.2.1.</span> <span class="nav-text">像素级边缘检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#边缘封闭性检测"><span class="nav-number">1.4.2.2.</span> <span class="nav-text">边缘封闭性检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#边缘处灰度图像获取"><span class="nav-number">1.4.2.3.</span> <span class="nav-text">边缘处灰度图像获取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#亚像素级边缘检测"><span class="nav-number">1.4.2.4.</span> <span class="nav-text">亚像素级边缘检测</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文采用的边缘检测方法"><span class="nav-number">1.4.3.</span> <span class="nav-text">本文采用的边缘检测方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9基于机器视觉的小模数齿轮轮廓信息提取算法研究-沈海珍"><span class="nav-number">2.</span> <span class="nav-text">9基于机器视觉的小模数齿轮轮廓信息提取算法研究_沈海珍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#18自适应光强变化的齿轮视觉测量技术研究-李旭"><span class="nav-number">3.</span> <span class="nav-text">18自适应光强变化的齿轮视觉测量技术研究_李旭</span></a></li></ol></div>
             
 
           </div>
