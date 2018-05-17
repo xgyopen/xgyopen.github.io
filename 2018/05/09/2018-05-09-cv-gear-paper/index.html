@@ -104,10 +104,15 @@
 <meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/b_09小模数齿轮精密测量系统功能模块汇总图.png">
 <meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/b_10小模数齿轮精密测量系统软件控制界面.png">
 <meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/b_11齿轮基本参数示意图.png">
-<meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/c_01测量系统组成.png">
-<meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/c_02图像采集系统.png">
-<meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/c_03齿距精度图像测量图.png">
-<meta property="og:updated_time" content="2018-05-11T17:12:10.918Z">
+<meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/c_01典型机器视觉系统组成.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/c_02测量系统组成.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/c_03背向照明_前向照明.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/c_04图像采集系统.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/c_05软件系统界面.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/c_06高斯核.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/c_07LoG算子掩码.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/09/2018-05-09-cv-gear-paper/c_08齿距精度图像测量图.png">
+<meta property="og:updated_time" content="2018-05-17T12:52:54.544Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]读论文">
 <meta name="twitter:description" content="精读3篇关于齿轮检测的机器视觉项目的论文，此文为笔记。">
@@ -638,9 +643,30 @@
 </ol>
 <p>检测精度在<strong>5μm</strong>，检测时间在<strong>30分钟/个</strong></p>
 <p>特殊情况使齿轮参数偏差很大：<br><strong>实验前齿轮的清理不彻底，导致齿槽内部存在大量的油渍</strong></p>
-<h1 id="18自适应光强变化的齿轮视觉测量技术研究-李旭"><a href="#18自适应光强变化的齿轮视觉测量技术研究-李旭" class="headerlink" title="18自适应光强变化的齿轮视觉测量技术研究_李旭"></a>18自适应光强变化的齿轮视觉测量技术研究_李旭</h1><img src="/2018/05/09/2018-05-09-cv-gear-paper/c_01测量系统组成.png" title="测量系统组成">
-<p>软件：C#4.0、HALCON10（Visual Studio 2010）</p>
-<table>
+<h1 id="18自适应光强变化的齿轮视觉测量技术研究-李旭"><a href="#18自适应光强变化的齿轮视觉测量技术研究-李旭" class="headerlink" title="18自适应光强变化的齿轮视觉测量技术研究_李旭"></a>18自适应光强变化的齿轮视觉测量技术研究_李旭</h1><h2 id="摘要-2"><a href="#摘要-2" class="headerlink" title="摘要"></a>摘要</h2><ol>
+<li>硬件：齿轮视觉测量系统（图像采集+图像处理）</li>
+<li>软件：C#与HALCON联合编程</li>
+<li>测量对象：小模数渐开线直齿圆柱齿轮齿距精度（光强变化对测量结果的影响）</li>
+<li>涉及技术：<ul>
+<li>图像采集（器件选型、照明方式、机械结构）</li>
+<li>图像处理（图像平滑、连通区域提取、边缘检测）</li>
+<li>基于亚像素精度阈值分割的动态调整阈值方法（在一定范围内自适应光强变化）</li>
+</ul>
+</li>
+</ol>
+<h2 id="系统设计-1"><a href="#系统设计-1" class="headerlink" title="系统设计"></a>系统设计</h2><h3 id="典型的机器视觉系统"><a href="#典型的机器视觉系统" class="headerlink" title="典型的机器视觉系统"></a>典型的机器视觉系统</h3><ul>
+<li>图像测量子系统：图像采集、图像处理</li>
+<li>控制子系统：传感器、控制器、执行机构</li>
+</ul>
+<p>图2.1为某机器视觉系统结构，主要功能实现被测物1的检测与筛选。整个系统主要由<strong>摄像机2、光源3、光电传感器4、计算机5、可编程逻辑控制器（PLC）9、执行机构10</strong>组成。<br>具体的工作流程如下，被测物依次置于传送带上，运动至摄像机正下方时，光电传感器产生触发信号，触发光源开启以及摄像机采集图像，摄像机通过与计算机的接口6将采集到的图像传至计算机，经图像处理与测量后，通过数字I/O接口与PLC通讯，从而控制执行机构实现不合格品的剔除，同时显示检测结果8。</p>
+<img src="/2018/05/09/2018-05-09-cv-gear-paper/c_01典型机器视觉系统组成.png" title="典型机器视觉系统组成">
+<h3 id="本文的齿轮视觉测量系统"><a href="#本文的齿轮视觉测量系统" class="headerlink" title="本文的齿轮视觉测量系统"></a>本文的齿轮视觉测量系统</h3><ul>
+<li>硬件：图像采集子系统</li>
+<li>软件：图像处理子系统</li>
+<li>计算机：联系上述软硬件</li>
+</ul>
+<img src="/2018/05/09/2018-05-09-cv-gear-paper/c_02测量系统组成.png" title="测量系统组成">
+<h3 id="图像采集系统-1"><a href="#图像采集系统-1" class="headerlink" title="图像采集系统"></a>图像采集系统</h3><table>
 <thead>
 <tr>
 <th style="text-align:center">设备</th>
@@ -670,8 +696,191 @@
 </tr>
 </tbody>
 </table>
-<img src="/2018/05/09/2018-05-09-cv-gear-paper/c_02图像采集系统.png" title="图像采集系统">
-<img src="/2018/05/09/2018-05-09-cv-gear-paper/c_03齿距精度图像测量图.png" title="齿距精度图像测量图">
+<h4 id="摄像机"><a href="#摄像机" class="headerlink" title="摄像机"></a>摄像机</h4><p>CCD与CMOS（P13），选CCD<br>CCD摄像机选型：传感器尺寸（1、2/3、1/4）、分辨率（640×480、4008×2672）</p>
+<p><strong>选型原则：传感器像素尺寸选用与空间分辨率数值大小相近的</strong><br>空间分辨率Rs=摄像机视场大小FOV（即测量范围）/传感器分辨率Rc<br>例如，摄像机高度方向视场大小7.5mm，分辨率1392×1040，空间分辨率=7500/1040≈7.2μm/pixel</p>
+<p>选用大恒DH-SV1410FM工业相机</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">详细</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">传感器</td>
+<td style="text-align:center">逐行扫描CCD，2/3英寸</td>
+</tr>
+<tr>
+<td style="text-align:center">分辨率</td>
+<td style="text-align:center">1392×1040（1,447,680个像素）</td>
+</tr>
+<tr>
+<td style="text-align:center">像素尺寸</td>
+<td style="text-align:center">6.45μm×6.45μm</td>
+</tr>
+<tr>
+<td style="text-align:center">像素输出深度</td>
+<td style="text-align:center">8/12bit</td>
+</tr>
+<tr>
+<td style="text-align:center">最大帧率</td>
+<td style="text-align:center">1392×1040,8bit:15帧/秒</td>
+</tr>
+<tr>
+<td style="text-align:center">镜头接口</td>
+<td style="text-align:center">C、CS</td>
+</tr>
+<tr>
+<td style="text-align:center">数据接口</td>
+<td style="text-align:center">IEEE-1394a</td>
+</tr>
+</tbody>
+</table>
+<h4 id="镜头"><a href="#镜头" class="headerlink" title="镜头"></a>镜头</h4><p>镜头选型：靶面尺寸、分辨率、视野和景深、接口</p>
+<ul>
+<li>靶面尺寸：不小于传感器尺寸</li>
+<li>分辨率：足够</li>
+<li>视野和景深：保证在工作距离内被测物能够清晰成像，且以较大比例呈现在视野当中</li>
+<li>接口：与相机接口一致</li>
+</ul>
+<p>选用Computar系列的MLM-3XMP</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">详细</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">靶面尺寸</td>
+<td style="text-align:center">2/3英寸</td>
+</tr>
+<tr>
+<td style="text-align:center">放大倍率</td>
+<td style="text-align:center">0.3X~1.0X</td>
+</tr>
+<tr>
+<td style="text-align:center">光圈范围</td>
+<td style="text-align:center">F4.5~F22C</td>
+</tr>
+<tr>
+<td style="text-align:center">最近对焦距离</td>
+<td style="text-align:center">90mm</td>
+</tr>
+<tr>
+<td style="text-align:center">接口</td>
+<td style="text-align:center">C</td>
+</tr>
+</tbody>
+</table>
+<h4 id="光源和照明方式"><a href="#光源和照明方式" class="headerlink" title="光源和照明方式"></a>光源和照明方式</h4><p>机器视觉中照明的目的：突出目标特征，获得高对比度的图像</p>
+<ul>
+<li>背向照明：突出物体的边缘轮廓，获得高对比度的图像</li>
+<li>前向照明：清晰地获得物体的表面特征，如缺陷、划痕、凸起</li>
+</ul>
+<img src="/2018/05/09/2018-05-09-cv-gear-paper/c_03背向照明_前向照明.png" title="背向照明_前向照明">
+<p>选用LED光源、背向照明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">详细</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">CCS公司的LDL-TP-27×27SW2型号面光源</td>
+<td style="text-align:center">发光颜色白色，发光面积27×27mm，24V直流供电，额定功率1.7W</td>
+</tr>
+<tr>
+<td style="text-align:center">配套的光源控制器PSB-1024V-WW</td>
+<td style="text-align:center">输入电压100~240V，输出电压24V，功率10W，光源亮度可实现连续调节</td>
+</tr>
+</tbody>
+</table>
+<h4 id="图像采集卡"><a href="#图像采集卡" class="headerlink" title="图像采集卡"></a>图像采集卡</h4><p>图像采集卡：控制摄像机，实现图像采集与数字化的专用接口卡</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">详细</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">IEEE1394图像采集卡</td>
+<td style="text-align:center">支持8位黑白图像，不需要单独的电源供电，PCI接口</td>
+</tr>
+</tbody>
+</table>
+<h4 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h4><p>计算机PCI插槽 &lt;-&gt; 图像采集卡 &lt;-&gt; 摄像机IEEE1394接口</p>
+<p>工作台：三自由度的精密平台（调整方法P18）</p>
+<img src="/2018/05/09/2018-05-09-cv-gear-paper/c_04图像采集系统.png" title="图像采集系统">
+<h3 id="图像处理系统"><a href="#图像处理系统" class="headerlink" title="图像处理系统"></a>图像处理系统</h3><p>软件：C#4.0（Visual Studio 2010）、HALCON10（HDevelop）</p>
+<img src="/2018/05/09/2018-05-09-cv-gear-paper/c_05软件系统界面.png" title="软件系统界面">
+<h2 id="图像处理方法"><a href="#图像处理方法" class="headerlink" title="图像处理方法"></a>图像处理方法</h2><p>基准参数：</p>
+<ul>
+<li>光强大小6刻度处</li>
+<li>曝光时间100ms</li>
+<li>阈值128</li>
+</ul>
+<p>本文研究齿轮齿距精度的视觉测量方法：<strong>在获得高质量图像的基础上提取边缘轮廓</strong></p>
+<h3 id="图像平滑（图像预处理）"><a href="#图像平滑（图像预处理）" class="headerlink" title="图像平滑（图像预处理）"></a>图像平滑（图像预处理）</h3><p>图像平滑=图像滤波<br>齿轮图像滤波要求：①有效抑制噪声②保持边缘锐利③各向同性</p>
+<p>选用<strong>高斯滤波</strong>，尺寸大小为5×5，标准差σ=0.87的高斯核</p>
+<img src="/2018/05/09/2018-05-09-cv-gear-paper/c_06高斯核.png" title="高斯核">
+<h3 id="连通区域提取"><a href="#连通区域提取" class="headerlink" title="连通区域提取"></a>连通区域提取</h3><p>图像分割：阈值分割</p>
+<ol>
+<li>单阈值分割（<strong>图像的二值化</strong>）</li>
+<li>多阈值分割<br>阈值的选取：双峰法、迭代法、大津法、分水岭法</li>
+</ol>
+<p>连通区域的标记</p>
+<ol>
+<li>4连通：水平、垂直</li>
+<li>8连通：水平、垂直、对角线</li>
+</ol>
+<p>选用单阈值分割，8连通</p>
+<h3 id="传统边缘检测方法"><a href="#传统边缘检测方法" class="headerlink" title="传统边缘检测方法"></a>传统边缘检测方法</h3><p>对于前景背景分明的数字灰度图像，边缘出现在：灰度值剧烈变化的像素点处，成为不同区域的分界</p>
+<ol>
+<li>一阶边缘检测算子：Prewitt算子、Sobel算子、<strong>Canny算子</strong></li>
+<li>二阶边缘检测算子：Laplacian算子、<strong>LoG算子</strong></li>
+</ol>
+<img src="/2018/05/09/2018-05-09-cv-gear-paper/c_07LoG算子掩码.png" title="LoG算子掩码">
+<p><strong>基于二阶边缘检测的亚像素边缘提取，一般是在原图像与LoG算子卷积后，进行线性差值，从而在亚像素分辨率上提取过零点，定位边缘。</strong></p>
+<h3 id="自适应光强变化的动态调整阈值方法"><a href="#自适应光强变化的动态调整阈值方法" class="headerlink" title="自适应光强变化的动态调整阈值方法"></a>自适应光强变化的动态调整阈值方法</h3><p>用亚像素精度阈值分割的方法来提取边缘，提出一种动态调整阈值的方法来增强<strong>抗光源扰动能力</strong></p>
+<h4 id="亚像素精度阈值分割"><a href="#亚像素精度阈值分割" class="headerlink" title="亚像素精度阈值分割"></a>亚像素精度阈值分割</h4><ul>
+<li>像素精度：输出结果是区域</li>
+<li>亚像素精度：输出结果是亚像素精度的轮廓</li>
+</ul>
+<p>细分像素通过<strong>灰度值插值</strong>的方法实现：最近邻法、<strong>双线性插值法</strong>、三次内插法</p>
+<h4 id="光强变化的表征"><a href="#光强变化的表征" class="headerlink" title="光强变化的表征"></a>光强变化的表征</h4><p>采用<strong>区域平均灰度值</strong>的方法来表征<strong>光强</strong>。选取定位块1边缘处为ROI（感兴趣区域）</p>
+<p>通过相关系数衡量<strong>回归曲线</strong>对于样本观测数据<strong>拟合</strong>好坏</p>
+<h2 id="测量流程"><a href="#测量流程" class="headerlink" title="测量流程"></a>测量流程</h2><h3 id="齿距精度"><a href="#齿距精度" class="headerlink" title="齿距精度"></a>齿距精度</h3><p>包含三方面：单个齿距偏差、k个齿距累计偏差、齿距累计总偏差</p>
+<p>小尺寸齿轮，齿数较少，齿距精度使用2个指标衡量即可：<strong>单个齿距偏差、齿距累计总偏差</strong></p>
+<h3 id="齿距精度图像测量流程"><a href="#齿距精度图像测量流程" class="headerlink" title="齿距精度图像测量流程"></a>齿距精度图像测量流程</h3><img src="/2018/05/09/2018-05-09-cv-gear-paper/c_08齿距精度图像测量图.png" title="齿距精度图像测量图">
+<ol>
+<li>图像处理：图像采集 → 高斯滤波 → 图像裁剪 → 亚像素精度阈值分割 → 边缘选择与联合 → <strong>两条完整的闭合轮廓——轴孔圆轮廓、齿轮轮廓</strong></li>
+<li>特征提取：计算<strong>圆度</strong>，区分圆轮廓、齿轮轮廓 → <strong>拟合圆、求圆心</strong> → 分度圆圆心和半径、齿形轮廓</li>
+<li>项目测量：提取边缘轮廓坐标点中与圆心距离=分度圆半径的点 → 分度圆与齿廓的交点 → <strong>齿距偏差</strong>（单个齿距偏差、齿距累计总偏差）</li>
+</ol>
+<h2 id="实验结果与误差分析"><a href="#实验结果与误差分析" class="headerlink" title="实验结果与误差分析"></a>实验结果与误差分析</h2><h3 id="像素当量标定"><a href="#像素当量标定" class="headerlink" title="像素当量标定"></a>像素当量标定</h3><p>标定目的：建立实际物理尺寸和像素单位之间的比例关系<br>标定方法：<strong>标准件法</strong>、标准位移法</p>
+<p>选用标准件法，多次测量取平均值</p>
+<h3 id="实验结果分析"><a href="#实验结果分析" class="headerlink" title="实验结果分析"></a>实验结果分析</h3><ol>
+<li>基准条件下，测量结果的<strong>重复精度</strong>和<strong>准确度</strong></li>
+<li>光强变化下，标准模式（固定阈值）/自适应光强模式，验证算法<strong>可靠性</strong></li>
+</ol>
+<p>参考：雷顿NC8107型号三坐标测量机（精度2.5μm）</p>
+<h3 id="误差分析"><a href="#误差分析" class="headerlink" title="误差分析"></a>误差分析</h3><ol>
+<li>硬件误差：CCD摄像机、镜头、光源</li>
+<li>软件误差：算法局限性、数据处理的近似舍入</li>
+<li>环境因素：环境光、温度、湿度</li>
+</ol>
+<h2 id="展望-1"><a href="#展望-1" class="headerlink" title="展望"></a>展望</h2><ol>
+<li>齿轮如何更好地定位，满足在线检测需求</li>
+<li>测量齿轮更多的精度项目</li>
+<li>更大范围上适应光强变化，包括加入环境光干扰</li>
+</ol>
 <h1 id="不错的博文"><a href="#不错的博文" class="headerlink" title="不错的博文"></a>不错的博文</h1><p><a href="https://www.cnblogs.com/hanzhaoxin/archive/2013/02/15/2912879.html" target="_blank" rel="noopener">halcon学习笔记——机器视觉工程应用的开发思路</a><br><a href="https://www.zhihu.com/question/20025224" target="_blank" rel="noopener">机器视觉方面有哪些好的开发平台？各有什么特点？</a></p>
 
       
@@ -846,7 +1055,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2基于机器视觉的齿轮多参数测量技术研究-张丽鹏"><span class="nav-number">1.</span> <span class="nav-text">2基于机器视觉的齿轮多参数测量技术研究_张丽鹏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统设计（图像采集）"><span class="nav-number">1.2.</span> <span class="nav-text">系统设计（图像采集）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件"><span class="nav-number">1.2.1.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件"><span class="nav-number">1.2.2.</span> <span class="nav-text">软件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像预处理（图像处理）"><span class="nav-number">1.3.</span> <span class="nav-text">图像预处理（图像处理）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图像标定"><span class="nav-number">1.3.1.</span> <span class="nav-text">图像标定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#边缘检测算法"><span class="nav-number">1.3.2.</span> <span class="nav-text">边缘检测算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#像素级边缘检测"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">像素级边缘检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#边缘封闭性检测"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">边缘封闭性检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#边缘处灰度图像获取"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">边缘处灰度图像获取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#亚像素级边缘检测"><span class="nav-number">1.3.2.4.</span> <span class="nav-text">亚像素级边缘检测</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文采用的边缘检测方法"><span class="nav-number">1.3.3.</span> <span class="nav-text">本文采用的边缘检测方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#齿轮几何中心定位方法研究"><span class="nav-number">1.3.4.</span> <span class="nav-text">齿轮几何中心定位方法研究</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#粗定位：重心法"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">粗定位：重心法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#亚像素级定位"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">亚像素级定位</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#齿轮多参数测量技术（齿轮测量）"><span class="nav-number">1.4.</span> <span class="nav-text">齿轮多参数测量技术（齿轮测量）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#齿轮基本几何参数获取"><span class="nav-number">1.4.1.</span> <span class="nav-text">齿轮基本几何参数获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#齿轮主要误差检测（齿距偏差、齿廓偏差、公法线长度变动）"><span class="nav-number">1.4.2.</span> <span class="nav-text">齿轮主要误差检测（齿距偏差、齿廓偏差、公法线长度变动）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测量实验结果及误差分析"><span class="nav-number">1.5.</span> <span class="nav-text">测量实验结果及误差分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#展望"><span class="nav-number">1.6.</span> <span class="nav-text">展望</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9基于机器视觉的小模数齿轮轮廓信息提取算法研究-沈海珍"><span class="nav-number">2.</span> <span class="nav-text">9基于机器视觉的小模数齿轮轮廓信息提取算法研究_沈海珍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要-1"><span class="nav-number">2.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统设计"><span class="nav-number">2.2.</span> <span class="nav-text">系统设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总体"><span class="nav-number">2.2.1.</span> <span class="nav-text">总体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">硬件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#图像采集系统"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">图像采集系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#机械支撑微调系统"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">机械支撑微调系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#精密二维运动平台"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">精密二维运动平台</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#考核指标"><span class="nav-number">2.2.3.</span> <span class="nav-text">考核指标</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像预处理技术"><span class="nav-number">2.3.</span> <span class="nav-text">图像预处理技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图像滤波去噪"><span class="nav-number">2.3.1.</span> <span class="nav-text">图像滤波去噪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图像二值化处理"><span class="nav-number">2.3.2.</span> <span class="nav-text">图像二值化处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#形态学处理"><span class="nav-number">2.3.3.</span> <span class="nav-text">形态学处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#边缘检测算法分析"><span class="nav-number">2.3.4.</span> <span class="nav-text">边缘检测算法分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完整轮廓信息提取算法"><span class="nav-number">2.4.</span> <span class="nav-text">完整轮廓信息提取算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#结合三角几何约束的局部自相关图像拼接算法"><span class="nav-number">2.4.1.</span> <span class="nav-text">结合三角几何约束的局部自相关图像拼接算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#齿轮图像轮廓信息提取"><span class="nav-number">2.4.2.</span> <span class="nav-text">齿轮图像轮廓信息提取</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#齿轮测量方案及数据分析"><span class="nav-number">2.5.</span> <span class="nav-text">齿轮测量方案及数据分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#软件设计"><span class="nav-number">2.5.1.</span> <span class="nav-text">软件设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#齿轮评价指标"><span class="nav-number">2.5.2.</span> <span class="nav-text">齿轮评价指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实测数据分析"><span class="nav-number">2.5.3.</span> <span class="nav-text">实测数据分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#18自适应光强变化的齿轮视觉测量技术研究-李旭"><span class="nav-number">3.</span> <span class="nav-text">18自适应光强变化的齿轮视觉测量技术研究_李旭</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不错的博文"><span class="nav-number">4.</span> <span class="nav-text">不错的博文</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#2基于机器视觉的齿轮多参数测量技术研究-张丽鹏"><span class="nav-number">1.</span> <span class="nav-text">2基于机器视觉的齿轮多参数测量技术研究_张丽鹏</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统设计（图像采集）"><span class="nav-number">1.2.</span> <span class="nav-text">系统设计（图像采集）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件"><span class="nav-number">1.2.1.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件"><span class="nav-number">1.2.2.</span> <span class="nav-text">软件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像预处理（图像处理）"><span class="nav-number">1.3.</span> <span class="nav-text">图像预处理（图像处理）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图像标定"><span class="nav-number">1.3.1.</span> <span class="nav-text">图像标定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#边缘检测算法"><span class="nav-number">1.3.2.</span> <span class="nav-text">边缘检测算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#像素级边缘检测"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">像素级边缘检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#边缘封闭性检测"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">边缘封闭性检测</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#边缘处灰度图像获取"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">边缘处灰度图像获取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#亚像素级边缘检测"><span class="nav-number">1.3.2.4.</span> <span class="nav-text">亚像素级边缘检测</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文采用的边缘检测方法"><span class="nav-number">1.3.3.</span> <span class="nav-text">本文采用的边缘检测方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#齿轮几何中心定位方法研究"><span class="nav-number">1.3.4.</span> <span class="nav-text">齿轮几何中心定位方法研究</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#粗定位：重心法"><span class="nav-number">1.3.4.1.</span> <span class="nav-text">粗定位：重心法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#亚像素级定位"><span class="nav-number">1.3.4.2.</span> <span class="nav-text">亚像素级定位</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#齿轮多参数测量技术（齿轮测量）"><span class="nav-number">1.4.</span> <span class="nav-text">齿轮多参数测量技术（齿轮测量）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#齿轮基本几何参数获取"><span class="nav-number">1.4.1.</span> <span class="nav-text">齿轮基本几何参数获取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#齿轮主要误差检测（齿距偏差、齿廓偏差、公法线长度变动）"><span class="nav-number">1.4.2.</span> <span class="nav-text">齿轮主要误差检测（齿距偏差、齿廓偏差、公法线长度变动）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测量实验结果及误差分析"><span class="nav-number">1.5.</span> <span class="nav-text">测量实验结果及误差分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#展望"><span class="nav-number">1.6.</span> <span class="nav-text">展望</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#9基于机器视觉的小模数齿轮轮廓信息提取算法研究-沈海珍"><span class="nav-number">2.</span> <span class="nav-text">9基于机器视觉的小模数齿轮轮廓信息提取算法研究_沈海珍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要-1"><span class="nav-number">2.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统设计"><span class="nav-number">2.2.</span> <span class="nav-text">系统设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总体"><span class="nav-number">2.2.1.</span> <span class="nav-text">总体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">硬件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#图像采集系统"><span class="nav-number">2.2.2.1.</span> <span class="nav-text">图像采集系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#机械支撑微调系统"><span class="nav-number">2.2.2.2.</span> <span class="nav-text">机械支撑微调系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#精密二维运动平台"><span class="nav-number">2.2.2.3.</span> <span class="nav-text">精密二维运动平台</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#考核指标"><span class="nav-number">2.2.3.</span> <span class="nav-text">考核指标</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像预处理技术"><span class="nav-number">2.3.</span> <span class="nav-text">图像预处理技术</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图像滤波去噪"><span class="nav-number">2.3.1.</span> <span class="nav-text">图像滤波去噪</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图像二值化处理"><span class="nav-number">2.3.2.</span> <span class="nav-text">图像二值化处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#形态学处理"><span class="nav-number">2.3.3.</span> <span class="nav-text">形态学处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#边缘检测算法分析"><span class="nav-number">2.3.4.</span> <span class="nav-text">边缘检测算法分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#完整轮廓信息提取算法"><span class="nav-number">2.4.</span> <span class="nav-text">完整轮廓信息提取算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#结合三角几何约束的局部自相关图像拼接算法"><span class="nav-number">2.4.1.</span> <span class="nav-text">结合三角几何约束的局部自相关图像拼接算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#齿轮图像轮廓信息提取"><span class="nav-number">2.4.2.</span> <span class="nav-text">齿轮图像轮廓信息提取</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#齿轮测量方案及数据分析"><span class="nav-number">2.5.</span> <span class="nav-text">齿轮测量方案及数据分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#软件设计"><span class="nav-number">2.5.1.</span> <span class="nav-text">软件设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#齿轮评价指标"><span class="nav-number">2.5.2.</span> <span class="nav-text">齿轮评价指标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实测数据分析"><span class="nav-number">2.5.3.</span> <span class="nav-text">实测数据分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#18自适应光强变化的齿轮视觉测量技术研究-李旭"><span class="nav-number">3.</span> <span class="nav-text">18自适应光强变化的齿轮视觉测量技术研究_李旭</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要-2"><span class="nav-number">3.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统设计-1"><span class="nav-number">3.2.</span> <span class="nav-text">系统设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#典型的机器视觉系统"><span class="nav-number">3.2.1.</span> <span class="nav-text">典型的机器视觉系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#本文的齿轮视觉测量系统"><span class="nav-number">3.2.2.</span> <span class="nav-text">本文的齿轮视觉测量系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图像采集系统-1"><span class="nav-number">3.2.3.</span> <span class="nav-text">图像采集系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#摄像机"><span class="nav-number">3.2.3.1.</span> <span class="nav-text">摄像机</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#镜头"><span class="nav-number">3.2.3.2.</span> <span class="nav-text">镜头</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#光源和照明方式"><span class="nav-number">3.2.3.3.</span> <span class="nav-text">光源和照明方式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#图像采集卡"><span class="nav-number">3.2.3.4.</span> <span class="nav-text">图像采集卡</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#整体结构"><span class="nav-number">3.2.3.5.</span> <span class="nav-text">整体结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图像处理系统"><span class="nav-number">3.2.4.</span> <span class="nav-text">图像处理系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理方法"><span class="nav-number">3.3.</span> <span class="nav-text">图像处理方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图像平滑（图像预处理）"><span class="nav-number">3.3.1.</span> <span class="nav-text">图像平滑（图像预处理）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连通区域提取"><span class="nav-number">3.3.2.</span> <span class="nav-text">连通区域提取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传统边缘检测方法"><span class="nav-number">3.3.3.</span> <span class="nav-text">传统边缘检测方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#自适应光强变化的动态调整阈值方法"><span class="nav-number">3.3.4.</span> <span class="nav-text">自适应光强变化的动态调整阈值方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#亚像素精度阈值分割"><span class="nav-number">3.3.4.1.</span> <span class="nav-text">亚像素精度阈值分割</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#光强变化的表征"><span class="nav-number">3.3.4.2.</span> <span class="nav-text">光强变化的表征</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测量流程"><span class="nav-number">3.4.</span> <span class="nav-text">测量流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#齿距精度"><span class="nav-number">3.4.1.</span> <span class="nav-text">齿距精度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#齿距精度图像测量流程"><span class="nav-number">3.4.2.</span> <span class="nav-text">齿距精度图像测量流程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验结果与误差分析"><span class="nav-number">3.5.</span> <span class="nav-text">实验结果与误差分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#像素当量标定"><span class="nav-number">3.5.1.</span> <span class="nav-text">像素当量标定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果分析"><span class="nav-number">3.5.2.</span> <span class="nav-text">实验结果分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#误差分析"><span class="nav-number">3.5.3.</span> <span class="nav-text">误差分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#展望-1"><span class="nav-number">3.6.</span> <span class="nav-text">展望</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不错的博文"><span class="nav-number">4.</span> <span class="nav-text">不错的博文</span></a></li></ol></div>
             
 
           </div>
