@@ -87,12 +87,14 @@
 <meta property="og:site_name" content="xgyopen blog">
 <meta property="og:description" content="刷一波数字图像处理（MATLAB）的书。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/05/18/2018-05-18-cv-matlab/01图像分割在整个图像处理过程中的作用.png">
-<meta property="og:updated_time" content="2018-05-18T06:55:12.536Z">
+<meta property="og:image" content="http://yoursite.com/2018/05/18/2018-05-18-cv-matlab/01图像数字化技术.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/18/2018-05-18-cv-matlab/02数字图像处理的数学基础及运算_思维导图.png">
+<meta property="og:image" content="http://yoursite.com/2018/05/18/2018-05-18-cv-matlab/06图像分割在整个图像处理过程中的作用.png">
+<meta property="og:updated_time" content="2018-05-21T08:02:30.848Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[刷书]数字图像处理：MATLAB">
 <meta name="twitter:description" content="刷一波数字图像处理（MATLAB）的书。">
-<meta name="twitter:image" content="http://yoursite.com/2018/05/18/2018-05-18-cv-matlab/01图像分割在整个图像处理过程中的作用.png">
+<meta name="twitter:image" content="http://yoursite.com/2018/05/18/2018-05-18-cv-matlab/01图像数字化技术.png">
 
 
 
@@ -339,18 +341,83 @@
 <tr>
 <td style="text-align:center">《数字图像处理（MATLAB版）（第2版）》</td>
 <td style="text-align:center">2015.1</td>
-<td style="text-align:center">MATLAB 2014b</td>
+<td style="text-align:center"><a href="http://www.ryjiaoyu.com/search?q=%E6%95%B0%E5%AD%97%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86%EF%BC%88MATLAB%E7%89%88%EF%BC%89%EF%BC%88%E7%AC%AC2%E7%89%88%EF%BC%89" target="_blank" rel="noopener">MATLAB 2014b</a></td>
 <td style="text-align:center">理论+实践</td>
+</tr>
+<tr>
+<td style="text-align:center">《MATLAB计算机视觉与深度学习实战》</td>
+<td style="text-align:center">2017.6</td>
+<td style="text-align:center"><a href="http://www.matlabsky.com/thread-45343-1-1.html" target="_blank" rel="noopener">MATLAB</a></td>
+<td style="text-align:center">30个项目实例</td>
 </tr>
 </tbody>
 </table>
-<h1 id="《数字图像处理（MATLAB版）（第2版）》"><a href="#《数字图像处理（MATLAB版）（第2版）》" class="headerlink" title="《数字图像处理（MATLAB版）（第2版）》"></a>《数字图像处理（MATLAB版）（第2版）》</h1><h2 id="CH9-图像分割与边缘检测"><a href="#CH9-图像分割与边缘检测" class="headerlink" title="CH9 图像分割与边缘检测"></a>CH9 图像分割与边缘检测</h2><img src="/2018/05/18/2018-05-18-cv-matlab/01图像分割在整个图像处理过程中的作用.png" title="图像分割在整个图像处理过程中的作用">
+<h1 id="《数字图像处理（MATLAB版）（第2版）》"><a href="#《数字图像处理（MATLAB版）（第2版）》" class="headerlink" title="《数字图像处理（MATLAB版）（第2版）》"></a>《数字图像处理（MATLAB版）（第2版）》</h1><h2 id="CH1-数字图像的相关论述"><a href="#CH1-数字图像的相关论述" class="headerlink" title="CH1 数字图像的相关论述"></a>CH1 数字图像的相关论述</h2><ol>
+<li><p>数字图像的表示：<strong>二维矩阵</strong></p>
+</li>
+<li><p>像素的属性</p>
+<ul>
+<li>位置（行列坐标值）</li>
+<li>灰度值（光学亮度值）</li>
+</ul>
+</li>
+<li><p>数字图像处理的内容</p>
+<ul>
+<li>图像获取和输出</li>
+<li>图像编码和压缩</li>
+<li>图像增强和复原</li>
+<li>图像变换</li>
+<li>图像分割</li>
+<li>图像信息安全</li>
+<li>图像的识别与检测</li>
+</ul>
+</li>
+<li><p>数字图像处理的方法</p>
+<ul>
+<li>空域处理法（空间域）：领域处理法、点处理法</li>
+<li>变换域处理法（傅里叶变换、小波变换…）</li>
+</ul>
+</li>
+<li><p>图像数字化技术<br>图像 –采样、量化–&gt; 矩阵</p>
+<img src="/2018/05/18/2018-05-18-cv-matlab/01图像数字化技术.png" title="图像数字化技术">
+</li>
+<li><p>图像的统计特征</p>
+<ul>
+<li>统计量：信息量（熵）、灰度平均值、灰度众数、灰度中值、灰度方差、灰度值域</li>
+<li>直方图</li>
+<li>统计特性：协方差、相关系数</li>
+</ul>
+</li>
+</ol>
+<h2 id="CH2-数字图像处理的数学基础及运算"><a href="#CH2-数字图像处理的数学基础及运算" class="headerlink" title="CH2 数字图像处理的数学基础及运算"></a>CH2 数字图像处理的数学基础及运算</h2><img src="/2018/05/18/2018-05-18-cv-matlab/02数字图像处理的数学基础及运算_思维导图.png" title="数字图像处理的数学基础及运算_思维导图">
+<h3 id="点运算"><a href="#点运算" class="headerlink" title="点运算"></a>点运算</h3><p>点运算的结果由灰度变换函数（gray-scale transformation,GST）确定，即：B(x,y)=ƒ[A(x,y)]</p>
+<ul>
+<li>线性点运算：调整灰度值（+）、对比度（*）</li>
+<li>分段线性点运算：细节灰度拉伸、对比度增强</li>
+<li>非线性点运算：由于成像设备本身的非线性失衡需要对其极端校正</li>
+<li>直方图均衡化=直方图平坦化：增强图像整体对比度</li>
+<li>直方图规定化=直方图匹配：转换为具有特定直方图的图像</li>
+</ul>
+<h3 id="代数运算"><a href="#代数运算" class="headerlink" title="代数运算"></a>代数运算</h3><ul>
+<li>加法运算：①<strong>消除加性噪声</strong>②图像叠加</li>
+<li>减法运算=差分运算：<strong>消除图像背景</strong>，以突出目标</li>
+<li>乘法运算：图像<strong>掩膜操作</strong></li>
+<li>除法运算：①消除光影影响，对图像进行归一化②<strong>产生比率图像</strong>，以检测变化</li>
+<li>求补运算</li>
+</ul>
+<h3 id="区域运算"><a href="#区域运算" class="headerlink" title="区域运算"></a>区域运算</h3><p>只对图像中某个区域进行处理</p>
+<ul>
+<li>指定感兴趣区域：通过<strong>二值掩膜</strong>实现</li>
+<li>图像的领域操作：滑动领域操作、分离领域操作=块操作</li>
+<li>特定区域填充</li>
+</ul>
+<h2 id="CH3-图像编码"><a href="#CH3-图像编码" class="headerlink" title="CH3 图像编码"></a>CH3 图像编码</h2><h2 id="CH4-图像复原"><a href="#CH4-图像复原" class="headerlink" title="CH4 图像复原"></a>CH4 图像复原</h2><h2 id="CH5-图像几何变换"><a href="#CH5-图像几何变换" class="headerlink" title="CH5 图像几何变换"></a>CH5 图像几何变换</h2><h2 id="CH6-图像频率变换"><a href="#CH6-图像频率变换" class="headerlink" title="CH6 图像频率变换"></a>CH6 图像频率变换</h2><h2 id="CH7-小波变换"><a href="#CH7-小波变换" class="headerlink" title="CH7 小波变换"></a>CH7 小波变换</h2><h2 id="CH8-图像增强"><a href="#CH8-图像增强" class="headerlink" title="CH8 图像增强"></a>CH8 图像增强</h2><h2 id="CH9-提现分割与边缘检测"><a href="#CH9-提现分割与边缘检测" class="headerlink" title="CH9 提现分割与边缘检测"></a>CH9 提现分割与边缘检测</h2><h2 id="CH10-图像特征描述"><a href="#CH10-图像特征描述" class="headerlink" title="CH10 图像特征描述"></a>CH10 图像特征描述</h2><h2 id="CH9-图像分割与边缘检测"><a href="#CH9-图像分割与边缘检测" class="headerlink" title="CH9 图像分割与边缘检测"></a>CH9 图像分割与边缘检测</h2><img src="/2018/05/18/2018-05-18-cv-matlab/06图像分割在整个图像处理过程中的作用.png" title="图像分割在整个图像处理过程中的作用">
 <p>分割算法基于图像在像素级的两个性质：<strong>不连续性</strong>、<strong>相似性</strong></p>
 <ul>
 <li>属于同一目标的区域一般具有相似性</li>
 <li>不同的区域在边界表现出不连续性</li>
 </ul>
-<h3 id="点与线检测"><a href="#点与线检测" class="headerlink" title="点与线检测"></a>点与线检测</h3><p>C:\Program Files\MATLAB\R2016a\toolbox\images\imdata\saturn.png</p>
+<h3 id="点与线检测"><a href="#点与线检测" class="headerlink" title="点与线检测"></a>点与线检测</h3><h2 id="PS"><a href="#PS" class="headerlink" title="PS"></a>PS</h2><p>MATLAB程序自带的图片的目录：C:\Program Files\MATLAB\R2016a\toolbox\images\imdata\saturn.png</p>
 
       
     </div>
@@ -524,7 +591,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#《数字图像处理（MATLAB版）（第2版）》"><span class="nav-number">2.</span> <span class="nav-text">《数字图像处理（MATLAB版）（第2版）》</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CH9-图像分割与边缘检测"><span class="nav-number">2.1.</span> <span class="nav-text">CH9 图像分割与边缘检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#点与线检测"><span class="nav-number">2.1.1.</span> <span class="nav-text">点与线检测</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目录"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#《数字图像处理（MATLAB版）（第2版）》"><span class="nav-number">2.</span> <span class="nav-text">《数字图像处理（MATLAB版）（第2版）》</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#CH1-数字图像的相关论述"><span class="nav-number">2.1.</span> <span class="nav-text">CH1 数字图像的相关论述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CH2-数字图像处理的数学基础及运算"><span class="nav-number">2.2.</span> <span class="nav-text">CH2 数字图像处理的数学基础及运算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#点运算"><span class="nav-number">2.2.1.</span> <span class="nav-text">点运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代数运算"><span class="nav-number">2.2.2.</span> <span class="nav-text">代数运算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#区域运算"><span class="nav-number">2.2.3.</span> <span class="nav-text">区域运算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CH3-图像编码"><span class="nav-number">2.3.</span> <span class="nav-text">CH3 图像编码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CH4-图像复原"><span class="nav-number">2.4.</span> <span class="nav-text">CH4 图像复原</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CH5-图像几何变换"><span class="nav-number">2.5.</span> <span class="nav-text">CH5 图像几何变换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CH6-图像频率变换"><span class="nav-number">2.6.</span> <span class="nav-text">CH6 图像频率变换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CH7-小波变换"><span class="nav-number">2.7.</span> <span class="nav-text">CH7 小波变换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CH8-图像增强"><span class="nav-number">2.8.</span> <span class="nav-text">CH8 图像增强</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CH9-提现分割与边缘检测"><span class="nav-number">2.9.</span> <span class="nav-text">CH9 提现分割与边缘检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CH10-图像特征描述"><span class="nav-number">2.10.</span> <span class="nav-text">CH10 图像特征描述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CH9-图像分割与边缘检测"><span class="nav-number">2.11.</span> <span class="nav-text">CH9 图像分割与边缘检测</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#点与线检测"><span class="nav-number">2.11.1.</span> <span class="nav-text">点与线检测</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PS"><span class="nav-number">2.12.</span> <span class="nav-text">PS</span></a></li></ol></li></ol></div>
             
 
           </div>
