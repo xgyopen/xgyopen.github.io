@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="科学上网," />
+  <meta name="keywords" content="计算机视觉,缺陷检测," />
 
 
 
@@ -79,26 +79,18 @@
 
 
 
-<meta name="description" content="租用HostUS服务器，搭建shadowsocks服务，实现科学上网。">
-<meta name="keywords" content="科学上网">
+<meta name="description" content="缺陷检测相关论文的调研。">
+<meta name="keywords" content="计算机视觉,缺陷检测">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[翻墙]租用服务器搭建ss服务">
-<meta property="og:url" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/index.html">
+<meta property="og:title" content="[机器视觉]缺陷检测调研">
+<meta property="og:url" content="http://yoursite.com/2018/06/15/2018-06-15-imv-defect-detecting-investigation/index.html">
 <meta property="og:site_name" content="xgyopen blog">
-<meta property="og:description" content="租用HostUS服务器，搭建shadowsocks服务，实现科学上网。">
+<meta property="og:description" content="缺陷检测相关论文的调研。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/01购买VPS.png">
-<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/02支付宝付款.png">
-<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/03等待审核.png">
-<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/04修改主机密码.png">
-<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/05重装系统.png">
-<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/06_配置ss_1.png">
-<meta property="og:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/07_配置ss_2.png">
-<meta property="og:updated_time" content="2018-05-03T12:11:15.204Z">
+<meta property="og:updated_time" content="2018-06-15T04:15:54.850Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[翻墙]租用服务器搭建ss服务">
-<meta name="twitter:description" content="租用HostUS服务器，搭建shadowsocks服务，实现科学上网。">
-<meta name="twitter:image" content="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/01购买VPS.png">
+<meta name="twitter:title" content="[机器视觉]缺陷检测调研">
+<meta name="twitter:description" content="缺陷检测相关论文的调研。">
 
 
 
@@ -128,13 +120,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/06/15/2018-06-15-imv-defect-detecting-investigation/"/>
 
 
 
 
 
-  <title>[翻墙]租用服务器搭建ss服务 | xgyopen blog</title>
+  <title>[机器视觉]缺陷检测调研 | xgyopen blog</title>
   
 
 
@@ -261,7 +253,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/14/2018-04-14-hostus-ss/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/15/2018-06-15-imv-defect-detecting-investigation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xgyopen">
@@ -278,7 +270,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">[翻墙]租用服务器搭建ss服务</h1>
+          <h1 class="post-title" itemprop="name headline">[机器视觉]缺陷检测调研</h1>
         
 
         <div class="post-meta">
@@ -290,8 +282,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-14T14:14:14+08:00">
-                2018-04-14
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-15T12:12:12+08:00">
+                2018-06-15
               </time>
             
 
@@ -315,7 +307,7 @@
 
           
               <div class="post-description">
-                  租用HostUS服务器，搭建shadowsocks服务，实现科学上网。
+                  缺陷检测相关论文的调研。
               </div>
           
 
@@ -332,24 +324,95 @@
       
 
       
-        <h1 id="租用HostUS服务器"><a href="#租用HostUS服务器" class="headerlink" title="租用HostUS服务器"></a>租用HostUS服务器</h1><p><a href="https://hostus.us/" target="_blank" rel="noopener">HostUS</a>是一家国外的VPS主机商，实测用来搭建ss服务效果还不错。</p>
-<p>访问网站后，注册账号之类的就不详述了。在带宽足够的情况下，尽量买便宜的即可，<a href="http://www.hostusvps.com/url/hostus-us-768mb" target="_blank" rel="noopener">购买链接传送门</a>。</p>
-<p>一年的价格是16美元，据说直连洛杉矶效果更好，所以我这里选择的是地点位于洛杉矶的，再加4美元，共计<strong>20美元/年</strong>。此处可以设置root的账号密码。提交订单后选择Alipay（也就是支付宝）付款。</p>
-<img src="/2018/04/14/2018-04-14-hostus-ss/01购买VPS.png" title="购买VPS">
-<img src="/2018/04/14/2018-04-14-hostus-ss/02支付宝付款.png" title="支付宝付款">
-<p>付款后主机处于Pending状态，等待约2小时的人工审核，即可看到变为Active状态。</p>
-<img src="/2018/04/14/2018-04-14-hostus-ss/03等待审核.png" title="等待审核">
-<p>主机变为Active状态后，修改密码、重装系统。</p>
-<img src="/2018/04/14/2018-04-14-hostus-ss/04修改主机密码.png" title="修改主机密码">
-<img src="/2018/04/14/2018-04-14-hostus-ss/05重装系统.png" title="重装系统">
-<h1 id="搭建Shadowsocks服务"><a href="#搭建Shadowsocks服务" class="headerlink" title="搭建Shadowsocks服务"></a>搭建Shadowsocks服务</h1><p>使用ssh登录到服务器后，使用如下命令简单配置即可使用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://raw.githubusercontent.com/teddysun/shadowsocks_install/master/shadowsocks.sh</span><br><span class="line">chmod +x shadowsocks.sh</span><br><span class="line">./shadowsocks.sh 2&gt;&amp;1 | tee shadowsocks.log</span><br></pre></td></tr></table></figure>
-<img src="/2018/04/14/2018-04-14-hostus-ss/06_配置ss_1.png" title="配置ss">
-<img src="/2018/04/14/2018-04-14-hostus-ss/07_配置ss_2.png" title="配置ss">
-<p>到此为止，ss服务端已经配置完毕，下载客户端配置即可使用梯子啦。</p>
-<p><a href="https://github.com/shadowsocksr-backup/shadowsocksr" target="_blank" rel="noopener">ss客户端下载</a></p>
-<p>iOS端可以从应用商店中下载Wingy。</p>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://xeworld.com/post/setup-shadowsocks-vpn/" target="_blank" rel="noopener">自建VPN搭建Shadowsocks服务器科学上网全攻略（HostUS）</a><br><a href="https://hadxu.github.io/2017/04/22/最简单的安装ss服务/" target="_blank" rel="noopener">一键安装ss服务</a><br><a href="Ubuntu 安装 Shadowsocks 实现科学上网">https://troyyang.com/2017/03/26/Ubuntu_Install_ShadowSocks/</a></p>
+        <h1 id="资料查阅"><a href="#资料查阅" class="headerlink" title="资料查阅"></a>资料查阅</h1><h2 id="硕士（14篇）-知网搜索“缺陷检测”-“深度学习”-“卷积”“CNN”“R-CNN”"><a href="#硕士（14篇）-知网搜索“缺陷检测”-“深度学习”-“卷积”“CNN”“R-CNN”" class="headerlink" title="硕士（14篇）-知网搜索“缺陷检测”/“深度学习”/“卷积”“CNN”“R-CNN”"></a>硕士（14篇）-知网搜索“缺陷检测”/“深度学习”/“卷积”“CNN”“R-CNN”</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">题名</th>
+<th style="text-align:center">作者</th>
+<th style="text-align:center">学校</th>
+<th style="text-align:center">年份</th>
+<th style="text-align:center">算法</th>
+<th style="text-align:center">应用场景</th>
+<th style="text-align:center">准确率</th>
+<th>实现平台</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">基于深度学习与SVM的电弧熔积表面缺陷检测与分类</td>
+<td style="text-align:center">邓星（机制）</td>
+<td style="text-align:center">华中科技大学</td>
+<td style="text-align:center">2016</td>
+<td style="text-align:center">CNN、SVM</td>
+<td style="text-align:center">电弧熔积</td>
+<td style="text-align:center">95.29%</td>
+</tr>
+<tr>
+<td style="text-align:center">基于深度学习的鸡蛋外观缺陷检测算法</td>
+<td style="text-align:center">宋超（软件）</td>
+<td style="text-align:center">贵州大学</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">K-means+SVM、CNN、CNN+ResNet</td>
+<td style="text-align:center">鸡蛋</td>
+<td style="text-align:center">97.5%</td>
+</tr>
+<tr>
+<td style="text-align:center">基于卷积神经网络的外观缺陷检测方法研究</td>
+<td style="text-align:center">曹凯（控制）</td>
+<td style="text-align:center">哈尔滨工业大学</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">CNN</td>
+<td style="text-align:center">普适性</td>
+<td style="text-align:center">95%/89%（小样本）</td>
+</tr>
+<tr>
+<td style="text-align:center">基于机器视觉的圆锥滚子外观缺陷检测系统研究与设计</td>
+<td style="text-align:center">刘云明（机械）</td>
+<td style="text-align:center">华南理工大学</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">SVM、CNN</td>
+<td style="text-align:center">圆锥滚子</td>
+<td style="text-align:center">98%</td>
+<td>C#、NI Vision、OpenCV、MATLAB</td>
+</tr>
+<tr>
+<td style="text-align:center">金属弧面工件表面缺陷检测与误检排除技术研究</td>
+<td style="text-align:center">许浩均（信号）</td>
+<td style="text-align:center">华南理工大学</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">Faster R-CNN缺陷定位+阈值面缺陷提取</td>
+<td style="text-align:center">金属弧面工件</td>
+<td style="text-align:center">87.22%</td>
+</tr>
+<tr>
+<td style="text-align:center">深度学习及其在工件缺陷自动检测中的应用研究</td>
+<td style="text-align:center">颜伟鑫（信号）</td>
+<td style="text-align:center">华南理工大学</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">Faster R-CNN</td>
+<td style="text-align:center">工件</td>
+<td style="text-align:center">100%</td>
+</tr>
+<tr>
+<td style="text-align:center">深度学习及其在航空发动机缺陷检测中的应用研究</td>
+<td style="text-align:center">旷可嘉（信号）</td>
+<td style="text-align:center">华南理工大学</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">Faster R-CNN、SSD</td>
+<td style="text-align:center">航空发动机</td>
+<td style="text-align:center">89.36%</td>
+</tr>
+<tr>
+<td style="text-align:center">基于HALCON的太阳能电池片缺陷检测系统设计</td>
+<td style="text-align:center">周奇（控制）</td>
+<td style="text-align:center">江苏大学</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">传统方法：陶瓷标定板、Canny算子、基于径向密度函数插值的边缘检测法、仿射变换、混合滤波器</td>
+<td style="text-align:center">太阳能电池</td>
+<td style="text-align:center">98.06%</td>
+</tr>
+</tbody>
+</table>
 
       
     </div>
@@ -367,7 +430,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/科学上网/" rel="tag"># 科学上网</a>
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+            <a href="/tags/缺陷检测/" rel="tag"># 缺陷检测</a>
           
         </div>
       
@@ -380,8 +445,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/13/2018-04-13-ethereum-private-chain/" rel="next" title="[区块链]借助以太坊构建私有链">
-                <i class="fa fa-chevron-left"></i> [区块链]借助以太坊构建私有链
+              <a href="/2018/06/14/2018-06-14-dl-tf/" rel="next" title="*[深度学习]Tensorflow">
+                <i class="fa fa-chevron-left"></i> *[深度学习]Tensorflow
               </a>
             
           </div>
@@ -390,8 +455,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/04/15/2018-04-15-blockchain-platform/" rel="prev" title="[区块链]几种区块链开发平台比较">
-                [区块链]几种区块链开发平台比较 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/01/2018-07-01-blog/" rel="prev" title="[暂时]不错的博文">
+                [暂时]不错的博文 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -519,7 +584,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#租用HostUS服务器"><span class="nav-number">1.</span> <span class="nav-text">租用HostUS服务器</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#搭建Shadowsocks服务"><span class="nav-number">2.</span> <span class="nav-text">搭建Shadowsocks服务</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#资料查阅"><span class="nav-number">1.</span> <span class="nav-text">资料查阅</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#硕士（14篇）-知网搜索“缺陷检测”-“深度学习”-“卷积”“CNN”“R-CNN”"><span class="nav-number">1.1.</span> <span class="nav-text">硕士（14篇）-知网搜索“缺陷检测”/“深度学习”/“卷积”“CNN”“R-CNN”</span></a></li></ol></li></ol></div>
             
 
           </div>
