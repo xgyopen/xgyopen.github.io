@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机视觉,缺陷检测,读论文," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="精读3篇关于缺陷检测的机器视觉项目（深度学习）的论文，此文为笔记。">
+<meta name="keywords" content="计算机视觉,缺陷检测,读论文">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]读缺陷检测论文">
+<meta property="og:url" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="精读3篇关于缺陷检测的机器视觉项目（深度学习）的论文，此文为笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_01锂电池极片图像.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_02四种极片缺陷的图像.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_03极耳图像.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_04边缘图像.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_05极网图像.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_06锂电池极片缺陷检测流程图.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_07硬件结构图.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_08硬件实物图.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_09软件的程序流程图.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_10极耳的缺陷检测步骤.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_11边缘和极网的缺陷检测步骤.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_12缺陷检测效果图.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_13Z坐标信息图滤波结果.png">
+<meta property="og:updated_time" content="2018-06-20T09:58:23.327Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]读缺陷检测论文">
+<meta name="twitter:description" content="精读3篇关于缺陷检测的机器视觉项目（深度学习）的论文，此文为笔记。">
+<meta name="twitter:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_01锂电池极片图像.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/"/>
+
+
+
+
+
+  <title>[机器视觉]读缺陷检测论文 | xgyopen blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]读缺陷检测论文</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-19T10:10:10+08:00">
+                2018-06-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  精读3篇关于缺陷检测的机器视觉项目（深度学习）的论文，此文为笔记。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="15哈工大基于机器视觉的锂电池极片缺陷检测研究-胡玥红"><a href="#15哈工大基于机器视觉的锂电池极片缺陷检测研究-胡玥红" class="headerlink" title="15哈工大基于机器视觉的锂电池极片缺陷检测研究_胡玥红"></a>15<em>哈工大</em>基于机器视觉的锂电池极片缺陷检测研究_胡玥红</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><ol>
+<li>任务：锂电池极片的缺陷检测</li>
+<li>要求：定性检测</li>
+<li>思路：所有图像 <em>-图像处理、机器学习-&gt;</em> 极耳缺陷/边缘缺陷/极网划痕异物缺陷/<strong>极网气泡缺陷+无缺陷图像</strong> <em>-三维重建、支持Tucker机-&gt;</em> 极网气泡缺陷/无缺陷图像</li>
+<li>特点：论述了<strong>锂电池极片缺陷</strong>、对不同的缺陷分类用不同的方法</li>
+</ol>
+<h2 id="锂电池极片缺陷"><a href="#锂电池极片缺陷" class="headerlink" title="锂电池极片缺陷"></a>锂电池极片缺陷</h2><h3 id="缺陷分类"><a href="#缺陷分类" class="headerlink" title="缺陷分类"></a>缺陷分类</h3><img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_01锂电池极片图像.png" title="锂电池极片图像">
+<ol>
+<li>极耳缺陷</li>
+<li>边缘缺陷</li>
+<li>极网缺陷：划痕异物缺陷、气泡缺陷</li>
+</ol>
+<img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_02四种极片缺陷的图像.png" title="四种极片缺陷的图像">
+<h3 id="检测要求"><a href="#检测要求" class="headerlink" title="检测要求"></a>检测要求</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">缺陷</th>
+<th style="text-align:center">合格</th>
+<th style="text-align:center">不合格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">极耳</td>
+<td style="text-align:center">极耳在左右两边各有一个、并且为为平整规则的长方形薄片</td>
+<td style="text-align:center">①极耳部分或全部缺失②极耳存在褶皱或者破损</td>
+</tr>
+<tr>
+<td style="text-align:center">边缘</td>
+<td style="text-align:center">边缘四个直角平整，直线边缘处极网贴合整齐</td>
+<td style="text-align:center">①边角有弯折②极网在边缘处有褶皱</td>
+</tr>
+<tr>
+<td style="text-align:center">极网</td>
+<td style="text-align:center">极网表面平整，没有瑕疵</td>
+<td style="text-align:center">①极网表面存在划痕或异物②极网中存在气泡而造成的凸起</td>
+</tr>
+</tbody>
+</table>
+<img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_03极耳图像.png" title="极耳图像">
+<img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_04边缘图像.png" title="边缘图像">
+<img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_05极网图像.png" title="极网图像">
+<h2 id="设计方案"><a href="#设计方案" class="headerlink" title="设计方案"></a>设计方案</h2><h3 id="总体设计"><a href="#总体设计" class="headerlink" title="总体设计"></a>总体设计</h3><img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_06锂电池极片缺陷检测流程图.png" title="锂电池极片缺陷检测流程图">
+<h3 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h3><table>
+<thead>
+<tr>
+<th style="text-align:center">设备</th>
+<th style="text-align:center">型号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">工控机</td>
+<td style="text-align:center">研华IPC-610-L</td>
+</tr>
+<tr>
+<td style="text-align:center">相机</td>
+<td style="text-align:center">Imaging Source的DFK23UM021工业相机，分辨率1280*960像素，60帧每秒</td>
+</tr>
+<tr>
+<td style="text-align:center">镜头</td>
+<td style="text-align:center">焦距12mm</td>
+</tr>
+<tr>
+<td style="text-align:center">光源</td>
+<td style="text-align:center">白光光源（获得图像）、线光源激光器（三维重建，波长635nm、输出功率5mW的红光）</td>
+</tr>
+<tr>
+<td style="text-align:center">移动平台</td>
+<td style="text-align:center">可以做匀速直线运动的传动装置</td>
+</tr>
+</tbody>
+</table>
+<img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_07硬件结构图.png" title="硬件结构图">
+<img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_08硬件实物图.png" title="硬件实物图">
+<h3 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h3><ol>
+<li>图像处理部分：VS2010、OpenCV</li>
+<li>气泡三维重建部分（激光三角测量法）：Halcon</li>
+<li>缺陷分类部分：MATLAB、支持Tucker机（评价指标AUC）</li>
+</ol>
+<img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_09软件的程序流程图.png" title="软件的程序流程图">
+<h2 id="图像处理部分"><a href="#图像处理部分" class="headerlink" title="图像处理部分"></a>图像处理部分</h2><h3 id="极耳缺陷检测"><a href="#极耳缺陷检测" class="headerlink" title="极耳缺陷检测"></a>极耳缺陷检测</h3><img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_10极耳的缺陷检测步骤.png" title="极耳缺陷检测步骤">
+<p>具体参数见P24</p>
+<h3 id="边缘和极网缺陷检测"><a href="#边缘和极网缺陷检测" class="headerlink" title="边缘和极网缺陷检测"></a>边缘和极网缺陷检测</h3><img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_11边缘和极网的缺陷检测步骤.png" title="边缘和极网的缺陷检测步骤">
+<p>具体参数见P26</p>
+<p>后续对检测结果图像运用<strong>机器学习</strong>的方法进行分类，可以自动检测出<strong>是否存在极耳缺陷</strong>/<strong>有无边缘缺陷或极网缺陷</strong>。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>由于<strong>气泡部分</strong>与<strong>合格极网</strong>的图像差异较小，有的气泡缺陷并不能被很好地检测出来</p>
+<img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_12缺陷检测效果图.png" title="缺陷检测效果图">
+<h2 id="气泡三维重建部分（-没细看）"><a href="#气泡三维重建部分（-没细看）" class="headerlink" title="气泡三维重建部分（*没细看）"></a>气泡三维重建部分（*没细看）</h2><p>激光三角测量法、Halcon中自带的标定助手、测量误差在1mm以下、Canny滤波</p>
+<img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_13Z坐标信息图滤波结果.png" title="Z坐标信息图滤波结果">
+<h2 id="缺陷分类部分"><a href="#缺陷分类部分" class="headerlink" title="缺陷分类部分"></a>缺陷分类部分</h2><h3 id="数据集"><a href="#数据集" class="headerlink" title="数据集"></a>数据集</h3><ul>
+<li>训练集+测试集，含有足够的缺陷图像和无缺陷图像</li>
+<li>经过预处理的同样大小的图像，像素为50*50</li>
+<li>随机选取<strong>带有极网气泡缺陷</strong>的图像和<strong>没有缺陷的极片</strong>图像各100幅，共200幅。</li>
+<li>从200幅图中，随机选取相等数量的有极网气泡缺陷的图像和没有缺陷的图像，作为<strong>训练集</strong>。</li>
+<li>全部图像，作为<strong>测试集</strong>。</li>
+</ul>
+<h3 id="STuMs（支持Tucker机）"><a href="#STuMs（支持Tucker机）" class="headerlink" title="STuMs（支持Tucker机）"></a>STuMs（支持Tucker机）</h3><p>分类有气泡缺陷、无气泡缺陷<br>绘制ROC，计算AUC</p>
+<h2 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h2><ol>
+<li>光照问题：极片表面很光滑，光照易出现镜面反射，误判为缺陷</li>
+<li>本研究使用了不同的软件平台，需要整合成一套完整的系统</li>
+</ol>
+<h1 id="17华南理工金属弧面工件表面缺陷检测与误检排除技术研究-许浩均"><a href="#17华南理工金属弧面工件表面缺陷检测与误检排除技术研究-许浩均" class="headerlink" title="17华南理工金属弧面工件表面缺陷检测与误检排除技术研究_许浩均"></a>17<em>华南理工</em>金属弧面工件表面缺陷检测与误检排除技术研究_许浩均</h1><h2 id="摘要-1"><a href="#摘要-1" class="headerlink" title="摘要"></a>摘要</h2><ol>
+<li>任务：金属弧面工件表面的缺陷检测</li>
+<li>要求：定性检测</li>
+<li>思路：将CNN应用于<strong>缺陷定位</strong> → 针对定位结果中的误检区域，用图像处理算法进一步优化检测结果</li>
+<li>特点：论述了<strong>误检排除技术</strong></li>
+<li>涉及技术：<ul>
+<li>基于多路Faster R-CNN的金属弧面工件检测算法：降低Faster R-CNN漏检率</li>
+<li>基于图像复杂度的Faster R-CNN结构误检区域排除算法：针对Faster R-CNN检测结果中出现的误检区域</li>
+<li>基于最大灰度差图像的假边缘抑制算法：边缘比率计算环节，抑制表面漫反射引入的假边缘</li>
+<li>基于阈值面的缺陷提取方法：进一步提高Faster R-CNN准确率</li>
+<li>改进的小波图像增强算法：图像的预处理环节</li>
+</ul>
+</li>
+</ol>
+<p>CNN效果好，但需要样本的数量多、质量好，故再用图像处理算法排除CNN因样本不足产生的误检</p>
+<h1 id="16华中师范基于CNN的工件缺陷检测方法研究及系统设计-乔丽"><a href="#16华中师范基于CNN的工件缺陷检测方法研究及系统设计-乔丽" class="headerlink" title="16华中师范基于CNN的工件缺陷检测方法研究及系统设计_乔丽"></a>16<em>华中师范</em>基于CNN的工件缺陷检测方法研究及系统设计_乔丽</h1><h2 id="摘要-2"><a href="#摘要-2" class="headerlink" title="摘要"></a>摘要</h2><p>$([MSBuild]::ValueOrDefault(‘$(VCTargetsPath)’,’$(MSBuildExtensionsPath32)\Microsoft.Cpp\v4.0\v110\’))</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+            <a href="/tags/缺陷检测/" rel="tag"># 缺陷检测</a>
+          
+            <a href="/tags/读论文/" rel="tag"># 读论文</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/06/15/2018-06-15-imv-defect-detecting-investigation/" rel="next" title="[机器视觉]缺陷检测调研">
+                <i class="fa fa-chevron-left"></i> [机器视觉]缺陷检测调研
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/06/20/2018-06-20-imv-binocular-vision-paper/" rel="prev" title="[机器视觉]读双目视觉论文">
+                [机器视觉]读双目视觉论文 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">29</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#15哈工大基于机器视觉的锂电池极片缺陷检测研究-胡玥红"><span class="nav-number">1.</span> <span class="nav-text">15哈工大基于机器视觉的锂电池极片缺陷检测研究_胡玥红</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锂电池极片缺陷"><span class="nav-number">1.2.</span> <span class="nav-text">锂电池极片缺陷</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缺陷分类"><span class="nav-number">1.2.1.</span> <span class="nav-text">缺陷分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测要求"><span class="nav-number">1.2.2.</span> <span class="nav-text">检测要求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计方案"><span class="nav-number">1.3.</span> <span class="nav-text">设计方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总体设计"><span class="nav-number">1.3.1.</span> <span class="nav-text">总体设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件"><span class="nav-number">1.3.2.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件"><span class="nav-number">1.3.3.</span> <span class="nav-text">软件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理部分"><span class="nav-number">1.4.</span> <span class="nav-text">图像处理部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#极耳缺陷检测"><span class="nav-number">1.4.1.</span> <span class="nav-text">极耳缺陷检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#边缘和极网缺陷检测"><span class="nav-number">1.4.2.</span> <span class="nav-text">边缘和极网缺陷检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.4.3.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#气泡三维重建部分（-没细看）"><span class="nav-number">1.5.</span> <span class="nav-text">气泡三维重建部分（*没细看）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺陷分类部分"><span class="nav-number">1.6.</span> <span class="nav-text">缺陷分类部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集"><span class="nav-number">1.6.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STuMs（支持Tucker机）"><span class="nav-number">1.6.2.</span> <span class="nav-text">STuMs（支持Tucker机）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#展望"><span class="nav-number">1.7.</span> <span class="nav-text">展望</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#17华南理工金属弧面工件表面缺陷检测与误检排除技术研究-许浩均"><span class="nav-number">2.</span> <span class="nav-text">17华南理工金属弧面工件表面缺陷检测与误检排除技术研究_许浩均</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要-1"><span class="nav-number">2.1.</span> <span class="nav-text">摘要</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#16华中师范基于CNN的工件缺陷检测方法研究及系统设计-乔丽"><span class="nav-number">3.</span> <span class="nav-text">16华中师范基于CNN的工件缺陷检测方法研究及系统设计_乔丽</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要-2"><span class="nav-number">3.1.</span> <span class="nav-text">摘要</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
