@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
@@ -126,7 +126,7 @@
 
 
 
-  <title>[计算机视觉]CV讨论班 | xgyopen blog</title>
+  <title>[计算机视觉]CV讨论班 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -145,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -347,7 +347,8 @@
 <li>Segmentation+Tracking：可能是我们可以做的方向</li>
 <li>Classification：已经基本没人做了</li>
 </ul>
-<h2 id="讨论安排"><a href="#讨论安排" class="headerlink" title="讨论安排"></a>讨论安排</h2><table>
+<h2 id="讨论安排"><a href="#讨论安排" class="headerlink" title="讨论安排"></a>讨论安排</h2><div class="table-container">
+<table>
 <thead>
 <tr>
 <th style="text-align:center">日期</th>
@@ -443,13 +444,15 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h1 id="我的工作"><a href="#我的工作" class="headerlink" title="我的工作"></a>我的工作</h1><h2 id="方向二选一"><a href="#方向二选一" class="headerlink" title="方向二选一"></a>方向二选一</h2><p>第一：MASK R-CNN，当年的Best Paper；<br>第二：单开一条线，<a href="https://github.com/CSAILVision/semantic-segmentation-pytorch" target="_blank" rel="noopener">Segmentation系列</a></p>
 <h2 id="基本要求"><a href="#基本要求" class="headerlink" title="基本要求"></a>基本要求</h2><p>基本要求：分割的度量指标+数据集+模型发展历史+目前经典（SOTA）（选择最棒的，跑代码，train/inference）+Future Work</p>
 <h2 id="Mask-R-CNN与Faster-R-CNN"><a href="#Mask-R-CNN与Faster-R-CNN" class="headerlink" title="Mask R-CNN与Faster R-CNN"></a>Mask R-CNN与Faster R-CNN</h2><ul>
 <li>align</li>
 <li>mask</li>
 </ul>
-<h1 id="群聊天梳理（从180420开始）"><a href="#群聊天梳理（从180420开始）" class="headerlink" title="群聊天梳理（从180420开始）"></a><del>群聊天梳理（从180420开始）</del></h1><table>
+<h1 id="群聊天梳理（从180420开始）"><a href="#群聊天梳理（从180420开始）" class="headerlink" title="群聊天梳理（从180420开始）"></a><del>群聊天梳理（从180420开始）</del></h1><div class="table-container">
+<table>
 <thead>
 <tr>
 <th style="text-align:center">日期</th>
@@ -490,11 +493,13 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p><strong>张海鹏</strong><br>Two-Stage的方法之间，尤其是围绕RBG,Kaiming He等人，不同工作相关代码之间耦合度很高。比如，A模型的某块代码是从B模型的代码中拉出来的，所以如果要能把A run过，可能需要对B也可以run通。</p>
 <p>或者说关键代码。关注主要矛盾，忽略次要矛盾。哪些是关键？各种群+知乎等，大家讨论或者问的多的，就是关键。很多人不懂，只有读代码才能懂的，我们肯定也需要，这也是我们的优势啊。</p>
 <p><strong>钱瑞峰</strong><br>其实我觉得把那个模棱两可的地方讲一下就好。比如roi-pool.  roialign</p>
 <p><strong>张海鹏</strong><br>提到了两个关键点。<br>这些是一方面，另一方面工程上的问题，比如Caffe的im2col等，有些人说做了一些很Tricky的事情，这个也很棒。同时也加深了对框架的熟悉。</p>
 <p>总之：在把握整体原则的前提下，谁是分享者，就把自己将要分享的内容的重点实现给尽量搞清楚。也可以互相提提建议，代码上对哪些地方比较感兴趣，直接发到群里，大家都能看到。</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -530,11 +535,13 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>张海鹏<br>额，在公司还搞了各种Loss，从度量学习角度，理论确实很美。<br>深度很多时候可能就不太清楚怎么堆出来的性能，超参太多。自己设计网络，自己训练，应该很困难。</p>
 <h2 id="180427"><a href="#180427" class="headerlink" title="180427"></a>180427</h2><p><strong>钱瑞峰</strong><br>话说sota的代码会不会跑不动呀？<br>我印象中好多基础任务的基础网络都超级大</p>
 <p><strong>张海鹏</strong><br>有可能的。先跑inference，然后train的Pipeline尽可能打通，换小数据集。<br>席的YOLO就是跑在小数据上。单数据来讲，COCO都20G。</p>
 <p><strong>席威</strong><br>yolo分两次训练的。。主干网络拿别人训练好的 然后fine tune</p>
 <p><strong>张海鹏</strong><br>所以，自己针对模型做数据集也是个活儿。Caffe中的刚需。</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -571,6 +578,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>席威<br><a href="https://ww2.mathworks.cn/videos/introduction-to-kalman-filters-for-object-tracking-79674.html" target="_blank" rel="noopener">Introduction to Kalman Filters for Object Tracking</a></p>
 <p>张海鹏<br><a href="http://www.robots.ox.ac.uk/~joao/index.html#content" target="_blank" rel="noopener">Siamese Network和KCF都是他的工作，JF Henriques？</a></p>
 <h2 id="180507-轮数集成"><a href="#180507-轮数集成" class="headerlink" title="180507 轮数集成"></a>180507 轮数集成</h2><p>张海鹏<br>和文本数据挖掘中的model selection有什么不同，导致需要epoch ensemble?<br>bias/variance下，best epoch可以选到的。</p>
@@ -1004,6 +1012,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
 
   
 

@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
@@ -152,7 +152,7 @@
 
 
 
-  <title>[机器视觉]读齿轮检测论文 | xgyopen blog</title>
+  <title>[机器视觉]读齿轮检测论文 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -171,7 +171,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -369,6 +369,7 @@
 <li><p>设备选型</p>
 </li>
 </ol>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -399,6 +400,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p>关于照光方式（P13）</p>
 <ul>
 <li>前向照明：表面质量检测</li>
@@ -498,6 +500,7 @@
 <h3 id="硬件-1"><a href="#硬件-1" class="headerlink" title="硬件"></a>硬件</h3><h4 id="图像采集系统"><a href="#图像采集系统" class="headerlink" title="图像采集系统"></a>图像采集系统</h4><p>包含：平行背光源、玻璃板、镜头、相机。</p>
 <img src="/2018/05/09/2018-05-09-cv-gear-paper/b_04图像采集部分结构示意图.png" title="图像采集部分结构示意图">
 <p>光学系统器件选型</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -528,6 +531,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <p><strong>选型依据</strong>（P9）：<br>工业相机：成像颜色、拍摄效率、分辨率、CCD芯片尺寸<br>光学镜头：①焦距、视距、视野；②焦距、光圈、成像尺寸、视野；③镜头畸变、光线强度、焦距；<br>照明光源：亮度高、可改变、分布均匀、高稳定的自足光源</p>
 <h4 id="机械支撑微调系统"><a href="#机械支撑微调系统" class="headerlink" title="机械支撑微调系统"></a>机械支撑微调系统</h4><p>支撑部分包含：减震基座、支臂、棱镜座板、光管夹座<br>微调部分包含：手动倾斜台（调节光源）、手动位移台（调节相机垂直方向物距）</p>
 <img src="/2018/05/09/2018-05-09-cv-gear-paper/b_05机械支撑微调系统.png" title="机械支撑微调系统">
@@ -666,7 +670,8 @@
 <li>计算机：联系上述软硬件</li>
 </ul>
 <img src="/2018/05/09/2018-05-09-cv-gear-paper/c_02测量系统组成.png" title="测量系统组成">
-<h3 id="图像采集系统-1"><a href="#图像采集系统-1" class="headerlink" title="图像采集系统"></a>图像采集系统</h3><table>
+<h3 id="图像采集系统-1"><a href="#图像采集系统-1" class="headerlink" title="图像采集系统"></a>图像采集系统</h3><div class="table-container">
+<table>
 <thead>
 <tr>
 <th style="text-align:center">设备</th>
@@ -696,9 +701,11 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h4 id="摄像机"><a href="#摄像机" class="headerlink" title="摄像机"></a>摄像机</h4><p>CCD与CMOS（P13），选CCD<br>CCD摄像机选型：传感器尺寸（1、2/3、1/4）、分辨率（640×480、4008×2672）</p>
 <p><strong>选型原则：传感器像素尺寸选用与空间分辨率数值大小相近的</strong><br>空间分辨率Rs=摄像机视场大小FOV（即测量范围）/传感器分辨率Rc<br>例如，摄像机高度方向视场大小7.5mm，分辨率1392×1040，空间分辨率=7500/1040≈7.2μm/pixel</p>
 <p>选用大恒DH-SV1410FM工业相机</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -737,6 +744,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h4 id="镜头"><a href="#镜头" class="headerlink" title="镜头"></a>镜头</h4><p>镜头选型：靶面尺寸、分辨率、视野和景深、接口</p>
 <ul>
 <li>靶面尺寸：不小于传感器尺寸</li>
@@ -745,6 +753,7 @@
 <li>接口：与相机接口一致</li>
 </ul>
 <p>选用Computar系列的MLM-3XMP</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -775,6 +784,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h4 id="光源和照明方式"><a href="#光源和照明方式" class="headerlink" title="光源和照明方式"></a>光源和照明方式</h4><p>机器视觉中照明的目的：突出目标特征，获得高对比度的图像</p>
 <ul>
 <li>背向照明：突出物体的边缘轮廓，获得高对比度的图像</li>
@@ -782,6 +792,7 @@
 </ul>
 <img src="/2018/05/09/2018-05-09-cv-gear-paper/c_03背向照明_前向照明.png" title="背向照明_前向照明">
 <p>选用LED光源、背向照明</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -800,7 +811,9 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h4 id="图像采集卡"><a href="#图像采集卡" class="headerlink" title="图像采集卡"></a>图像采集卡</h4><p>图像采集卡：控制摄像机，实现图像采集与数字化的专用接口卡</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -815,6 +828,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h4 id="整体结构"><a href="#整体结构" class="headerlink" title="整体结构"></a>整体结构</h4><p>计算机PCI插槽 &lt;-&gt; 图像采集卡 &lt;-&gt; 摄像机IEEE1394接口</p>
 <p>工作台：三自由度的精密平台（调整方法P18）</p>
 <img src="/2018/05/09/2018-05-09-cv-gear-paper/c_04图像采集系统.png" title="图像采集系统">
@@ -1262,6 +1276,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
 
   
 

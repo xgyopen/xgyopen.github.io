@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
@@ -140,7 +140,7 @@
 
 
 
-  <title>[机器视觉]读缺陷检测论文 | xgyopen blog</title>
+  <title>[机器视觉]读缺陷检测论文 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -159,7 +159,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -338,7 +338,7 @@
       
 
       
-        <h1 id="15哈工大基于机器视觉的锂电池极片缺陷检测研究-胡玥红"><a href="#15哈工大基于机器视觉的锂电池极片缺陷检测研究-胡玥红" class="headerlink" title="15哈工大基于机器视觉的锂电池极片缺陷检测研究_胡玥红"></a>15<em>哈工大</em>基于机器视觉的锂电池极片缺陷检测研究_胡玥红</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><ol>
+        <h1 id="15-哈工大-基于机器视觉的锂电池极片缺陷检测研究-胡玥红"><a href="#15-哈工大-基于机器视觉的锂电池极片缺陷检测研究-胡玥红" class="headerlink" title="15_哈工大_基于机器视觉的锂电池极片缺陷检测研究_胡玥红"></a>15_哈工大_基于机器视觉的锂电池极片缺陷检测研究_胡玥红</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><ol>
 <li>任务：锂电池极片的缺陷检测</li>
 <li>要求：定性检测</li>
 <li>思路：所有图像 <em>-图像处理、机器学习-&gt;</em> 极耳缺陷/边缘缺陷/极网划痕异物缺陷/<strong>极网气泡缺陷+无缺陷图像</strong> <em>-三维重建、支持Tucker机-&gt;</em> 极网气泡缺陷/无缺陷图像</li>
@@ -351,7 +351,8 @@
 <li>极网缺陷：划痕异物缺陷、气泡缺陷</li>
 </ol>
 <img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_02四种极片缺陷的图像.png" title="四种极片缺陷的图像">
-<h3 id="检测要求"><a href="#检测要求" class="headerlink" title="检测要求"></a>检测要求</h3><table>
+<h3 id="检测要求"><a href="#检测要求" class="headerlink" title="检测要求"></a>检测要求</h3><div class="table-container">
+<table>
 <thead>
 <tr>
 <th style="text-align:center">缺陷</th>
@@ -377,11 +378,13 @@
 </tr>
 </tbody>
 </table>
+</div>
 <img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_03极耳图像.png" title="极耳图像">
 <img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_04边缘图像.png" title="边缘图像">
 <img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_05极网图像.png" title="极网图像">
 <h2 id="设计方案"><a href="#设计方案" class="headerlink" title="设计方案"></a>设计方案</h2><h3 id="总体设计"><a href="#总体设计" class="headerlink" title="总体设计"></a>总体设计</h3><img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_06锂电池极片缺陷检测流程图.png" title="锂电池极片缺陷检测流程图">
-<h3 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h3><table>
+<h3 id="硬件"><a href="#硬件" class="headerlink" title="硬件"></a>硬件</h3><div class="table-container">
+<table>
 <thead>
 <tr>
 <th style="text-align:center">设备</th>
@@ -411,6 +414,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_07硬件结构图.png" title="硬件结构图">
 <img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_08硬件实物图.png" title="硬件实物图">
 <h3 id="软件"><a href="#软件" class="headerlink" title="软件"></a>软件</h3><ol>
@@ -440,7 +444,7 @@
 <li>光照问题：极片表面很光滑，光照易出现镜面反射，误判为缺陷</li>
 <li>本研究使用了不同的软件平台，需要整合成一套完整的系统</li>
 </ol>
-<h1 id="17华南理工金属弧面工件表面缺陷检测与误检排除技术研究-许浩均"><a href="#17华南理工金属弧面工件表面缺陷检测与误检排除技术研究-许浩均" class="headerlink" title="17华南理工金属弧面工件表面缺陷检测与误检排除技术研究_许浩均"></a>17<em>华南理工</em>金属弧面工件表面缺陷检测与误检排除技术研究_许浩均</h1><h2 id="摘要-1"><a href="#摘要-1" class="headerlink" title="摘要"></a>摘要</h2><ol>
+<h1 id="17-华南理工-金属弧面工件表面缺陷检测与误检排除技术研究-许浩均"><a href="#17-华南理工-金属弧面工件表面缺陷检测与误检排除技术研究-许浩均" class="headerlink" title="17_华南理工_金属弧面工件表面缺陷检测与误检排除技术研究_许浩均"></a>17_华南理工_金属弧面工件表面缺陷检测与误检排除技术研究_许浩均</h1><h2 id="摘要-1"><a href="#摘要-1" class="headerlink" title="摘要"></a>摘要</h2><ol>
 <li>任务：金属弧面工件表面的缺陷检测</li>
 <li>要求：定性检测</li>
 <li>思路：将CNN应用于<strong>缺陷定位</strong> → 针对定位结果中的误检区域，用图像处理算法进一步优化检测结果</li>
@@ -455,7 +459,7 @@
 </li>
 </ol>
 <p>CNN效果好，但需要样本的数量多、质量好，故再用图像处理算法排除CNN因样本不足产生的误检</p>
-<h1 id="16华中师范基于CNN的工件缺陷检测方法研究及系统设计-乔丽"><a href="#16华中师范基于CNN的工件缺陷检测方法研究及系统设计-乔丽" class="headerlink" title="16华中师范基于CNN的工件缺陷检测方法研究及系统设计_乔丽"></a>16<em>华中师范</em>基于CNN的工件缺陷检测方法研究及系统设计_乔丽</h1><h2 id="摘要-2"><a href="#摘要-2" class="headerlink" title="摘要"></a>摘要</h2>
+<h1 id="16-华中师范-基于CNN的工件缺陷检测方法研究及系统设计-乔丽"><a href="#16-华中师范-基于CNN的工件缺陷检测方法研究及系统设计-乔丽" class="headerlink" title="16_华中师范_基于CNN的工件缺陷检测方法研究及系统设计_乔丽"></a>16_华中师范_基于CNN的工件缺陷检测方法研究及系统设计_乔丽</h1><h2 id="摘要-2"><a href="#摘要-2" class="headerlink" title="摘要"></a>摘要</h2>
       
     </div>
     
@@ -628,7 +632,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#15哈工大基于机器视觉的锂电池极片缺陷检测研究-胡玥红"><span class="nav-number">1.</span> <span class="nav-text">15哈工大基于机器视觉的锂电池极片缺陷检测研究_胡玥红</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锂电池极片缺陷"><span class="nav-number">1.2.</span> <span class="nav-text">锂电池极片缺陷</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缺陷分类"><span class="nav-number">1.2.1.</span> <span class="nav-text">缺陷分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测要求"><span class="nav-number">1.2.2.</span> <span class="nav-text">检测要求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计方案"><span class="nav-number">1.3.</span> <span class="nav-text">设计方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总体设计"><span class="nav-number">1.3.1.</span> <span class="nav-text">总体设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件"><span class="nav-number">1.3.2.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件"><span class="nav-number">1.3.3.</span> <span class="nav-text">软件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理部分"><span class="nav-number">1.4.</span> <span class="nav-text">图像处理部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#极耳缺陷检测"><span class="nav-number">1.4.1.</span> <span class="nav-text">极耳缺陷检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#边缘和极网缺陷检测"><span class="nav-number">1.4.2.</span> <span class="nav-text">边缘和极网缺陷检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.4.3.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#气泡三维重建部分（-没细看）"><span class="nav-number">1.5.</span> <span class="nav-text">气泡三维重建部分（*没细看）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺陷分类部分"><span class="nav-number">1.6.</span> <span class="nav-text">缺陷分类部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集"><span class="nav-number">1.6.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STuMs（支持Tucker机）"><span class="nav-number">1.6.2.</span> <span class="nav-text">STuMs（支持Tucker机）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#展望"><span class="nav-number">1.7.</span> <span class="nav-text">展望</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#17华南理工金属弧面工件表面缺陷检测与误检排除技术研究-许浩均"><span class="nav-number">2.</span> <span class="nav-text">17华南理工金属弧面工件表面缺陷检测与误检排除技术研究_许浩均</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要-1"><span class="nav-number">2.1.</span> <span class="nav-text">摘要</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#16华中师范基于CNN的工件缺陷检测方法研究及系统设计-乔丽"><span class="nav-number">3.</span> <span class="nav-text">16华中师范基于CNN的工件缺陷检测方法研究及系统设计_乔丽</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要-2"><span class="nav-number">3.1.</span> <span class="nav-text">摘要</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#15-哈工大-基于机器视觉的锂电池极片缺陷检测研究-胡玥红"><span class="nav-number">1.</span> <span class="nav-text">15_哈工大_基于机器视觉的锂电池极片缺陷检测研究_胡玥红</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锂电池极片缺陷"><span class="nav-number">1.2.</span> <span class="nav-text">锂电池极片缺陷</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缺陷分类"><span class="nav-number">1.2.1.</span> <span class="nav-text">缺陷分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测要求"><span class="nav-number">1.2.2.</span> <span class="nav-text">检测要求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计方案"><span class="nav-number">1.3.</span> <span class="nav-text">设计方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总体设计"><span class="nav-number">1.3.1.</span> <span class="nav-text">总体设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件"><span class="nav-number">1.3.2.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件"><span class="nav-number">1.3.3.</span> <span class="nav-text">软件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理部分"><span class="nav-number">1.4.</span> <span class="nav-text">图像处理部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#极耳缺陷检测"><span class="nav-number">1.4.1.</span> <span class="nav-text">极耳缺陷检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#边缘和极网缺陷检测"><span class="nav-number">1.4.2.</span> <span class="nav-text">边缘和极网缺陷检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.4.3.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#气泡三维重建部分（-没细看）"><span class="nav-number">1.5.</span> <span class="nav-text">气泡三维重建部分（*没细看）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺陷分类部分"><span class="nav-number">1.6.</span> <span class="nav-text">缺陷分类部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集"><span class="nav-number">1.6.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STuMs（支持Tucker机）"><span class="nav-number">1.6.2.</span> <span class="nav-text">STuMs（支持Tucker机）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#展望"><span class="nav-number">1.7.</span> <span class="nav-text">展望</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#17-华南理工-金属弧面工件表面缺陷检测与误检排除技术研究-许浩均"><span class="nav-number">2.</span> <span class="nav-text">17_华南理工_金属弧面工件表面缺陷检测与误检排除技术研究_许浩均</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要-1"><span class="nav-number">2.1.</span> <span class="nav-text">摘要</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#16-华中师范-基于CNN的工件缺陷检测方法研究及系统设计-乔丽"><span class="nav-number">3.</span> <span class="nav-text">16_华中师范_基于CNN的工件缺陷检测方法研究及系统设计_乔丽</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要-2"><span class="nav-number">3.1.</span> <span class="nav-text">摘要</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -835,6 +839,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
 
   
 

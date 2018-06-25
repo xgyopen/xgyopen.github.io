@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
@@ -132,7 +132,7 @@
 
 
 
-  <title>[机器视觉]齿轮检测项目调研 | xgyopen blog</title>
+  <title>[机器视觉]齿轮检测项目调研 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -151,7 +151,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -331,7 +331,8 @@
 
       
         <h1 id="测量精度"><a href="#测量精度" class="headerlink" title="测量精度"></a>测量精度</h1><p>1丝=1道=1条=0.01毫米=10微米<br>1丝=0.01mm=10μm<br>1米=1000mm</p>
-<h1 id="资料查阅"><a href="#资料查阅" class="headerlink" title="资料查阅"></a>资料查阅</h1><h2 id="硕士（36篇）-知网搜索“齿轮检测-机器视觉”"><a href="#硕士（36篇）-知网搜索“齿轮检测-机器视觉”" class="headerlink" title="硕士（36篇）-知网搜索“齿轮检测 机器视觉”"></a>硕士（36篇）-知网搜索“齿轮检测 机器视觉”</h2><table>
+<h1 id="资料查阅"><a href="#资料查阅" class="headerlink" title="资料查阅"></a>资料查阅</h1><h2 id="硕士（36篇）-知网搜索“齿轮检测-机器视觉”"><a href="#硕士（36篇）-知网搜索“齿轮检测-机器视觉”" class="headerlink" title="硕士（36篇）-知网搜索“齿轮检测 机器视觉”"></a>硕士（36篇）-知网搜索“齿轮检测 机器视觉”</h2><div class="table-container">
+<table>
 <thead>
 <tr>
 <th style="text-align:center">题名</th>
@@ -633,13 +634,15 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h2 id="论文中成品图"><a href="#论文中成品图" class="headerlink" title="论文中成品图"></a>论文中成品图</h2><img src="/2018/05/07/2018-05-07-cv-gear-investigation/论文11_P39图.png" title="论文11_P39图">
 <img src="/2018/05/07/2018-05-07-cv-gear-investigation/论文14_P53图.png" title="论文14_P53图">
 <img src="/2018/05/07/2018-05-07-cv-gear-investigation/论文23_P72图.png" title="论文23_P72图">
 <img src="/2018/05/07/2018-05-07-cv-gear-investigation/论文24_P52图.png" title="论文24_P52图">
 <img src="/2018/05/07/2018-05-07-cv-gear-investigation/论文30_P49图.png" title="论文30_P49图">
 <h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p><strong>论文题目前带☆的，是精度达到0.01mm要求的。</strong><br>在这个方面几个比较厉害的大学：中国计量学院、沈阳工业大学、天津科技大学。<br>几种可选的开发平台：HALCON、MATLAB、LabVIEW、C++（OpenCV）</p>
-<h2 id="期刊（9篇）-知网搜索“齿轮-亚像素边缘检测”"><a href="#期刊（9篇）-知网搜索“齿轮-亚像素边缘检测”" class="headerlink" title="期刊（9篇）-知网搜索“齿轮 亚像素边缘检测”"></a>期刊（9篇）-知网搜索“齿轮 亚像素边缘检测”</h2><table>
+<h2 id="期刊（9篇）-知网搜索“齿轮-亚像素边缘检测”"><a href="#期刊（9篇）-知网搜索“齿轮-亚像素边缘检测”" class="headerlink" title="期刊（9篇）-知网搜索“齿轮 亚像素边缘检测”"></a>期刊（9篇）-知网搜索“齿轮 亚像素边缘检测”</h2><div class="table-container">
+<table>
 <thead>
 <tr>
 <th style="text-align:center">题名</th>
@@ -725,6 +728,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h2 id="专利（还没搜，可做补充）"><a href="#专利（还没搜，可做补充）" class="headerlink" title="专利（还没搜，可做补充）"></a>专利（还没搜，可做补充）</h2>
       
     </div>
@@ -1105,6 +1109,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
 
   
 

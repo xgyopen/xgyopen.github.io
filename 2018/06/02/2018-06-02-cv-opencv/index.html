@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xgyopen blog">
 <meta property="og:description" content="刷一波计算机视觉（OpenCV）的书。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-23T06:07:18.028Z">
+<meta property="og:updated_time" content="2018-06-23T06:12:57.027Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="*[刷书]计算机视觉：OpenCV">
 <meta name="twitter:description" content="刷一波计算机视觉（OpenCV）的书。">
@@ -126,7 +126,7 @@
 
 
 
-  <title>*[刷书]计算机视觉：OpenCV | xgyopen blog</title>
+  <title>*[刷书]计算机视觉：OpenCV | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -145,7 +145,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -324,7 +324,8 @@
       
 
       
-        <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><table>
+        <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><div class="table-container">
+<table>
 <thead>
 <tr>
 <th style="text-align:center">书名</th>
@@ -391,7 +392,7 @@
 <tr>
 <td style="text-align:center">☆OpenCV3编程入门</td>
 <td style="text-align:center">2015.2</td>
-<td style="text-align:center"><a href="https://pan.baidu.com/s/1qWNVCXQ" target="_blank" rel="noopener">VS2010、OpenCV2.4.9、OpenCV3</a></td>
+<td style="text-align:center"><a href="https://pan.baidu.com/s/1qWNVCXQ" target="_blank" rel="noopener">VS2010、OpenCV2.4.9、OpenCV3.0</a></td>
 <td style="text-align:center">分模块介绍，<a href="https://github.com/QianMo/OpenCV3-Intro-Book-Src" target="_blank" rel="noopener">作者Github</a>，<a href="https://blog.csdn.net/poem_qianmo" target="_blank" rel="noopener">作者博客</a>，<a href="https://blog.csdn.net/poem_qianmo/article/details/44416709" target="_blank" rel="noopener">勘误</a></td>
 </tr>
 <tr>
@@ -413,6 +414,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h1 id="《OpenCV-3计算机视觉：Python语言实现（原书第2版）》"><a href="#《OpenCV-3计算机视觉：Python语言实现（原书第2版）》" class="headerlink" title="《OpenCV 3计算机视觉：Python语言实现（原书第2版）》"></a>《OpenCV 3计算机视觉：Python语言实现（原书第2版）》</h1><h2 id="CH1-安装OpenCV"><a href="#CH1-安装OpenCV" class="headerlink" title="CH1 安装OpenCV"></a>CH1 安装OpenCV</h2><p><a href="https://opencv.org/" target="_blank" rel="noopener">OpenCV官网</a><br><a href="https://github.com/opencv" target="_blank" rel="noopener">OpenCV源码</a><br><a href="https://docs.opencv.org/" target="_blank" rel="noopener">OpenCV文档</a><br><a href="https://github.com/opencv/opencv/tree/master/samples/python" target="_blank" rel="noopener">python示例</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install opencv-python</span><br></pre></td></tr></table></figure>
 <h2 id="CH2-处理文件、摄像头和图形用户界面"><a href="#CH2-处理文件、摄像头和图形用户界面" class="headerlink" title="CH2 处理文件、摄像头和图形用户界面"></a>CH2 处理文件、摄像头和图形用户界面</h2><h3 id="基本I-O脚本"><a href="#基本I-O脚本" class="headerlink" title="基本I/O脚本"></a>基本I/O脚本</h3><h4 id="读-写图像文件"><a href="#读-写图像文件" class="headerlink" title="读/写图像文件"></a>读/写图像文件</h4><p>imread()、imwrite()</p>
@@ -421,6 +423,7 @@
 <h4 id="使用numpy-array访问图像数据"><a href="#使用numpy-array访问图像数据" class="headerlink" title="使用numpy.array访问图像数据"></a>使用numpy.array访问图像数据</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将BGR图像在(0,0)处的像素转化为白像素</span></span><br><span class="line">img = cv2.imread(<span class="string">'MyPic.png'</span>)</span><br><span class="line">img[<span class="number">0</span>,<span class="number">0</span>] = [<span class="number">255</span>,<span class="number">255</span>,<span class="number">255</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 改变某一特定像素的值</span></span><br><span class="line">print(img.item(<span class="number">150</span>,<span class="number">120</span>,<span class="number">0</span>)) <span class="comment">#坐标(150,120)的蓝色值（BGR）</span></span><br><span class="line">img.itemset((<span class="number">150</span>,<span class="number">120</span>,<span class="number">0</span>), <span class="number">255</span>)</span><br><span class="line">print(img.item(<span class="number">150</span>,<span class="number">120</span>,<span class="number">0</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># 操作通道</span></span><br><span class="line">img[:,:,<span class="number">1</span>] = <span class="number">0</span> <span class="comment">#将图像所有的绿色（G）值设为0</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 设定ROI（Region Of Interest，感兴趣区域）</span></span><br><span class="line">my_roi = img[<span class="number">0</span>:<span class="number">100</span>, <span class="number">0</span>:<span class="number">100</span>]</span><br><span class="line">img[<span class="number">300</span>:<span class="number">400</span>, <span class="number">300</span>:<span class="number">400</span>] = my_roi <span class="comment"># 将第一个区域的值分配给第二个区域（两个区域必须大小一样）</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 获取图像属性</span></span><br><span class="line">print(img.shape) <span class="comment"># 宽度、高度、通道数</span></span><br><span class="line">print(img.size)  <span class="comment"># 像素的个数=宽度*高度*通道数</span></span><br><span class="line">print(img.dtype) <span class="comment"># 数据类型</span></span><br></pre></td></tr></table></figure>
 <h4 id="视频文件的读-写"><a href="#视频文件的读-写" class="headerlink" title="视频文件的读/写"></a>视频文件的读/写</h4><p>VideoCapture类、VideoWriter类<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 读取AVI文件的帧，并采用YUV颜色编码将其写入另一个帧中</span></span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line">videoCapture = cv2.VideoCapture(<span class="string">'MyInputVid.avi'</span>)</span><br><span class="line">fps = videoCapture.get(cv2.CAP_PROP_FPS)</span><br><span class="line">size = (int(videoCapture.get(cv2.CAP_PROP_FRAME_WIDTH)), int(videoCapture.get(cv2.CAP_PROP_FRAME_HEIGHT)))</span><br><span class="line">videoWriter = cv2.VideoWriter(<span class="string">'MyInputVid.avi'</span>, cv2.VideoWriter_fourcc(<span class="string">'I'</span>,<span class="string">'4'</span>,<span class="string">'2'</span>,<span class="string">'0'</span>), fps, size)</span><br><span class="line"></span><br><span class="line">success, frame = videoCapture.read()</span><br><span class="line"><span class="keyword">while</span> success:</span><br><span class="line">    videoWriter.write(frame)</span><br><span class="line">    success, frame = videoCapture.read()</span><br></pre></td></tr></table></figure></p>
 <p>常见编解码器（cv2.VideoWriter_fourcc()的第一个参数）</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -451,6 +454,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h4 id="捕获摄像头的帧"><a href="#捕获摄像头的帧" class="headerlink" title="捕获摄像头的帧"></a>捕获摄像头的帧</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 捕获摄像头10秒的视频信息，并将其写入一个AVI文件中</span></span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line">cameraCapture = cv2.VideoCapture(<span class="number">0</span>) <span class="comment"># 传递摄像头的设备索引</span></span><br><span class="line">fps = <span class="number">30</span></span><br><span class="line">size = (int(cameraCapture.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cameraCapture.get(cv2.CAP_PROP_FRAME_HEIGHT)))</span><br><span class="line">videoWriter = cv2.VideoWriter(<span class="string">'MyOutputVid.avi'</span>, cv2.VideoWriter_fourcc(<span class="string">'I'</span>,<span class="string">'4'</span>,<span class="string">'2'</span>,<span class="string">'0'</span>), fps, size)</span><br><span class="line"></span><br><span class="line">success, frame = cameraCapture.read()</span><br><span class="line">numFramesRemaining = <span class="number">10</span> * fps - <span class="number">1</span></span><br><span class="line"><span class="keyword">while</span> success <span class="keyword">and</span> numFramesRemaining &gt; <span class="number">0</span>:</span><br><span class="line">    videoWriter.write(frame)</span><br><span class="line">    success, frame = cameraCapture.read()</span><br><span class="line">    numFramesRemaining -= <span class="number">1</span></span><br><span class="line">cameraCapture.release()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 同步一组摄像头或一个多头摄像头</span></span><br><span class="line">success0 = cameraCapture0.grab()</span><br><span class="line">success1 = cameraCapture1.grab()</span><br><span class="line"><span class="keyword">if</span> success0 <span class="keyword">and</span> success1:</span><br><span class="line">    frame0 = cameraCapture0.retrieve()</span><br><span class="line">    frame1 = cameraCapture1.retrieve()</span><br></pre></td></tr></table></figure>
 <h4 id="在窗口显示图像"><a href="#在窗口显示图像" class="headerlink" title="在窗口显示图像"></a>在窗口显示图像</h4><p>imshow()<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 显示一副图像（保证显示视频时窗口上的帧一直更新）</span></span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">img = cv2.imread(<span class="string">'my-image.png'</span>)</span><br><span class="line">cv2.imshow(<span class="string">'my image'</span>, img)</span><br><span class="line">cv2.waitKey()</span><br><span class="line">cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure></p>
 <h4 id="在窗口显示摄像头帧"><a href="#在窗口显示摄像头帧" class="headerlink" title="在窗口显示摄像头帧"></a>在窗口显示摄像头帧</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 实时显示摄像头帧</span></span><br><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line"></span><br><span class="line">clicked = <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">onMouse</span><span class="params">(event, x, y, flags, param)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> clicked</span><br><span class="line">    <span class="keyword">if</span> event == cv2.EVENT_LBUTTONUP:</span><br><span class="line">        clicked = <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">cameraCapture = cv2.VideoCapture(<span class="number">0</span>)</span><br><span class="line">cv2.namedWindow(<span class="string">'MyWindow'</span>)</span><br><span class="line">cv2.setMouseCallback(<span class="string">'MyWindow'</span>, onMouse)</span><br><span class="line"></span><br><span class="line">print(<span class="string">'Showing camera feed. Click window or press any key to stop.'</span>)</span><br><span class="line">success, frame = cameraCapture.read()</span><br><span class="line"><span class="keyword">while</span> success <span class="keyword">and</span> cv2.waitKey(<span class="number">1</span>) == <span class="number">-1</span> <span class="keyword">and</span> <span class="keyword">not</span> clicked:</span><br><span class="line">    cv2.imshow(<span class="string">'MyWindow'</span>, frame)</span><br><span class="line">    success, frame = cameraCapture.read()</span><br><span class="line"></span><br><span class="line">cv2.destroyAllWindows(<span class="string">'MyWindow'</span>)</span><br><span class="line">cameraCapture.release()</span><br></pre></td></tr></table></figure>
@@ -467,7 +471,8 @@
 </li>
 </ol>
 <h1 id="配置VS2012-OpenCV2-4-9"><a href="#配置VS2012-OpenCV2-4-9" class="headerlink" title="配置VS2012+OpenCV2.4.9"></a>配置VS2012+OpenCV2.4.9</h1><h2 id="参考博文"><a href="#参考博文" class="headerlink" title="参考博文"></a>参考博文</h2><p><a href="http://www.nocang.com/visual-studio-ultimate-2012/" target="_blank" rel="noopener">VS2012官方免费中文旗舰版下载（含激活密钥）</a><br><a href="https://blog.csdn.net/tina_ttl/article/details/51484622" target="_blank" rel="noopener">安装visual studio 2012，并配置opencv</a></p>
-<h2 id="VC与VS对应关系"><a href="#VC与VS对应关系" class="headerlink" title="VC与VS对应关系"></a>VC与VS对应关系</h2><table>
+<h2 id="VC与VS对应关系"><a href="#VC与VS对应关系" class="headerlink" title="VC与VS对应关系"></a>VC与VS对应关系</h2><div class="table-container">
+<table>
 <thead>
 <tr>
 <th style="text-align:center">VC</th>
@@ -505,6 +510,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h2 id="文档"><a href="#文档" class="headerlink" title="文档"></a>文档</h2><p><a href="https://docs.opencv.org/2.4.9/" target="_blank" rel="noopener">OpenCV2.4.9</a></p>
 
       
@@ -886,6 +892,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
 
   
 

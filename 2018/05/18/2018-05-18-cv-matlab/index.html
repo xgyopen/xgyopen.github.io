@@ -7,7 +7,7 @@
 
 <html class="theme-next pisces use-motion" lang="zh-Hans">
 <head>
-  <meta charset="UTF-8"/>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
 <meta name="theme-color" content="#222">
@@ -152,7 +152,7 @@
 
 
 
-  <title>[刷书]数字图像处理：MATLAB | xgyopen blog</title>
+  <title>[刷书]数字图像处理：MATLAB | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -171,7 +171,7 @@
     
   
 
-  <div class="container sidebar-position-left page-post-detail">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -350,7 +350,8 @@
       
 
       
-        <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><table>
+        <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><div class="table-container">
+<table>
 <thead>
 <tr>
 <th style="text-align:center">书名</th>
@@ -380,6 +381,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h1 id="《数字图像处理（MATLAB版）（第2版）》"><a href="#《数字图像处理（MATLAB版）（第2版）》" class="headerlink" title="《数字图像处理（MATLAB版）（第2版）》"></a>《数字图像处理（MATLAB版）（第2版）》</h1><h2 id="CH1-数字图像的相关论述"><a href="#CH1-数字图像的相关论述" class="headerlink" title="CH1 数字图像的相关论述"></a>CH1 数字图像的相关论述</h2><ol>
 <li><p>数字图像的表示：<strong>二维矩阵</strong></p>
 </li>
@@ -406,7 +408,7 @@
 <li>变换域处理法（傅里叶变换、小波变换…）</li>
 </ul>
 </li>
-<li><p>图像数字化技术<br>图像 –采样、量化–&gt; 矩阵</p>
+<li><p>图像数字化技术<br>图像 —采样、量化—&gt; 矩阵</p>
 <img src="/2018/05/18/2018-05-18-cv-matlab/a_01图像数字化技术.png" title="图像数字化技术">
 </li>
 <li><p>图像的统计特征</p>
@@ -487,6 +489,7 @@
 <p>①线性变换<br>3个点 =&gt; 6个等式 =&gt; 6个变量</p>
 <p>②二次型畸变<br>6个点 =&gt; 矩阵形式，不一定有解，用<strong>最小二乘法</strong></p>
 <p>几何变换后的3种情况：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -509,6 +512,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h4 id="内插法确定像素的灰度值"><a href="#内插法确定像素的灰度值" class="headerlink" title="内插法确定像素的灰度值"></a>内插法确定像素的灰度值</h4><ol>
 <li>最近邻法（取1个点）</li>
 <li>双线性内插法（取4个点）</li>
@@ -547,6 +551,7 @@
 <img src="/2018/05/18/2018-05-18-cv-matlab/i_03一阶导数_二阶导数.png" title="基于二阶导数的边缘检测">
 <p>各种算子的来源：<br><strong>微商思想、平滑思想、准则函数确定边界提取器思想</strong>等基本技术的不同“组合”产生了不同边界提取算法。</p>
 <p>边缘检测算子比较</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -589,8 +594,10 @@
 </tr>
 </tbody>
 </table>
+</div>
 <h3 id="阈值分割"><a href="#阈值分割" class="headerlink" title="阈值分割"></a>阈值分割</h3><p>图像分割可以理解为将图像中有意义的特征区域提取出来。特征区域可以是像素的灰度值、物体轮廓曲线、纹理特征等，也可以是<strong>空间频谱或直方图特征</strong>等。</p>
 <p>阈值分割：通过设定不同的特征阈值，把图像像素点分为若干类。<br>基于假设：目标或背景内的相邻像素间的灰度值是相似的，但不同目标或背景的像素在灰度上有差异。（反映在<strong>直方图</strong>上，两峰之间有谷）</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -617,6 +624,7 @@
 </tr>
 </tbody>
 </table>
+</div>
 <img src="/2018/05/18/2018-05-18-cv-matlab/i_04分水岭形成示意图.png" title="分水岭形成示意图">
 <h3 id="边界跟踪"><a href="#边界跟踪" class="headerlink" title="边界跟踪"></a>边界跟踪</h3><p>边界跟踪：获得的<strong>边缘点</strong>有可能是<strong>不连续</strong>的 → <strong>有意义的边缘信息</strong><br>处理对象：①直接在原图像上进行②在边缘检测得到的梯度图上进行</p>
 <p>步骤：</p>
@@ -1022,6 +1030,28 @@
   
 
   
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
 
   
 
