@@ -93,7 +93,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_04矩阵形式1.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_05矩阵形式2.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_06世界坐标系_摄像机坐标系.png">
-<meta property="og:updated_time" content="2018-06-25T02:32:41.612Z">
+<meta property="og:updated_time" content="2018-06-25T03:22:56.657Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]读双目视觉论文">
 <meta name="twitter:description" content="精读4篇关于双目视觉的论文，此文为笔记。">
@@ -331,8 +331,7 @@
       
 
       
-        <p>x^{y^z}=(1+e^x)^{-2xy^w}</p>
-<h1 id="资料查阅"><a href="#资料查阅" class="headerlink" title="资料查阅"></a>资料查阅</h1><h2 id="硕士（2篇）"><a href="#硕士（2篇）" class="headerlink" title="硕士（2篇）"></a>硕士（2篇）</h2><div class="table-container">
+        <h1 id="资料查阅"><a href="#资料查阅" class="headerlink" title="资料查阅"></a>资料查阅</h1><h2 id="硕士（2篇）"><a href="#硕士（2篇）" class="headerlink" title="硕士（2篇）"></a>硕士（2篇）</h2><div class="table-container">
 <table>
 <thead>
 <tr>
@@ -505,19 +504,52 @@
 <li>以像素为单位的直角坐标系（u,v）——像素单位</li>
 <li>以毫米为单位的物理直角坐标系（x,y）——物理单位<br>PS：每一个像素在x轴、y轴上的物理尺寸为dx,dy</li>
 </ul>
-<p>图像中某一点在这两个坐标系下的关系：<br><img src="/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_03图像坐标系.png" title="图像坐标系"></p>
+<p>图像中某一点在这两个坐标系下的关系：</p>
+<script type="math/tex; mode=display">u=\frac{x}{d_x}+u_0         ,      v=\frac{y}{d_y}+v_0</script><img src="/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_03图像坐标系.png" title="图像坐标系">
 <p>矩阵形式：</p>
 <ul>
-<li><p>像素单位 ← 物理单位</p>
-<img src="/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_04矩阵形式1.png" title="矩阵形式1">
-</li>
-<li><p>物理单位 ← 像素单位</p>
-<img src="/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_05矩阵形式2.png" title="矩阵形式2">
-</li>
+<li>像素单位 ← 物理单位<script type="math/tex; mode=display">
+\begin{bmatrix}
+  u \\
+  v \\
+  1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  \frac{1}{d_x} & 0 & u_0 \\
+  0 & \frac{1}{d_y} & v_0 \\
+  0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+  x \\
+  y \\
+  1 \\
+\end{bmatrix}</script></li>
 </ul>
+<img src="/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_04矩阵形式1.png" title="矩阵形式1">
+<ul>
+<li>物理单位 ← 像素单位<script type="math/tex; mode=display">
+\begin{bmatrix}
+  x \\
+  y \\
+  1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+  d_x & 0 & -u_0d_x \\
+  0 & d_y & -v_0d_y \\
+  0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+  u \\
+  v \\
+  1 \\
+\end{bmatrix}</script></li>
+</ul>
+<img src="/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_05矩阵形式2.png" title="矩阵形式2">
 <h4 id="世界坐标系与摄像机坐标系"><a href="#世界坐标系与摄像机坐标系" class="headerlink" title="世界坐标系与摄像机坐标系"></a>世界坐标系与摄像机坐标系</h4><ul>
-<li>摄像机坐标系（空间三维Xc,Yc,Zc）</li>
-<li>1^2^1<br>2~3~2</li>
+<li>摄像机坐标系（空间三维<script type="math/tex">X_c</script>,<script type="math/tex">Y_c</script>,<script type="math/tex">Z_c</script>）</li>
+<li></li>
 </ul>
 <img src="/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_06世界坐标系_摄像机坐标系.png" title="世界坐标系_摄像机坐标系">
 <p>两个坐标系之间的位置关系：旋转矩阵、平移向量</p>
