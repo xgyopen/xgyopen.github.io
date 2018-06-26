@@ -102,7 +102,12 @@
 <meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/a_13Z坐标信息图滤波结果.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_01卷积层与池化层的结构示意图.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_02R-CNN模型结构示意图.png">
-<meta property="og:updated_time" content="2018-06-25T11:55:42.349Z">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_03Fast_R-CNN模型结构示意图.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_04空间金字塔池化示意图.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_05Faster_R-CNN模型结构示意图.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_06RPN示意图.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_07多路Faster_R-CNN检测示意图.png">
+<meta property="og:updated_time" content="2018-06-26T06:39:01.499Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]读缺陷检测论文">
 <meta name="twitter:description" content="精读3篇关于缺陷检测的机器视觉项目（深度学习）的论文，此文为笔记。">
@@ -460,6 +465,38 @@
 </ul>
 </li>
 </ol>
+<h2 id="硬件与软件"><a href="#硬件与软件" class="headerlink" title="硬件与软件"></a>硬件与软件</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">条目</th>
+<th style="text-align:center">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">CPU</td>
+<td style="text-align:center">Intel Core i5-4590@3.3GHz，四核</td>
+</tr>
+<tr>
+<td style="text-align:center">内存</td>
+<td style="text-align:center">8GB（DDR3 1600MHz）</td>
+</tr>
+<tr>
+<td style="text-align:center">GPU</td>
+<td style="text-align:center">Nvidia GTX760</td>
+</tr>
+<tr>
+<td style="text-align:center">软件环境</td>
+<td style="text-align:center">Ubuntu 14.04.5</td>
+</tr>
+<tr>
+<td style="text-align:center">编程语言</td>
+<td style="text-align:center">C++、Python</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h2 id="基于CNN的缺陷定位"><a href="#基于CNN的缺陷定位" class="headerlink" title="基于CNN的缺陷定位"></a>基于CNN的缺陷定位</h2><h3 id="CNN"><a href="#CNN" class="headerlink" title="CNN"></a>CNN</h3><ul>
 <li>激活函数：sigmoid、tanh、relu</li>
 <li>多层感知器（MLP）</li>
@@ -479,10 +516,11 @@
 </ul>
 <img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_01卷积层与池化层的结构示意图.png" title="卷积层与池化层的结构示意图">
 <p>思路梳理：<br><strong>全连接神经网络</strong> -全连接神经网络处理图片时权值数量过多-&gt; <strong>卷积神经网络</strong> -卷积层输出的特征图的维数远大于输入图像的维数-&gt; <strong>池化</strong></p>
-<h2 id="R-CNN"><a href="#R-CNN" class="headerlink" title="R-CNN"></a>R-CNN</h2><p>传统目标检测的主流方法：可变形部件模型（DPM, Deformable Parts Model）</p>
+<h3 id="R-CNN"><a href="#R-CNN" class="headerlink" title="R-CNN"></a>R-CNN</h3><p>传统目标检测的主流方法：可变形部件模型（DPM, Deformable Parts Model）</p>
+<img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_02R-CNN模型结构示意图.png" title="R-CNN模型结构示意图">
 <p>R-CNN模型：</p>
 <ul>
-<li>候选区域生成模块：选择性搜索<ul>
+<li>候选区域生成模块：选择性搜索（Selective Search）<ul>
 <li>传统做法：滑动窗口，为了维持高空间分辨率，CNN通常只有两层卷积层和池化层</li>
 </ul>
 </li>
@@ -492,10 +530,84 @@
 <li><strong>方案3：将候选区域拉伸/缩放至模型所要求尺寸</strong></li>
 </ul>
 </li>
-<li>分类检测模块：n个线性SVM</li>
+<li>分类检测模块：n个线性SVM（n为目标的种类数）、非极大值抑制<ul>
+<li>比原本AlexNet的softmax层效果好</li>
 </ul>
-<img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_02R-CNN模型结构示意图.png" title="R-CNN模型结构示意图">
-<p>CNN效果好，但需要样本的数量多、质量好，故再用图像处理算法排除CNN因样本不足产生的误检</p>
+</li>
+</ul>
+<p>边界框回归：原始边界框 -中心坐标和长宽、线性回归-&gt; 回归边界框</p>
+<h3 id="Fast-R-CNN"><a href="#Fast-R-CNN" class="headerlink" title="Fast R-CNN"></a>Fast R-CNN</h3><img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_03Fast_R-CNN模型结构示意图.png" title="Fast_R-CNN模型结构示意图">
+<p>针对R-CNN检测速度慢，Fast R-CNN做出的改进：</p>
+<ol>
+<li><p>从整幅图像的特征图提取候选区域的特征</p>
+<ul>
+<li>具体做法：先用CNN计算输入图像的特征，然后根据候选区域的位置，算出其在CNN最后一层卷积层输出的特征图上的相应位置，来获取该候选区域的特征</li>
+<li>这种<strong>映射求特征</strong>的方法对于每张输入图像只需要计算一次图像的特征，<strong>避免重复计算</strong></li>
+</ul>
+</li>
+<li><p>感兴趣区域（RoI, Region of Interest）池化层</p>
+<ul>
+<li>CNN的卷积层可接受任意尺寸的图像输入，相应地输出的特征图尺寸也是任意的</li>
+<li>全连接层和分类层要求固定尺寸的输入</li>
+<li>空间金字塔池化（SPP, Spatial Pyramid Pooling）解除了CNN对输入尺寸的限制，是RoI的思想来源<img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_04空间金字塔池化示意图.png" title="空间金字塔池化示意图">
+</li>
+</ul>
+</li>
+<li><p>多任务损失函数=softmax分类层+边界框回归层</p>
+<script type="math/tex; mode=display">L(P,u,t^u,v)=L_{cls}(P,u)+λI(u)L_{loc}(t^u,v)</script></li>
+</ol>
+<ul>
+<li><script type="math/tex; mode=display">L_{cls}(P,u)=-logp_u</script></li>
+<li>解释：①<strong><script type="math/tex">L_{cls}</script></strong>为分类的损失函数，②<strong>P</strong>为softmax层输出的N维概率分布向量，③<strong>u</strong>为训练样本中每个候选区域对应的真实类别标签，背景类的标签设为0（实际应用中背景类不需要进行边界框回归），此时I(u)的输出为0，<script type="math/tex">L_{loc}</script>被忽略</li>
+<li><script type="math/tex; mode=display">
+I(u)=\begin{cases}
+1, & \text{u≥1}\\
+0, & \text{其他}
+\end{cases}</script></li>
+<li><strong>λ</strong>为控制两个损失函数平衡的先验常量参数，通常取1</li>
+<li><script type="math/tex; mode=display">L_{loc}(t^u,v)=\sum_{*∈\{x,y,w,h\}}{smooth_{L_1}(t^u_*-v_*)}</script></li>
+<li><script type="math/tex; mode=display">
+smooth_{L_1}(x)=\begin{cases}
+0.5x^2, & \text{|x|<1}\\
+|x|-0.5, & \text{其他}
+\end{cases}</script></li>
+<li>解释：①<strong><script type="math/tex">L_{loc}</script></strong>为边界框回归的损失函数，②<strong><script type="math/tex">t^i=(t^i_x, t^i_y, t^i_w, t^i_h)</script></strong>为输出候选区域边界框的修正量，③<strong>v</strong>为该候选区域对应的边界框回归目标</li>
+</ul>
+<h3 id="Faster-R-CNN"><a href="#Faster-R-CNN" class="headerlink" title="Faster R-CNN"></a>Faster R-CNN</h3><img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_05Faster_R-CNN模型结构示意图.png" title="Faster_R-CNN模型结构示意图">
+<p>针对Selective Search是检测速度的瓶颈，Faster R-CNN做出的改进：</p>
+<ol>
+<li><p>候选区域网络（RPN, Region Proposal Network）：同时预测目标位置和目标分数</p>
+<ul>
+<li>n*n的窗口（n=3）</li>
+<li>k种锚框（k=9）</li>
+<li><img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_06RPN示意图.png" title="RPN示意图">
+</li>
+</ul>
+</li>
+<li><p>RPN的训练<br>网络根据<strong>锚框</strong>是否包含目标为锚框分配一个<strong>二值标签</strong>：</p>
+<ul>
+<li>正标签（目标）：与某个真实目标bbox重叠率最高/与任意真实目标bbox重叠率&gt;0.7</li>
+<li>负标签（背景）：与任意真实目标bbox重叠率&lt;0.3</li>
+<li>既没有正标签，又没有负标签的：不用于RPN训练<br>损失函数：</li>
+<li><script type="math/tex; mode=display">L(\{p_i\}, \{t_i\})=\frac{1}{N_{cls}}\sum_{i}{L_{cls}(p_i, p^{'}_i)}+λ\frac{1}{N_{reg}}\sum_{i}{p^{'}_iL_{reg}(t_i, t^{'}_i)}</script></li>
+<li>解释：<script type="math/tex">p_i</script>为第i个锚框包含目标的概率，锚框标签为正时<script type="math/tex">p^{'}_i=1</script>，锚框标签为负时<script type="math/tex">p^{'}_i=0</script></li>
+<li>解释：<script type="math/tex">t_i</script>为一个4维向量，表示锚框转换为候选bbox的修正量，<script type="math/tex">t^{'}_i</script>表示锚框转换为真实目标bbox的修正量</li>
+<li>解释：<script type="math/tex">L_{cls}、L_{reg}</script>的定义与Fast R-CNN中的相同</li>
+<li>解释：对于不包含目标的锚框，<script type="math/tex">p^{'}_i=0</script>，<script type="math/tex">L_{reg}</script>项被忽略</li>
+</ul>
+</li>
+<li><p>共享卷积特征图 P18</p>
+<ul>
+<li>交替式的训练方法使RPN与Fast R-CNN共享卷积特征</li>
+</ul>
+</li>
+</ol>
+<h3 id="多路Faster-R-CNN"><a href="#多路Faster-R-CNN" class="headerlink" title="多路Faster R-CNN"></a>多路Faster R-CNN</h3><ul>
+<li>用n（=2）个摄像机从不同角度，拍摄金属弧面工件的每个工位，采集的n张图像<strong>分别送入</strong>n个Faster R-CNN中进行缺陷检测，汇总n个网络输出的结果作为该工位的检测结果<img src="/2018/06/19/2018-06-19-imv-defect-detecting-paper/b_07多路Faster_R-CNN检测示意图.png" title="多路Faster_R-CNN检测示意图"></li>
+<li>针对问题：每个检测工位上用单张图像检测难以保证检测的准确度</li>
+<li>实现效果：多路Faster R-CNN并行计算，<strong>降低</strong>缺陷检测<strong>漏检率</strong>的同时，<strong>检测速度不受影响</strong>（对单个工位上的图像的检测时间为<strong>300ms</strong>，符合工业在线检测的时间要求）</li>
+</ul>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>CNN效果好，但需要样本的数量多、质量好，故再用图像处理算法排除CNN因样本不足产生的误检</p>
 <h1 id="16-华中师范-基于CNN的工件缺陷检测方法研究及系统设计-乔丽"><a href="#16-华中师范-基于CNN的工件缺陷检测方法研究及系统设计-乔丽" class="headerlink" title="16_华中师范_基于CNN的工件缺陷检测方法研究及系统设计_乔丽"></a>16_华中师范_基于CNN的工件缺陷检测方法研究及系统设计_乔丽</h1><h2 id="摘要-2"><a href="#摘要-2" class="headerlink" title="摘要"></a>摘要</h2>
       
     </div>
@@ -669,7 +781,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#15-哈工大-基于机器视觉的锂电池极片缺陷检测研究-胡玥红"><span class="nav-number">1.</span> <span class="nav-text">15_哈工大_基于机器视觉的锂电池极片缺陷检测研究_胡玥红</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锂电池极片缺陷"><span class="nav-number">1.2.</span> <span class="nav-text">锂电池极片缺陷</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缺陷分类"><span class="nav-number">1.2.1.</span> <span class="nav-text">缺陷分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测要求"><span class="nav-number">1.2.2.</span> <span class="nav-text">检测要求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计方案"><span class="nav-number">1.3.</span> <span class="nav-text">设计方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总体设计"><span class="nav-number">1.3.1.</span> <span class="nav-text">总体设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件"><span class="nav-number">1.3.2.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件"><span class="nav-number">1.3.3.</span> <span class="nav-text">软件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理部分"><span class="nav-number">1.4.</span> <span class="nav-text">图像处理部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#极耳缺陷检测"><span class="nav-number">1.4.1.</span> <span class="nav-text">极耳缺陷检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#边缘和极网缺陷检测"><span class="nav-number">1.4.2.</span> <span class="nav-text">边缘和极网缺陷检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.4.3.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#气泡三维重建部分（-没细看）"><span class="nav-number">1.5.</span> <span class="nav-text">气泡三维重建部分（*没细看）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺陷分类部分"><span class="nav-number">1.6.</span> <span class="nav-text">缺陷分类部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集"><span class="nav-number">1.6.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STuMs（支持Tucker机）"><span class="nav-number">1.6.2.</span> <span class="nav-text">STuMs（支持Tucker机）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#展望"><span class="nav-number">1.7.</span> <span class="nav-text">展望</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#17-华南理工-金属弧面工件表面缺陷检测与误检排除技术研究-许浩均"><span class="nav-number">2.</span> <span class="nav-text">17_华南理工_金属弧面工件表面缺陷检测与误检排除技术研究_许浩均</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要-1"><span class="nav-number">2.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于CNN的缺陷定位"><span class="nav-number">2.2.</span> <span class="nav-text">基于CNN的缺陷定位</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CNN"><span class="nav-number">2.2.1.</span> <span class="nav-text">CNN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#R-CNN"><span class="nav-number">2.3.</span> <span class="nav-text">R-CNN</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#16-华中师范-基于CNN的工件缺陷检测方法研究及系统设计-乔丽"><span class="nav-number">3.</span> <span class="nav-text">16_华中师范_基于CNN的工件缺陷检测方法研究及系统设计_乔丽</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要-2"><span class="nav-number">3.1.</span> <span class="nav-text">摘要</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#15-哈工大-基于机器视觉的锂电池极片缺陷检测研究-胡玥红"><span class="nav-number">1.</span> <span class="nav-text">15_哈工大_基于机器视觉的锂电池极片缺陷检测研究_胡玥红</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">1.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#锂电池极片缺陷"><span class="nav-number">1.2.</span> <span class="nav-text">锂电池极片缺陷</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#缺陷分类"><span class="nav-number">1.2.1.</span> <span class="nav-text">缺陷分类</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检测要求"><span class="nav-number">1.2.2.</span> <span class="nav-text">检测要求</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设计方案"><span class="nav-number">1.3.</span> <span class="nav-text">设计方案</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总体设计"><span class="nav-number">1.3.1.</span> <span class="nav-text">总体设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件"><span class="nav-number">1.3.2.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件"><span class="nav-number">1.3.3.</span> <span class="nav-text">软件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理部分"><span class="nav-number">1.4.</span> <span class="nav-text">图像处理部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#极耳缺陷检测"><span class="nav-number">1.4.1.</span> <span class="nav-text">极耳缺陷检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#边缘和极网缺陷检测"><span class="nav-number">1.4.2.</span> <span class="nav-text">边缘和极网缺陷检测</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缺点"><span class="nav-number">1.4.3.</span> <span class="nav-text">缺点</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#气泡三维重建部分（-没细看）"><span class="nav-number">1.5.</span> <span class="nav-text">气泡三维重建部分（*没细看）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缺陷分类部分"><span class="nav-number">1.6.</span> <span class="nav-text">缺陷分类部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#数据集"><span class="nav-number">1.6.1.</span> <span class="nav-text">数据集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#STuMs（支持Tucker机）"><span class="nav-number">1.6.2.</span> <span class="nav-text">STuMs（支持Tucker机）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#展望"><span class="nav-number">1.7.</span> <span class="nav-text">展望</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#17-华南理工-金属弧面工件表面缺陷检测与误检排除技术研究-许浩均"><span class="nav-number">2.</span> <span class="nav-text">17_华南理工_金属弧面工件表面缺陷检测与误检排除技术研究_许浩均</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要-1"><span class="nav-number">2.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硬件与软件"><span class="nav-number">2.2.</span> <span class="nav-text">硬件与软件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于CNN的缺陷定位"><span class="nav-number">2.3.</span> <span class="nav-text">基于CNN的缺陷定位</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CNN"><span class="nav-number">2.3.1.</span> <span class="nav-text">CNN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#R-CNN"><span class="nav-number">2.3.2.</span> <span class="nav-text">R-CNN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Fast-R-CNN"><span class="nav-number">2.3.3.</span> <span class="nav-text">Fast R-CNN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Faster-R-CNN"><span class="nav-number">2.3.4.</span> <span class="nav-text">Faster R-CNN</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多路Faster-R-CNN"><span class="nav-number">2.3.5.</span> <span class="nav-text">多路Faster R-CNN</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">2.4.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#16-华中师范-基于CNN的工件缺陷检测方法研究及系统设计-乔丽"><span class="nav-number">3.</span> <span class="nav-text">16_华中师范_基于CNN的工件缺陷检测方法研究及系统设计_乔丽</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要-2"><span class="nav-number">3.1.</span> <span class="nav-text">摘要</span></a></li></ol></li></ol></div>
             
 
           </div>
