@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xgyopen blog">
 <meta property="og:description" content="学一波Tensorflow。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-27T08:15:49.789Z">
+<meta property="og:updated_time" content="2018-06-27T09:41:32.672Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="*[深度学习]Tensorflow">
 <meta name="twitter:description" content="学一波Tensorflow。">
@@ -457,7 +457,23 @@
 <li>测试机：确定性能</li>
 </ul>
 </li>
-<li></li>
+<li><p>Softmax回归：线性的多类分类模型<br>对比Logistic回归：两类分类模型</p>
+<script type="math/tex; mode=display">y=Softmax(Logit)</script><script type="math/tex; mode=display">Logit=W^Tx+b</script><p>解释：<strong>Logit</strong>可以看成样本对应于各个类别的<strong>“打分”</strong>，Softmax输出的y代表各个类别的概率</p>
+</li>
+<li><p>手写数字识别程序（MNIST）</p>
+<ul>
+<li>全连接+softmax：softmax_regression.py</li>
+<li>两层CNN+softmax：convolutional.py</li>
+</ul>
+</li>
+<li><p>？？？需学习：卷积相关的矩阵操作模拟 P14</p>
+<ul>
+<li>tf.nn.conv2d的strides参数</li>
+<li>tf.nn.max_pool的ksize参数、strides参数</li>
+<li>W_conv1的参数选择[5, 5, 1, 32]</li>
+<li>自制数据集读取</li>
+</ul>
+</li>
 </ol>
 <h1 id="配置Win10-Tensorflow-GPU"><a href="#配置Win10-Tensorflow-GPU" class="headerlink" title="配置Win10+Tensorflow-GPU"></a>配置Win10+Tensorflow-GPU</h1><h2 id="参考博文"><a href="#参考博文" class="headerlink" title="参考博文"></a>参考博文</h2><p><a href="http://blog.csdn.net/u010099080/article/details/53418159" target="_blank" rel="noopener">Windows10 64位下安装TensorFlow - 官方原生支持</a><br><a href="http://blog.csdn.net/infovisthinker/article/details/54705826" target="_blank" rel="noopener">若CUDA安装成功，TF运行失败，看</a><br><a href="https://github.com/tensorflow/tensorflow/blob/r1.3/RELEASE.md" target="_blank" rel="noopener">Github上TF的说明</a></p>
 

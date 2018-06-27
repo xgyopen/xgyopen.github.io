@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xgyopen blog">
 <meta property="og:description" content="无锡埃姆维视觉部的培训，此文为笔记。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-27T07:25:12.996Z">
+<meta property="og:updated_time" content="2018-06-27T11:44:07.401Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]IMV培训">
 <meta name="twitter:description" content="无锡埃姆维视觉部的培训，此文为笔记。">
@@ -351,8 +351,40 @@
 <p>远心镜头：纠正视差，畸变很小</p>
 <h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>？景深的比较 普通的，远心的<br>？像元大还是小好？——大的好</p>
 <h1 id="硬件：工业相机"><a href="#硬件：工业相机" class="headerlink" title="硬件：工业相机"></a>硬件：工业相机</h1><ol>
-<li>传感器的尺寸</li>
+<li><p>传感器的尺寸<br>1/3’’等<br>尺寸指的是对角线，1英寸=25.4毫米</p>
+</li>
+<li><p>放大倍率（物理放大率）<br>FA镜头几乎不用这个概念，远心镜头经常用到这个概念<br>传感器/视野，视野越大，值越小</p>
+</li>
+<li><p>系统放大率<br>与显示器有关</p>
+</li>
+<li><p>像素<br>传感器的最小感光单位</p>
+</li>
+<li><p>分辨率<br>与全画幅有关<br>1000万像素是500万的两倍，但提升不是2倍，是根号2倍</p>
+</li>
+<li><p>像素长宽比</p>
+</li>
+<li><p>快门速度<br>动态的项目中会用<br>与最小曝光时间相关</p>
+</li>
+<li><p>帧率<br>帧率取决于快门速度和传输速度，快门速度短，帧率高<br>快门速度10张/秒，帧率建议选20以上</p>
+</li>
+<li><p>像素速率<br>很少用到，牵扯到传输速率</p>
+</li>
+<li><p>快门方式<br>卷帘快门：静态拍照 1000w、500w<br>全局快门：静态拍照/动态拍照</p>
+</li>
+<li><p>扫描方式<br>隔行扫描<br>逐行扫描</p>
+</li>
+<li><p>现在的相机一般都支持异步触发，高速拍摄时用到<br>相机会不会丢帧，允许某段时间内大量拍照，取决于相机内存（缓冲区），（64张、128MB）</p>
+</li>
+<li><p>最低照度<br>取决于芯片，达到一定照度后才能感受到，否则是全黑</p>
+</li>
+<li><p>局部扫描</p>
+</li>
+<li><p>信号格式<br>常用接口，主流是usb3.0 GigE<br>1394 火线，用得很少，传输速率慢，不适合高分辨率的相机，线长受限，10m以内<br>usb3.0 速度快，5m，线长不能太长<br>GigE 线可以很长，支持100m，速度没有usb3.0快<br>CameraLink 传输速率快，针对高速相机，面阵很少用，一般用线扫，5m<br>CoaxPress 速度比CameraLink快，大面阵相机、线扫相机</p>
+</li>
 </ol>
+<p>千兆相机，配千兆网线，配千兆采集卡<br>工业现场干扰大，网线至少得用带屏蔽层的<br>29分08秒 ?走坦普利亚用高柔的，<br>运动中拍照需要带锁，否则线容易折</p>
+<p>系统精度/速度=最小曝光时间，<br>曝光时间一般是零点几毫秒</p>
+<p>频闪控制器</p>
 <h1 id="硬件：光源"><a href="#硬件：光源" class="headerlink" title="硬件：光源"></a>硬件：光源</h1><div class="table-container">
 <table>
 <thead>
