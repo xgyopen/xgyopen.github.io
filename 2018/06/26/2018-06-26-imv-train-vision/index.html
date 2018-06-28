@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xgyopen blog">
 <meta property="og:description" content="无锡埃姆维视觉部的培训，此文为笔记。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-27T11:44:07.401Z">
+<meta property="og:updated_time" content="2018-06-28T05:45:28.453Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]IMV培训">
 <meta name="twitter:description" content="无锡埃姆维视觉部的培训，此文为笔记。">
@@ -383,9 +383,67 @@
 </li>
 </ol>
 <p>千兆相机，配千兆网线，配千兆采集卡<br>工业现场干扰大，网线至少得用带屏蔽层的<br>29分08秒 ?走坦普利亚用高柔的，<br>运动中拍照需要带锁，否则线容易折</p>
-<p>系统精度/速度=最小曝光时间，<br>曝光时间一般是零点几毫秒</p>
-<p>频闪控制器</p>
-<h1 id="硬件：光源"><a href="#硬件：光源" class="headerlink" title="硬件：光源"></a>硬件：光源</h1><div class="table-container">
+<p>？系统精度/速度=最小曝光时间，<br>曝光时间一般是零点几毫秒</p>
+<p>建议“频闪控制器”亮的周期，大于最小曝光时间</p>
+<p>面阵相机<br>线扫相机：</p>
+<p>☆选相机：<br>相机分辨率（X方向）=视野（X方向）/像素数（X方向）</p>
+<p>一般情况下，系统精度0.1，波动像素1-2个像素，波动到3个像素是不正常的，要找原因</p>
+<p>康耐视号称1/16亚像素，没什么意义</p>
+<p>评估时间节拍，一般1-2s</p>
+<ol>
+<li>取像时间 200ms以内</li>
+<li>处理时间 取决于用了多少工具</li>
+<li>通讯时间 ？obc在100ms左右，tcp/ip在10ms左右</li>
+<li>界面显示 界面刷新与显示浪费时间，放在最后</li>
+</ol>
+<p>常见取像方式：<br>软触发 串行<br>硬触发 并行，异步处理，一般加继电器做信号过滤<br>软触发信号+硬触发方式</p>
+<p>任何接口都有对应的图像采集卡，GigE是千兆网卡</p>
+<p>超大目标检测：拼很多相机，定位拍对角</p>
+<p>采集卡功能：把图像从相机到内存</p>
+<p>传输速率取决于相机、采集卡、工控机的接口中最差的</p>
+<p>图像格式：深度为8，0-255</p>
+<p>获得完美图像的6大要素：</p>
+<ol>
+<li><p>高系统精度<br>最佳视野：检测产品涵盖在FOV以内</p>
+</li>
+<li><p>清晰成像<br>清晰的焦距</p>
+</li>
+<li><p>避免畸变</p>
+</li>
+<li><p>保持待测物体在成像中大小一致<br>景深的问题：近大远小</p>
+</li>
+<li><p>图像中待测部分反差最大化<br>感兴趣区域与不感兴趣区域对比度达到最大</p>
+</li>
+<li><p>恰当的照明与曝光</p>
+</li>
+</ol>
+<p>镜头选型：接口、焦段、分辨率、畸变</p>
+<p>相机的动态范围：“焊接”（视野范围内突然图像特别亮、特别暗）<br>一般选60以下（40-60之间）<br>动态范围达到100，会把亮的适当变暗、暗的适当变亮，变得清晰</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>几种分辨率辨析</p>
+<h1 id="硬件：光源"><a href="#硬件：光源" class="headerlink" title="硬件：光源"></a>硬件：光源</h1><p>光源的作用：把目标和背景的对比度拉到最大</p>
+<p>如何选择光源：<br>背光——测量系统的最佳选择<br>亮场——最直接的照明<br>    正上方打光，把背景打亮（背景均匀/平，字符凹凸，可选择把背景打亮/背景打暗）<br>暗场——适合光滑表面的照明<br>    打低角度，总体光路与光源接近平行<br>结构光法——最简便的三维测量<br>    激光适用于测工件/产品是否到位<br>影子的利用——最不直接的测量<br>同轴光——昂贵的灯源<br>    应用于表面高反光的情况，不允许工作距离很高（30-50mm）<br>    因为同轴光中间亮，四周暗，故如拍摄视野100，同轴建议选150-200<br>    点光源 + 远心镜头 = 同轴光源</p>
+<p>颜色的考虑</p>
+<p>常用灯源分析<br>视觉行业，大部分都是用LED光源</p>
+<p>延长光源寿命，只有拍照时打开光源：频闪控制器、继电器</p>
+<p>照射光的种类：<br>直射光：直射环灯、2340分秒？中孔背光<br>光源+漫反射板：光均匀，但会损失30%的亮度<br>偏振光：防止高反光<br>平行光：</p>
+<p>亮视场：条灯从正上方打、中孔背光、背光、同轴、直射环灯<br>背光：尺寸测量时，能用背光就用背光，最稳定，效果最好<br>同轴<br>连续漫反射：模拟环境光（360度、均匀），工作距离近、相机需要与光源近<br>暗视场：打低角度，？框灯、条灯、环灯</p>
+<p>处于亮度的考虑，安装距离1m，条灯、Dome灯用不了</p>
+<p>常用光源：环灯、条灯（组成框灯）</p>
+<p>条灯应用广泛，线扫高亮光源用的多<br>线扫光源亮度很高，常见3种：线扫高亮高均匀的光源、线扫同轴、线扫Dome灯</p>
+<p>红外背光穿透力强</p>
+<p>产品不带颜色，建议用白色的光</p>
+<p>球积分光源=碗灯</p>
+<p>红外光源+红外滤镜：外界光对它的影响小，对油有比较好的抗干扰<br>紫外光源：对荧光物质敏感</p>
+<p>近红外：靠近可见光<br>远红外：远离可见光</p>
+<p>不同颜色的光加对应颜色的滤镜可以减少外界的干扰，白光不需要加滤镜<br>滤镜与光源波长需要对应</p>
+<p>检测的产品有各种颜色，光源只能用白色，相机用彩色相机<br>检测的产品只有一种颜色，想提高对比度，想把目标打亮，选择颜色一致的光源，想把目标打暗，选择互补的光源</p>
+<p>只要太阳光直射，任何光源都不行</p>
+<p>不平的表面：Dome灯<br>发光平的：同轴<br>圆形：环灯<br>长方形：框灯<br>医疗灌装：紫外光源<br>塑料：红外光源<br>瓶盖上的字符：背光红外</p>
+<p>根据反射情况，尝试用低角度</p>
+<p>频闪可以增大光源亮度</p>
+<p>选光源：最重要的是测试</p>
+<p>如果拿到产品，实在不知道用什么光源，就试条灯、环灯</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
@@ -576,7 +634,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件：镜头"><span class="nav-number">1.</span> <span class="nav-text">硬件：镜头</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题："><span class="nav-number">2.</span> <span class="nav-text">问题：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件：工业相机"><span class="nav-number">3.</span> <span class="nav-text">硬件：工业相机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件：光源"><span class="nav-number">4.</span> <span class="nav-text">硬件：光源</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件：镜头"><span class="nav-number">1.</span> <span class="nav-text">硬件：镜头</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题："><span class="nav-number">2.</span> <span class="nav-text">问题：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件：工业相机"><span class="nav-number">3.</span> <span class="nav-text">硬件：工业相机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">3.1.</span> <span class="nav-text">问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件：光源"><span class="nav-number">4.</span> <span class="nav-text">硬件：光源</span></a></li></ol></div>
             
 
           </div>
