@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xgyopen blog">
 <meta property="og:description" content="学一波Tensorflow。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-29T07:21:04.116Z">
+<meta property="og:updated_time" content="2018-06-29T10:47:18.581Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="*[深度学习]Tensorflow">
 <meta name="twitter:description" content="学一波Tensorflow。">
@@ -425,6 +425,12 @@
 <td style="text-align:center"><a href="http://www.broadview.com.cn/book/4990" target="_blank" rel="noopener">py3</a></td>
 <td style="text-align:center"><a href="https://github.com/DeepVisionTeam/TensorFlowBook" target="_blank" rel="noopener">作者Github</a></td>
 </tr>
+<tr>
+<td style="text-align:center">《深入浅出深度学习：原理剖析与Python实践》</td>
+<td style="text-align:center">2017.6</td>
+<td style="text-align:center"><a href="https://github.com/innovation-cat/DeepLearningBook" target="_blank" rel="noopener">py3.6、Theano0.9</a></td>
+<td style="text-align:center">数学基础、各种模型（自编码器、受限玻尔兹曼机、递归神经网络、卷积神经网络）</td>
+</tr>
 </tbody>
 </table>
 </div>
@@ -482,7 +488,7 @@
 <tr>
 <td style="text-align:center">微调VGG16模型</td>
 <td style="text-align:center"></td>
-<td style="text-align:center"></td>
+<td style="text-align:center">数据准备、训练模型、验证模型、导出模型、测试模型</td>
 </tr>
 <tr>
 <td style="text-align:center"></td>
@@ -528,12 +534,76 @@
 </li>
 <li><p>数据增强（Data Augmentation）<br>利用平移、缩放、颜色等变换，人工增大训练集样本的个数，从而获得更充足的训练数据，使模型训练的效果更好。<br>常用方法：平移、旋转、翻转、裁剪、缩放、颜色变换、噪声扰动。</p>
 </li>
+<li><p>TensorBoard可视化</p>
+</li>
+<li><p>在ImageNet数据集的几个模型：AlexNet、VGGNet、GoogLeNet、ResNet</p>
+</li>
 </ol>
 <h3 id="CH3-打造自己的图像识别模型"><a href="#CH3-打造自己的图像识别模型" class="headerlink" title="CH3 打造自己的图像识别模型"></a>CH3 打造自己的图像识别模型</h3><p>对预训练好的ImageNet模型（VGG16）进行微调（Fine-tune）：数据准备、训练模型、在测试集上验证准确率、导出模型并对单张图片分类</p>
-<h2 id="构建CNN识别自己的数据"><a href="#构建CNN识别自己的数据" class="headerlink" title="构建CNN识别自己的数据"></a>构建CNN识别自己的数据</h2><p><a href="https://blog.csdn.net/u012222078/article/details/77878775" target="_blank" rel="noopener">tensorflow 构建CNN识别自己的数据（类似于MNSIT）</a><br>代码：custom_image_tutorials</p>
-<p><a href="https://github.com/MeetDevin/PracticeOnTensorflow/tree/master/CNN" target="_blank" rel="noopener">关于卷积可以看的博文</a></p>
-<p><a href="https://www.cnblogs.com/skyfsm/p/8051705.html" target="_blank" rel="noopener">【Keras】从两个实际任务掌握图像分类</a></p>
-<p><a href="https://meetdevin.cn/2018/02/10/TensorFlow%E6%90%AD%E5%BB%BACNN%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E6%9C%AC%E5%9C%B0%E6%95%B0%E6%8D%AE/" target="_blank" rel="noopener">Tensorflow 搭建 CNN 模型训练本地数据</a><br>没跑通</p>
+<ol>
+<li><p>模型微调（Fine-tune）<br>在自己的数据集上训练一个新的深度学习模型时，一般采取在<strong>预训练ImageNet上进行微调</strong>的方法。<br>VGG16 = 卷积层（13） + 全连接层（3） = conv1~conv5 + fc6、fc7、fc8</p>
+</li>
+<li><p>将VGG16用于新的数据集：</p>
+</li>
+</ol>
+<ul>
+<li>去掉f8层，重新采用符合数据集类别数的全连接层，作为新的fc8。</li>
+<li>在训练的时候，网络的参数的初始值不是随机化生成的，而是采用VGG16在ImageNet上已经训练好的参数作为训练的初始值。（节省训练时间、有助于分类器性能的提高）</li>
+<li>载入VGG16的参数后，开始训练，需要指定分类层数的范围。<ul>
+<li>只训练fc8：将VGG16当作“特征提取器”。训练速度快，性能不太好</li>
+<li>训练所有参数：训练速度慢，性能比较好，可以充分发挥深度模型的威力</li>
+<li>训练部分参数：固定浅层参数不变（conv1、conv2），训练深层参数（conv3、conv4、conv5、fc6、fc7、fc8）</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li><p>数据准备</p>
+</li>
+<li><p>使用TensorFlow Slim微调模型</p>
+</li>
+</ol>
+<h2 id="构建CNN识别自己的数据"><a href="#构建CNN识别自己的数据" class="headerlink" title="构建CNN识别自己的数据"></a>构建CNN识别自己的数据</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">网址</th>
+<th style="text-align:center">代码</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/u012222078/article/details/77878775" target="_blank" rel="noopener">tensorflow 构建CNN识别自己的数据（类似于MNSIT）</a></td>
+<td style="text-align:center"><a href="https://coding.net/u/centaur/p/Share/git/tree/master/custom_image_tutorials" target="_blank" rel="noopener">custom_image_tutorials</a></td>
+<td style="text-align:center">自己生成手写数字并识别</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://www.cnblogs.com/skyfsm/p/8051705.html" target="_blank" rel="noopener">【Keras】从两个实际任务掌握图像分类</a></td>
+<td style="text-align:center"><a href="https://github.com/AstarLight/Keras-image-classifer-framework" target="_blank" rel="noopener">Keras-image-classifer-framework</a></td>
+<td style="text-align:center">keras，尝试跑了GE项目的数据集</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/MeetDevin/PracticeOnTensorflow/tree/master/CNN" target="_blank" rel="noopener">关于卷积可以看的博文</a></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://meetdevin.cn/2018/02/10/TensorFlow%E6%90%AD%E5%BB%BACNN%E6%A8%A1%E5%9E%8B%E8%AE%AD%E7%BB%83%E6%9C%AC%E5%9C%B0%E6%95%B0%E6%8D%AE/" target="_blank" rel="noopener">Tensorflow 搭建 CNN 模型训练本地数据</a></td>
+<td style="text-align:center"><a href="https://github.com/MeetDevin/PracticeOnTensorflow" target="_blank" rel="noopener">PracticeOnTensorflow</a></td>
+<td style="text-align:center">没跑通</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+</div>
 <h1 id="配置Win10-Tensorflow-GPU"><a href="#配置Win10-Tensorflow-GPU" class="headerlink" title="配置Win10+Tensorflow-GPU"></a>配置Win10+Tensorflow-GPU</h1><h2 id="参考博文"><a href="#参考博文" class="headerlink" title="参考博文"></a>参考博文</h2><p><a href="http://blog.csdn.net/u010099080/article/details/53418159" target="_blank" rel="noopener">Windows10 64位下安装TensorFlow - 官方原生支持</a><br><a href="http://blog.csdn.net/infovisthinker/article/details/54705826" target="_blank" rel="noopener">若CUDA安装成功，TF运行失败，看</a><br><a href="https://github.com/tensorflow/tensorflow/blob/r1.3/RELEASE.md" target="_blank" rel="noopener">Github上TF的说明</a></p>
 
       
@@ -660,7 +730,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">31</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
