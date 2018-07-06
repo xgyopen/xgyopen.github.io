@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xgyopen blog">
 <meta property="og:description" content="OpenCV的Python接口。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-03T09:31:35.219Z">
+<meta property="og:updated_time" content="2018-07-04T13:42:56.871Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]OpenCV+Python">
 <meta name="twitter:description" content="OpenCV的Python接口。">
@@ -333,7 +333,28 @@
 <li>图像是由像素构成的</li>
 <li>图像分类：二值图像、灰度图像、RGB图像<br>OpenCV中通道顺序是<strong>BGR</strong><br>常见操作：RGB转灰度、灰度转二值</li>
 </ol>
-<h2 id="像素处理"><a href="#像素处理" class="headerlink" title="像素处理"></a>像素处理</h2><h2 id="使用numpy访问像素"><a href="#使用numpy访问像素" class="headerlink" title="使用numpy访问像素"></a>使用numpy访问像素</h2><h2 id="获取图像属性"><a href="#获取图像属性" class="headerlink" title="获取图像属性"></a>获取图像属性</h2><h2 id="感兴趣区域ROI"><a href="#感兴趣区域ROI" class="headerlink" title="感兴趣区域ROI"></a>感兴趣区域ROI</h2><h2 id="通道的拆分与合并"><a href="#通道的拆分与合并" class="headerlink" title="通道的拆分与合并"></a>通道的拆分与合并</h2><p>章节4图像运算<br>课时13图像加法11:00<br>课时14图像融合08:18<br>课时15源代码<br>章节5类型转换<br>课时16类型转换11:14<br>课时17源代码<br>章节6几何变换<br>课时18图像缩放13:50<br>课时19图像翻转06:20<br>课时20源文件<br>章节7阈值分割<br>课时21基础理论11:12<br>课时22threshold函数16:21<br>课时23源文件<br>章节8图像平滑处理<br>课时24均值滤波10:58<br>课时25方框滤波10:37<br>课时26高斯滤波10:22<br>课时27中值滤波06:49<br>课时28源代码<br>章节9形态学操作<br>课时29图像腐蚀14:11<br>课时30图像膨胀17:05<br>课时31开运算12:47<br>课时32闭运算13:06<br>课时33梯度运算11:49<br>课时34礼帽操作10:24<br>课时35黑帽图像处理10:28<br>课时36源代码及图片<br>章节10图像梯度<br>课时37sobel理论基础08:46<br>课时38sobel算子及其函数使用32:13<br>课时39scharr算子函数及其使用28:48<br>课时40sobel算子和scharr算子的比较12:59<br>课时41laplacian算子及使用15:41<br>课时42源文件<br>章节11canny边缘检测<br>课时43canny边缘检测原理10:41<br>课时44canny函数及使用09:25<br>课时45源文件<br>章节12图像金字塔<br>课时46理论基础12:23<br>课时47pyrDown函数及使用06:54<br>课时48pyrUp函数及使用08:07<br>课时49取样可逆性研究11:01<br>课时50拉普拉斯金字塔18:33<br>课时51源文件<br>章节13图像轮廓<br>课时52图像轮廓26:05<br>课时53源文件</p>
+<h2 id="像素处理"><a href="#像素处理" class="headerlink" title="像素处理"></a>像素处理</h2><h3 id="读取像素"><a href="#读取像素" class="headerlink" title="读取像素"></a>读取像素</h3><p><strong>返回值=图像（位置参数）</strong><br>-灰度图像，返回灰度值。<br>范例：<br>p=img[88,142]<br>print(p)</p>
+<p>-BGR图像，返回值为B，G，R的值。<br>范例：<br>blue=img[78,125,0], green=img[78,125,1], red=img[78,125,2]<br>print(blue), print(green), print(red)</p>
+<p>p=img[78,125]<br>print(p)</p>
+<h3 id="修改像素值"><a href="#修改像素值" class="headerlink" title="修改像素值"></a>修改像素值</h3><p><strong>像素=新值</strong></p>
+<p>-灰度图像<br>范例：img[88,99]=255</p>
+<p>-BGR图像<br>范例：<br>img[88,99,0]=255, img[88,99,1]=255, img[88,99,2]=255</p>
+<p>img[88,99]=[255,255,255]</p>
+<h2 id="使用numpy进行像素处理"><a href="#使用numpy进行像素处理" class="headerlink" title="使用numpy进行像素处理"></a>使用numpy进行像素处理</h2><h3 id="读取像素-1"><a href="#读取像素-1" class="headerlink" title="读取像素"></a>读取像素</h3><p><strong>返回值=图像.item(位置参数)</strong></p>
+<p>-灰度图像，返回灰度值。<br>范例：<br>p=img.item(88,142)<br>print(p)</p>
+<p>-BGR图像，返回值为B，G，R的值。<br>范例：<br>blue=img.item(78,125,0), green=img.item(78,125,1), red=img.item(78,125,2)</p>
+<h3 id="修改像素值-1"><a href="#修改像素值-1" class="headerlink" title="修改像素值"></a>修改像素值</h3><p><strong>图像名.itemset(位置,新值)</strong></p>
+<p>-灰度图像<br>范例：img.itemset((88,99), 255)</p>
+<p>-BGR图像<br>范例：<br>img.itemset((88,99,0), 255)<br>img.itemset((88,99,1), 255)<br>img.itemset((88,99,2), 255)</p>
+<h2 id="获取图像属性"><a href="#获取图像属性" class="headerlink" title="获取图像属性"></a>获取图像属性</h2><h3 id="1-形状：行、列、通道数"><a href="#1-形状：行、列、通道数" class="headerlink" title="1.形状：行、列、通道数"></a>1.形状：行、列、通道数</h3><p><strong>shape可以获取图像的形状，返回包含行数，列数，通道数的元组。</strong><br>-灰度 返回行数，列数<br>-彩色 返回行数，列数，通道数</p>
+<p>范例：img.shape</p>
+<h3 id="2-像素数目"><a href="#2-像素数目" class="headerlink" title="2.像素数目"></a>2.像素数目</h3><p><strong>size可以获取图像的像素数目。</strong><br>-灰度 返回：行数<em>列数<br>-彩色 返回：行数</em>列数*通道数</p>
+<p>范例：img.size</p>
+<h3 id="3-图像的数据类型"><a href="#3-图像的数据类型" class="headerlink" title="3.图像的数据类型"></a>3.图像的数据类型</h3><p><strong>dtype返回的是图像的数据类型。</strong></p>
+<p>范例：img.dtype</p>
+<h2 id="感兴趣区域ROI"><a href="#感兴趣区域ROI" class="headerlink" title="感兴趣区域ROI"></a>感兴趣区域ROI</h2><p>ROI（region of interest），感兴趣区域。<br>从被处理的图像以方框、圆、椭圆、不规则多边形等方式勾勒出需要处理的区域。<br>可以通过各种算子（Operator）和函数来求得感兴趣区域ROI，并进行图像的下一步处理。</p>
+<p>face=img[200:400,200:400]<br>img[200:400,600:800]=face</p>
+<h2 id="通道的拆分与合并"><a href="#通道的拆分与合并" class="headerlink" title="通道的拆分与合并"></a>通道的拆分与合并</h2><p>章节4图像运算<br>课时13图像加法11:00<br>课时14图像融合08:18<br>课时15源代码<br>章节5类型转换<br>课时16类型转换11:14<br>课时17源代码<br>章节6几何变换<br>课时18图像缩放13:50<br>课时19图像翻转06:20<br>课时20源文件<br>章节7阈值分割<br>课时21基础理论11:12<br>课时22threshold函数16:21<br>课时23源文件<br>章节8图像平滑处理<br>课时24均值滤波10:58<br>课时25方框滤波10:37<br>课时26高斯滤波10:22<br>课时27中值滤波06:49<br>课时28源代码<br>章节9形态学操作<br>课时29图像腐蚀14:11<br>课时30图像膨胀17:05<br>课时31开运算12:47<br>课时32闭运算13:06<br>课时33梯度运算11:49<br>课时34礼帽操作10:24<br>课时35黑帽图像处理10:28<br>课时36源代码及图片<br>章节10图像梯度<br>课时37sobel理论基础08:46<br>课时38sobel算子及其函数使用32:13<br>课时39scharr算子函数及其使用28:48<br>课时40sobel算子和scharr算子的比较12:59<br>课时41laplacian算子及使用15:41<br>课时42源文件<br>章节11canny边缘检测<br>课时43canny边缘检测原理10:41<br>课时44canny函数及使用09:25<br>课时45源文件<br>章节12图像金字塔<br>课时46理论基础12:23<br>课时47pyrDown函数及使用06:54<br>课时48pyrUp函数及使用08:07<br>课时49取样可逆性研究11:01<br>课时50拉普拉斯金字塔18:33<br>课时51源文件<br>章节13图像轮廓<br>课时52图像轮廓26:05<br>课时53源文件</p>
 <div class="table-container">
 <table>
 <thead>
@@ -396,8 +417,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/08/01/2018-08-01-blog/" rel="prev" title="[暂时]不错的博文">
-                [暂时]不错的博文 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/07/06/2018-07-06-competition-cv/" rel="prev" title="[计算机视觉]几个比赛">
+                [计算机视觉]几个比赛 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -479,7 +500,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">31</span>
+                  <span class="site-state-item-count">32</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -525,7 +546,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#图像处理基础"><span class="nav-number">1.</span> <span class="nav-text">图像处理基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#图像读入、显示与保存"><span class="nav-number">1.1.</span> <span class="nav-text">图像读入、显示与保存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-读入图像"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.读入图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-显示图像"><span class="nav-number">1.1.2.</span> <span class="nav-text">2.显示图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-保存图像"><span class="nav-number">1.1.3.</span> <span class="nav-text">3.保存图像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理入门基础"><span class="nav-number">1.2.</span> <span class="nav-text">图像处理入门基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#像素处理"><span class="nav-number">1.3.</span> <span class="nav-text">像素处理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用numpy访问像素"><span class="nav-number">1.4.</span> <span class="nav-text">使用numpy访问像素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取图像属性"><span class="nav-number">1.5.</span> <span class="nav-text">获取图像属性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#感兴趣区域ROI"><span class="nav-number">1.6.</span> <span class="nav-text">感兴趣区域ROI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通道的拆分与合并"><span class="nav-number">1.7.</span> <span class="nav-text">通道的拆分与合并</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#图像处理基础"><span class="nav-number">1.</span> <span class="nav-text">图像处理基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#图像读入、显示与保存"><span class="nav-number">1.1.</span> <span class="nav-text">图像读入、显示与保存</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-读入图像"><span class="nav-number">1.1.1.</span> <span class="nav-text">1.读入图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-显示图像"><span class="nav-number">1.1.2.</span> <span class="nav-text">2.显示图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-保存图像"><span class="nav-number">1.1.3.</span> <span class="nav-text">3.保存图像</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像处理入门基础"><span class="nav-number">1.2.</span> <span class="nav-text">图像处理入门基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#像素处理"><span class="nav-number">1.3.</span> <span class="nav-text">像素处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取像素"><span class="nav-number">1.3.1.</span> <span class="nav-text">读取像素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改像素值"><span class="nav-number">1.3.2.</span> <span class="nav-text">修改像素值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用numpy进行像素处理"><span class="nav-number">1.4.</span> <span class="nav-text">使用numpy进行像素处理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#读取像素-1"><span class="nav-number">1.4.1.</span> <span class="nav-text">读取像素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改像素值-1"><span class="nav-number">1.4.2.</span> <span class="nav-text">修改像素值</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获取图像属性"><span class="nav-number">1.5.</span> <span class="nav-text">获取图像属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-形状：行、列、通道数"><span class="nav-number">1.5.1.</span> <span class="nav-text">1.形状：行、列、通道数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-像素数目"><span class="nav-number">1.5.2.</span> <span class="nav-text">2.像素数目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-图像的数据类型"><span class="nav-number">1.5.3.</span> <span class="nav-text">3.图像的数据类型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#感兴趣区域ROI"><span class="nav-number">1.6.</span> <span class="nav-text">感兴趣区域ROI</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通道的拆分与合并"><span class="nav-number">1.7.</span> <span class="nav-text">通道的拆分与合并</span></a></li></ol></li></ol></div>
             
 
           </div>
