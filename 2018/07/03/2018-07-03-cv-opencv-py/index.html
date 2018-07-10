@@ -103,10 +103,18 @@
 <meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/7_6反阈值化为0.png">
 <meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/7_7阈值化为0.png">
 <meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/7_8二进制阈值化_反二进制阈值化.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/8_1均值滤波1.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/8_2均值滤波2.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/8_3均值滤波3.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/8_4均值滤波_核大小.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/8_7方框滤波_normalize属性.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/8_11高斯滤波.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/8_12高斯滤波_核大小.png">
+<meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/8_14中值滤波.png">
 <meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/13_1轮廓是什么.png">
 <meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/13_2从黑色背景中查找白色对象.png">
 <meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/13_3轮廓的近似方法.png">
-<meta property="og:updated_time" content="2018-07-09T06:50:13.104Z">
+<meta property="og:updated_time" content="2018-07-10T05:14:49.256Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]OpenCV+Python">
 <meta name="twitter:description" content="OpenCV的Python接口。">
@@ -439,7 +447,34 @@
 <p>二进制阈值化：cv2.THRESH_BINARY<br>反二进制阈值化：cv2.THRESH_BINARY_INV<br>截断阈值化：cv2.THRESH_TRUNC<br>反阈值化为0：cv2.THRESH_TOZERO_INV<br>阈值化为0：cv2.THRESH_TOZERO</p>
 <p>范例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r,b = cv2.threshold(a,<span class="number">127</span>,<span class="number">255</span>,cv2.THRESH_BINARY)</span><br></pre></td></tr></table></figure></p>
 <img src="/2018/07/03/2018-07-03-cv-opencv-py/7_8二进制阈值化_反二进制阈值化.png" title="二进制阈值化_反二进制阈值化">
-<h1 id="图像平滑处理"><a href="#图像平滑处理" class="headerlink" title="图像平滑处理"></a>图像平滑处理</h1><h2 id="均值滤波"><a href="#均值滤波" class="headerlink" title="均值滤波"></a>均值滤波</h2><h2 id="方框滤波"><a href="#方框滤波" class="headerlink" title="方框滤波"></a>方框滤波</h2><h2 id="高斯滤波"><a href="#高斯滤波" class="headerlink" title="高斯滤波"></a>高斯滤波</h2><h2 id="中值滤波"><a href="#中值滤波" class="headerlink" title="中值滤波"></a>中值滤波</h2><h1 id="形态学操作"><a href="#形态学操作" class="headerlink" title="形态学操作"></a>形态学操作</h1><h2 id="图像腐蚀"><a href="#图像腐蚀" class="headerlink" title="图像腐蚀"></a>图像腐蚀</h2><h2 id="图像膨胀"><a href="#图像膨胀" class="headerlink" title="图像膨胀"></a>图像膨胀</h2><h2 id="开运算"><a href="#开运算" class="headerlink" title="开运算"></a>开运算</h2><h2 id="闭运算"><a href="#闭运算" class="headerlink" title="闭运算"></a>闭运算</h2><h2 id="梯度运算"><a href="#梯度运算" class="headerlink" title="梯度运算"></a>梯度运算</h2><h2 id="礼帽操作"><a href="#礼帽操作" class="headerlink" title="礼帽操作"></a>礼帽操作</h2><h2 id="黑帽图像处理"><a href="#黑帽图像处理" class="headerlink" title="黑帽图像处理"></a>黑帽图像处理</h2><h1 id="图像梯度"><a href="#图像梯度" class="headerlink" title="图像梯度"></a>图像梯度</h1><h2 id="sobel算子的理论基础"><a href="#sobel算子的理论基础" class="headerlink" title="sobel算子的理论基础"></a>sobel算子的理论基础</h2><h2 id="sobel算子及其函数使用"><a href="#sobel算子及其函数使用" class="headerlink" title="sobel算子及其函数使用"></a>sobel算子及其函数使用</h2><h2 id="scharr算子函数及其使用"><a href="#scharr算子函数及其使用" class="headerlink" title="scharr算子函数及其使用"></a>scharr算子函数及其使用</h2><h2 id="sobel算子和scharr算子的比较"><a href="#sobel算子和scharr算子的比较" class="headerlink" title="sobel算子和scharr算子的比较"></a>sobel算子和scharr算子的比较</h2><h2 id="laplacian算子及使用"><a href="#laplacian算子及使用" class="headerlink" title="laplacian算子及使用"></a>laplacian算子及使用</h2><h1 id="canny边缘检测"><a href="#canny边缘检测" class="headerlink" title="canny边缘检测"></a>canny边缘检测</h1><h2 id="canny边缘检测原理"><a href="#canny边缘检测原理" class="headerlink" title="canny边缘检测原理"></a>canny边缘检测原理</h2><h2 id="canny函数及使用"><a href="#canny函数及使用" class="headerlink" title="canny函数及使用"></a>canny函数及使用</h2><h1 id="图像金字塔"><a href="#图像金字塔" class="headerlink" title="图像金字塔"></a>图像金字塔</h1><h2 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h2><h2 id="pyrDown函数及使用"><a href="#pyrDown函数及使用" class="headerlink" title="pyrDown函数及使用"></a>pyrDown函数及使用</h2><h2 id="pyrUp函数及使用"><a href="#pyrUp函数及使用" class="headerlink" title="pyrUp函数及使用"></a>pyrUp函数及使用</h2><h2 id="取样可逆性研究"><a href="#取样可逆性研究" class="headerlink" title="取样可逆性研究"></a>取样可逆性研究</h2><h2 id="拉普拉斯金字塔"><a href="#拉普拉斯金字塔" class="headerlink" title="拉普拉斯金字塔"></a>拉普拉斯金字塔</h2><h1 id="图像轮廓"><a href="#图像轮廓" class="headerlink" title="图像轮廓"></a>图像轮廓</h1><h2 id="图像轮廓（极简版）"><a href="#图像轮廓（极简版）" class="headerlink" title="图像轮廓（极简版）"></a>图像轮廓（极简版）</h2><p>1.轮廓是什么？<br>边缘检测能够测出边缘，但是边缘是不连续的。<br>将边缘连接为一个整理，构成轮廓。</p>
+<h1 id="图像平滑处理"><a href="#图像平滑处理" class="headerlink" title="图像平滑处理"></a>图像平滑处理</h1><h2 id="均值滤波"><a href="#均值滤波" class="headerlink" title="均值滤波"></a>均值滤波</h2><p>任意一点的像素值，都是周围N*N个像素值的均值<br>针对原始图像内的像素点，逐个采用核进行处理，得到结果图像。</p>
+<img src="/2018/07/03/2018-07-03-cv-opencv-py/8_1均值滤波1.png" title="均值滤波1">
+<img src="/2018/07/03/2018-07-03-cv-opencv-py/8_2均值滤波2.png" title="均值滤波2">
+<img src="/2018/07/03/2018-07-03-cv-opencv-py/8_3均值滤波3.png" title="均值滤波3">
+<p>函数blur<br><strong>处理结果 = cv2.blur(原始图像, 核大小)</strong></p>
+<img src="/2018/07/03/2018-07-03-cv-opencv-py/8_4均值滤波_核大小.png" title="均值滤波_核大小">
+<p>范例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r = cv2.blur(o,(<span class="number">5</span>,<span class="number">5</span>))</span><br></pre></td></tr></table></figure></p>
+
+
+<h2 id="方框滤波"><a href="#方框滤波" class="headerlink" title="方框滤波"></a>方框滤波</h2><p>函数boxFilter<br><strong>处理结果 = cv2.boxFilter(原始图像, 目标图像深度, 核大小, normalize属性)</strong><br>目标图像深度：int类型的目标图像深度。通常使用“-1”表示与原始图像一致。<br>核大小：(5,5)、(3,3)<br>normalize属性：是否对目标图像进行归一化处理。</p>
+<img src="/2018/07/03/2018-07-03-cv-opencv-py/8_7方框滤波_normalize属性.png" title="方框滤波_normalize属性">
+<p>范例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">r = cv2.boxFilter(o,<span class="number">-1</span>,(<span class="number">5</span>,<span class="number">5</span>),normalize=<span class="number">1</span>) <span class="comment">#归一化处理，与均值滤波相同</span></span><br><span class="line"></span><br><span class="line">r = cv2.boxFilter(o,<span class="number">-1</span>,(<span class="number">2</span>,<span class="number">2</span>)) <span class="comment">#省略normalize参数，进行归一化处理</span></span><br></pre></td></tr></table></figure></p>
+
+
+
+<h2 id="高斯滤波"><a href="#高斯滤波" class="headerlink" title="高斯滤波"></a>高斯滤波</h2><p>让临近的像素具有更高的重要度。对周围像素计算加权平均值，较近的像素具有较大的权重值。</p>
+<img src="/2018/07/03/2018-07-03-cv-opencv-py/8_11高斯滤波.png" title="高斯滤波">
+<p>GaussianBlur函数<br><strong>dst = cv2.GaussianBlur(src, ksize, sigmaX)</strong><br>src:原始图像，要处理的源图像<br>ksize:核大小(N,N)必须是奇数</p>
+<img src="/2018/07/03/2018-07-03-cv-opencv-py/8_12高斯滤波_核大小.png" title="高斯滤波_核大小">
+<p>sigmaX:X方向方差，控制权重<br>sigmaX=0时：sigma = 0.3<em>((ksize-1)</em>0.5 - 1) + 0.8</p>
+<p>范例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r = cv2.GaussianBlur(o,(<span class="number">3</span>,<span class="number">3</span>),<span class="number">0</span>)</span><br></pre></td></tr></table></figure></p>
+
+<h2 id="中值滤波"><a href="#中值滤波" class="headerlink" title="中值滤波"></a>中值滤波</h2><p>让临近的像素按照大小排列，取排序像素集中位于中间位置的值作为中值滤波后的像素值。</p>
+<img src="/2018/07/03/2018-07-03-cv-opencv-py/8_14中值滤波.png" title="中值滤波">
+<p>medianBlur函数<br><strong>dst = cv2.medianBlur(src, ksize)</strong><br>src:源图像<br>ksize:核大小，必须是比1大的奇数，如3,5,7等</p>
+<p>范例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">r = cv2.medianBlur(o,<span class="number">3</span>)</span><br></pre></td></tr></table></figure></p>
+
+<h1 id="形态学操作"><a href="#形态学操作" class="headerlink" title="形态学操作"></a>形态学操作</h1><h2 id="图像腐蚀"><a href="#图像腐蚀" class="headerlink" title="图像腐蚀"></a>图像腐蚀</h2><h2 id="图像膨胀"><a href="#图像膨胀" class="headerlink" title="图像膨胀"></a>图像膨胀</h2><h2 id="开运算"><a href="#开运算" class="headerlink" title="开运算"></a>开运算</h2><h2 id="闭运算"><a href="#闭运算" class="headerlink" title="闭运算"></a>闭运算</h2><h2 id="梯度运算"><a href="#梯度运算" class="headerlink" title="梯度运算"></a>梯度运算</h2><h2 id="礼帽操作"><a href="#礼帽操作" class="headerlink" title="礼帽操作"></a>礼帽操作</h2><h2 id="黑帽图像处理"><a href="#黑帽图像处理" class="headerlink" title="黑帽图像处理"></a>黑帽图像处理</h2><h1 id="图像梯度"><a href="#图像梯度" class="headerlink" title="图像梯度"></a>图像梯度</h1><h2 id="sobel算子的理论基础"><a href="#sobel算子的理论基础" class="headerlink" title="sobel算子的理论基础"></a>sobel算子的理论基础</h2><h2 id="sobel算子及其函数使用"><a href="#sobel算子及其函数使用" class="headerlink" title="sobel算子及其函数使用"></a>sobel算子及其函数使用</h2><h2 id="scharr算子函数及其使用"><a href="#scharr算子函数及其使用" class="headerlink" title="scharr算子函数及其使用"></a>scharr算子函数及其使用</h2><h2 id="sobel算子和scharr算子的比较"><a href="#sobel算子和scharr算子的比较" class="headerlink" title="sobel算子和scharr算子的比较"></a>sobel算子和scharr算子的比较</h2><h2 id="laplacian算子及使用"><a href="#laplacian算子及使用" class="headerlink" title="laplacian算子及使用"></a>laplacian算子及使用</h2><h1 id="canny边缘检测"><a href="#canny边缘检测" class="headerlink" title="canny边缘检测"></a>canny边缘检测</h1><h2 id="canny边缘检测原理"><a href="#canny边缘检测原理" class="headerlink" title="canny边缘检测原理"></a>canny边缘检测原理</h2><h2 id="canny函数及使用"><a href="#canny函数及使用" class="headerlink" title="canny函数及使用"></a>canny函数及使用</h2><h1 id="图像金字塔"><a href="#图像金字塔" class="headerlink" title="图像金字塔"></a>图像金字塔</h1><h2 id="理论基础"><a href="#理论基础" class="headerlink" title="理论基础"></a>理论基础</h2><h2 id="pyrDown函数及使用"><a href="#pyrDown函数及使用" class="headerlink" title="pyrDown函数及使用"></a>pyrDown函数及使用</h2><h2 id="pyrUp函数及使用"><a href="#pyrUp函数及使用" class="headerlink" title="pyrUp函数及使用"></a>pyrUp函数及使用</h2><h2 id="取样可逆性研究"><a href="#取样可逆性研究" class="headerlink" title="取样可逆性研究"></a>取样可逆性研究</h2><h2 id="拉普拉斯金字塔"><a href="#拉普拉斯金字塔" class="headerlink" title="拉普拉斯金字塔"></a>拉普拉斯金字塔</h2><h1 id="图像轮廓"><a href="#图像轮廓" class="headerlink" title="图像轮廓"></a>图像轮廓</h1><h2 id="图像轮廓（极简版）"><a href="#图像轮廓（极简版）" class="headerlink" title="图像轮廓（极简版）"></a>图像轮廓（极简版）</h2><p>1.轮廓是什么？<br>边缘检测能够测出边缘，但是边缘是不连续的。<br>将边缘连接为一个整理，构成轮廓。</p>
 <img src="/2018/07/03/2018-07-03-cv-opencv-py/13_1轮廓是什么.png" title="轮廓是什么">
 <p>2.注意问题：<br><strong>对象是二值图像</strong>。所以需要预先进行阈值分割或者边缘检测处理。<br>查找轮廓需要更改原始图像。因此，<strong>通常使用原始图像的一份拷贝操作</strong>。<br>在OpenCV中，是<strong>从黑色背景中查找白色对象</strong>。因此，对象必须是白色的，背景必须是黑色的。</p>
 <img src="/2018/07/03/2018-07-03-cv-opencv-py/13_2从黑色背景中查找白色对象.png" title="从黑色背景中查找白色对象">
