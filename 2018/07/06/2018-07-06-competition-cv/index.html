@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xgyopen blog">
 <meta property="og:description" content="几个计算机视觉的比赛，包括天池的布匹疵点识别、PRCV2018的军事地面目标识别、Kaggle的Object Detection Track。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-13T01:11:30.636Z">
+<meta property="og:updated_time" content="2018-07-16T09:10:42.516Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[计算机视觉]几个比赛">
 <meta name="twitter:description" content="几个计算机视觉的比赛，包括天池的布匹疵点识别、PRCV2018的军事地面目标识别、Kaggle的Object Detection Track。">
@@ -532,7 +532,14 @@
 </tbody>
 </table>
 </div>
-<h1 id="运行PyTorch"><a href="#运行PyTorch" class="headerlink" title="运行PyTorch"></a>运行PyTorch</h1><p>训练模型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python main.py train --train-data-root=data/train/ --load-model-path=&apos;checkpoints/resnet34&apos; --lr=0.005 --batch-size=32 --model=&apos;ResNet34&apos; --max-epoch=20</span><br></pre></td></tr></table></figure></p>
+<h1 id="运行PyTorch"><a href="#运行PyTorch" class="headerlink" title="运行PyTorch"></a>运行PyTorch</h1><p>运行visdom<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m visdom.server</span><br></pre></td></tr></table></figure></p>
+<p>训练模型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python main.py train --train-data-root=data/train/ --load-model-path=&apos;checkpoints/resnet34-333f7ec4.pth&apos; --lr=0.005 --batch-size=32 --model=&apos;ResNet34&apos; --max-epoch=20</span><br></pre></td></tr></table></figure></p>
+<p>测试模型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python main.py test --test-data-root=data/test1/ --load-model-path=&apos;checkpoints/resnet34_0713_14:48:31.pth&apos; --batch-size=32 --model=&apos;ResNet34&apos; --num-workers=12</span><br></pre></td></tr></table></figure></p>
+<p>打印帮助信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python main.py help</span><br></pre></td></tr></table></figure></p>
+<h1 id="PyTorch-Faster-R-CNN"><a href="#PyTorch-Faster-R-CNN" class="headerlink" title="PyTorch Faster R-CNN"></a>PyTorch Faster R-CNN</h1><p><a href="https://blog.csdn.net/yutingzhaomeng/article/details/80328422" target="_blank" rel="noopener">如何用Pytorch版本的FasterRCNN训练自己的数据</a></p>
+<p><a href="https://github.com/jwyang/faster-rcnn.pytorch" target="_blank" rel="noopener">源码：jwyang/faster-rcnn.pytorch</a></p>
+<h1 id="Tensorflow目标检测API"><a href="#Tensorflow目标检测API" class="headerlink" title="Tensorflow目标检测API"></a>Tensorflow目标检测API</h1><p><a href="https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10" target="_blank" rel="noopener">EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10</a></p>
+<p><a href="https://www.youtube.com/watch?v=Rgpfk6eYxJA" target="_blank" rel="noopener">配套YouTube视频教程</a></p>
 
       
     </div>
@@ -702,7 +709,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kaggle"><span class="nav-number">1.</span> <span class="nav-text">Kaggle</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kernels整理"><span class="nav-number">1.1.</span> <span class="nav-text">Kernels整理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#我的学习思路"><span class="nav-number">2.</span> <span class="nav-text">我的学习思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标分类、迁移学习"><span class="nav-number">2.1.</span> <span class="nav-text">目标分类、迁移学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标检测"><span class="nav-number">2.2.</span> <span class="nav-text">目标检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PyTorch资料"><span class="nav-number">2.3.</span> <span class="nav-text">PyTorch资料</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#天池"><span class="nav-number">3.</span> <span class="nav-text">天池</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#运行PyTorch"><span class="nav-number">4.</span> <span class="nav-text">运行PyTorch</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kaggle"><span class="nav-number">1.</span> <span class="nav-text">Kaggle</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kernels整理"><span class="nav-number">1.1.</span> <span class="nav-text">Kernels整理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#我的学习思路"><span class="nav-number">2.</span> <span class="nav-text">我的学习思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标分类、迁移学习"><span class="nav-number">2.1.</span> <span class="nav-text">目标分类、迁移学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标检测"><span class="nav-number">2.2.</span> <span class="nav-text">目标检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PyTorch资料"><span class="nav-number">2.3.</span> <span class="nav-text">PyTorch资料</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#天池"><span class="nav-number">3.</span> <span class="nav-text">天池</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#运行PyTorch"><span class="nav-number">4.</span> <span class="nav-text">运行PyTorch</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PyTorch-Faster-R-CNN"><span class="nav-number">5.</span> <span class="nav-text">PyTorch Faster R-CNN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tensorflow目标检测API"><span class="nav-number">6.</span> <span class="nav-text">Tensorflow目标检测API</span></a></li></ol></div>
             
 
           </div>
