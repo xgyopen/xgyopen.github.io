@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xgyopen blog">
 <meta property="og:description" content="几个计算机视觉的比赛，包括天池的布匹疵点识别、PRCV2018的军事地面目标识别、Kaggle的Object Detection Track。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-07-18T07:03:56.381Z">
+<meta property="og:updated_time" content="2018-07-24T08:54:00.635Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[计算机视觉]几个比赛">
 <meta name="twitter:description" content="几个计算机视觉的比赛，包括天池的布匹疵点识别、PRCV2018的军事地面目标识别、Kaggle的Object Detection Track。">
@@ -528,10 +528,22 @@
 <tr>
 <td style="text-align:center">全0.999999</td>
 <td style="text-align:center">0.5</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">500epoch</td>
+<td style="text-align:center">0.6383</td>
+<td style="text-align:center">192/1834</td>
+</tr>
+<tr>
+<td style="text-align:center">1000epoch</td>
+<td style="text-align:center">0.6537</td>
+<td style="text-align:center">199/1908</td>
 </tr>
 </tbody>
 </table>
 </div>
+<p>验证集：该类有1个样本以上，才分验证集</p>
 <h1 id="运行PyTorch"><a href="#运行PyTorch" class="headerlink" title="运行PyTorch"></a>运行PyTorch</h1><p>运行visdom<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python -m visdom.server</span><br></pre></td></tr></table></figure></p>
 <p>训练模型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python main.py train --train-data-root=data/train/ --load-model-path=&apos;checkpoints/resnet34-333f7ec4.pth&apos; --lr=0.005 --batch-size=32 --model=&apos;ResNet34&apos; --max-epoch=20</span><br></pre></td></tr></table></figure></p>
 <p>测试模型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python main.py test --test-data-root=data/test1/ --load-model-path=&apos;checkpoints/resnet34_0713_14:48:31.pth&apos; --batch-size=32 --model=&apos;ResNet34&apos; --num-workers=12</span><br></pre></td></tr></table></figure></p>
@@ -541,6 +553,38 @@
 <h1 id="Tensorflow目标检测API"><a href="#Tensorflow目标检测API" class="headerlink" title="Tensorflow目标检测API"></a>Tensorflow目标检测API</h1><p><a href="https://github.com/EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10" target="_blank" rel="noopener">EdjeElectronics/TensorFlow-Object-Detection-API-Tutorial-Train-Multiple-Objects-Windows-10</a></p>
 <p><a href="https://www.youtube.com/watch?v=Rgpfk6eYxJA" target="_blank" rel="noopener">配套YouTube视频教程</a></p>
 <h1 id="yolo"><a href="#yolo" class="headerlink" title="yolo"></a>yolo</h1><p><a href="https://github.com/qqwweee/keras-yolo3" target="_blank" rel="noopener">qqwweee/keras-yolo3</a><br><a href="https://blog.csdn.net/yuhq3/article/details/80281929" target="_blank" rel="noopener">使用keras版本的yoloV3训练并在VOC数据集上测试</a><br><a href="https://blog.csdn.net/Patrick_Lxc/article/details/80615433" target="_blank" rel="noopener">Keras/Tensorflow+python+yolo3训练自己的数据集</a></p>
+<h1 id="不错的博文"><a href="#不错的博文" class="headerlink" title="不错的博文"></a>不错的博文</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">主题</th>
+<th style="text-align:center">链接</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">交叉验证</td>
+<td style="text-align:center"><a href="https://www.cnblogs.com/bymo/p/9026198.html" target="_blank" rel="noopener">基于sklearn和keras的数据切分与交叉验证</a></td>
+<td style="text-align:center">keras验证集：<strong>自动切分</strong>（keras中model.fit(validation_split=0.33)）、<strong>手动切分</strong>（from sklearn.model_selection import train_test_split）、<strong>K折交叉验证</strong>（from sklearn.model_selection import StratifiedKFold）</td>
+</tr>
+<tr>
+<td style="text-align:center">交叉验证</td>
+<td style="text-align:center"><a href="https://cnbeining.github.io/deep-learning-with-python-cn/3-multi-layer-perceptrons/ch9-use-keras-models-with-scikit-learn-for-general-machine-learning.html" target="_blank" rel="noopener">使用Scikit-Learn调用Keras的模型</a></td>
+<td style="text-align:center"><strong>keras交叉验证</strong>（from sklearn.cross_validation import StratifiedKFold）、<strong>网格搜索测试超参</strong>（from sklearn.grid_search import GridSearchCV）</td>
+</tr>
+<tr>
+<td style="text-align:center">C#与py混合编程</td>
+<td style="text-align:center"><a href="https://blog.csdn.net/aa13058219642/article/details/79007695" target="_blank" rel="noopener">C# 调用 python3</a></td>
+<td style="text-align:center">C#通过命令行调用py</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a href="https://blog.csdn.net/xiaoluer/article/details/56008921" target="_blank" rel="noopener">使用VS2010的nmake命令编译MakeFile流程</a></p>
+<p><a href="https://www.cnblogs.com/zxtceq/p/6610214.html" target="_blank" rel="noopener">C#解析JSON字符串总结</a></p>
+
+<h1 id="MXNet"><a href="#MXNet" class="headerlink" title="MXNet"></a>MXNet</h1><p><a href="https://zh.mxnet.io/blog/" target="_blank" rel="noopener">ApacheMXNet博客</a><br><a href="https://discuss.gluon.ai/" target="_blank" rel="noopener">ApacheMXNet论坛</a><br><a href="http://zh.gluon.ai/" target="_blank" rel="noopener">《动手学深度学习》</a><br><a href="https://zhuanlan.zhihu.com/p/36126793" target="_blank" rel="noopener">GluonCV — 计算机视觉的深度学习工具包</a><br><a href="https://zhuanlan.zhihu.com/p/38509951" target="_blank" rel="noopener">GluonCV 0.2 — 计算机视觉工具包第二版</a></p>
 
       
     </div>
@@ -710,7 +754,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kaggle"><span class="nav-number">1.</span> <span class="nav-text">Kaggle</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kernels整理"><span class="nav-number">1.1.</span> <span class="nav-text">Kernels整理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#我的学习思路"><span class="nav-number">2.</span> <span class="nav-text">我的学习思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标分类、迁移学习"><span class="nav-number">2.1.</span> <span class="nav-text">目标分类、迁移学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标检测"><span class="nav-number">2.2.</span> <span class="nav-text">目标检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PyTorch资料"><span class="nav-number">2.3.</span> <span class="nav-text">PyTorch资料</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#天池"><span class="nav-number">3.</span> <span class="nav-text">天池</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#运行PyTorch"><span class="nav-number">4.</span> <span class="nav-text">运行PyTorch</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PyTorch-Faster-R-CNN"><span class="nav-number">5.</span> <span class="nav-text">PyTorch Faster R-CNN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tensorflow目标检测API"><span class="nav-number">6.</span> <span class="nav-text">Tensorflow目标检测API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#yolo"><span class="nav-number">7.</span> <span class="nav-text">yolo</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Kaggle"><span class="nav-number">1.</span> <span class="nav-text">Kaggle</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Kernels整理"><span class="nav-number">1.1.</span> <span class="nav-text">Kernels整理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#我的学习思路"><span class="nav-number">2.</span> <span class="nav-text">我的学习思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#目标分类、迁移学习"><span class="nav-number">2.1.</span> <span class="nav-text">目标分类、迁移学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#目标检测"><span class="nav-number">2.2.</span> <span class="nav-text">目标检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PyTorch资料"><span class="nav-number">2.3.</span> <span class="nav-text">PyTorch资料</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#天池"><span class="nav-number">3.</span> <span class="nav-text">天池</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#运行PyTorch"><span class="nav-number">4.</span> <span class="nav-text">运行PyTorch</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#PyTorch-Faster-R-CNN"><span class="nav-number">5.</span> <span class="nav-text">PyTorch Faster R-CNN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Tensorflow目标检测API"><span class="nav-number">6.</span> <span class="nav-text">Tensorflow目标检测API</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#yolo"><span class="nav-number">7.</span> <span class="nav-text">yolo</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#不错的博文"><span class="nav-number">8.</span> <span class="nav-text">不错的博文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MXNet"><span class="nav-number">9.</span> <span class="nav-text">MXNet</span></a></li></ol></div>
             
 
           </div>
