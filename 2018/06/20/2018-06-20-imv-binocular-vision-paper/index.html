@@ -94,7 +94,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_05三角关系示意图.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_06三个坐标系之间的位置关系.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_07立体视觉中双摄像机几何关系.png">
-<meta property="og:updated_time" content="2018-08-02T08:24:34.821Z">
+<meta property="og:updated_time" content="2018-08-02T12:27:27.238Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]读双目视觉论文">
 <meta name="twitter:description" content="精读4篇关于双目视觉的论文，此文为笔记。">
@@ -412,7 +412,8 @@
 </tbody>
 </table>
 </div>
-<h1 id="硕士-基于OpenCV的机器人双目手眼标定系统的研究与实现"><a href="#硕士-基于OpenCV的机器人双目手眼标定系统的研究与实现" class="headerlink" title="硕士_基于OpenCV的机器人双目手眼标定系统的研究与实现"></a>硕士_基于OpenCV的机器人双目手眼标定系统的研究与实现</h1><h2 id="扫盲"><a href="#扫盲" class="headerlink" title="扫盲"></a>扫盲</h2><ul>
+<h1 id="硕士-基于OpenCV的机器人双目手眼标定系统的研究与实现"><a href="#硕士-基于OpenCV的机器人双目手眼标定系统的研究与实现" class="headerlink" title="硕士_基于OpenCV的机器人双目手眼标定系统的研究与实现"></a>硕士_基于OpenCV的机器人双目手眼标定系统的研究与实现</h1><h2 id="重点公式"><a href="#重点公式" class="headerlink" title="重点公式"></a>重点公式</h2><p><strong>（式3.32）</strong></p>
+<h2 id="扫盲"><a href="#扫盲" class="headerlink" title="扫盲"></a>扫盲</h2><ul>
 <li>机器视觉的主要目标：<strong>三维重建</strong>、<strong>空间定位</strong>、图像处理、模式识别、运动分析</li>
 <li>机器人视觉系统：固定式、<strong>手眼式</strong></li>
 <li>双目手眼视觉定位系统 = <strong>机器人手臂</strong>（手）上加上<strong>双目摄像机</strong>（眼）<br>思路：利用双目相机获得空间目标位置 → 通过手眼关系转换到机器人坐标系下 → 得到目标在机器人坐标系下的坐标</li>
@@ -752,7 +753,7 @@ M_1M_2
     0^T & 1 \\
 \end{bmatrix}</script><ul>
 <li><script type="math/tex">^WR_E</script>为<strong>机器人手爪坐标</strong>到<strong>机器人基坐标</strong>的旋转映射矩阵，大小为3×3，由机器人手爪的姿态决定，与机器人手爪所在位置无关</li>
-<li><script type="math/tex">^Wt_E</script>为<strong>机器人手爪坐标</strong>到<strong>机器人基坐标（=世界坐标系）</strong>的平移矢量</li>
+<li><script type="math/tex">^Wt_E</script>为<strong>机器人手爪坐标</strong>到<strong>机器人基坐标（=世界坐标系）</strong>的平移向量</li>
 <li><script type="math/tex">0^T=[0,0,0]^T</script>.</li>
 </ul>
 <script type="math/tex; mode=display">
@@ -762,7 +763,7 @@ M_1M_2
     0^T & 1 \\
 \end{bmatrix}</script><ul>
 <li><script type="math/tex">^ER_C</script>为<strong>摄像机坐标</strong>到<strong>机器人手爪坐标</strong>的旋转映射矩阵</li>
-<li><script type="math/tex">^Et_C</script>为<strong>摄像机坐标</strong>到<strong>机器人手爪坐标</strong>的平移矢量.</li>
+<li><script type="math/tex">^Et_C</script>为<strong>摄像机坐标</strong>到<strong>机器人手爪坐标</strong>的平移向量.</li>
 </ul>
 <p><strong>（式3.10）：</strong></p>
 <script type="math/tex; mode=display">^WT_C\ =\ ^WT_E \ ^ET_C</script><p>设P为空间一点，<script type="math/tex">P_W</script>、<script type="math/tex">P_E</script>、<script type="math/tex">P_C</script>分别为P点在<script type="math/tex">{O_W}</script>、<script type="math/tex">{O_E}</script>、<script type="math/tex">{O_C}</script>下的坐标值<br>其中<script type="math/tex">P_W</script>、<script type="math/tex">P_C</script>齐次坐标分别为<script type="math/tex">[P_W \ 1]^T</script>、<script type="math/tex">[P_C \ 1]^T</script>，则有：</p>
@@ -891,6 +892,73 @@ M_1
 <script type="math/tex; mode=display">x_{C_1}=R_1x_w+t_1</script><script type="math/tex; mode=display">x_{C_2}=R_2x_w+t_2</script><p>消去<script type="math/tex">x_w</script>：</p>
 <script type="math/tex; mode=display">x_{C_1}=R_1R_2^{-1}x_{C_2}+t_1-R_2^{-1}t_2</script><p>故，两个摄像机之间的几何关系用R和t表示：</p>
 <script type="math/tex; mode=display">R=R_1R_2^{-1}</script><script type="math/tex; mode=display">t=t_1-R_2^{-1}t_2</script><p>故，若知道每一个摄像机的外参数矩阵，则两台摄像机之间的几何关系可以通过计算得出</p>
+<h3 id="立体视觉定位系统"><a href="#立体视觉定位系统" class="headerlink" title="立体视觉定位系统"></a>立体视觉定位系统</h3><p>原理：用两台摄像机同时观察目标物体并获取图像，由于两台摄像机位置不同，在获得的图像中存在视差。利用视差原理，根据三角关系就可以确定该物体的深度信息，包括目标物体的空间位置坐标。从而实现对目标物体的抓取。<br>思想：根据已知的<strong>图像坐标</strong>（通过图像处理得到），求取目标的<strong>空间坐标</strong>。</p>
+<p>立体定位的求解过程：<br>由<strong>（式3.16）</strong>摄像机坐标系与图像坐标系之间的关系，左、右摄像机有关系式：</p>
+<p><strong>（式3.25）</strong>：</p>
+<script type="math/tex; mode=display">
+P_{Cl}=Z_{Cl}T_l^{-1}
+\begin{bmatrix}
+    u_l \\
+    v_l \\
+    1 \\
+\end{bmatrix}</script><p><strong>（式3.26）</strong>:</p>
+<script type="math/tex; mode=display">
+P_{Cr}=Z_{Cr}T_l^{-1}
+\begin{bmatrix}
+    u_r \\
+    v_r \\
+    1 \\
+\end{bmatrix}</script><p>由（式3.14）摄像机坐标系与世界坐标系之间的关系，左摄像机有关系式<strong>（式3.27）</strong>：</p>
+<script type="math/tex; mode=display">P_W=^WR_E \ ^ER_{Cl} \ P_{Cl} + ^WR_E \ ^Et_{Cl} + ^Wt_E</script><p><strong>（式3.25）+（式3.27）=（式3.28）</strong>左图像坐标系与世界坐标系之间的关系：</p>
+<script type="math/tex; mode=display">
+P_W= \ Z_{Cl} \ ^WR_E \ ^ER_{Cl} \ T_l^{-1}
+\begin{bmatrix}
+    u_l \\
+    v_l \\
+    1 \\
+\end{bmatrix}
++ \ ^WR_E \ ^Et_{Cl} + ^Wt_E</script><p>立体标定中得到的左右摄像机关系矩阵<strong>（式3.29）</strong>：</p>
+<script type="math/tex; mode=display">P_{Cl} \ = \ ^lR_r \ P_{Cr}+^lt_r</script><p><strong>（式3.27）+（式3.29）=（式3.30）</strong>右摄像机坐标系与世界坐标系之间的关系：</p>
+<script type="math/tex; mode=display">
+P_W= \ ^WR_E \ ^ER_{Cl} \ (^lR_r \ P_{Cr} \ + \ ^lt_r) \ + \ ^WR_E \ ^Et_{Cl} \ + \ ^Wt_E
+\\= \ ^WR_E \ ^ER_{Cl} \ ^lR_r \ P_{Cr} \ + \ ^WR_E \ ^ER_{Cl} \ ^lt_r \ + \ ^WR_E \ ^Et_{Cl} \ + \ ^Wt_E</script><p><strong>（式3.26）+（式3.30）=（式3.31）</strong>右图像坐标系与世界坐标系之间的关系：</p>
+<script type="math/tex; mode=display">
+P_W = \ Z_{Cr} \ ^WR_E \ ^ER_{Cl} \ ^lR_r \ T_r^{-1}
+\begin{bmatrix}
+    u_r \\
+    v_r \\
+    1 \\
+\end{bmatrix}
++ \ ^WR_E \ ^ER_{Cl} \ ^lt_r \ + \ ^WR_E \ ^Et_{Cl} \ + ^Wt_E</script><p><strong>（式3.28）+（式3.31）=（式3.32）</strong>空间某一物体P在左右图像坐标系与世界坐标系之间的关系：</p>
+<script type="math/tex; mode=display">\begin{cases} 
+P_W= \ Z_{Cl} \ ^WR_E \ ^ER_{Cl} \ T_l^{-1}
+\begin{bmatrix}
+    u_l \\
+    v_l \\
+    1 \\
+\end{bmatrix}
++ \ ^WR_E \ ^Et_{Cl} + ^Wt_E
+\\
+P_W = \ Z_{Cr} \ ^WR_E \ ^ER_{Cl} \ ^lR_r \ T_r^{-1}
+\begin{bmatrix}
+    u_r \\
+    v_r \\
+    1 \\
+\end{bmatrix}
++ \ ^WR_E \ ^ER_{Cl} \ ^lt_r \ + \ ^WR_E \ ^Et_{Cl} \ + ^Wt_E
+&            
+\end{cases}</script><p>式中：</p>
+<ul>
+<li><script type="math/tex">(u_l,v_l)、(u_r,v_r)</script>为目标物体P在<strong>左右图像坐标系</strong>中的像素坐标，可通过<strong>图像处理</strong>得到</li>
+<li><script type="math/tex">^WR_E、^Wt_E</script>为<strong>机器人手爪坐标</strong>到<strong>机器人基坐标</strong>的旋转映射矩阵、平移向量，可通过<strong>机器人控制</strong>读取</li>
+<li><script type="math/tex">^ER_{Cl}、^Et_{Cl}</script>为<strong>左摄像机坐标</strong>相对于<strong>机器人手爪坐标</strong>的旋转矩阵、平移向量，可通过<strong>手眼标定</strong>得到</li>
+<li><script type="math/tex">^lR_r、^lt_r</script>是<strong>右摄像机坐标</strong>相对于<strong>左摄像机坐标</strong>之间的旋转矩阵、平移向量，可通过摄像机的<strong>立体标定</strong>得到</li>
+<li><script type="math/tex">Z_{Cl}、Z_{Cr}</script>为未知参数</li>
+<li><script type="math/tex">P_W</script>为目标物体P在<strong>世界坐标系</strong>的坐标值，是3×1的列向量，是<strong>要求的</strong>变量</li>
+<li><script type="math/tex">T_l、T_r</script>为左右摄像机<strong>内部参数矩阵</strong>，可通过<strong>相机标定</strong>得到</li>
+<li>故把求得的<script type="math/tex">(u_l,v_l)、(u_r,v_r)</script>代入<strong>（式3.32）</strong>，得到6个方程，未知数为5个，故方程有唯一解</li>
+<li>故，输入<script type="math/tex">(u_l,v_l)、(u_r,v_r)</script>，输出<script type="math/tex">P_W</script>，实现<strong>图像坐标系</strong>到<strong>机器人基坐标</strong>的映射，是目标立体定位的思想</li>
+</ul>
 
       
     </div>
@@ -1064,7 +1132,7 @@ M_1
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#资料查阅"><span class="nav-number">1.</span> <span class="nav-text">资料查阅</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#硕士（2篇）"><span class="nav-number">1.1.</span> <span class="nav-text">硕士（2篇）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献中的论文"><span class="nav-number">1.2.</span> <span class="nav-text">参考文献中的论文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期刊（2篇）"><span class="nav-number">1.3.</span> <span class="nav-text">期刊（2篇）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硕士-基于OpenCV的机器人双目手眼标定系统的研究与实现"><span class="nav-number">2.</span> <span class="nav-text">硕士_基于OpenCV的机器人双目手眼标定系统的研究与实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#扫盲"><span class="nav-number">2.1.</span> <span class="nav-text">扫盲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">2.2.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验环境"><span class="nav-number">2.3.</span> <span class="nav-text">实验环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件"><span class="nav-number">2.3.1.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件"><span class="nav-number">2.3.2.</span> <span class="nav-text">软件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相机标定原理"><span class="nav-number">2.4.</span> <span class="nav-text">相机标定原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图像坐标系、摄像机坐标系、世界坐标系"><span class="nav-number">2.4.1.</span> <span class="nav-text">图像坐标系、摄像机坐标系、世界坐标系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#图像坐标系中的像素单位、物理单位"><span class="nav-number">2.4.1.1.</span> <span class="nav-text">图像坐标系中的像素单位、物理单位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#世界坐标系与摄像机坐标系"><span class="nav-number">2.4.1.2.</span> <span class="nav-text">世界坐标系与摄像机坐标系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性摄像机成像模型（针孔模型）"><span class="nav-number">2.4.2.</span> <span class="nav-text">线性摄像机成像模型（针孔模型）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#各坐标系之间的关系"><span class="nav-number">2.4.3.</span> <span class="nav-text">各坐标系之间的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性摄像机成像模型"><span class="nav-number">2.4.4.</span> <span class="nav-text">线性摄像机成像模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#立体标定"><span class="nav-number">2.4.5.</span> <span class="nav-text">立体标定</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#资料查阅"><span class="nav-number">1.</span> <span class="nav-text">资料查阅</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#硕士（2篇）"><span class="nav-number">1.1.</span> <span class="nav-text">硕士（2篇）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献中的论文"><span class="nav-number">1.2.</span> <span class="nav-text">参考文献中的论文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期刊（2篇）"><span class="nav-number">1.3.</span> <span class="nav-text">期刊（2篇）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硕士-基于OpenCV的机器人双目手眼标定系统的研究与实现"><span class="nav-number">2.</span> <span class="nav-text">硕士_基于OpenCV的机器人双目手眼标定系统的研究与实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#重点公式"><span class="nav-number">2.1.</span> <span class="nav-text">重点公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扫盲"><span class="nav-number">2.2.</span> <span class="nav-text">扫盲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">2.3.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验环境"><span class="nav-number">2.4.</span> <span class="nav-text">实验环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件"><span class="nav-number">2.4.1.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件"><span class="nav-number">2.4.2.</span> <span class="nav-text">软件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相机标定原理"><span class="nav-number">2.5.</span> <span class="nav-text">相机标定原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图像坐标系、摄像机坐标系、世界坐标系"><span class="nav-number">2.5.1.</span> <span class="nav-text">图像坐标系、摄像机坐标系、世界坐标系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#图像坐标系中的像素单位、物理单位"><span class="nav-number">2.5.1.1.</span> <span class="nav-text">图像坐标系中的像素单位、物理单位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#世界坐标系与摄像机坐标系"><span class="nav-number">2.5.1.2.</span> <span class="nav-text">世界坐标系与摄像机坐标系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性摄像机成像模型（针孔模型）"><span class="nav-number">2.5.2.</span> <span class="nav-text">线性摄像机成像模型（针孔模型）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#各坐标系之间的关系"><span class="nav-number">2.5.3.</span> <span class="nav-text">各坐标系之间的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性摄像机成像模型"><span class="nav-number">2.5.4.</span> <span class="nav-text">线性摄像机成像模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#立体标定"><span class="nav-number">2.5.5.</span> <span class="nav-text">立体标定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#立体视觉定位系统"><span class="nav-number">2.5.6.</span> <span class="nav-text">立体视觉定位系统</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
