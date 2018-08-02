@@ -93,7 +93,8 @@
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_04世界坐标系_摄像机坐标系.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_05三角关系示意图.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_06三个坐标系之间的位置关系.png">
-<meta property="og:updated_time" content="2018-08-02T07:52:59.047Z">
+<meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_07立体视觉中双摄像机几何关系.png">
+<meta property="og:updated_time" content="2018-08-02T08:24:34.821Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]读双目视觉论文">
 <meta name="twitter:description" content="精读4篇关于双目视觉的论文，此文为笔记。">
@@ -331,9 +332,7 @@
       
 
       
-        <p><a href="https://www.cnblogs.com/riddick/p/6696858.html" target="_blank" rel="noopener">张正友标定法示例 (含源代码)</a></p>
-<p><a href="https://blog.csdn.net/t247555529/article/details/47836233" target="_blank" rel="noopener">opencv 单目相机标定 自带例子程序的使用</a><br><a href="https://blog.csdn.net/t247555529/article/details/48046859" target="_blank" rel="noopener">opencv 双目相机标定 自带例子程序的使用</a></p>
-<h1 id="资料查阅"><a href="#资料查阅" class="headerlink" title="资料查阅"></a>资料查阅</h1><h2 id="硕士（2篇）"><a href="#硕士（2篇）" class="headerlink" title="硕士（2篇）"></a>硕士（2篇）</h2><div class="table-container">
+        <h1 id="资料查阅"><a href="#资料查阅" class="headerlink" title="资料查阅"></a>资料查阅</h1><h2 id="硕士（2篇）"><a href="#硕士（2篇）" class="headerlink" title="硕士（2篇）"></a>硕士（2篇）</h2><div class="table-container">
 <table>
 <thead>
 <tr>
@@ -885,7 +884,14 @@ M_1
     0 & \frac{f}{d_y} & v_0 & 0 \\
     0 & 0 & 1 & 0 \\
 \end{bmatrix}</script><p>其中，γ是图像上两个轴的扭曲参数</p>
-<h3 id="立体标定"><a href="#立体标定" class="headerlink" title="立体标定"></a>立体标定</h3>
+<h3 id="立体标定"><a href="#立体标定" class="headerlink" title="立体标定"></a>立体标定</h3><p>在<strong>立体视觉系统</strong>中，一般用<strong>两台摄像机</strong></p>
+<img src="/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_07立体视觉中双摄像机几何关系.png" title="立体视觉中双摄像机几何关系">
+<p>立体标定的目的：标定两台摄像机之间的几何关系<br>立体标定的过程：对左右两台摄像机分别进行相机标定，得到两台摄像机的内参数矩阵、外参数矩阵（旋转矩阵、平移向量，表示为<script type="math/tex">R_1,t_1、R_2,t_2</script>）<br>外参数的物理意义：摄像机相对于世界坐标系的关系</p>
+<p>设某一点P在<strong>世界坐标系</strong>和<strong>两个摄像机坐标系</strong>下的非其次坐标为<script type="math/tex">x_w,x_{C_1},x_{C_2}</script></p>
+<script type="math/tex; mode=display">x_{C_1}=R_1x_w+t_1</script><script type="math/tex; mode=display">x_{C_2}=R_2x_w+t_2</script><p>消去<script type="math/tex">x_w</script>：</p>
+<script type="math/tex; mode=display">x_{C_1}=R_1R_2^{-1}x_{C_2}+t_1-R_2^{-1}t_2</script><p>故，两个摄像机之间的几何关系用R和t表示：</p>
+<script type="math/tex; mode=display">R=R_1R_2^{-1}</script><script type="math/tex; mode=display">t=t_1-R_2^{-1}t_2</script><p>故，若知道每一个摄像机的外参数矩阵，则两台摄像机之间的几何关系可以通过计算得出</p>
+
       
     </div>
     
