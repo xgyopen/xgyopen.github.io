@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="无锡埃姆维视觉部的培训，此文为笔记。">
+<meta name="description" content="无锡埃姆维视觉部的培训，主题是“机器视觉硬件基础知识”，此文为笔记。">
 <meta name="keywords" content="课程,计算机视觉">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[机器视觉]IMV培训">
+<meta property="og:title" content="[机器视觉]机器视觉硬件基础知识">
 <meta property="og:url" content="http://yoursite.com/2018/06/26/2018-06-26-imv-train-vision/index.html">
 <meta property="og:site_name" content="xgyopen blog">
-<meta property="og:description" content="无锡埃姆维视觉部的培训，此文为笔记。">
+<meta property="og:description" content="无锡埃姆维视觉部的培训，主题是“机器视觉硬件基础知识”，此文为笔记。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-28T05:45:28.453Z">
+<meta property="og:image" content="http://yoursite.com/2018/06/26/2018-06-26-imv-train-vision/01镜头的基本概念.png">
+<meta property="og:updated_time" content="2018-08-20T17:12:48.167Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[机器视觉]IMV培训">
-<meta name="twitter:description" content="无锡埃姆维视觉部的培训，此文为笔记。">
+<meta name="twitter:title" content="[机器视觉]机器视觉硬件基础知识">
+<meta name="twitter:description" content="无锡埃姆维视觉部的培训，主题是“机器视觉硬件基础知识”，此文为笔记。">
+<meta name="twitter:image" content="http://yoursite.com/2018/06/26/2018-06-26-imv-train-vision/01镜头的基本概念.png">
 
 
 
@@ -126,7 +128,7 @@
 
 
 
-  <title>[机器视觉]IMV培训 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>[机器视觉]机器视觉硬件基础知识 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -270,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">[机器视觉]IMV培训</h1>
+          <h1 class="post-title" itemprop="name headline">[机器视觉]机器视觉硬件基础知识</h1>
         
 
         <div class="post-meta">
@@ -307,7 +309,7 @@
 
           
               <div class="post-description">
-                  无锡埃姆维视觉部的培训，此文为笔记。
+                  无锡埃姆维视觉部的培训，主题是“机器视觉硬件基础知识”，此文为笔记。
               </div>
           
 
@@ -324,76 +326,192 @@
       
 
       
-        <h1 id="硬件：镜头"><a href="#硬件：镜头" class="headerlink" title="硬件：镜头"></a>硬件：镜头</h1><p>培训大纲<br>1.视觉基础知识<br>2.DM<br>3.IS<br>4.板卡<br>5.3D</p>
+        <p>先硬件后软件</p>
+<h1 id="硬件：镜头"><a href="#硬件：镜头" class="headerlink" title="硬件：镜头"></a>硬件：镜头</h1><p>培训大纲<br>1.视觉基础知识<br>2.DM<br>3.IS<br>4.板卡<br>5.3D</p>
 <p>视觉基础<br>1.相机<br>2.光源<br>3.镜头<br>4.板卡</p>
-<p>镜头的基本概念<br>FOV（视野）取决于测量的产品<br>WD（工作距离）：产品表面到镜头前端的距离<br>DOV（景深）：一定范围内看到的图像是清晰的 |不同于远心镜头的景深（真正意义上的景深）<br>成像面：相机的感光芯片（CCD/CMOS）<br>后焦面距离：用得很少，个别相机用得到，视野要求160，现在只有158，可以适当微调</p>
-<p>畸变：任何镜头都存在畸变，FA镜头畸变比较大，远心镜头畸变小<br>普通镜头焦距越短，畸变越大；焦距越长，畸变越小<br>对于<strong>检测</strong>项目，畸变影响不大，不需要校正，<br>但对于<strong>测量</strong>、<strong>定位</strong>项目，必须校正畸变（棋盘格），特别是短焦的</p>
-<p>棋盘格功能：<br>1校正相机内参<br>2像素转换成毫米<br>3校正镜头畸变</p>
-<p>棋盘格必须与特征放在同一个平面上<br>若不在一个平面上，让<strong>特征点居中</strong>可以减小误差</p>
-<p>？若特征不在一个平面上，可以考虑通过相似三角形换算</p>
-<p>棋盘格精度会直接影响标定精度<br>标定精度在图像方面，做到1/4亚像素没问题，康耐视宣传是1/16像素<br>双目视觉对标定板要求很严格</p>
-<p>镜头接口：<br>C口=C-MOUNT，适用于CCD 1英寸以下<br>一般C口相机靶面不大，1200万以下<br>2k以下线扫相机</p>
-<p>M口：对于读码器、Insight智能相机集成在里面<br>CS口：加转接环与C口转换<br>F口：应用于靶面大的，1600万以上的大面阵相机、线扫相机</p>
-<p>相机常见：30w、80w、130w、200w、500w、1000w、1200w、1600w、<br>2500w、2900w、7100w</p>
-<p>相机、镜头都是有分辨率的，要搭配，成像质量取决于最差的那个</p>
-<p>相机/镜头：主流像元都在3μm以上</p>
-<p>目前为止，没有镜头能达到1.67μm</p>
-<p>光圈越少，景深越大，<br>缩小光圈，曝光时间变长</p>
-<p>对于光圈、对焦，一旦调好，就锁死，动了之后需要重新标定</p>
-<p>运动拍照，曝光时间短，选大光圈镜头、把光源亮度加大（调亮度、加光源控制器）、</p>
-<p>对焦与否：主观判断是否清晰（看边缘锐利度）、</p>
-<p>自动对焦需要相机、镜头配合使用</p>
-<p>针对“夏天/冬天/中午/晚上”亮度不同的常规解决方法：加暗箱，用红外<br>写自动曝光程序，计算灰度值</p>
-<p>工业相机与民用相机<br>价格有差异，不具有可比性<br>性能（拍照总数）<br>稳定性（每秒10张，连续拍1年）</p>
-<p>分辨率：线对</p>
-<p>变焦镜头一般性能比较差，畸变很大<br>定焦镜头3.5mm-100mm都有，常用：56mm、</p>
-<p>先硬件后软件</p>
-<p>远心镜头：纠正视差，畸变很小</p>
-<h1 id="问题："><a href="#问题：" class="headerlink" title="问题："></a>问题：</h1><p>？景深的比较 普通的，远心的<br>？像元大还是小好？——大的好</p>
-<h1 id="硬件：工业相机"><a href="#硬件：工业相机" class="headerlink" title="硬件：工业相机"></a>硬件：工业相机</h1><ol>
-<li><p>传感器的尺寸<br>1/3’’等<br>尺寸指的是对角线，1英寸=25.4毫米</p>
+<p>镜头的基本概念</p>
+<h2 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h2><img src="/2018/06/26/2018-06-26-imv-train-vision/01镜头的基本概念.png" title="镜头的基本概念">
+<ul>
+<li>FOV（视野）：图像采集设备所能够覆盖的范围，<strong>取决于测量的产品</strong></li>
+<li>WD（工作距离）：产品表面到镜头前端的距离，小于最小工作距离、大于最大工作距离系统均不能正确成像</li>
+<li>DOV（景深）：一定范围内看到的图像是清晰的（?不同于远心镜头的景深，真正意义上的景深）</li>
+<li>成像面：相机的感光芯片（CCD/CMOS）</li>
+<li>后焦面距离：用得很少，个别相机用得到。如视野要求160，现在只有158，可以适当微调</li>
+<li>畸变：任何镜头都存在畸变，FA镜头畸变比较大，远心镜头畸变小<ul>
+<li>普通镜头焦距越短，畸变越大；焦距越长，畸变越小</li>
+<li>对于<strong>检测</strong>项目，畸变影响不大，不需要校正</li>
+<li>但对于<strong>测量</strong>、<strong>定位</strong>项目，必须校正畸变（棋盘格），特别是短焦的</li>
+</ul>
 </li>
-<li><p>放大倍率（物理放大率）<br>FA镜头几乎不用这个概念，远心镜头经常用到这个概念<br>传感器/视野，视野越大，值越小</p>
+<li>镜头接口：<ul>
+<li>C口=C-MOUNT，<strong>适用于CCD 1英寸以下</strong>。一般C口相机靶面不大，1200万以下的相机，2k以下线扫相机</li>
+<li>M口：对于读码器、Insight智能相机集成在里面</li>
+<li>CS口：加转接环与C口转换</li>
+<li>F口：应用于<strong>靶面大的</strong>，1600万以上的大面阵相机、线扫相机</li>
+</ul>
 </li>
-<li><p>系统放大率<br>与显示器有关</p>
+<li>光圈：用来控制镜头通光量装置，通常在镜头内。表达光圈大小用F值，如f1.4、f2、f2.8<ul>
+<li>光圈越大，通光能力越大</li>
+<li>光圈越小，景深越大</li>
+<li>缩小光圈，曝光时间变长</li>
+<li>对于光圈、对焦，一旦调好，就锁死，<strong>动了之后需要重新标定</strong></li>
+<li>运动拍照，曝光时间短，选大光圈镜头、把光源亮度加大（调亮度、加光源控制器）</li>
+<li>针对“夏天/冬天/中午/晚上”亮度不同的常规解决方法：加暗箱，用红外</li>
+<li>写自动曝光程序（计算灰度值）</li>
+</ul>
 </li>
-<li><p>像素<br>传感器的最小感光单位</p>
+<li>焦距：像方主面到像方焦点的距离，如16mm、25mm<ul>
+<li>对焦与否：主观判断是否清晰（看边缘锐利度）</li>
+<li>自动对焦需要相机、镜头配合使用</li>
+<li>变焦镜头一般性能比较差，畸变很大</li>
+<li>定焦镜头3.5mm-100mm都有，常用：56mm…</li>
+</ul>
 </li>
-<li><p>分辨率<br>与全画幅有关<br>1000万像素是500万的两倍，但提升不是2倍，是根号2倍</p>
+<li>分辨率：每毫米线对（测量系统能够重现的最小的细节的尺寸常常用每毫米线对（lp/mm）来表示，即镜头能分辨一毫米内多少对直线）<ul>
+<li>相机常见分辨率：30w、80w、130w、200w、500w、1000w、1200w、1600w、2500w、2900w、7100w</li>
+<li><strong>相机、镜头都是有分辨率的，要搭配</strong>，成像质量取决于最差的那个</li>
+<li>相机/镜头：主流像元都在3μm以上</li>
+<li>目前为止，没有镜头能达到1.67μm</li>
+</ul>
 </li>
-<li><p>像素长宽比</p>
+</ul>
+<h2 id="分类"><a href="#分类" class="headerlink" title="分类"></a>分类</h2><p>按功能分：变焦距镜头、定焦距镜头、定光圈镜头<br>其他特殊功能：远心镜头、远心镜头、紫外镜头、红外镜头、微距镜头<br>远心镜头：纠正视差，畸变很小</p>
+<h1 id="棋盘格"><a href="#棋盘格" class="headerlink" title="棋盘格"></a>棋盘格</h1><ol>
+<li><p>棋盘格功能：</p>
+<ul>
+<li>校正相机内参</li>
+<li>像素转换成毫米</li>
+<li>校正镜头畸变</li>
+</ul>
 </li>
-<li><p>快门速度<br>动态的项目中会用<br>与最小曝光时间相关</p>
+<li><p>棋盘格必须与特征放在同一个平面上<br>若不在一个平面上，让<strong>特征点居中</strong>可以减小误差<br>?若特征不在一个平面上，可以考虑通过相似三角形换算</p>
 </li>
-<li><p>帧率<br>帧率取决于快门速度和传输速度，快门速度短，帧率高<br>快门速度10张/秒，帧率建议选20以上</p>
+<li><p>棋盘格精度会直接影响标定精度<br>标定精度在图像方面，做到1/4亚像素没问题（康耐视宣传是1/16像素）<br>双目视觉对标定板要求很严格</p>
 </li>
-<li><p>像素速率<br>很少用到，牵扯到传输速率</p>
+</ol>
+<h1 id="工业相机与民用相机"><a href="#工业相机与民用相机" class="headerlink" title="工业相机与民用相机"></a>工业相机与民用相机</h1><ul>
+<li>价格有差异，不具有可比性</li>
+<li>性能（拍照总数）</li>
+<li>稳定性（每秒10张，连续拍1年）</li>
+</ul>
+<h1 id="硬件：工业相机"><a href="#硬件：工业相机" class="headerlink" title="硬件：工业相机"></a>硬件：工业相机</h1><h2 id="参数-1"><a href="#参数-1" class="headerlink" title="参数"></a>参数</h2><ul>
+<li><p>传感器的尺寸：图像传感器感光区域的面积大小，直接决定了整个系统的物理放大率</p>
+<ul>
+<li>1/3’’等</li>
+<li>尺寸指的是对角线，1英寸=25.4毫米</li>
+</ul>
 </li>
-<li><p>快门方式<br>卷帘快门：静态拍照 1000w、500w<br>全局快门：静态拍照/动态拍照</p>
+<li><p>放大倍率（物理放大率）</p>
+<ul>
+<li>整个参数基本取决于镜头：FA镜头几乎不用这个概念，远心镜头经常用到这个概念</li>
+<li>传感器感光面积/视野，视野越大，值越小</li>
+</ul>
 </li>
-<li><p>扫描方式<br>隔行扫描<br>逐行扫描</p>
+<li><p>系统放大率</p>
+<ul>
+<li>与显示器有关，仅对于需要人机交互进行检测的系统有意义</li>
+<li>最后显示环节上目标的尺寸/实际目标尺寸</li>
+</ul>
 </li>
-<li><p>现在的相机一般都支持异步触发，高速拍摄时用到<br>相机会不会丢帧，允许某段时间内大量拍照，取决于相机内存（缓冲区），（64张、128MB）</p>
+<li><p>像素：传感器的最小感光单位</p>
 </li>
-<li><p>最低照度<br>取决于芯片，达到一定照度后才能感受到，否则是全黑</p>
+<li><p>分辨率：数字相机的分辨率则直接取决于传感器上像素的数目</p>
+<ul>
+<li>与全画幅有关</li>
+<li>1000万像素是500万的两倍，但提升不是2倍，是根号2倍</li>
+</ul>
+</li>
+<li><p>像素长宽比：传感器上像素水平和垂直方向节距的比值</p>
+<ul>
+<li>正方形的像素，比值为1：1</li>
+<li>对于系统的标定有直接影响</li>
+</ul>
+</li>
+<li><p>快门速度</p>
+<ul>
+<li><strong>动态的项目中会用，与最小曝光时间相关</strong></li>
+<li>一般性能的相机快门速度可以达到1/10000-1/100000秒</li>
+</ul>
+</li>
+<li><p>帧率：相机每秒中能够输出图像的帧数</p>
+<ul>
+<li>帧率取决于快门速度和传输速度，快门速度短，帧率高</li>
+<li><strong>快门速度10张/秒，帧率建议选20以上</strong></li>
+</ul>
+</li>
+<li><p>像素速率：相机每秒中能够输出像素的个数</p>
+<ul>
+<li>很少用到，牵扯到传输速率</li>
+</ul>
+</li>
+<li><p>快门方式</p>
+<ul>
+<li>卷帘快门：静态拍照 1000w、500w</li>
+<li>全局快门：静态拍照/动态拍照</li>
+</ul>
+</li>
+<li><p>扫描方式</p>
+<ul>
+<li>隔行扫描</li>
+<li>逐行扫描</li>
+</ul>
+</li>
+<li><p>异步触发</p>
+<ul>
+<li>现在的相机一般都支持异步触发，<strong>高速拍摄时用到</strong></li>
+<li>相机会不会丢帧，允许某段时间内大量拍照，取决于相机内存（缓冲区）（64张、128MB）</li>
+</ul>
+</li>
+<li><p>最低照度：又称灵敏度，衡量相机对光线敏感程度的指标</p>
+<ul>
+<li>取决于芯片，达到一定照度后才能感受到，否则是全黑</li>
+</ul>
 </li>
 <li><p>局部扫描</p>
 </li>
-<li><p>信号格式<br>常用接口，主流是usb3.0 GigE<br>1394 火线，用得很少，传输速率慢，不适合高分辨率的相机，线长受限，10m以内<br>usb3.0 速度快，5m，线长不能太长<br>GigE 线可以很长，支持100m，速度没有usb3.0快<br>CameraLink 传输速率快，针对高速相机，面阵很少用，一般用线扫，5m<br>CoaxPress 速度比CameraLink快，大面阵相机、线扫相机</p>
+<li><p>信号格式：常用接口主流是GigE、usb3.0</p>
+<ul>
+<li>1394：火线，用得很少，传输速率慢，不适合高分辨率的相机，线长受限，10m以内</li>
+<li>usb3.0：速度快，5m，线长不能太长</li>
+<li>GigE：线可以很长，支持100m，速度没有usb3.0快</li>
+<li>CameraLink：传输速率快，针对高速相机，面阵很少用，一般用线扫，5m</li>
+<li>CoaxPress：速度比CameraLink快，大面阵相机、线扫相机</li>
+</ul>
 </li>
-</ol>
-<p>千兆相机，配千兆网线，配千兆采集卡<br>工业现场干扰大，网线至少得用带屏蔽层的<br>29分08秒 ?走坦普利亚用高柔的，<br>运动中拍照需要带锁，否则线容易折</p>
-<p>？系统精度/速度=最小曝光时间，<br>曝光时间一般是零点几毫秒</p>
-<p>建议“频闪控制器”亮的周期，大于最小曝光时间</p>
-<p>面阵相机<br>线扫相机：</p>
-<p>☆选相机：<br>相机分辨率（X方向）=视野（X方向）/像素数（X方向）</p>
-<p>一般情况下，系统精度0.1，波动像素1-2个像素，波动到3个像素是不正常的，要找原因</p>
-<p>康耐视号称1/16亚像素，没什么意义</p>
+</ul>
+<p>Tips：<br>千兆相机，配千兆网线，配千兆采集卡<br>工业现场干扰大，网线至少得用带屏蔽层的<br>（29分08秒 ?走坦普利亚用高柔的）<br>运动中拍照需要带锁，否则线容易折</p>
+<p>?系统精度/速度=最小曝光时间，曝光时间一般是零点几毫秒<br>建议“频闪控制器”亮的周期，大于最小曝光时间</p>
+<h2 id="分类-1"><a href="#分类-1" class="headerlink" title="分类"></a>分类</h2><p>按图像传感器分：CCD相机、CMOS相机<br>按输出图像颜色分：单色相机、彩色相机（Bayer滤色片、3-CCD技术）<br>按传感器类型分：<strong>面阵相机、线扫相机</strong><br>按输出信号分：模拟信号相机、数字信号相机</p>
+<h2 id="选择选机"><a href="#选择选机" class="headerlink" title="选择选机"></a>选择选机</h2><ul>
+<li><p>系统精度要求与相机<strong>分辨率</strong></p>
+<ul>
+<li>相机分辨率（X方向）=视野（X方向）/像素数（X方向）</li>
+</ul>
+</li>
+<li><p>系统速度要求与相机<strong>成象速度</strong></p>
+<ul>
+<li>系统单次运行速度 = 系统成象速度 + 系统检测速度</li>
+<li>异步触发</li>
+<li>快门速度</li>
+</ul>
+</li>
+<li><p>与视觉板卡相匹配：视频信号、分辨率、特殊功能、接口</p>
+</li>
+<li><p>其他：</p>
+<ul>
+<li>动态成象</li>
+<li>色彩检测</li>
+<li>超大目标检测</li>
+<li>数字相机</li>
+</ul>
+</li>
+</ul>
+<p>Tips：<br>一般情况下，系统精度0.1，波动像素1-2个像素，波动到3个像素是不正常的，要找原因</p>
 <p>评估时间节拍，一般1-2s</p>
 <ol>
 <li>取像时间 200ms以内</li>
 <li>处理时间 取决于用了多少工具</li>
-<li>通讯时间 ？obc在100ms左右，tcp/ip在10ms左右</li>
+<li>通讯时间 ?obc在100ms左右，tcp/ip在10ms左右</li>
 <li>界面显示 界面刷新与显示浪费时间，放在最后</li>
 </ol>
 <p>常见取像方式：<br>软触发 串行<br>硬触发 并行，异步处理，一般加继电器做信号过滤<br>软触发信号+硬触发方式</p>
@@ -402,8 +520,7 @@
 <p>采集卡功能：把图像从相机到内存</p>
 <p>传输速率取决于相机、采集卡、工控机的接口中最差的</p>
 <p>图像格式：深度为8，0-255</p>
-<p>获得完美图像的6大要素：</p>
-<ol>
+<h2 id="获得完美图像的6大要素"><a href="#获得完美图像的6大要素" class="headerlink" title="获得完美图像的6大要素"></a>获得完美图像的6大要素</h2><ol>
 <li><p>高系统精度<br>最佳视野：检测产品涵盖在FOV以内</p>
 </li>
 <li><p>清晰成像<br>清晰的焦距</p>
@@ -443,26 +560,6 @@
 <p>频闪可以增大光源亮度</p>
 <p>选光源：最重要的是测试</p>
 <p>如果拿到产品，实在不知道用什么光源，就试条灯、环灯</p>
-<div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">题名</th>
-<th style="text-align:center">作者</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">2</td>
-</tr>
-<tr>
-<td style="text-align:center">1</td>
-<td style="text-align:center">2</td>
-</tr>
-</tbody>
-</table>
-</div>
 
       
     </div>
@@ -634,7 +731,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件：镜头"><span class="nav-number">1.</span> <span class="nav-text">硬件：镜头</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#问题："><span class="nav-number">2.</span> <span class="nav-text">问题：</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件：工业相机"><span class="nav-number">3.</span> <span class="nav-text">硬件：工业相机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">3.1.</span> <span class="nav-text">问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件：光源"><span class="nav-number">4.</span> <span class="nav-text">硬件：光源</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件：镜头"><span class="nav-number">1.</span> <span class="nav-text">硬件：镜头</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参数"><span class="nav-number">1.1.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分类"><span class="nav-number">1.2.</span> <span class="nav-text">分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#棋盘格"><span class="nav-number">2.</span> <span class="nav-text">棋盘格</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#工业相机与民用相机"><span class="nav-number">3.</span> <span class="nav-text">工业相机与民用相机</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件：工业相机"><span class="nav-number">4.</span> <span class="nav-text">硬件：工业相机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#参数-1"><span class="nav-number">4.1.</span> <span class="nav-text">参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分类-1"><span class="nav-number">4.2.</span> <span class="nav-text">分类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择选机"><span class="nav-number">4.3.</span> <span class="nav-text">选择选机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#获得完美图像的6大要素"><span class="nav-number">4.4.</span> <span class="nav-text">获得完美图像的6大要素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">4.5.</span> <span class="nav-text">问题</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硬件：光源"><span class="nav-number">5.</span> <span class="nav-text">硬件：光源</span></a></li></ol></div>
             
 
           </div>
