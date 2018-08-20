@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="课程,计算机视觉," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="无锡埃姆维视觉部的培训，主题是“机器视觉硬件选型”，包含相机、镜头、光源，干货满满，此文为笔记。">
+<meta name="keywords" content="课程,计算机视觉">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]机器视觉硬件选型">
+<meta property="og:url" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="无锡埃姆维视觉部的培训，主题是“机器视觉硬件选型”，包含相机、镜头、光源，干货满满，此文为笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/01全局快门_卷帘快门.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/02普通镜头_远心镜头.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/03视野_工作距离_靶面_焦距.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/04景深_光圈.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/05镜头畸变.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/06视野_远心镜头.png">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/07镜头尺寸_CCD尺寸.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源1.JPG">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源2.JPG">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源3.JPG">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源4.JPG">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源5.JPG">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源6.JPG">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源7.JPG">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源8.JPG">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源9.JPG">
+<meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源10.JPG">
+<meta property="og:updated_time" content="2018-08-20T14:26:00.257Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]机器视觉硬件选型">
+<meta name="twitter:description" content="无锡埃姆维视觉部的培训，主题是“机器视觉硬件选型”，包含相机、镜头、光源，干货满满，此文为笔记。">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/01全局快门_卷帘快门.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/"/>
+
+
+
+
+
+  <title>[机器视觉]机器视觉硬件选型 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]机器视觉硬件选型</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-20T20:20:20+08:00">
+                2018-08-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  无锡埃姆维视觉部的培训，主题是“机器视觉硬件选型”，包含相机、镜头、光源，干货满满，此文为笔记。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="相机"><a href="#相机" class="headerlink" title="相机"></a>相机</h1><h2 id="产品大小、检测精度"><a href="#产品大小、检测精度" class="headerlink" title="产品大小、检测精度"></a>产品大小、检测精度</h2><p><strong>产品大小</strong>、<strong>检测精度</strong>决定了<strong>相机分辨率</strong><br>视野 = 产品大小 + 产品来料位置偏差<br>系统精度 = 检测精度 / 10<br>相机分辨率 = 视野 / 系统精度</p>
+<p>举例说明：产品尺寸为65mm*30mm，检测产品尺寸，精度要求±0.25mm<br>考虑到产品来料位置误差，将<strong>视野适当放大</strong>，视野 = 75mm*40mm，<br>系统精度 = 0.5/10 = 0.05mm/pixel，<br>则相机长边像素点 = 75/0.05 = 1500，<br>可选择与之相近的200万像素相机，分辨率为1600*1200，如 IS5403、IS8402等</p>
+<h2 id="彩色应用"><a href="#彩色应用" class="headerlink" title="彩色应用"></a>彩色应用</h2><p>如果检测时需要<strong>识别颜色</strong>，可选择<strong>彩色相机</strong>对其进行识别<br>一般<strong>相机型号中带C的</strong>为彩色相机，如5100C、7402C</p>
+<h2 id="产品状态"><a href="#产品状态" class="headerlink" title="产品状态"></a>产品状态</h2><p>检测时产品的来料状态，是<strong>静止拍照</strong>还是<strong>运动中拍照</strong>，决定了相机的<strong>快门方式</strong><br><strong>运动中拍照</strong>，为防止产品变形，必须选用<strong>全局快门</strong></p>
+<ul>
+<li><strong>卷帘快门</strong>每行像素按照顺序依次感光，像素点不能同时感光，则拍摄运动中的产品时图像会扭曲。</li>
+<li><strong>全局快门</strong>所有像素同时感光，在任意一个时间点，所有像素都接受相同的光量。</li>
+</ul>
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/01全局快门_卷帘快门.jpg" title="全局快门_卷帘快门">
+<h2 id="检测节拍"><a href="#检测节拍" class="headerlink" title="检测节拍"></a>检测节拍</h2><p>检测<strong>节拍</strong>确定了<strong>相机帧率</strong><br>相机检测节拍 = 取像时间 + 图像处理时间<br>取像时间 ≈ 相机帧率 + 曝光时间</p>
+<p>举例说明：相同分辨率的两款相机，5403相机取像帧率14帧/秒，8402相机取像帧率53帧/秒，<br>在工作条件相同的（如曝光时间相同）情况下，8402相机取像时间比5403相机快50ms左右。</p>
+<p>拍摄运动中的产品，如何<strong>设置曝光时间</strong>，图像不会有拖影：</p>
+<p>已知：确定每一次检测的范围为80mm*60mm，200万像素全局快门相机（1600*1200），产品运动速度为100mm/s。<br>曝光时间计算：<br>曝光时间 &lt; 系统精度 ÷ 运动速度<br>曝光时间 &lt; 80mm ÷ 1600 ÷ 100mm/s<br>曝光时间 &lt; 0.5ms<br>总结：故曝光时间要小于0.5ms ，图像才不会产生拖影。</p>
+<h1 id="镜头"><a href="#镜头" class="headerlink" title="镜头"></a>镜头</h1><p>常用机器视觉镜头分为<strong>非远心镜头</strong>和<strong>远心镜头</strong></p>
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/02普通镜头_远心镜头.png" title="普通镜头_远心镜头">
+<p><strong>远心镜头</strong>优势主要体现在可以<strong>消除透视误差</strong></p>
+<ul>
+<li>普通镜头：相机上显示的图像，近大远小（距离镜头远的物体比距离镜头近的物体小）</li>
+<li>远心镜头：相机上显示的图像，无论物体距离镜头近或远，所有物体都表现出相同的大小</li>
+</ul>
+<p><strong>高精度测量</strong>、<strong>定位</strong>项目，首选<strong>远心镜头</strong></p>
+<h2 id="非远心镜头：安装空间、视野"><a href="#非远心镜头：安装空间、视野" class="headerlink" title="非远心镜头：安装空间、视野"></a>非远心镜头：安装空间、视野</h2><p><strong>安装空间</strong>限定了<strong>工作距离</strong>范围，当相机选定后，<strong>视野</strong>与<strong>工作距离</strong>决定了镜头<strong>焦距</strong></p>
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/03视野_工作距离_靶面_焦距.png" title="视野_工作距离_靶面_焦距">
+<p>计算公式（等边三角形）：<br>工作距离 / 视野长（短）边 = 焦距 / 靶面长（短）边<br>芯片尺寸计算方式：<br>长边尺寸 = 长边分辨率 * 像元尺寸<br>短边尺寸 = 短边分辨率 * 像元尺寸</p>
+<h2 id="非远心镜头：景深"><a href="#非远心镜头：景深" class="headerlink" title="非远心镜头：景深"></a>非远心镜头：景深</h2><p><strong>景深</strong>即在不做任何调节的情况下，在物方空间内，可接受的<strong>能清晰成像的空间范围</strong>。</p>
+<p>各项因素对景深的影响如下（假定其他的条件都不改变）：</p>
+<ol>
+<li>镜头光圈：光圈越大，景深越小；<strong>光圈越小，景深越大</strong>； </li>
+<li>镜头焦距：焦距越长，景深越小；<strong>焦距越短，景深越大</strong>；</li>
+<li>工作距离：<strong>距离越远，景深越大</strong>；距离越近，景深越小。</li>
+</ol>
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/04景深_光圈.png" title="景深_光圈">
+<h2 id="非远心镜头：光圈"><a href="#非远心镜头：光圈" class="headerlink" title="非远心镜头：光圈"></a>非远心镜头：光圈</h2><p>光圈系数是镜头的重要内部参数，它就是镜头相对孔径的倒数，<strong>光圈系数</strong>的标称值数字<strong>越大</strong>，<strong>实际光圈越小</strong>。<br>一般采用<strong>Fno</strong>来表示光圈，通常情况下都将光圈设置在镜头内部。<br>镜头的光圈排列顺序是：1、1.4、2.0、2.8、3.5、4.0、5.6、8.0、11、16、22、32等等，Fno的大小是通常通过改变光圈调整环的大小来设置的。<br>随着数值的增大，其实际光孔大小随之减小，而其在相同快门时间内的光通量也就随之减小。<br>光圈可以控制镜头的进光量，也就是光照度，还可以调节景深，以及确定分辨率下系统成像的对比度，从而影响成像质量。</p>
+<h2 id="畸变"><a href="#畸变" class="headerlink" title="畸变"></a>畸变</h2><p><strong>广角镜头的畸变</strong>一般都<strong>大</strong>于标准镜头或长焦镜头。<br>无论是哪一种镜头，哪一种畸变，缩小光圈都不能改善畸变。</p>
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/05镜头畸变.png" title="镜头畸变">
+<h2 id="远心镜头：视野"><a href="#远心镜头：视野" class="headerlink" title="远心镜头：视野"></a>远心镜头：视野</h2><p>当相机选定后，<strong>视野</strong>决定了镜头<strong>放大倍率</strong></p>
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/06视野_远心镜头.png" title="视野_远心镜头">
+<p>计算公式：<br>光学放大倍率 = 相机靶面长（短）边 / 视野长（短）边</p>
+<p>远心镜头的工作距离、光圈大小通常在镜头设计时已固定，所以<strong>远心镜头的景深是不可调节的</strong>，为保证获得最低畸变图像，工作距离相对于标称值的偏差应≤±3%。 </p>
+<h2 id="最大兼容CCD芯片大小"><a href="#最大兼容CCD芯片大小" class="headerlink" title="最大兼容CCD芯片大小"></a>最大兼容CCD芯片大小</h2><img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/07镜头尺寸_CCD尺寸.jpg" title="镜头尺寸_CCD尺寸">
+<h1 id="光源"><a href="#光源" class="headerlink" title="光源"></a>光源</h1><p>光源的功能和作用:<br>机器视觉中的光源主要起到如下作用:</p>
+<ol>
+<li>照亮目标，提高亮度；</li>
+<li>形成有利于图像处理的效果；</li>
+<li>克服环境光干扰，保证图像稳定性；</li>
+<li>用作测量的工具或参照物 。</li>
+</ol>
+<p>一幅好的图像应该具备如下条件：</p>
+<ol>
+<li>对比度明显，目标与背景的边界清晰；</li>
+<li>整体亮度均匀，整体不均匀灰度差不影响图像处理；</li>
+<li>背景尽量淡化而且均匀，不干扰图像处理；</li>
+<li>与颜色有关的还需要颜色真实，亮度适中，不过度曝光。</li>
+</ol>
+<h2 id="应用类型、工作环境限制"><a href="#应用类型、工作环境限制" class="headerlink" title="应用类型、工作环境限制"></a>应用类型、工作环境限制</h2><img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源1.JPG" title="光源1">
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源2.JPG" title="光源2">
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源3.JPG" title="光源3">
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源4.JPG" title="光源4">
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源5.JPG" title="光源5">
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源6.JPG" title="光源6">
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源7.JPG" title="光源7">
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源8.JPG" title="光源8">
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源9.JPG" title="光源9">
+<img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源10.JPG" title="光源10">
+<h1 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h1><h2 id="常用品牌"><a href="#常用品牌" class="headerlink" title="常用品牌"></a>常用品牌</h2><ol>
+<li>相机<ul>
+<li>智能相机：康耐视（COGNEX IN-SIGHT）</li>
+<li>工业相机：康耐视（COGNEX）、Balser、大华</li>
+</ul>
+</li>
+<li>镜头<ul>
+<li>镜头：腾龙（Tamron）、长步道（ChiOpt）、茉丽特（Moritex）、视清</li>
+<li>远心镜头：浩蓝、餐瑞？、茉丽特（Moritex）、视清</li>
+</ul>
+</li>
+<li>光源<ul>
+<li>光源：OPT（奥普特）、东冠（OSE）、茉丽特（Moritex）、仕风（SF，IMV的）</li>
+</ul>
+</li>
+</ol>
+<h2 id="常用官网"><a href="#常用官网" class="headerlink" title="常用官网"></a>常用官网</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">类别</th>
+<th style="text-align:center">镜头</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">智能相机</td>
+<td style="text-align:center"><a href="https://www.cognex.cn/zh-cn/products/machine-vision/2d-machine-vision-systems/in-sight-7000-series/specifications" target="_blank" rel="noopener">In-Sight 7000系列</a></td>
+</tr>
+<tr>
+<td style="text-align:center">镜头</td>
+<td style="text-align:center"><a href="https://www.cognex.cn/zh-cn/resources/interactive-tools/lens-advisor" target="_blank" rel="noopener">COGNEX的镜头选型助手</a></td>
+</tr>
+<tr>
+<td style="text-align:center">工业相机</td>
+<td style="text-align:center"><a href="https://www.baslerweb.com/cn/products/" target="_blank" rel="noopener">Balser相机选型助手</a></td>
+</tr>
+<tr>
+<td style="text-align:center">镜头</td>
+<td style="text-align:center"><a href="http://www.coolens.cn/product/" target="_blank" rel="noopener">视清镜头</a></td>
+</tr>
+<tr>
+<td style="text-align:center">光源</td>
+<td style="text-align:center"><a href="http://www.optmv.com/products.aspx" target="_blank" rel="noopener">OPT光源</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="康耐视智能相机命名规则"><a href="#康耐视智能相机命名规则" class="headerlink" title="康耐视智能相机命名规则"></a>康耐视智能相机命名规则</h1><p>举例：8402（ABCD）</p>
+<ul>
+<li><p>A = 系列<br>  1 = Micro系列<br>  5 = 5000系列<br>  7 = 7000系列<br>  8 = 8000系列</p>
+</li>
+<li><p>B = CPU速度<br>  0 = 基本速度<br>  1 = 4X基本速度<br>  4 = 10X基本速度<br>  6 = 20X基本速度</p>
+</li>
+<li><p>C = ID专用（读码、OCV/OCR）<br>  0 = 非专用ID<br>  1 = 专用ID工具</p>
+</li>
+<li><p>D = 成像器分辨率<br>  0 = 640x480 / 800*600 （30w/50w）<br>  1 = 1024x768 （80w）<br>  2 = 1280x1024 （130w）<br>  3 = 1600x1200 （200w）<br>  4 = 线扫描（1K x ，最高8K）<br>  5 = 2448x2048 （500w）</p>
+</li>
+<li><p>彩色相机则第四位后有“C”，如8402C</p>
+</li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/课程/" rel="tag"># 课程</a>
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/07/06/2018-07-06-competition-cv/" rel="next" title="[计算机视觉]几个比赛">
+                <i class="fa fa-chevron-left"></i> [计算机视觉]几个比赛
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/09/01/2018-09-01-blog/" rel="prev" title="[暂时]不错的博文">
+                [暂时]不错的博文 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#相机"><span class="nav-number">1.</span> <span class="nav-text">相机</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#产品大小、检测精度"><span class="nav-number">1.1.</span> <span class="nav-text">产品大小、检测精度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#彩色应用"><span class="nav-number">1.2.</span> <span class="nav-text">彩色应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#产品状态"><span class="nav-number">1.3.</span> <span class="nav-text">产品状态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#检测节拍"><span class="nav-number">1.4.</span> <span class="nav-text">检测节拍</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#镜头"><span class="nav-number">2.</span> <span class="nav-text">镜头</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#非远心镜头：安装空间、视野"><span class="nav-number">2.1.</span> <span class="nav-text">非远心镜头：安装空间、视野</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非远心镜头：景深"><span class="nav-number">2.2.</span> <span class="nav-text">非远心镜头：景深</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非远心镜头：光圈"><span class="nav-number">2.3.</span> <span class="nav-text">非远心镜头：光圈</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#畸变"><span class="nav-number">2.4.</span> <span class="nav-text">畸变</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#远心镜头：视野"><span class="nav-number">2.5.</span> <span class="nav-text">远心镜头：视野</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最大兼容CCD芯片大小"><span class="nav-number">2.6.</span> <span class="nav-text">最大兼容CCD芯片大小</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#光源"><span class="nav-number">3.</span> <span class="nav-text">光源</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#应用类型、工作环境限制"><span class="nav-number">3.1.</span> <span class="nav-text">应用类型、工作环境限制</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#小结"><span class="nav-number">4.</span> <span class="nav-text">小结</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#常用品牌"><span class="nav-number">4.1.</span> <span class="nav-text">常用品牌</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#常用官网"><span class="nav-number">4.2.</span> <span class="nav-text">常用官网</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#康耐视智能相机命名规则"><span class="nav-number">5.</span> <span class="nav-text">康耐视智能相机命名规则</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
