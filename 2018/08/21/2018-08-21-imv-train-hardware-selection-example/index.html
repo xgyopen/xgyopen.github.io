@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="计算机视觉,读论文,缺陷检测," />
+  <meta name="keywords" content="计算机视觉," />
 
 
 
@@ -79,18 +79,20 @@
 
 
 
-<meta name="description" content="缺陷检测相关论文的调研。">
-<meta name="keywords" content="计算机视觉,读论文,缺陷检测">
+<meta name="description" content="无锡埃姆维视觉部的方案测试考核。">
+<meta name="keywords" content="计算机视觉">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[机器视觉]缺陷检测调研">
-<meta property="og:url" content="http://yoursite.com/2018/06/15/2018-06-15-imv-defect-detecting-investigation/index.html">
+<meta property="og:title" content="[机器视觉]机器视觉硬件选型实例">
+<meta property="og:url" content="http://yoursite.com/2018/08/21/2018-08-21-imv-train-hardware-selection-example/index.html">
 <meta property="og:site_name" content="xgyopen blog">
-<meta property="og:description" content="缺陷检测相关论文的调研。">
+<meta property="og:description" content="无锡埃姆维视觉部的方案测试考核。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-06-20T02:30:35.961Z">
+<meta property="og:image" content="http://yoursite.com/2018/08/21/2018-08-21-imv-train-hardware-selection-example/01载带.png">
+<meta property="og:updated_time" content="2018-08-21T13:51:03.296Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[机器视觉]缺陷检测调研">
-<meta name="twitter:description" content="缺陷检测相关论文的调研。">
+<meta name="twitter:title" content="[机器视觉]机器视觉硬件选型实例">
+<meta name="twitter:description" content="无锡埃姆维视觉部的方案测试考核。">
+<meta name="twitter:image" content="http://yoursite.com/2018/08/21/2018-08-21-imv-train-hardware-selection-example/01载带.png">
 
 
 
@@ -120,13 +122,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/06/15/2018-06-15-imv-defect-detecting-investigation/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/08/21/2018-08-21-imv-train-hardware-selection-example/"/>
 
 
 
 
 
-  <title>[机器视觉]缺陷检测调研 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>[机器视觉]机器视觉硬件选型实例 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -253,7 +255,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/06/15/2018-06-15-imv-defect-detecting-investigation/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/08/21/2018-08-21-imv-train-hardware-selection-example/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="xgyopen">
@@ -270,7 +272,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">[机器视觉]缺陷检测调研</h1>
+          <h1 class="post-title" itemprop="name headline">[机器视觉]机器视觉硬件选型实例</h1>
         
 
         <div class="post-meta">
@@ -282,8 +284,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-06-15T12:12:12+08:00">
-                2018-06-15
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-08-21T20:20:20+08:00">
+                2018-08-21
               </time>
             
 
@@ -307,7 +309,7 @@
 
           
               <div class="post-description">
-                  缺陷检测相关论文的调研。
+                  无锡埃姆维视觉部的方案测试考核。
               </div>
           
 
@@ -324,199 +326,94 @@
       
 
       
-        <h1 id="资料查阅"><a href="#资料查阅" class="headerlink" title="资料查阅"></a>资料查阅</h1><h2 id="硕士（14篇）-知网搜索“缺陷检测”-“深度学习”-“卷积”“CNN”“R-CNN”"><a href="#硕士（14篇）-知网搜索“缺陷检测”-“深度学习”-“卷积”“CNN”“R-CNN”" class="headerlink" title="硕士（14篇）-知网搜索“缺陷检测”/“深度学习”/“卷积”“CNN”“R-CNN”"></a>硕士（14篇）-知网搜索“缺陷检测”/“深度学习”/“卷积”“CNN”“R-CNN”</h2><div class="table-container">
+        <h1 id="项目要求"><a href="#项目要求" class="headerlink" title="项目要求"></a>项目要求</h1><ol>
+<li>产品有两种</li>
+<li>检测产品的<strong>孔径</strong>，检测产品的<strong>孔距</strong></li>
+<li>静止拍照，移动产品，<strong>产品运动速度6m/min</strong></li>
+<li>静止检测，<strong>测量精度±0.02mm</strong></li>
+</ol>
+<img src="/2018/08/21/2018-08-21-imv-train-hardware-selection-example/01载带.png" title="载带">
+<h1 id="选型过程"><a href="#选型过程" class="headerlink" title="选型过程"></a>选型过程</h1><h2 id="相机"><a href="#相机" class="headerlink" title="相机"></a>相机</h2><h3 id="分辨率（产品大小、检测精度-⇒-相机分辨率）"><a href="#分辨率（产品大小、检测精度-⇒-相机分辨率）" class="headerlink" title="分辨率（产品大小、检测精度 ⇒ 相机分辨率）"></a>分辨率（产品大小、检测精度 ⇒ 相机分辨率）</h3><p>载带宽度 8mm =&gt; <strong>视野放大到10mm</strong><br>载带运动检测，故长度暂时不考虑<br>测量精度±0.02mm =&gt; <strong>测量精度0.04mm</strong><br>要求系统精度 = 0.04 mm / 10 pix = 0.004 mm/pix<br>相机长边像素点 = 10 / 0.004 = 2500pix =&gt; <strong>500w相机</strong></p>
+<h3 id="相机选型助手"><a href="#相机选型助手" class="headerlink" title="相机选型助手"></a>相机选型助手</h3><p><a href="https://www.baslerweb.com/cn/products/tools/area-scan-camera-selector/" target="_blank" rel="noopener">Balser面阵相机选型助手</a></p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th style="text-align:center">题名</th>
-<th style="text-align:center">作者</th>
-<th style="text-align:center">学校</th>
-<th style="text-align:center">年份</th>
-<th style="text-align:center">算法</th>
-<th style="text-align:center">应用场景</th>
-<th style="text-align:center">准确率</th>
-<th style="text-align:center">实现平台</th>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">值</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">基于视觉感知的带钢表面缺陷检测与识别</td>
-<td style="text-align:center">陈宁纪（控制）</td>
-<td style="text-align:center">河北工业大学</td>
-<td style="text-align:center">2015</td>
-<td style="text-align:center">LBP/CNN、SVM</td>
-<td style="text-align:center">带钢</td>
-<td style="text-align:center">97.3%</td>
+<td style="text-align:center">帧速率</td>
+<td style="text-align:center">&gt;20fps</td>
 </tr>
 <tr>
-<td style="text-align:center">基于深度学习与SVM的电弧熔积表面缺陷检测与分类</td>
-<td style="text-align:center">邓星（机制）</td>
-<td style="text-align:center">华中科技大学</td>
-<td style="text-align:center">2016</td>
-<td style="text-align:center">CNN、SVM</td>
-<td style="text-align:center">电弧熔积</td>
-<td style="text-align:center">95.29%</td>
+<td style="text-align:center">分辨率</td>
+<td style="text-align:center">5MP</td>
 </tr>
 <tr>
-<td style="text-align:center">☆基于CNN的工件缺陷检测方法研究及系统设计</td>
-<td style="text-align:center">乔丽（计算机）</td>
-<td style="text-align:center">华中师范大学</td>
-<td style="text-align:center">2016</td>
-<td style="text-align:center">CNN</td>
-<td style="text-align:center">工件</td>
-<td style="text-align:center">93.3%</td>
+<td style="text-align:center">接口</td>
+<td style="text-align:center">GigE</td>
 </tr>
 <tr>
-<td style="text-align:center">基于深度学习的鸡蛋外观缺陷检测算法</td>
-<td style="text-align:center">宋超（软件）</td>
-<td style="text-align:center">贵州大学</td>
-<td style="text-align:center">2017</td>
-<td style="text-align:center">K-means+SVM、CNN、CNN+ResNet</td>
-<td style="text-align:center">鸡蛋</td>
-<td style="text-align:center">97.5%</td>
-</tr>
-<tr>
-<td style="text-align:center">基于卷积神经网络的外观缺陷检测方法研究</td>
-<td style="text-align:center">曹凯（控制）</td>
-<td style="text-align:center">哈尔滨工业大学</td>
-<td style="text-align:center">2017</td>
-<td style="text-align:center">CNN</td>
-<td style="text-align:center">普适性</td>
-<td style="text-align:center">95%/89%（小样本）</td>
-</tr>
-<tr>
-<td style="text-align:center">基于机器视觉的圆锥滚子外观缺陷检测系统研究与设计</td>
-<td style="text-align:center">刘云明（机械）</td>
-<td style="text-align:center">华南理工大学</td>
-<td style="text-align:center">2017</td>
-<td style="text-align:center">SVM、CNN</td>
-<td style="text-align:center">圆锥滚子</td>
-<td style="text-align:center">98%</td>
-<td style="text-align:center">C#、NI Vision、OpenCV、MATLAB</td>
-</tr>
-<tr>
-<td style="text-align:center">☆金属弧面工件表面缺陷检测与误检排除技术研究</td>
-<td style="text-align:center">许浩均（信号）</td>
-<td style="text-align:center">华南理工大学</td>
-<td style="text-align:center">2017</td>
-<td style="text-align:center">Faster R-CNN缺陷定位+阈值面缺陷提取</td>
-<td style="text-align:center">金属弧面工件</td>
-<td style="text-align:center">87.22%</td>
-</tr>
-<tr>
-<td style="text-align:center">深度学习及其在工件缺陷自动检测中的应用研究</td>
-<td style="text-align:center">颜伟鑫（信号）</td>
-<td style="text-align:center">华南理工大学</td>
-<td style="text-align:center">2017</td>
-<td style="text-align:center">Faster R-CNN</td>
-<td style="text-align:center">工件</td>
-<td style="text-align:center">100%</td>
-</tr>
-<tr>
-<td style="text-align:center">深度学习及其在航空发动机缺陷检测中的应用研究</td>
-<td style="text-align:center">旷可嘉（信号）</td>
-<td style="text-align:center">华南理工大学</td>
-<td style="text-align:center">2017</td>
-<td style="text-align:center">Faster R-CNN、SSD</td>
-<td style="text-align:center">航空发动机</td>
-<td style="text-align:center">89.36%</td>
-</tr>
-<tr>
-<td style="text-align:center">基于HALCON的太阳能电池片缺陷检测系统设计</td>
-<td style="text-align:center">周奇（控制）</td>
-<td style="text-align:center">江苏大学</td>
-<td style="text-align:center">2017</td>
-<td style="text-align:center">传统方法：陶瓷标定板、Canny算子、基于径向密度函数插值的边缘检测法、仿射变换、混合滤波器</td>
-<td style="text-align:center">太阳能电池</td>
-<td style="text-align:center">98.06%</td>
-</tr>
-<tr>
-<td style="text-align:center">制衣裁片缺陷检测及定位系统研究</td>
-<td style="text-align:center">艾泳宏（控制）</td>
-<td style="text-align:center">西安工程大学</td>
-<td style="text-align:center">2017</td>
-<td style="text-align:center">Le-net5、R-CNN</td>
-<td style="text-align:center">制衣裁片</td>
-<td style="text-align:center">90%</td>
-</tr>
-<tr>
-<td style="text-align:center">基于主动式全景视觉的管道内表面缺陷检测技术的研究</td>
-<td style="text-align:center">鲁少辉（控制）</td>
-<td style="text-align:center">浙江工业大学</td>
-<td style="text-align:center">2017</td>
-<td style="text-align:center">Faster R-CNN</td>
-<td style="text-align:center">管道内表面（解决畸变）</td>
-<td style="text-align:center">87.3%</td>
-</tr>
-<tr>
-<td style="text-align:center">基于CNN的晶圆SEM图像缺陷检测与分类研究</td>
-<td style="text-align:center">邡鑫（电气）</td>
-<td style="text-align:center">浙江大学</td>
-<td style="text-align:center">2018</td>
-<td style="text-align:center">ZFNet、Faster R-CNN</td>
-<td style="text-align:center">晶圆SEM</td>
-<td style="text-align:center">92%（F-score）</td>
-</tr>
-<tr>
-<td style="text-align:center">基于Gabor与区域卷积神经网络的晶圆表面多尺度缺陷检测技术研究</td>
-<td style="text-align:center">刘明明（机械）</td>
-<td style="text-align:center">浙江大学</td>
-<td style="text-align:center">2018</td>
-<td style="text-align:center">Gabor小波变换、Faster R-CNN、SSD</td>
-<td style="text-align:center">晶圆</td>
-<td style="text-align:center">95.28%</td>
+<td style="text-align:center">黑白</td>
+<td style="text-align:center">Mono</td>
 </tr>
 </tbody>
 </table>
 </div>
-<h2 id="硕士（3篇）-知网搜索“缺陷检测-极片”"><a href="#硕士（3篇）-知网搜索“缺陷检测-极片”" class="headerlink" title="硕士（3篇）-知网搜索“缺陷检测 极片”"></a>硕士（3篇）-知网搜索“缺陷检测 极片”</h2><div class="table-container">
+<p>剩3款，差不多，随意选一个：<a href="https://www.baslerweb.com/cn/products/cameras/basler-cameras-for-medical-and-life-sciences/basler-med-ace/basler-med-ace-5-3-mp-20-mono/" target="_blank" rel="noopener"><strong>Basler MED ace 5.3 MP 20 mono</strong></a><br>重要参数：</p>
+<div class="table-container">
 <table>
 <thead>
 <tr>
-<th style="text-align:center">题名</th>
-<th style="text-align:center">作者</th>
-<th style="text-align:center">学校</th>
-<th style="text-align:center">年份</th>
-<th style="text-align:center">算法</th>
-<th style="text-align:center">应用场景</th>
-<th style="text-align:center">准确率</th>
-<th style="text-align:center">实现平台</th>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">值</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">☆基于机器视觉的锂<strong>电池极片</strong>缺陷检测研究</td>
-<td style="text-align:center">胡玥红（控制）</td>
-<td style="text-align:center">哈尔滨工业大学</td>
-<td style="text-align:center">2015</td>
-<td style="text-align:center">传统方法、支持Tucker机</td>
-<td style="text-align:center">极片</td>
-<td style="text-align:center">97.5%</td>
-<td style="text-align:center">VS2010、OpenCV、Halcon、MATLAB</td>
+<td style="text-align:center">快门</td>
+<td style="text-align:center">Global Shutter</td>
 </tr>
 <tr>
-<td style="text-align:center">动力锂离子<strong>电池极片</strong>自动检测分选装置设计研究</td>
-<td style="text-align:center">查闯（机械）</td>
-<td style="text-align:center">东南大学</td>
-<td style="text-align:center">2016</td>
-<td style="text-align:center">传统方法</td>
-<td style="text-align:center">极片（整体方案：视觉检测、机械手、控制）</td>
-<td style="text-align:center">97%</td>
-<td style="text-align:center">HALCON、C++、VS2010</td>
+<td style="text-align:center">靶面尺寸</td>
+<td style="text-align:center">1”</td>
 </tr>
 <tr>
-<td style="text-align:center">基于层析图像的磷酸铁锂动力<strong>电池</strong>缺陷检测方法研究</td>
-<td style="text-align:center">许源沁（车辆）</td>
-<td style="text-align:center">华南理工大学</td>
-<td style="text-align:center">2016</td>
-<td style="text-align:center">电化学性能、X射线层析</td>
-<td style="text-align:center">极片</td>
-<td style="text-align:center">？</td>
+<td style="text-align:center">感光芯片类型</td>
+<td style="text-align:center">CMOS</td>
+</tr>
+<tr>
+<td style="text-align:center">感光芯片尺寸</td>
+<td style="text-align:center"><strong>12.4 mm</strong> x 9.8 mm</td>
+</tr>
+<tr>
+<td style="text-align:center">水平/垂直分辨率</td>
+<td style="text-align:center">2590 px x 2048 px</td>
+</tr>
+<tr>
+<td style="text-align:center">分辨率</td>
+<td style="text-align:center">5 MP</td>
+</tr>
+<tr>
+<td style="text-align:center">水平/垂直像素尺寸</td>
+<td style="text-align:center">4.8 µm x 4.8 µm</td>
+</tr>
+<tr>
+<td style="text-align:center">帧速率</td>
+<td style="text-align:center">21 fps</td>
 </tr>
 </tbody>
 </table>
 </div>
-
+<h3 id="产品节拍"><a href="#产品节拍" class="headerlink" title="产品节拍"></a>产品节拍</h3><p>产品运动速度6m/min =&gt; 6000/60=<strong>100mm/s</strong><br>每秒需要测100mm、视野10mm，粗略算：100mm / 10mm = 10，每秒取像10张即可<br>而选的<strong>相机帧速率是21fps</strong>，没问题<br>需要再测下<strong>软件的速度</strong>，经测试，vp用blob工具，5ms左右，完全够用</p>
+<h2 id="镜头"><a href="#镜头" class="headerlink" title="镜头"></a>镜头</h2><p><a href="https://www.baslerweb.com/cn/products/tools/lens-selector/" target="_blank" rel="noopener">Balser镜头选型助手</a></p>
+<h3 id="FA镜头：焦距（视野-⇒-工作距离；视野、工作距离、靶面-⇒-焦距）"><a href="#FA镜头：焦距（视野-⇒-工作距离；视野、工作距离、靶面-⇒-焦距）" class="headerlink" title="FA镜头：焦距（视野 ⇒ 工作距离；视野、工作距离、靶面 ⇒ 焦距）"></a>FA镜头：焦距（视野 ⇒ 工作距离；视野、工作距离、靶面 ⇒ 焦距）</h3><p><strong>公式：工作距离 / 视野长边 = 焦距 / 靶面长边</strong><br>工作距离 / 10mm = 焦距 / 12.4mm</p>
+<h3 id="远心镜头：放大倍率（靶面、视野-⇒-放大倍率）"><a href="#远心镜头：放大倍率（靶面、视野-⇒-放大倍率）" class="headerlink" title="远心镜头：放大倍率（靶面、视野 ⇒ 放大倍率）"></a>远心镜头：放大倍率（靶面、视野 ⇒ 放大倍率）</h3><p><strong>公式：光学放大倍率 = 相机靶面长边 / 视野长边</strong><br>光学放大倍率 = 12.4mm / 10mm = 1.2</p>
+<h2 id="光源"><a href="#光源" class="headerlink" title="光源"></a>光源</h2><p>平行背光</p>
+<h1 id="方案结果"><a href="#方案结果" class="headerlink" title="方案结果"></a>方案结果</h1>
       
     </div>
     
@@ -535,10 +432,6 @@
           
             <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
           
-            <a href="/tags/读论文/" rel="tag"># 读论文</a>
-          
-            <a href="/tags/缺陷检测/" rel="tag"># 缺陷检测</a>
-          
         </div>
       
 
@@ -550,8 +443,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/06/14/2018-06-14-dl-tensorflow/" rel="next" title="*[深度学习]Tensorflow">
-                <i class="fa fa-chevron-left"></i> *[深度学习]Tensorflow
+              <a href="/2018/08/20/2018-08-20-imv-train-hardware-selection/" rel="next" title="[机器视觉]机器视觉硬件选型">
+                <i class="fa fa-chevron-left"></i> [机器视觉]机器视觉硬件选型
               </a>
             
           </div>
@@ -560,8 +453,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2018/06/19/2018-06-19-imv-defect-detecting-paper/" rel="prev" title="[机器视觉]读缺陷检测论文">
-                [机器视觉]读缺陷检测论文 <i class="fa fa-chevron-right"></i>
+              <a href="/2018/09/01/2018-09-01-blog/" rel="prev" title="[暂时]不错的博文">
+                [暂时]不错的博文 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -689,7 +582,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#资料查阅"><span class="nav-number">1.</span> <span class="nav-text">资料查阅</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#硕士（14篇）-知网搜索“缺陷检测”-“深度学习”-“卷积”“CNN”“R-CNN”"><span class="nav-number">1.1.</span> <span class="nav-text">硕士（14篇）-知网搜索“缺陷检测”/“深度学习”/“卷积”“CNN”“R-CNN”</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#硕士（3篇）-知网搜索“缺陷检测-极片”"><span class="nav-number">1.2.</span> <span class="nav-text">硕士（3篇）-知网搜索“缺陷检测 极片”</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#项目要求"><span class="nav-number">1.</span> <span class="nav-text">项目要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#选型过程"><span class="nav-number">2.</span> <span class="nav-text">选型过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#相机"><span class="nav-number">2.1.</span> <span class="nav-text">相机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分辨率（产品大小、检测精度-⇒-相机分辨率）"><span class="nav-number">2.1.1.</span> <span class="nav-text">分辨率（产品大小、检测精度 ⇒ 相机分辨率）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相机选型助手"><span class="nav-number">2.1.2.</span> <span class="nav-text">相机选型助手</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#产品节拍"><span class="nav-number">2.1.3.</span> <span class="nav-text">产品节拍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#镜头"><span class="nav-number">2.2.</span> <span class="nav-text">镜头</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FA镜头：焦距（视野-⇒-工作距离；视野、工作距离、靶面-⇒-焦距）"><span class="nav-number">2.2.1.</span> <span class="nav-text">FA镜头：焦距（视野 ⇒ 工作距离；视野、工作距离、靶面 ⇒ 焦距）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远心镜头：放大倍率（靶面、视野-⇒-放大倍率）"><span class="nav-number">2.2.2.</span> <span class="nav-text">远心镜头：放大倍率（靶面、视野 ⇒ 放大倍率）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#光源"><span class="nav-number">2.3.</span> <span class="nav-text">光源</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方案结果"><span class="nav-number">3.</span> <span class="nav-text">方案结果</span></a></li></ol></div>
             
 
           </div>
