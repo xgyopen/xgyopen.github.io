@@ -103,7 +103,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源8.JPG">
 <meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源9.JPG">
 <meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源10.JPG">
-<meta property="og:updated_time" content="2018-08-21T03:15:50.004Z">
+<meta property="og:updated_time" content="2018-08-21T09:22:41.754Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]机器视觉硬件选型">
 <meta name="twitter:description" content="无锡埃姆维视觉部的培训，主题是“机器视觉硬件选型”，包含相机、镜头、光源，干货满满，此文为笔记。">
@@ -350,7 +350,7 @@
 <li><strong>全局快门</strong>所有像素同时感光，在任意一个时间点，所有像素都接受相同的光量。</li>
 </ul>
 <img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/01全局快门_卷帘快门.jpg" title="全局快门_卷帘快门">
-<h2 id="检测节拍"><a href="#检测节拍" class="headerlink" title="检测节拍"></a>检测节拍</h2><p>节拍：客户要求每秒拍多少图像<br>检测<strong>节拍</strong>确定了<strong>相机帧率</strong><br>相机检测节拍 = 取像时间 + 图像处理时间<br>取像时间 ≈ 相机帧率 + 曝光时间</p>
+<h2 id="检测节拍"><a href="#检测节拍" class="headerlink" title="检测节拍"></a>检测节拍</h2><p>节拍：客户要求每秒拍多少图像<br>检测<strong>节拍</strong>确定了<strong>相机帧率</strong><br>相机检测节拍 = 取像时间 + 图像处理时间<br>取像时间 ≈ 1/相机帧率 + 曝光时间</p>
 <p>只要关心<strong>采集时间</strong>、<strong>处理时间</strong>即可，传输时间一般没有问题</p>
 <p>PS：忽略传输时间的原因<br>真实时间=图片采集速度+数据处理速度+数据传输速度</p>
 <ul>
@@ -487,14 +487,14 @@
 </li>
 <li><p>相机种类</p>
 <ul>
-<li>面阵相机：常用</li>
-<li>线阵相机：高速</li>
+<li>面阵相机：常用，分辨率M*N（5MP=2592px*1944px）</li>
+<li>线阵相机：高速，分辨率1*N（4k=4096px*1px）</li>
 </ul>
 </li>
 <li><p>快门方式</p>
 <ul>
 <li>卷帘快门：静止状态</li>
-<li>全局快门：静止状态、拍运动中物体<br>PS：CMOS常用-行曝光-卷帘快门</li>
+<li>全局快门：静止状态、拍运动中物体<br>PS：<strong>CMOS常用-行曝光-卷帘快门</strong></li>
 </ul>
 </li>
 <li><p>镜头种类：</p>
@@ -511,7 +511,37 @@
 <li>小视野</li>
 </ul>
 </li>
+<li><p>CCD、CMOS</p>
+</li>
 </ol>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">CCD</th>
+<th style="text-align:center">CMOS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">价格较高</td>
+<td style="text-align:center">价格较低</td>
+</tr>
+<tr>
+<td style="text-align:center">图像质量较高</td>
+<td style="text-align:center">噪声大，灵敏度低</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>全局曝光（Global）</strong></td>
+<td style="text-align:center"><strong>大部分是行曝光（Rolling）</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">功耗较高</td>
+<td style="text-align:center">功耗较低</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h2 id="常用品牌"><a href="#常用品牌" class="headerlink" title="常用品牌"></a>常用品牌</h2><ol>
 <li>相机<ul>
 <li>工业相机：康耐视（COGNEX）、Balser、大华</li>
@@ -606,8 +636,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/07/06/2018-07-06-competition-cv/" rel="next" title="[计算机视觉]几个比赛">
-                <i class="fa fa-chevron-left"></i> [计算机视觉]几个比赛
+              <a href="/2018/08/16/2018-08-16-imv-calibration-eye-hand/" rel="next" title="[机器视觉]手眼标定">
+                <i class="fa fa-chevron-left"></i> [机器视觉]手眼标定
               </a>
             
           </div>
@@ -699,7 +729,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">33</span>
+                  <span class="site-state-item-count">34</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
