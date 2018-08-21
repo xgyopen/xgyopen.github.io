@@ -132,7 +132,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/13_1轮廓是什么.png">
 <meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/13_2从黑色背景中查找白色对象.png">
 <meta property="og:image" content="http://yoursite.com/2018/07/03/2018-07-03-cv-opencv-py/13_3轮廓的近似方法.png">
-<meta property="og:updated_time" content="2018-08-07T08:56:27.966Z">
+<meta property="og:updated_time" content="2018-08-21T05:07:56.084Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]OpenCV+Python">
 <meta name="twitter:description" content="OpenCV的Python接口。">
@@ -560,7 +560,31 @@
 </ul>
 <p><strong>r = cv2.drawContours(o, contours, contourIdx, color[, thickness])</strong><br>-r:目标图像，直接修改目标的像素点，实现绘制<br>-o:原始图像<br>-contours:需要绘制的边缘数组<br>-contourIdx:需要绘制的边缘索引，如果全部绘制则为-1<br>-color:绘制的颜色，为BGR格式的Scalar。<br>-thickness:可选，绘制的密度，即描绘轮廓时所用的画笔粗细</p>
 <p>4.范例<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> cv2</span><br><span class="line">o = cv2.imread(<span class="string">'image\\contours.png'</span>)</span><br><span class="line">gray = cv2.cvtColor(o, cv2.COLOR_BGR2GRAY) <span class="comment">#色彩空间的转换（BGR转为灰度）</span></span><br><span class="line">ret, binary = cv2.threshold(gray, <span class="number">127</span>, <span class="number">255</span>, cv2.THRESH_BINARY) <span class="comment">#灰度图像调整为二值图像</span></span><br><span class="line">image, contours, hierarchy = cv2.findContours(binary, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE) <span class="comment">#查找边界</span></span><br><span class="line">co = o.copy() <span class="comment">#不想改变原始图像</span></span><br><span class="line">r = cv2.drawContours(co, contours, <span class="number">-1</span>, (<span class="number">0</span>,<span class="number">0</span>,<span class="number">255</span>), <span class="number">1</span>) <span class="comment">#绘制所有边界，红色</span></span><br><span class="line"><span class="comment"># r = cv2.drawContours(co, contours, 0, (0,0,255), 6) #绘制第1个边界，粗细调粗</span></span><br><span class="line">cv2.imshow(<span class="string">"original"</span>,o)</span><br><span class="line">cv2.imshow(<span class="string">"contours"</span>,r)</span><br><span class="line">cv2.waitKey()</span><br><span class="line">cv2.destroyAllWindows()</span><br></pre></td></tr></table></figure></p>
-<h1 id="直方图"><a href="#直方图" class="headerlink" title="直方图"></a>直方图</h1><h2 id="直方图的概念"><a href="#直方图的概念" class="headerlink" title="直方图的概念"></a>直方图的概念</h2><h2 id="绘制直方图"><a href="#绘制直方图" class="headerlink" title="绘制直方图"></a>绘制直方图</h2><h2 id="使用OpenCV统计直方图"><a href="#使用OpenCV统计直方图" class="headerlink" title="使用OpenCV统计直方图"></a>使用OpenCV统计直方图</h2><h2 id="绘制OpenCV统计直方图"><a href="#绘制OpenCV统计直方图" class="headerlink" title="绘制OpenCV统计直方图"></a>绘制OpenCV统计直方图</h2><h2 id="使用掩膜的直方图"><a href="#使用掩膜的直方图" class="headerlink" title="使用掩膜的直方图"></a>使用掩膜的直方图</h2><h2 id="掩膜原理及演示"><a href="#掩膜原理及演示" class="headerlink" title="掩膜原理及演示"></a>掩膜原理及演示</h2><h2 id="直方图均衡化原理"><a href="#直方图均衡化原理" class="headerlink" title="直方图均衡化原理"></a>直方图均衡化原理</h2><h2 id="直方图均衡化函数equalizeHist"><a href="#直方图均衡化函数equalizeHist" class="headerlink" title="直方图均衡化函数equalizeHist"></a>直方图均衡化函数equalizeHist</h2><h2 id="subplot函数的使用"><a href="#subplot函数的使用" class="headerlink" title="subplot函数的使用"></a>subplot函数的使用</h2><h2 id="matplotlib-pyplot-imshow函数的使用"><a href="#matplotlib-pyplot-imshow函数的使用" class="headerlink" title="matplotlib.pyplot.imshow函数的使用"></a>matplotlib.pyplot.imshow函数的使用</h2><h2 id="直方图均衡化对比"><a href="#直方图均衡化对比" class="headerlink" title="直方图均衡化对比"></a>直方图均衡化对比</h2><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="http://study.163.com/course/courseMain.htm?courseId=1005317018" target="_blank" rel="noopener">网易云课堂：Python+OpenCV图穷匕见</a></p>
+<h1 id="直方图"><a href="#直方图" class="headerlink" title="直方图"></a>直方图</h1><h2 id="直方图的概念"><a href="#直方图的概念" class="headerlink" title="直方图的概念"></a>直方图的概念</h2><h2 id="绘制直方图"><a href="#绘制直方图" class="headerlink" title="绘制直方图"></a>绘制直方图</h2><h2 id="使用OpenCV统计直方图"><a href="#使用OpenCV统计直方图" class="headerlink" title="使用OpenCV统计直方图"></a>使用OpenCV统计直方图</h2><h2 id="绘制OpenCV统计直方图"><a href="#绘制OpenCV统计直方图" class="headerlink" title="绘制OpenCV统计直方图"></a>绘制OpenCV统计直方图</h2><h2 id="使用掩膜的直方图"><a href="#使用掩膜的直方图" class="headerlink" title="使用掩膜的直方图"></a>使用掩膜的直方图</h2><h2 id="掩膜原理及演示"><a href="#掩膜原理及演示" class="headerlink" title="掩膜原理及演示"></a>掩膜原理及演示</h2><h2 id="直方图均衡化原理"><a href="#直方图均衡化原理" class="headerlink" title="直方图均衡化原理"></a>直方图均衡化原理</h2><h2 id="直方图均衡化函数equalizeHist"><a href="#直方图均衡化函数equalizeHist" class="headerlink" title="直方图均衡化函数equalizeHist"></a>直方图均衡化函数equalizeHist</h2><h2 id="subplot函数的使用"><a href="#subplot函数的使用" class="headerlink" title="subplot函数的使用"></a>subplot函数的使用</h2><h2 id="matplotlib-pyplot-imshow函数的使用"><a href="#matplotlib-pyplot-imshow函数的使用" class="headerlink" title="matplotlib.pyplot.imshow函数的使用"></a>matplotlib.pyplot.imshow函数的使用</h2><h2 id="直方图均衡化对比"><a href="#直方图均衡化对比" class="headerlink" title="直方图均衡化对比"></a>直方图均衡化对比</h2><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">书名</th>
+<th style="text-align:center">出版日期</th>
+<th style="text-align:center">实验环境</th>
+<th style="text-align:center">简要评价</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">OpenCV-Python-Toturial-中文版</td>
+<td style="text-align:center"><a href="https://github.com/rjdCS/OpenCV_Python_Toturial" target="_blank" rel="noopener">py3.5</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">[网易云课堂：Python+OpenCV图穷匕见]</td>
+<td style="text-align:center"><a href="http://study.163.com/course/courseMain.htm?courseId=1005317018" target="_blank" rel="noopener">py3.6</a></td>
+<td style="text-align:center">网易云课堂</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a href="http://study.163.com/course/courseMain.htm?courseId=1005317018" target="_blank" rel="noopener"></a><br><a href="http://ex2tron.wang/2017/10/10/Python-OpenCV%E6%95%99%E7%A8%8B%EF%BC%88%E7%9B%AE%E5%BD%95%EF%BC%89/" target="_blank" rel="noopener">【视觉与图像】OpenCV篇：Python+OpenCV实用教程</a></p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
       
     </div>
