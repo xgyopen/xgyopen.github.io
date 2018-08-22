@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/08/21/2018-08-21-imv-train-hardware-selection-example/01载带.png">
 <meta property="og:image" content="http://yoursite.com/2018/08/21/2018-08-21-imv-train-hardware-selection-example/02选型拍图_标注.png">
-<meta property="og:updated_time" content="2018-08-22T03:30:37.893Z">
+<meta property="og:updated_time" content="2018-08-22T06:47:28.772Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]机器视觉硬件选型实例">
 <meta name="twitter:description" content="无锡埃姆维视觉部的方案测试考核。">
@@ -417,8 +417,10 @@
 </div>
 <h3 id="产品节拍"><a href="#产品节拍" class="headerlink" title="产品节拍"></a>产品节拍</h3><p>产品运动速度6m/min =&gt; 6000/60=<strong>100mm/s</strong><br>每秒需要测100mm、视野10mm，粗略算：100mm / 10mm = 10，每秒取像10张即可<br>而选的<strong>相机帧速率是14fps</strong>，没问题<br>需要再测下<strong>软件的速度</strong>，经测试，vp用2个blob工具，10ms左右，完全够用</p>
 <h2 id="镜头"><a href="#镜头" class="headerlink" title="镜头"></a>镜头</h2><p><a href="https://www.baslerweb.com/cn/products/tools/lens-selector/" target="_blank" rel="noopener">Balser镜头选型助手</a></p>
-<h3 id="FA镜头：焦距（视野-⇒-工作距离；视野、工作距离、靶面-⇒-焦距）"><a href="#FA镜头：焦距（视野-⇒-工作距离；视野、工作距离、靶面-⇒-焦距）" class="headerlink" title="FA镜头：焦距（视野 ⇒ 工作距离；视野、工作距离、靶面 ⇒ 焦距）"></a>FA镜头：焦距（视野 ⇒ 工作距离；视野、工作距离、靶面 ⇒ 焦距）</h3><p><strong>公式：工作距离 / 视野长边 = 焦距 / 靶面长边</strong><br>工作距离 / 10mm = 焦距 / 12.4mm</p>
-<h3 id="远心镜头：放大倍率（靶面、视野-⇒-放大倍率）"><a href="#远心镜头：放大倍率（靶面、视野-⇒-放大倍率）" class="headerlink" title="远心镜头：放大倍率（靶面、视野 ⇒ 放大倍率）"></a>远心镜头：放大倍率（靶面、视野 ⇒ 放大倍率）</h3><p><strong>公式：光学放大倍率 = 相机靶面长边 / 视野长边</strong><br>光学放大倍率 = 5.7mm / 10mm = 0.57<br>选一个符合1/2.5”CCD的，放大倍率接近0.57的<br><a href="http://www.coolens.cn/product/" target="_blank" rel="noopener">视清官网</a>，DTCM小靶面双远心镜头-1/2.5”CCD，选<a href="http://www.coolens.cn/product/146.html" target="_blank" rel="noopener">DTCM125-26 双远心镜头</a></p>
+<h3 id="FA镜头：焦距（视野-⇒-工作距离；视野、工作距离、靶面-⇒-焦距）"><a href="#FA镜头：焦距（视野-⇒-工作距离；视野、工作距离、靶面-⇒-焦距）" class="headerlink" title="FA镜头：焦距（视野 ⇒ 工作距离；视野、工作距离、靶面 ⇒ 焦距）"></a>FA镜头：焦距（视野 ⇒ 工作距离；视野、工作距离、靶面 ⇒ 焦距）</h3><p><strong>公式：</strong></p>
+<script type="math/tex; mode=display">\frac{工作距离}{视野长边}=\frac{焦距}{靶面长边}</script><p>工作距离 / 10mm = 焦距 / 12.4mm</p>
+<h3 id="远心镜头：放大倍率（靶面、视野-⇒-放大倍率）"><a href="#远心镜头：放大倍率（靶面、视野-⇒-放大倍率）" class="headerlink" title="远心镜头：放大倍率（靶面、视野 ⇒ 放大倍率）"></a>远心镜头：放大倍率（靶面、视野 ⇒ 放大倍率）</h3><p><strong>公式：</strong></p>
+<script type="math/tex; mode=display">光学放大倍率=\frac{相机靶面长边}{视野长边}</script><p>光学放大倍率 = 5.7mm / 10mm = 0.57<br>选一个符合1/2.5”CCD的，放大倍率接近0.57的<br><a href="http://www.coolens.cn/product/" target="_blank" rel="noopener">视清官网</a>，DTCM小靶面双远心镜头-1/2.5”CCD，选<a href="http://www.coolens.cn/product/146.html" target="_blank" rel="noopener">DTCM125-26 双远心镜头</a></p>
 <h2 id="光源"><a href="#光源" class="headerlink" title="光源"></a>光源</h2><p>平行背光</p>
 <h1 id="测试使用"><a href="#测试使用" class="headerlink" title="测试使用"></a>测试使用</h1><div class="table-container">
 <table>

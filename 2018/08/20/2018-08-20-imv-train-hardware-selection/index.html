@@ -103,7 +103,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源8.JPG">
 <meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源9.JPG">
 <meta property="og:image" content="http://yoursite.com/2018/08/20/2018-08-20-imv-train-hardware-selection/08光源10.JPG">
-<meta property="og:updated_time" content="2018-08-22T03:22:11.638Z">
+<meta property="og:updated_time" content="2018-08-22T06:44:23.833Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]机器视觉硬件选型">
 <meta name="twitter:description" content="无锡埃姆维视觉部的培训，主题是“机器视觉硬件选型”，包含相机、镜头、光源，干货满满，此文为笔记。">
@@ -371,8 +371,9 @@
 <p>PS：液态镜头（使用电压控制镜片厚度）</p>
 <h2 id="非远心镜头：安装空间、视野"><a href="#非远心镜头：安装空间、视野" class="headerlink" title="非远心镜头：安装空间、视野"></a>非远心镜头：安装空间、视野</h2><p><strong>安装空间</strong>限定了<strong>工作距离</strong>范围，当相机选定后，<strong>视野</strong>与<strong>工作距离</strong>决定了镜头<strong>焦距</strong></p>
 <img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/03视野_工作距离_靶面_焦距.png" title="视野_工作距离_靶面_焦距">
-<p>计算公式（☆☆☆）（等边三角形）：<br>工作距离 / 视野长（短）边 = 焦距 / 靶面长（短）边<br>芯片尺寸计算方式：<br>长边尺寸 = 长边分辨率 * 像元尺寸<br>短边尺寸 = 短边分辨率 * 像元尺寸</p>
-<h2 id="非远心镜头：景深"><a href="#非远心镜头：景深" class="headerlink" title="非远心镜头：景深"></a>非远心镜头：景深</h2><p><strong>景深</strong>即在不做任何调节的情况下，在物方空间内，可接受的<strong>能清晰成像的空间范围</strong>。</p>
+<p>计算公式（☆☆☆）（等边三角形）：</p>
+<script type="math/tex; mode=display">\frac{工作距离}{视野长（短）边}=\frac{焦距}{靶面长（短）边}</script><p>芯片尺寸计算方式：</p>
+<script type="math/tex; mode=display">长边尺寸 = 长边分辨率 * 像元尺寸</script><script type="math/tex; mode=display">短边尺寸 = 短边分辨率 * 像元尺寸</script><h2 id="非远心镜头：景深"><a href="#非远心镜头：景深" class="headerlink" title="非远心镜头：景深"></a>非远心镜头：景深</h2><p><strong>景深</strong>即在不做任何调节的情况下，在物方空间内，可接受的<strong>能清晰成像的空间范围</strong>。</p>
 <p>各项因素对景深的影响如下（假定其他的条件都不改变）：</p>
 <ol>
 <li>镜头光圈：光圈越大，景深越小；<strong>光圈越小，景深越大</strong>； </li>
@@ -385,8 +386,8 @@
 <img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/05镜头畸变.png" title="镜头畸变">
 <h2 id="远心镜头：视野"><a href="#远心镜头：视野" class="headerlink" title="远心镜头：视野"></a>远心镜头：视野</h2><p>当相机选定后，<strong>视野</strong>决定了镜头<strong>放大倍率</strong></p>
 <img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/06视野_远心镜头.png" title="视野_远心镜头">
-<p>计算公式（☆☆☆）：<br>光学放大倍率 = 相机靶面长（短）边 / 视野长（短）边</p>
-<p>远心镜头的工作距离、光圈大小通常在镜头设计时已固定，所以<strong>远心镜头的景深是不可调节的</strong>，为保证获得最低畸变图像，工作距离相对于标称值的偏差应≤±3%。 </p>
+<p>计算公式（☆☆☆）：</p>
+<script type="math/tex; mode=display">光学放大倍率=\frac{相机靶面长（短）边}{视野长（短）边}</script><p>远心镜头的工作距离、光圈大小通常在镜头设计时已固定，所以<strong>远心镜头的景深是不可调节的</strong>，为保证获得最低畸变图像，工作距离相对于标称值的偏差应≤±3%。 </p>
 <h2 id="最大兼容CCD芯片大小"><a href="#最大兼容CCD芯片大小" class="headerlink" title="最大兼容CCD芯片大小"></a>最大兼容CCD芯片大小</h2><p>镜头尺寸&gt;=CCD，否则会出现暗角</p>
 <img src="/2018/08/20/2018-08-20-imv-train-hardware-selection/07镜头尺寸_CCD尺寸.jpg" title="镜头尺寸_CCD尺寸">
 <h1 id="光源"><a href="#光源" class="headerlink" title="光源"></a>光源</h1><p>总而言之，①目标是<strong>黑白对比度好</strong>，②吃经验、要实测</p>
