@@ -88,7 +88,8 @@
 <meta property="og:description" content="无锡埃姆维视觉部的方案测试考核。">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/08/21/2018-08-21-imv-train-hardware-selection-example/01载带.png">
-<meta property="og:updated_time" content="2018-08-21T13:51:03.296Z">
+<meta property="og:image" content="http://yoursite.com/2018/08/21/2018-08-21-imv-train-hardware-selection-example/02选型拍图.png">
+<meta property="og:updated_time" content="2018-08-22T03:27:40.794Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]机器视觉硬件选型实例">
 <meta name="twitter:description" content="无锡埃姆维视觉部的方案测试考核。">
@@ -326,7 +327,17 @@
       
 
       
-        <h1 id="项目要求"><a href="#项目要求" class="headerlink" title="项目要求"></a>项目要求</h1><ol>
+        <hr>
+<p>相机：<br>载带窄变 8mm =&gt; 10mm<br>检测精度 0.04mm<br>要求系统精度 0.04/10 = 0.004<br>像素点 10 / 0.004 = 2500 =&gt; 500w像素</p>
+<p>镜头：<br>放大倍率 = 靶面 / 视野 = 5.7mm / 10mm = 0.57</p>
+<p>重新计算：<br>=&gt; 视野 = 靶面 / 放大倍率 = 5.7 / 0.27 = 21mm ≈ 20 mm</p>
+<p>系统精度 = 视野 / 相机分辨率 = 20 / 2500 = 0.008 ≈ 0.01mm/pix</p>
+<p>验证节拍：<br>2个blob工具 11ms</p>
+<p>100mm/s</p>
+<p>100 / 10（窄边） = 10张/秒 即可</p>
+<p>14fps足够了</p>
+<hr>
+<h1 id="项目要求"><a href="#项目要求" class="headerlink" title="项目要求"></a>项目要求</h1><ol>
 <li>产品有两种</li>
 <li>检测产品的<strong>孔径</strong>，检测产品的<strong>孔距</strong></li>
 <li>静止拍照，移动产品，<strong>产品运动速度6m/min</strong></li>
@@ -345,10 +356,6 @@
 </thead>
 <tbody>
 <tr>
-<td style="text-align:center">帧速率</td>
-<td style="text-align:center">&gt;20fps</td>
-</tr>
-<tr>
 <td style="text-align:center">分辨率</td>
 <td style="text-align:center">5MP</td>
 </tr>
@@ -363,7 +370,7 @@
 </tbody>
 </table>
 </div>
-<p>剩3款，差不多，随意选一个：<a href="https://www.baslerweb.com/cn/products/cameras/basler-cameras-for-medical-and-life-sciences/basler-med-ace/basler-med-ace-5-3-mp-20-mono/" target="_blank" rel="noopener"><strong>Basler MED ace 5.3 MP 20 mono</strong></a><br>重要参数：</p>
+<p>剩7款，差不多，随意选一个：<a href="https://www.baslerweb.com/cn/products/cameras/area-scan-cameras/ace/aca2500-14gm/" target="_blank" rel="noopener"><strong>Basler ace - acA2500-14gm</strong></a><br>重要参数：</p>
 <div class="table-container">
 <table>
 <thead>
@@ -375,11 +382,11 @@
 <tbody>
 <tr>
 <td style="text-align:center">快门</td>
-<td style="text-align:center">Global Shutter</td>
+<td style="text-align:center">Rolling Shutter</td>
 </tr>
 <tr>
 <td style="text-align:center">靶面尺寸</td>
-<td style="text-align:center">1”</td>
+<td style="text-align:center">1/2.5”</td>
 </tr>
 <tr>
 <td style="text-align:center">感光芯片类型</td>
@@ -387,11 +394,11 @@
 </tr>
 <tr>
 <td style="text-align:center">感光芯片尺寸</td>
-<td style="text-align:center"><strong>12.4 mm</strong> x 9.8 mm</td>
+<td style="text-align:center"><strong>5.7 mm</strong> x 4.3 mm</td>
 </tr>
 <tr>
 <td style="text-align:center">水平/垂直分辨率</td>
-<td style="text-align:center">2590 px x 2048 px</td>
+<td style="text-align:center">2592 px x 1944 px</td>
 </tr>
 <tr>
 <td style="text-align:center">分辨率</td>
@@ -399,21 +406,72 @@
 </tr>
 <tr>
 <td style="text-align:center">水平/垂直像素尺寸</td>
-<td style="text-align:center">4.8 µm x 4.8 µm</td>
+<td style="text-align:center">2.2 µm x 2.2 µm</td>
 </tr>
 <tr>
 <td style="text-align:center">帧速率</td>
-<td style="text-align:center">21 fps</td>
+<td style="text-align:center">14 fps</td>
 </tr>
 </tbody>
 </table>
 </div>
-<h3 id="产品节拍"><a href="#产品节拍" class="headerlink" title="产品节拍"></a>产品节拍</h3><p>产品运动速度6m/min =&gt; 6000/60=<strong>100mm/s</strong><br>每秒需要测100mm、视野10mm，粗略算：100mm / 10mm = 10，每秒取像10张即可<br>而选的<strong>相机帧速率是21fps</strong>，没问题<br>需要再测下<strong>软件的速度</strong>，经测试，vp用blob工具，5ms左右，完全够用</p>
+<h3 id="产品节拍"><a href="#产品节拍" class="headerlink" title="产品节拍"></a>产品节拍</h3><p>产品运动速度6m/min =&gt; 6000/60=<strong>100mm/s</strong><br>每秒需要测100mm、视野10mm，粗略算：100mm / 10mm = 10，每秒取像10张即可<br>而选的<strong>相机帧速率是14fps</strong>，没问题<br>需要再测下<strong>软件的速度</strong>，经测试，vp用2个blob工具，10ms左右，完全够用</p>
 <h2 id="镜头"><a href="#镜头" class="headerlink" title="镜头"></a>镜头</h2><p><a href="https://www.baslerweb.com/cn/products/tools/lens-selector/" target="_blank" rel="noopener">Balser镜头选型助手</a></p>
 <h3 id="FA镜头：焦距（视野-⇒-工作距离；视野、工作距离、靶面-⇒-焦距）"><a href="#FA镜头：焦距（视野-⇒-工作距离；视野、工作距离、靶面-⇒-焦距）" class="headerlink" title="FA镜头：焦距（视野 ⇒ 工作距离；视野、工作距离、靶面 ⇒ 焦距）"></a>FA镜头：焦距（视野 ⇒ 工作距离；视野、工作距离、靶面 ⇒ 焦距）</h3><p><strong>公式：工作距离 / 视野长边 = 焦距 / 靶面长边</strong><br>工作距离 / 10mm = 焦距 / 12.4mm</p>
-<h3 id="远心镜头：放大倍率（靶面、视野-⇒-放大倍率）"><a href="#远心镜头：放大倍率（靶面、视野-⇒-放大倍率）" class="headerlink" title="远心镜头：放大倍率（靶面、视野 ⇒ 放大倍率）"></a>远心镜头：放大倍率（靶面、视野 ⇒ 放大倍率）</h3><p><strong>公式：光学放大倍率 = 相机靶面长边 / 视野长边</strong><br>光学放大倍率 = 12.4mm / 10mm = 1.2</p>
+<h3 id="远心镜头：放大倍率（靶面、视野-⇒-放大倍率）"><a href="#远心镜头：放大倍率（靶面、视野-⇒-放大倍率）" class="headerlink" title="远心镜头：放大倍率（靶面、视野 ⇒ 放大倍率）"></a>远心镜头：放大倍率（靶面、视野 ⇒ 放大倍率）</h3><p><strong>公式：光学放大倍率 = 相机靶面长边 / 视野长边</strong><br>光学放大倍率 = 5.7mm / 10mm = 0.57<br>选一个符合1/2.5”CCD的，放大倍率接近0.57的<br><a href="http://www.coolens.cn/product/" target="_blank" rel="noopener">视清官网</a>，DTCM小靶面双远心镜头-1/2.5”CCD，选<a href="http://www.coolens.cn/product/146.html" target="_blank" rel="noopener">DTCM125-26 双远心镜头</a></p>
 <h2 id="光源"><a href="#光源" class="headerlink" title="光源"></a>光源</h2><p>平行背光</p>
-<h1 id="方案结果"><a href="#方案结果" class="headerlink" title="方案结果"></a>方案结果</h1>
+<h1 id="测试使用"><a href="#测试使用" class="headerlink" title="测试使用"></a>测试使用</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">物品</th>
+<th style="text-align:center">品牌</th>
+<th style="text-align:center">型号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">相机</td>
+<td style="text-align:center">Balser</td>
+<td style="text-align:center">Balser acA2500-14gm</td>
+</tr>
+<tr>
+<td style="text-align:center">远心镜头</td>
+<td style="text-align:center">灿锐</td>
+<td style="text-align:center">XF-UTL-0271X135 V5</td>
+</tr>
+<tr>
+<td style="text-align:center">背光光源</td>
+<td style="text-align:center">SF</td>
+<td style="text-align:center">SF-FL-JK-150*150</td>
+</tr>
+<tr>
+<td style="text-align:center">光源控制器</td>
+<td style="text-align:center">SF</td>
+<td style="text-align:center">SF-100/24-1C2H</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2018/08/21/2018-08-21-imv-train-hardware-selection-example/02选型拍图.png" title="选型拍图">
+<h1 id="方案结果"><a href="#方案结果" class="headerlink" title="方案结果"></a>方案结果</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">物品</th>
+<th style="text-align:center">品牌</th>
+<th style="text-align:center">型号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">相机</td>
+<td style="text-align:center">Balser</td>
+</tr>
+</tbody>
+</table>
+</div>
+
       
     </div>
     
@@ -582,7 +640,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#项目要求"><span class="nav-number">1.</span> <span class="nav-text">项目要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#选型过程"><span class="nav-number">2.</span> <span class="nav-text">选型过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#相机"><span class="nav-number">2.1.</span> <span class="nav-text">相机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分辨率（产品大小、检测精度-⇒-相机分辨率）"><span class="nav-number">2.1.1.</span> <span class="nav-text">分辨率（产品大小、检测精度 ⇒ 相机分辨率）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相机选型助手"><span class="nav-number">2.1.2.</span> <span class="nav-text">相机选型助手</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#产品节拍"><span class="nav-number">2.1.3.</span> <span class="nav-text">产品节拍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#镜头"><span class="nav-number">2.2.</span> <span class="nav-text">镜头</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FA镜头：焦距（视野-⇒-工作距离；视野、工作距离、靶面-⇒-焦距）"><span class="nav-number">2.2.1.</span> <span class="nav-text">FA镜头：焦距（视野 ⇒ 工作距离；视野、工作距离、靶面 ⇒ 焦距）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远心镜头：放大倍率（靶面、视野-⇒-放大倍率）"><span class="nav-number">2.2.2.</span> <span class="nav-text">远心镜头：放大倍率（靶面、视野 ⇒ 放大倍率）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#光源"><span class="nav-number">2.3.</span> <span class="nav-text">光源</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方案结果"><span class="nav-number">3.</span> <span class="nav-text">方案结果</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#项目要求"><span class="nav-number">1.</span> <span class="nav-text">项目要求</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#选型过程"><span class="nav-number">2.</span> <span class="nav-text">选型过程</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#相机"><span class="nav-number">2.1.</span> <span class="nav-text">相机</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#分辨率（产品大小、检测精度-⇒-相机分辨率）"><span class="nav-number">2.1.1.</span> <span class="nav-text">分辨率（产品大小、检测精度 ⇒ 相机分辨率）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相机选型助手"><span class="nav-number">2.1.2.</span> <span class="nav-text">相机选型助手</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#产品节拍"><span class="nav-number">2.1.3.</span> <span class="nav-text">产品节拍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#镜头"><span class="nav-number">2.2.</span> <span class="nav-text">镜头</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#FA镜头：焦距（视野-⇒-工作距离；视野、工作距离、靶面-⇒-焦距）"><span class="nav-number">2.2.1.</span> <span class="nav-text">FA镜头：焦距（视野 ⇒ 工作距离；视野、工作距离、靶面 ⇒ 焦距）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#远心镜头：放大倍率（靶面、视野-⇒-放大倍率）"><span class="nav-number">2.2.2.</span> <span class="nav-text">远心镜头：放大倍率（靶面、视野 ⇒ 放大倍率）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#光源"><span class="nav-number">2.3.</span> <span class="nav-text">光源</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#测试使用"><span class="nav-number">3.</span> <span class="nav-text">测试使用</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#方案结果"><span class="nav-number">4.</span> <span class="nav-text">方案结果</span></a></li></ol></div>
             
 
           </div>
