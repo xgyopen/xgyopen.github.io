@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xgyopen blog">
 <meta property="og:description" content="公司的任务。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-08-27T02:33:28.874Z">
+<meta property="og:updated_time" content="2018-08-27T07:57:03.780Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]手眼标定">
 <meta name="twitter:description" content="公司的任务。">
@@ -393,6 +393,9 @@
 <p><a href="https://blog.csdn.net/lql0716/article/details/72597719" target="_blank" rel="noopener">旋转矩阵、欧拉角、四元数理论及其转换关系</a><br>干货</p>
 <p><a href="https://www.learnopencv.com/rotation-matrix-to-euler-angles/" target="_blank" rel="noopener">Rotation Matrix To Euler Angles</a></p>
 <p><a href="https://blog.csdn.net/u013626386/article/details/51939952" target="_blank" rel="noopener">基于OpenCV的立体相机标定StereoCalibration与目标三维坐标定位</a><br>高屋建瓴</p>
+<p><a href="https://blog.csdn.net/xiongchao99/article/details/52850990" target="_blank" rel="noopener">基于视觉伺服的工业机器人系统研究（摄像机标定、手眼标定、目标单目定位）</a><br>很好，疑似一线工程师写的</p>
+<p>思路+opencv<br><a href="https://blog.csdn.net/YunlinWang/article/details/51622143" target="_blank" rel="noopener">经典手眼标定算法之Tsai-Lenz的OpenCV实现</a><br><a href="https://blog.csdn.net/yunlinwang/article/details/51871520" target="_blank" rel="noopener">经典手眼标定算法之Navy的OpenCV实现</a></p>
+<p><a href="http://www.vision.caltech.edu/bouguetj/calib_doc/" target="_blank" rel="noopener">Camera Calibration Toolbox for Matlab</a></p>
 <p>待看:<br><a href="https://blog.csdn.net/aptx704610875/article/details/48915149" target="_blank" rel="noopener">关于OpenCV的那些事——相机姿态更新</a><br><a href="https://blog.csdn.net/baidu_26408419/article/details/54381756" target="_blank" rel="noopener">opencv中3D点根据相机参数投影成2D点+solvePnP函数计算相机姿态+2D坐标到3D+相机参数calibration(标定与配准，求得深度彩色相机的内参与外参，再进行配准)</a></p>
 <h1 id="过程"><a href="#过程" class="headerlink" title="过程"></a>过程</h1><p>棋盘格识别要求：</p>
 <ol>
@@ -404,6 +407,8 @@
 <li>矫正畸变效应</li>
 <li>根据获得的图像重构三维场景</li>
 </ol>
+<h1 id="参考代码"><a href="#参考代码" class="headerlink" title="参考代码"></a>参考代码</h1><h2 id="matlab"><a href="#matlab" class="headerlink" title="matlab"></a>matlab</h2><p><a href="https://github.com/christianwengert/calib_toolbox_addon" target="_blank" rel="noopener">christianwengert/calib_toolbox_addon</a><br><a href="https://github.com/ThePrimus/handeyecalibration" target="_blank" rel="noopener">ThePrimus/handeyecalibration</a></p>
+<h2 id="py"><a href="#py" class="headerlink" title="py"></a>py</h2><p><a href="https://github.com/ethz-asl/hand_eye_calibration" target="_blank" rel="noopener">ethz-asl/hand_eye_calibration</a></p>
 
       
     </div>
@@ -575,7 +580,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">1.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硕士论文"><span class="nav-number">2.</span> <span class="nav-text">硕士论文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基础性的概念"><span class="nav-number">3.</span> <span class="nav-text">基础性的概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#过程"><span class="nav-number">4.</span> <span class="nav-text">过程</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">1.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硕士论文"><span class="nav-number">2.</span> <span class="nav-text">硕士论文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基础性的概念"><span class="nav-number">3.</span> <span class="nav-text">基础性的概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#过程"><span class="nav-number">4.</span> <span class="nav-text">过程</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考代码"><span class="nav-number">5.</span> <span class="nav-text">参考代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#matlab"><span class="nav-number">5.1.</span> <span class="nav-text">matlab</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#py"><span class="nav-number">5.2.</span> <span class="nav-text">py</span></a></li></ol></li></ol></div>
             
 
           </div>
