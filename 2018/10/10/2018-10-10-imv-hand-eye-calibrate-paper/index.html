@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="计算机视觉,读论文,双目视觉," />
 
 
 
@@ -79,13 +79,22 @@
 
 
 
-<meta property="og:type" content="website">
-<meta property="og:title" content="xgyopen blog">
-<meta property="og:url" content="http://yoursite.com/archives/2018/07/index.html">
+<meta name="description" content="精读几篇关于双目视觉的论文，此文为笔记。">
+<meta name="keywords" content="计算机视觉,读论文,双目视觉">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]读手眼标定论文">
+<meta property="og:url" content="http://yoursite.com/2018/10/10/2018-10-10-imv-hand-eye-calibrate-paper/index.html">
 <meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="精读几篇关于双目视觉的论文，此文为笔记。">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/10/10/2018-10-10-imv-hand-eye-calibrate-paper/a_01针孔模型.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/10/2018-10-10-imv-hand-eye-calibrate-paper/a_02径向畸变和切向畸变示意图.png">
+<meta property="og:image" content="http://yoursite.com/2018/10/10/2018-10-10-imv-hand-eye-calibrate-paper/a_03理想双目立体测量模型示意图.png">
+<meta property="og:updated_time" content="2018-10-11T09:13:05.425Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="xgyopen blog">
+<meta name="twitter:title" content="[机器视觉]读手眼标定论文">
+<meta name="twitter:description" content="精读几篇关于双目视觉的论文，此文为笔记。">
+<meta name="twitter:image" content="http://yoursite.com/2018/10/10/2018-10-10-imv-hand-eye-calibrate-paper/a_01针孔模型.png">
 
 
 
@@ -115,13 +124,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2018/07/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/10/10/2018-10-10-imv-hand-eye-calibrate-paper/"/>
 
 
 
 
 
-  <title>归档 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  <title>[机器视觉]读手眼标定论文 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
 
 
@@ -140,7 +149,7 @@
     
   
 
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-archive">
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -234,110 +243,198 @@
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      <span class="archive-page-counter">
-        
-        
-         
-        
-        OK! 目前共计 39 篇日志。 继续努力。
-      </span>
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/10/2018-10-10-imv-hand-eye-calibrate-paper/">
 
-      
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
 
         
         
+          <h1 class="post-title" itemprop="name headline">[机器视觉]读手眼标定论文</h1>
         
 
-        
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-10T09:09:09+08:00">
+                2018-10-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
           
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
 
-        
+          
+            
+          
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          
+          
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/06/2018-07-06-competition-cv/" itemprop="url">
-              
-                <span itemprop="name">[计算机视觉]几个比赛</span>
-              
-            </a>
-        
-      </h2>
+          
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-06T12:12:12+08:00"
-              content="2018-07-06" >
-          07-06
-        </time>
-      </div>
+          
 
-    </header>
-  </article>
+          
+              <div class="post-description">
+                  精读几篇关于双目视觉的论文，此文为笔记。
+              </div>
+          
 
+        </div>
+      </header>
+    
 
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-
-        
-        
-        
-
-        
-        
-
-        
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2018/07/03/2018-07-03-cv-opencv-py/" itemprop="url">
-              
-                <span itemprop="name">[机器视觉]OpenCV+Python</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-07-03T16:16:16+08:00"
-              content="2018-07-03" >
-          07-03
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
       
 
+      
+        <h1 id="资料查阅"><a href="#资料查阅" class="headerlink" title="资料查阅"></a>资料查阅</h1><p>知网搜：手眼标定 双目</p>
+<h2 id="硕士（3篇）"><a href="#硕士（3篇）" class="headerlink" title="硕士（3篇）"></a>硕士（3篇）</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">题名</th>
+<th style="text-align:center">作者</th>
+<th style="text-align:center">学校</th>
+<th style="text-align:center">年份</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">基于双目视觉的机器人焊缝识别及轨迹规划研究</td>
+<td style="text-align:center">陈熙引（机械）</td>
+<td style="text-align:center">华南理工</td>
+<td style="text-align:center">2015</td>
+<td style="text-align:center">线结构光为辅助标识的双目立体视觉平台</td>
+</tr>
+<tr>
+<td style="text-align:center">双目视觉定位的机械臂卸垛装置的初步研究</td>
+<td style="text-align:center">徐培（机械）</td>
+<td style="text-align:center">华南理工</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">基于双目视觉的工业机器人作业环境三维信息检测方法研究</td>
+<td style="text-align:center">黄锦洲（机械）</td>
+<td style="text-align:center">华南理工</td>
+<td style="text-align:center">2017</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="硕士-双目视觉定位的机械臂卸垛装置的初步研究"><a href="#硕士-双目视觉定位的机械臂卸垛装置的初步研究" class="headerlink" title="硕士_双目视觉定位的机械臂卸垛装置的初步研究"></a>硕士_双目视觉定位的机械臂卸垛装置的初步研究</h1><img src="/2018/10/10/2018-10-10-imv-hand-eye-calibrate-paper/a_01针孔模型.png" title="针孔模型">
+<img src="/2018/10/10/2018-10-10-imv-hand-eye-calibrate-paper/a_02径向畸变和切向畸变示意图.png" title="径向畸变和切向畸变示意图">
+<img src="/2018/10/10/2018-10-10-imv-hand-eye-calibrate-paper/a_03理想双目立体测量模型示意图.png" title="理想双目立体测量模型示意图">
+<p>针孔模型：线性的摄像机模型，仅包括透视投影、刚体变换，并无畸变因素<br>物点、像点<br>摄像机坐标系、世界坐标系</p>
+<p>畸变系数、内参数矩阵统称为摄像机模型<strong>内参数</strong>，只与相机本身有关，与外部环境无关<br>在标定获得内参数后，可将内参数保存下来用于外参数的标定</p>
+
+      
     </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+            <a href="/tags/读论文/" rel="tag"># 读论文</a>
+          
+            <a href="/tags/双目视觉/" rel="tag"># 双目视觉</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/09/12/2018-09-12-dl-data-augmentation/" rel="next" title="[深度学习]数据增强">
+                <i class="fa fa-chevron-left"></i> [深度学习]数据增强
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
@@ -345,6 +442,10 @@
 
 
           
+
+  
+
+
 
         </div>
         
@@ -365,8 +466,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -421,6 +531,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#资料查阅"><span class="nav-number">1.</span> <span class="nav-text">资料查阅</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#硕士（3篇）"><span class="nav-number">1.1.</span> <span class="nav-text">硕士（3篇）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硕士-双目视觉定位的机械臂卸垛装置的初步研究"><span class="nav-number">2.</span> <span class="nav-text">硕士_双目视觉定位的机械臂卸垛装置的初步研究</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -561,6 +687,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
 
   
 

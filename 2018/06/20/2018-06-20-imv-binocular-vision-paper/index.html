@@ -89,6 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/b_01视觉系统组成.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/b_02坐标转换示意图.png">
+<meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/b_03标记点位置.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_01实验平台.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_02具体器件.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_03图像坐标系.png">
@@ -100,7 +101,7 @@
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_09机器人手眼标定几何示意图.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_10相机标定流程图.png">
 <meta property="og:image" content="http://yoursite.com/2018/06/20/2018-06-20-imv-binocular-vision-paper/a_11手眼标定流程图.png">
-<meta property="og:updated_time" content="2018-08-24T08:11:13.645Z">
+<meta property="og:updated_time" content="2018-10-11T09:14:09.361Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[机器视觉]读双目视觉论文">
 <meta name="twitter:description" content="精读4篇关于双目视觉的论文，此文为笔记。">
@@ -358,37 +359,13 @@
 <td style="text-align:center">李明超（控制）</td>
 <td style="text-align:center">山东科技</td>
 <td style="text-align:center">2012</td>
-<td style="text-align:center"></td>
+<td style="text-align:center">OpenCV2.2；适合入门；流程详细：相机标定、立体标定、手眼标定</td>
 </tr>
 <tr>
 <td style="text-align:center">工业机器人手眼标定技术研究</td>
 <td style="text-align:center">张云珠（检测）</td>
 <td style="text-align:center">哈工程</td>
 <td style="text-align:center">2009</td>
-</tr>
-</tbody>
-</table>
-</div>
-<h2 id="参考文献中的论文"><a href="#参考文献中的论文" class="headerlink" title="参考文献中的论文"></a>参考文献中的论文</h2><div class="table-container">
-<table>
-<thead>
-<tr>
-<th style="text-align:center">题名</th>
-<th style="text-align:center">类别</th>
-<th style="text-align:center">学校</th>
-<th style="text-align:center">年份</th>
-<th style="text-align:center">备注</th>
-<th style="text-align:center">来源</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">一种基于OpenCV的摄像机标定方法</td>
-<td style="text-align:center">期刊（首都师范大学学报(自然科学版)）</td>
-<td style="text-align:center">首都师范大学</td>
-<td style="text-align:center">2008</td>
-<td style="text-align:center">OpenCV 1.0、张氏标定法</td>
-<td style="text-align:center">1-16</td>
 </tr>
 </tbody>
 </table>
@@ -410,37 +387,149 @@
 <td style="text-align:center">工业仪表与自动化装置（中文核心）</td>
 <td style="text-align:center">陕西工业职业技术学院</td>
 <td style="text-align:center">2017</td>
-<td style="text-align:center"></td>
+<td style="text-align:center">MATLAB标定相机内外参数、OpenCV抓取特征；<strong>泛泛介绍，没啥用</strong></td>
 </tr>
 <tr>
 <td style="text-align:center">大视场双目立体视觉柔性标定</td>
 <td style="text-align:center">光学精密工程（Ei）</td>
 <td style="text-align:center">西北工业大学</td>
 <td style="text-align:center">2017</td>
-<td style="text-align:center"></td>
+<td style="text-align:center">使用编码标志点作为标定板；测量空间1200×1000×1000，测量精度优于0.1，单位mm</td>
 </tr>
 <tr>
 <td style="text-align:center">基于OpenCV的码垛机器人手眼标定方法</td>
 <td style="text-align:center">制造技术与机床</td>
 <td style="text-align:center">广东工业大学</td>
 <td style="text-align:center">2018</td>
-<td style="text-align:center">不错，提到OpenCV的函数</td>
+<td style="text-align:center">单目；OpenCV；精度±1mm；缺陷：<strong>只有x,y，没有z和姿态信息</strong></td>
 </tr>
 </tbody>
 </table>
 </div>
-<h1 id="期刊-基于OpenCV的码垛机器人手眼标定方法"><a href="#期刊-基于OpenCV的码垛机器人手眼标定方法" class="headerlink" title="期刊_基于OpenCV的码垛机器人手眼标定方法"></a>期刊_基于OpenCV的码垛机器人手眼标定方法</h1><p>先定一个<strong>拍照位</strong><br>标定时，放置棋盘格后，相机始终在一个平面上，微移、旋转，拍摄棋盘格<br>抓取时，在拍照位拍摄图像，图像坐标系→机械手坐标系，机械手抓取，抓取完后回到拍照位，等待下一次抓取</p>
-<p>Eye-in-Hand式手眼系统：摄像机固联于机械手的末端</p>
+<h1 id="期刊-基于OpenCV的码垛机器人手眼标定方法"><a href="#期刊-基于OpenCV的码垛机器人手眼标定方法" class="headerlink" title="期刊_基于OpenCV的码垛机器人手眼标定方法"></a>期刊_基于OpenCV的码垛机器人手眼标定方法</h1><p>单目<br>Eye-in-Hand式手眼系统：摄像机固联于机械手的末端</p>
 <img src="/2018/06/20/2018-06-20-imv-binocular-vision-paper/b_01视觉系统组成.png" title="视觉系统组成">
 <img src="/2018/06/20/2018-06-20-imv-binocular-vision-paper/b_02坐标转换示意图.png" title="坐标转换示意图">
-<h2 id="手眼标定：基于OpenCV的“两步”标定法"><a href="#手眼标定：基于OpenCV的“两步”标定法" class="headerlink" title="手眼标定：基于OpenCV的“两步”标定法"></a>手眼标定：基于OpenCV的“两步”标定法</h2><ol>
-<li><p>相机标定：采用<strong>张正友标定法</strong>，以棋盘格图像作为标定的参照物<br><strong>世界坐标系 ↔ 图像坐标系</strong></p>
-</li>
-<li><p>“四点”位姿估计：在<strong>机械手坐标系</strong>上设定四个标记点（内装物所在平面）进行位姿估计<br><strong>世界坐标系 ↔ 机械手坐标系</strong></p>
-</li>
-<li><p>手眼标定<br><strong>图像坐标系 ↔ 机械手坐标系</strong><br>（空调压缩机<strong>图像坐标系</strong>下的坐标值对应的<strong>机械手坐标系</strong>的坐标值）</p>
-</li>
-</ol>
+<h2 id="重点公式"><a href="#重点公式" class="headerlink" title="重点公式"></a>重点公式</h2><p><strong>式（6）</strong>：图像坐标系=&gt;世界坐标系</p>
+<h2 id="手眼标定：基于OpenCV的“两步”标定法"><a href="#手眼标定：基于OpenCV的“两步”标定法" class="headerlink" title="手眼标定：基于OpenCV的“两步”标定法"></a>手眼标定：基于OpenCV的“两步”标定法</h2><p><strong>图像坐标系 ↔ 机械手坐标系</strong><br>（空调压缩机<strong>图像坐标系</strong>下的坐标值对应的<strong>机械手坐标系</strong>的坐标值）</p>
+<h3 id="相机标定：采用张正友标定法，以棋盘格图像作为标定的参照物"><a href="#相机标定：采用张正友标定法，以棋盘格图像作为标定的参照物" class="headerlink" title="相机标定：采用张正友标定法，以棋盘格图像作为标定的参照物"></a>相机标定：采用<strong>张正友标定法</strong>，以棋盘格图像作为标定的参照物</h3><p><strong>世界坐标系 ↔ 图像坐标系</strong></p>
+<p>空调压缩机大圆圆心坐标为(X,Y,Z)，某姿态下的<strong>棋盘图像</strong>与<strong>空调压缩机</strong>所在平面<strong>共面</strong><br>故该状态下<strong>棋盘的外参数</strong>=<strong>空调压缩机</strong>世界坐标与图像坐标转换的<strong>外参数</strong><br>故由式（1）可求得图像坐标(x,y,z)对应的世界坐标(X,Y,Z)，完成摄像机标定（OpenCV采用的是介于传统标定法与自标定法之间的<strong>非线性模型</strong>摄像机标定法）</p>
+<p><strong>式（1）</strong>：</p>
+<script type="math/tex; mode=display">
+S
+\begin{bmatrix}
+    x \\
+    y \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    f_x & 0 & u_0 \\
+    0 & f_y & v_0 \\
+    0 & 0 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+    r_1 & r_2 & r_3 & t_1 \\
+    r_4 & r_5 & r_6 & t_2 \\
+    r_7 & r_8 & r_9 & t_3 \\
+\end{bmatrix}
+\begin{bmatrix}
+    X \\
+    Y \\
+    Z \\
+    1 \\
+\end{bmatrix}</script><ul>
+<li><script type="math/tex">f_x、f_y、u_0、v_0</script> 为摄像机内参数</li>
+<li><script type="math/tex">r_x、t_x</script> 为外参数</li>
+<li><script type="math/tex">S</script> 为尺度因子</li>
+</ul>
+<h3 id="“四点”位姿估计：在机械手坐标系上设定四个标记点（内装物所在平面）进行位姿估计"><a href="#“四点”位姿估计：在机械手坐标系上设定四个标记点（内装物所在平面）进行位姿估计" class="headerlink" title="“四点”位姿估计：在机械手坐标系上设定四个标记点（内装物所在平面）进行位姿估计"></a>“四点”位姿估计：在<strong>机械手坐标系</strong>上设定四个标记点（内装物所在平面）进行位姿估计</h3><p><strong>世界坐标系 ↔ 机械手坐标系</strong></p>
+<p>由于视觉定位是为了使空调压缩机大圆圆心与图像中心重合。当手爪没有达到这个位置时，视觉系统必须知道圆心相对于图像中心的位置，即机器人需要移动的距离，如<strong>式（6）</strong>。<br>在<strong>机械手处于原点</strong>状态下，将<strong>标记点</strong>依次置于机械手坐标系中，实现世界坐标系与机械手坐标系的转换。</p>
+<img src="/2018/06/20/2018-06-20-imv-binocular-vision-paper/b_03标记点位置.png" title="标记点位置">
+<p><strong>机械手坐标系</strong>中的标记点<strong>P1~P4</strong>与相机<strong>图像平面</strong>上的点<strong>p1~p4</strong>的变换由旋转向量（rvec）和平移向量（tvec）来定义 =&gt; 欧式变换/刚性变换，具体形式为式（2）</p>
+<p><strong>式（2）</strong>：</p>
+<script type="math/tex; mode=display">
+T(v)=Rv+t</script><p>由于空调压缩机都放置于同一平面上，故令圆心坐标<strong>Z=0</strong><br>一个平面到另一个平面的投影映射，又称两幅图像之间的<strong>单应性H</strong>，具体形式为式（3），也即式（4）</p>
+<p>PS：式（3）貌似有问题</p>
+<p><strong>式（3）</strong>：</p>
+<script type="math/tex; mode=display">
+S
+\begin{bmatrix}
+    x \\
+    y \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    f_x & 0 & u_0 \\
+    0 & f_y & v_0 \\
+    0 & 0 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+    r_1 \\
+    r_4 \\
+    r_7 \\
+\end{bmatrix}
+\begin{bmatrix}
+    X \\
+    Y \\
+    0 \\
+    1 \\
+\end{bmatrix}</script><p><strong>式（4）</strong>：</p>
+<script type="math/tex; mode=display">
+S
+\begin{bmatrix}
+    x \\
+    y \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    f_x & 0 & u_0 \\
+    0 & f_y & v_0 \\
+    0 & 0 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+    r_1 & r_2 & t_1 \\
+    r_4 & r_5 & t_2 \\
+    r_7 & r_8 & t_3 \\
+\end{bmatrix}
+\begin{bmatrix}
+    X \\
+    Y \\
+    1 \\
+\end{bmatrix}</script><ul>
+<li><strong>x、y</strong>为空调压缩机<strong>图像</strong>坐标值</li>
+<li><strong>X、Y</strong>为空调压缩机<strong>机械手</strong>坐标值</li>
+</ul>
+<p>令</p>
+<script type="math/tex; mode=display">
+H=
+\begin{bmatrix}
+    f_x & 0 & u_0 \\
+    0 & f_y & v_0 \\
+    0 & 0 & 0 \\
+\end{bmatrix}
+\begin{bmatrix}
+    r_1 & r_2 & t_1 \\
+    r_4 & r_5 & t_2 \\
+    r_7 & r_8 & t_3 \\
+\end{bmatrix}
+,
+x=
+\begin{bmatrix}
+    x \\
+    y \\
+    1 \\
+\end{bmatrix}
+,
+X=
+\begin{bmatrix}
+    X \\
+    Y \\
+    1 \\
+\end{bmatrix}</script><p>可得：<br><strong>式（5）</strong>：</p>
+<script type="math/tex; mode=display">Sx=HX</script><p>故：<br><strong>式（6）</strong>：</p>
+<script type="math/tex; mode=display">X=H^{-1}Sx</script><p>也即机器人要移动的坐标值。</p>
 <h2 id="OpenCV-API"><a href="#OpenCV-API" class="headerlink" title="OpenCV API"></a>OpenCV API</h2><div class="table-container">
 <table>
 <thead>
@@ -479,8 +568,8 @@
 </tbody>
 </table>
 </div>
-<h2 id="论文缺陷"><a href="#论文缺陷" class="headerlink" title="论文缺陷"></a>论文缺陷</h2><p>只有x,y，没有z和姿态信息</p>
-<h1 id="硕士-基于OpenCV的机器人双目手眼标定系统的研究与实现"><a href="#硕士-基于OpenCV的机器人双目手眼标定系统的研究与实现" class="headerlink" title="硕士_基于OpenCV的机器人双目手眼标定系统的研究与实现"></a>硕士_基于OpenCV的机器人双目手眼标定系统的研究与实现</h1><h2 id="重点公式"><a href="#重点公式" class="headerlink" title="重点公式"></a>重点公式</h2><p><strong>（式3.32）、（式4.7）</strong>、求解思路</p>
+<h2 id="论文缺陷"><a href="#论文缺陷" class="headerlink" title="论文缺陷"></a>论文缺陷</h2><p>只有x,y，没有z（Z=0）和姿态信息，相机标定时所有棋盘格均处于同一平面上<br>自己设定4个点，故知道机器人处于原点时，4个点在机械手坐标系下的坐标值<br>相当于极大简化后的流程</p>
+<h1 id="硕士-基于OpenCV的机器人双目手眼标定系统的研究与实现"><a href="#硕士-基于OpenCV的机器人双目手眼标定系统的研究与实现" class="headerlink" title="硕士_基于OpenCV的机器人双目手眼标定系统的研究与实现"></a>硕士_基于OpenCV的机器人双目手眼标定系统的研究与实现</h1><h2 id="重点公式-1"><a href="#重点公式-1" class="headerlink" title="重点公式"></a>重点公式</h2><p><strong>（式3.32）、（式4.7）</strong>、求解思路</p>
 <h2 id="扫盲"><a href="#扫盲" class="headerlink" title="扫盲"></a>扫盲</h2><ul>
 <li>机器视觉的主要目标：<strong>三维重建</strong>、<strong>空间定位</strong>、图像处理、模式识别、运动分析</li>
 <li>机器人视觉系统：固定式、<strong>手眼式</strong></li>
@@ -1357,7 +1446,7 @@ Rot(z,TZ)=
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">38</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1403,7 +1492,7 @@ Rot(z,TZ)=
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#资料查阅"><span class="nav-number">1.</span> <span class="nav-text">资料查阅</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#硕士（2篇）"><span class="nav-number">1.1.</span> <span class="nav-text">硕士（2篇）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考文献中的论文"><span class="nav-number">1.2.</span> <span class="nav-text">参考文献中的论文</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期刊（3篇）"><span class="nav-number">1.3.</span> <span class="nav-text">期刊（3篇）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#期刊-基于OpenCV的码垛机器人手眼标定方法"><span class="nav-number">2.</span> <span class="nav-text">期刊_基于OpenCV的码垛机器人手眼标定方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#手眼标定：基于OpenCV的“两步”标定法"><span class="nav-number">2.1.</span> <span class="nav-text">手眼标定：基于OpenCV的“两步”标定法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenCV-API"><span class="nav-number">2.2.</span> <span class="nav-text">OpenCV API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论文缺陷"><span class="nav-number">2.3.</span> <span class="nav-text">论文缺陷</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硕士-基于OpenCV的机器人双目手眼标定系统的研究与实现"><span class="nav-number">3.</span> <span class="nav-text">硕士_基于OpenCV的机器人双目手眼标定系统的研究与实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#重点公式"><span class="nav-number">3.1.</span> <span class="nav-text">重点公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扫盲"><span class="nav-number">3.2.</span> <span class="nav-text">扫盲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">3.3.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验环境"><span class="nav-number">3.4.</span> <span class="nav-text">实验环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件"><span class="nav-number">3.4.1.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件"><span class="nav-number">3.4.2.</span> <span class="nav-text">软件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相机标定原理"><span class="nav-number">3.5.</span> <span class="nav-text">相机标定原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图像坐标系、摄像机坐标系、世界坐标系"><span class="nav-number">3.5.1.</span> <span class="nav-text">图像坐标系、摄像机坐标系、世界坐标系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#图像坐标系中的像素单位、物理单位"><span class="nav-number">3.5.1.1.</span> <span class="nav-text">图像坐标系中的像素单位、物理单位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#世界坐标系与摄像机坐标系"><span class="nav-number">3.5.1.2.</span> <span class="nav-text">世界坐标系与摄像机坐标系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性摄像机成像模型（针孔模型）"><span class="nav-number">3.5.2.</span> <span class="nav-text">线性摄像机成像模型（针孔模型）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#各坐标系之间的关系"><span class="nav-number">3.5.3.</span> <span class="nav-text">各坐标系之间的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非线性摄像机成像模型"><span class="nav-number">3.5.4.</span> <span class="nav-text">非线性摄像机成像模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#立体标定"><span class="nav-number">3.5.5.</span> <span class="nav-text">立体标定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#立体视觉定位系统"><span class="nav-number">3.5.6.</span> <span class="nav-text">立体视觉定位系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手眼标定原理"><span class="nav-number">3.6.</span> <span class="nav-text">手眼标定原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#手眼标定的参数"><span class="nav-number">3.6.1.</span> <span class="nav-text">手眼标定的参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手眼标定的基本方程"><span class="nav-number">3.6.2.</span> <span class="nav-text">手眼标定的基本方程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手眼标定模型的建立"><span class="nav-number">3.6.3.</span> <span class="nav-text">手眼标定模型的建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tsai手眼标定方法"><span class="nav-number">3.6.4.</span> <span class="nav-text">Tsai手眼标定方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标定软件系统的实现"><span class="nav-number">3.7.</span> <span class="nav-text">标定软件系统的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#软件架构"><span class="nav-number">3.7.1.</span> <span class="nav-text">软件架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#机器人系统控制部分"><span class="nav-number">3.7.2.</span> <span class="nav-text">机器人系统控制部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双目摄像机图像采集"><span class="nav-number">3.7.3.</span> <span class="nav-text">双目摄像机图像采集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenCV的API（图像处理、相机标定、立体标定、手眼标定）"><span class="nav-number">3.7.4.</span> <span class="nav-text">OpenCV的API（图像处理、相机标定、立体标定、手眼标定）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标定结果分析"><span class="nav-number">3.7.5.</span> <span class="nav-text">标定结果分析</span></a></li></ol></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#资料查阅"><span class="nav-number">1.</span> <span class="nav-text">资料查阅</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#硕士（2篇）"><span class="nav-number">1.1.</span> <span class="nav-text">硕士（2篇）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期刊（3篇）"><span class="nav-number">1.2.</span> <span class="nav-text">期刊（3篇）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#期刊-基于OpenCV的码垛机器人手眼标定方法"><span class="nav-number">2.</span> <span class="nav-text">期刊_基于OpenCV的码垛机器人手眼标定方法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#重点公式"><span class="nav-number">2.1.</span> <span class="nav-text">重点公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手眼标定：基于OpenCV的“两步”标定法"><span class="nav-number">2.2.</span> <span class="nav-text">手眼标定：基于OpenCV的“两步”标定法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#相机标定：采用张正友标定法，以棋盘格图像作为标定的参照物"><span class="nav-number">2.2.1.</span> <span class="nav-text">相机标定：采用张正友标定法，以棋盘格图像作为标定的参照物</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#“四点”位姿估计：在机械手坐标系上设定四个标记点（内装物所在平面）进行位姿估计"><span class="nav-number">2.2.2.</span> <span class="nav-text">“四点”位姿估计：在机械手坐标系上设定四个标记点（内装物所在平面）进行位姿估计</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenCV-API"><span class="nav-number">2.3.</span> <span class="nav-text">OpenCV API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#论文缺陷"><span class="nav-number">2.4.</span> <span class="nav-text">论文缺陷</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硕士-基于OpenCV的机器人双目手眼标定系统的研究与实现"><span class="nav-number">3.</span> <span class="nav-text">硕士_基于OpenCV的机器人双目手眼标定系统的研究与实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#重点公式-1"><span class="nav-number">3.1.</span> <span class="nav-text">重点公式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扫盲"><span class="nav-number">3.2.</span> <span class="nav-text">扫盲</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">3.3.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实验环境"><span class="nav-number">3.4.</span> <span class="nav-text">实验环境</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#硬件"><span class="nav-number">3.4.1.</span> <span class="nav-text">硬件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#软件"><span class="nav-number">3.4.2.</span> <span class="nav-text">软件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相机标定原理"><span class="nav-number">3.5.</span> <span class="nav-text">相机标定原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图像坐标系、摄像机坐标系、世界坐标系"><span class="nav-number">3.5.1.</span> <span class="nav-text">图像坐标系、摄像机坐标系、世界坐标系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#图像坐标系中的像素单位、物理单位"><span class="nav-number">3.5.1.1.</span> <span class="nav-text">图像坐标系中的像素单位、物理单位</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#世界坐标系与摄像机坐标系"><span class="nav-number">3.5.1.2.</span> <span class="nav-text">世界坐标系与摄像机坐标系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性摄像机成像模型（针孔模型）"><span class="nav-number">3.5.2.</span> <span class="nav-text">线性摄像机成像模型（针孔模型）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#各坐标系之间的关系"><span class="nav-number">3.5.3.</span> <span class="nav-text">各坐标系之间的关系</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非线性摄像机成像模型"><span class="nav-number">3.5.4.</span> <span class="nav-text">非线性摄像机成像模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#立体标定"><span class="nav-number">3.5.5.</span> <span class="nav-text">立体标定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#立体视觉定位系统"><span class="nav-number">3.5.6.</span> <span class="nav-text">立体视觉定位系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手眼标定原理"><span class="nav-number">3.6.</span> <span class="nav-text">手眼标定原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#手眼标定的参数"><span class="nav-number">3.6.1.</span> <span class="nav-text">手眼标定的参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手眼标定的基本方程"><span class="nav-number">3.6.2.</span> <span class="nav-text">手眼标定的基本方程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#手眼标定模型的建立"><span class="nav-number">3.6.3.</span> <span class="nav-text">手眼标定模型的建立</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Tsai手眼标定方法"><span class="nav-number">3.6.4.</span> <span class="nav-text">Tsai手眼标定方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标定软件系统的实现"><span class="nav-number">3.7.</span> <span class="nav-text">标定软件系统的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#软件架构"><span class="nav-number">3.7.1.</span> <span class="nav-text">软件架构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#机器人系统控制部分"><span class="nav-number">3.7.2.</span> <span class="nav-text">机器人系统控制部分</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双目摄像机图像采集"><span class="nav-number">3.7.3.</span> <span class="nav-text">双目摄像机图像采集</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenCV的API（图像处理、相机标定、立体标定、手眼标定）"><span class="nav-number">3.7.4.</span> <span class="nav-text">OpenCV的API（图像处理、相机标定、立体标定、手眼标定）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标定结果分析"><span class="nav-number">3.7.5.</span> <span class="nav-text">标定结果分析</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
