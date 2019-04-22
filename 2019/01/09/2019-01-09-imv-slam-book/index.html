@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="SLAM," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="《视觉SLAM十四讲》的学习笔记。">
+<meta name="keywords" content="SLAM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[SLAM]视觉SLAM十四讲学习笔记">
+<meta property="og:url" content="http://yoursite.com/2019/01/09/2019-01-09-imv-slam-book/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="《视觉SLAM十四讲》的学习笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/01/09/2019-01-09-imv-slam-book/b_01整体视觉SLAM流程图.png">
+<meta property="og:updated_time" content="2019-03-14T00:58:21.910Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[SLAM]视觉SLAM十四讲学习笔记">
+<meta name="twitter:description" content="《视觉SLAM十四讲》的学习笔记。">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/09/2019-01-09-imv-slam-book/b_01整体视觉SLAM流程图.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/09/2019-01-09-imv-slam-book/"/>
+
+
+
+
+
+  <title>[SLAM]视觉SLAM十四讲学习笔记 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/09/2019-01-09-imv-slam-book/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[SLAM]视觉SLAM十四讲学习笔记</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-09T09:09:09+08:00">
+                2019-01-09
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  《视觉SLAM十四讲》的学习笔记。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="本书概要"><a href="#本书概要" class="headerlink" title="本书概要"></a>本书概要</h1><p>《视觉SLAM十四讲》的出版日期 2017.3<br>Ubuntu 14.04<br>C++<br>Kdevelop</p>
+<h2 id="本书框架"><a href="#本书框架" class="headerlink" title="本书框架"></a>本书框架</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">部分/章节</th>
+<th style="text-align:center">内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">第1部分：数学基础篇<br>第1~6讲</td>
+<td style="text-align:center">⑴前言<br>⑵SLAM系统概述<br>⑶三维空间运动<br>⑷李群和李代数<br>⑸针孔相机模型以及图像在计算机中的表达<br>⑹非线性优化</td>
+</tr>
+<tr>
+<td style="text-align:center">第2部分：SLAM技术篇<br>第7~14讲</td>
+<td style="text-align:center">⑺特征点法的视觉里程计<br>⑻直接法的视觉里程计<br>⑼视觉里程计的实践<br>⑽后端优化<br>⑾后端优化中的位姿图<br>⑿回环检测<br>⒀地图构建<br>⒁当前的开源SLAM项目以及未来的发展方向</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="实例索引"><a href="#实例索引" class="headerlink" title="实例索引"></a>实例索引</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">主题</th>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">CH2：编程基础</td>
+<td style="text-align:center">g++编译、cmake编译、Kdevelop集成开发环境</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="CH1-预备知识"><a href="#CH1-预备知识" class="headerlink" title="CH1 预备知识"></a>CH1 预备知识</h1><p><strong>SLAM</strong>（Simultaneous Localization and Mapping），<strong>同时定位与地图构建</strong><br>搭载特定<strong>传感器</strong>的主体，在<strong>没有环境先验信息</strong>的情况下，于<strong>运动过程中</strong>建立<strong>环境</strong>的模型，同时估计自己的<strong>运行</strong><br>传感器主要为<strong>相机</strong>，称为“<strong>视觉SLAM</strong>”</p>
+<p>两个问题：</p>
+<ul>
+<li>定位：估计传感器自身的位置</li>
+<li>建图：建立周围环境的模型</li>
+</ul>
+<p>要求：</p>
+<ul>
+<li>实时地</li>
+<li>没有先验知识</li>
+</ul>
+<h1 id="CH2-初识SLAM"><a href="#CH2-初识SLAM" class="headerlink" title="CH2 初识SLAM"></a>CH2 初识SLAM</h1><h2 id="引入"><a href="#引入" class="headerlink" title="引入"></a>引入</h2><p>感知的“内外之分”：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">解释</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">定位</td>
+<td style="text-align:center">我在什么地方？</td>
+<td style="text-align:center">自身的状态（位置）</td>
+</tr>
+<tr>
+<td style="text-align:center">建图</td>
+<td style="text-align:center">周围环境是什么样？</td>
+<td style="text-align:center">外在的环境（地图）</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>两类传感器：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">传感器</th>
+<th style="text-align:center">举例</th>
+<th style="text-align:center">优劣</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">携带于机器人本体上</td>
+<td style="text-align:center">机器人的轮式编码器、相机、激光传感器</td>
+<td style="text-align:center">测量的是<strong>间接</strong>的物理量而不是直接的位置数据，可通过间接手段推算位置，好处是没有对环境提出任何要求，使定位方案可适用于未知环境</td>
+</tr>
+<tr>
+<td style="text-align:center">安装于环境中</td>
+<td style="text-align:center">导轨、二维码标志</td>
+<td style="text-align:center">测量的是<strong>直接</strong>的位置信息，简单可靠，但传感器<strong>约束</strong>了外部环境，无法提供普遍、通用的解决方案</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>视觉SLAM：以一定速率拍摄周围的环境，形成一个连续的视频流</p>
+<p>三大类相机：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">相机</th>
+<th style="text-align:center">说明</th>
+<th style="text-align:center">缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">单目相机（Monocular）</td>
+<td style="text-align:center">一个摄像头</td>
+<td style="text-align:center">①平移之后才能计算深度<br>②无法确定真实尺度（尺度不确定性）</td>
+</tr>
+<tr>
+<td style="text-align:center">双目相机（Stereo）</td>
+<td style="text-align:center">两个摄像头</td>
+<td style="text-align:center">计算量大</td>
+</tr>
+<tr>
+<td style="text-align:center">深度相机（RGB-D）</td>
+<td style="text-align:center">红外结构光或Tof（Time-of-Flight）<br>彩色图片 + 每个像素与相机之间的距离</td>
+<td style="text-align:center">①测量范围窄、视野小<br>②噪声大、易受日光干扰（主要用于<strong>室内</strong>）<br>③无法测量透射材质</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>照片本质上是拍照时的场景（Scene）在相机的成像平面上留下的一个<strong>投影</strong>，以<strong>二维的形式反映了三维的世界</strong></p>
+<p>单目相机拍摄的图像只是<strong>三维空间的二维投影</strong>。这个过程丢掉了深度（或距离）</p>
+<ul>
+<li>在单目相机中，无法通过单张图片来计算场景中物体与我们之间的距离（远近）</li>
+<li>在单张图像里，无法确定一个物体的真实大小，可能是一个很大但很远的物体，也可能是很近但很小的物体</li>
+</ul>
+<h2 id="经典视觉SLAM框架"><a href="#经典视觉SLAM框架" class="headerlink" title="经典视觉SLAM框架"></a>经典视觉SLAM框架</h2><img src="/2019/01/09/2019-01-09-imv-slam-book/b_01整体视觉SLAM流程图.png" title="整体视觉SLAM流程图">
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">模块</th>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">传感器信息读取</td>
+<td style="text-align:center">视觉SLAM中主要为<strong>相机图像信息的读取和预处理</strong><br>在机器人中，还有码盘、惯性传感器等信息的读取和同步</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">视觉里程计<br>（Visual Odometry，VO）</td>
+<td style="text-align:center">估算<strong>相邻图像</strong>间相机的运动，以及局部地图的样子<br>又称为<strong>前端</strong>（Front End）</td>
+<td style="text-align:center">会不可避免地出现<strong>累积漂移</strong>（Accumulating Drift），故需要后端优化和回环检测</td>
+</tr>
+<tr>
+<td style="text-align:center">后端优化<br>（Optimization）</td>
+<td style="text-align:center">接受不同时刻视觉里程计测量的相机位姿，以及回环检测的信息，对它们进行<strong>优化</strong>，得到全局一致的轨迹和地图<br>又称为<strong>后端</strong>（Back End）</td>
+<td style="text-align:center">从带有<strong>噪声</strong>的数据中估计整个系统的状态，以及这个状态估计的不确定性有多大（最大后验概率估计，MAP，Maximum-a-Posteriori）</td>
+</tr>
+<tr>
+<td style="text-align:center">回环检测<br>（Loop Closing）</td>
+<td style="text-align:center"><strong>判断机器人是否到达过先前的位置</strong>。如果检测到回环，会把信息提供给后端进行处理</td>
+<td style="text-align:center">解决位置估计<strong>随时间漂移</strong>的问题<br>视觉回环检测本质是一种<strong>计算图像数据相似性</strong>的算法</td>
+</tr>
+<tr>
+<td style="text-align:center">建图<br>（Mapping）</td>
+<td style="text-align:center">根据估计的轨迹，<strong>建立</strong>与任务要求对应的<strong>地图</strong></td>
+<td style="text-align:center">地图是对环境的描述，描述不固定，视SLAM的应用而定<br>建图没有固定的形式和算法</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>前端与后端：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">模块</th>
+<th style="text-align:center">作用</th>
+<th style="text-align:center">领域</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">前端</td>
+<td style="text-align:center">给后端提供待优化的数据、以及这些数据的初始值</td>
+<td style="text-align:center">视觉SLAM中前端和<strong>计算机视觉</strong>研究领域相关</td>
+</tr>
+<tr>
+<td style="text-align:center">后端</td>
+<td style="text-align:center">负责整体的优化过程，不关心数据来自什么传感器</td>
+<td style="text-align:center">主要是<strong>滤波</strong>与<strong>非线性优化</strong>算法</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>地图的种类：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">地图</th>
+<th style="text-align:center">特点</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">度量地图</td>
+<td style="text-align:center">精确地表示地图中<strong>物体的位置关系</strong></td>
+<td style="text-align:center"><strong>稀疏</strong>（Sparse）<strong>地图</strong>——定位：不需要表达所有的物体，表达一部分具有代表意义的东西（<strong>路标</strong>，Landmark）<br><strong>稠密</strong>（Dense）<strong>地图</strong>——导航：建模所有看到的东西，按照某种分辨率，由许多小块组成</td>
+</tr>
+<tr>
+<td style="text-align:center">拓扑地图</td>
+<td style="text-align:center">更强调地图<strong>元素之间的关系</strong></td>
+<td style="text-align:center">是图（Graph），由节点和边组成，只考虑节点间的连通性<br>不擅长表达具有复杂结构的地图</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>SLAM问题的本质：<strong>对运动主体自身和周围环境空间不确定性的估计</strong></p>
+<p>如果把工作环境限定在<strong>静态、刚体、光照变换不明显、没有人为干扰</strong>的场景，SLAM系统是相当成熟的了</p>
+<h2 id="SLAM问题的数学表述"><a href="#SLAM问题的数学表述" class="headerlink" title="SLAM问题的数学表述"></a>SLAM问题的数学表述</h2><p>两个基本方程：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方程</th>
+<th style="text-align:center">直观含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">运动方程</td>
+<td style="text-align:center">从<script type="math/tex">k-1</script>时刻到<script type="math/tex">k</script>时刻，机器人的位置<script type="math/tex">x</script>是如何变化的</td>
+</tr>
+<tr>
+<td style="text-align:center">观测方程</td>
+<td style="text-align:center">机器人在<script type="math/tex">x_k</script>位置上看到某个路标点<script type="math/tex">y_i</script>，产生了一个观测数据<script type="math/tex">z_{k,j}</script></td>
+</tr>
+</tbody>
+</table>
+</div>
+<script type="math/tex; mode=display">
+\begin{cases}
+x_k = f(x_{k-1}, u_k, w_k)
+\\
+z_{k,j} = h(y_j, x_k, v_{k,j})
+\end{cases}</script><p>符号解释：</p>
+<ul>
+<li>相机采集数据的离散<strong>时刻</strong><script type="math/tex">t=1,...,K</script></li>
+<li>各时刻机器人的<strong>位置</strong>记为<script type="math/tex">x_1,...,x_k</script>，构成了机器人的轨迹</li>
+<li>设<strong>路标</strong>点共有<script type="math/tex">N</script>个，用<script type="math/tex">y_1,...,y_N</script>表示</li>
+<li>运动方程中，<script type="math/tex">u_k</script>是<strong>运动传感器</strong>的读数（不一定是位置之差，还可能是加速度、角速度等）</li>
+<li>运动方程中，<script type="math/tex">w_k</script>是<strong>噪声</strong></li>
+<li>观测方程中，<script type="math/tex">v_{k,j}</script>是<strong>噪声</strong></li>
+<li>观测方程中，<script type="math/tex">z_{k,j}</script>是<strong>观测数据</strong></li>
+</ul>
+<p>这两个方程描述了最基本的SLAM问题：<br>当知道运动测量的数据<script type="math/tex">u</script>、传感器的读数<script type="math/tex">z</script>时，如何求解<strong>定位问题</strong>（估计<script type="math/tex">x</script>）和<strong>建图问题</strong>（估计<script type="math/tex">y</script>）<br>把SLAM问题建模成了一个<strong>状态估计问题</strong>：如何通过带有噪声的观测数据，估计内部的、隐藏着的状态变量<br>状态估计问题的求解，与两个方程的具体形式（<strong>线性/非线性</strong>）、噪声服从哪种分布（<strong>高斯/非高斯</strong>）有关</p>
+<p><strong>线性高斯系统</strong>（Linear Gaussian，LG系统）最简单，它的<strong>无偏的最优估计</strong>可以由<strong>卡尔曼滤波器</strong>（Kalman Filter，KF）给出<br><strong>非线性非高斯系统</strong>（Non-Linear Non-Gaussian，NLNG系统）较为复杂，使用<strong>扩展卡尔曼滤波器</strong>（Extended Kalman Filter，EKF）和<strong>非线性优化</strong>两大类方法求解<br>时至今日，主流视觉SLAM使用以<strong>图优化</strong>（Graph Optimization）为代表的优化方法</p>
+<h2 id="实践：编程基础"><a href="#实践：编程基础" class="headerlink" title="实践：编程基础"></a>实践：编程基础</h2><p>Linux C++程序</p>
+<h3 id="使用g-编译"><a href="#使用g-编译" class="headerlink" title="使用g++编译"></a>使用g++编译</h3><p>目录结构：<br>├─ ch2<br>│  └─ helloSLAM.cpp</p>
+<p>在<strong>helloSLAM.cpp</strong>中输入以下代码：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">( <span class="keyword">int</span> argc, <span class="keyword">char</span>** argv )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"Hello SLAM!"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>用<strong>g++</strong>将其编译成可执行文件，并运行可执行文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">g++ helloSLAM.cpp</span><br><span class="line">./a.out</span><br></pre></td></tr></table></figure></p>
+<p>“command not found”的解决方案：安装g++：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install g++</span><br></pre></td></tr></table></figure></p>
+<h3 id="使用cmake编译"><a href="#使用cmake编译" class="headerlink" title="使用cmake编译"></a>使用cmake编译</h3><p>目录结构：<br>├─ ch2<br>│  ├─ helloSLAM.cpp<br>│  └─ CMakeLists.txt</p>
+<p>在一个<strong>cmake</strong>工程中，用cmake命令生成一个makefile文件，然后用make命令根据makefile文件的内容编译整个工程</p>
+<ul>
+<li>cmake过程：处理工程文件之间的依赖关系</li>
+<li>make过程：实际调用g++来编译程序</li>
+</ul>
+<p>新建<strong>CMakeLists.txt</strong>，内容如下：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 声明要求的 cmake 最低版本</span></span><br><span class="line">cmake_minimum_required( VERSION <span class="number">2.8</span> )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 声明一个 cmake 工程</span></span><br><span class="line">project( HelloSLAM )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加一个可执行程序</span></span><br><span class="line"><span class="comment"># 语法：add_executable( 程序名 源代码文件 ）</span></span><br><span class="line">add_executable( helloSLAM helloSLAM.cpp )</span><br></pre></td></tr></table></figure></p>
+<p>在当前目录下，调用cmake对<strong>CMakeLists.txt</strong>进行分析，并用make命令编译，再运行程序：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cmake .</span><br><span class="line">make</span><br><span class="line">./helloSLAM</span><br></pre></td></tr></table></figure></p>
+<p>删除中间文件的版本的命令组合：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir build</span><br><span class="line"><span class="built_in">cd</span> build</span><br><span class="line">cmake ..</span><br><span class="line">make</span><br><span class="line">./helloSLAM</span><br></pre></td></tr></table></figure></p>
+<h3 id="使用库"><a href="#使用库" class="headerlink" title="使用库"></a>使用库</h3><p>步骤：</p>
+<ol>
+<li>程序代码由<strong>头文件</strong>和<strong>源文件</strong>组成</li>
+<li><strong>带有main函数</strong>的源文件编译成<strong>可执行程序</strong><br><strong>其他</strong>的编译成<strong>库文件</strong></li>
+<li>如果可执行程序想调用库文件中的函数，需要参考该库提供的<strong>头文件</strong>，以明白调用的格式<br>同时，要把可执行程序<strong>链接</strong>到库文件上</li>
+</ol>
+<p>Linux中，库文件分为两种：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">库文件</th>
+<th style="text-align:center">后缀</th>
+<th style="text-align:center">区别</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>静态库</strong></td>
+<td style="text-align:center"><strong>.a</strong></td>
+<td style="text-align:center">每次被调用都会生成一个副本</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>共享库</strong></td>
+<td style="text-align:center"><strong>.so</strong></td>
+<td style="text-align:center">只有一个副本</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>目录结构：<br>├─ ch2<br>│  ├─ CMakeLists.txt<br>│  ├─ libHelloSLAM.cpp<br>│  ├─ libHelloSLAM.h<br>│  └─ useHello.cpp</p>
+<p><strong>CMakeLists.txt</strong>：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 声明要求的 cmake 最低版本</span></span><br><span class="line">cmake_minimum_required( VERSION <span class="number">2.8</span> )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 声明一个 cmake 工程</span></span><br><span class="line">project( HelloSLAM )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 设置编译模式</span></span><br><span class="line">set( CMAKE_BUILD_TYPE <span class="string">"Debug"</span> )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加一个库</span></span><br><span class="line"><span class="comment"># 静态库</span></span><br><span class="line"><span class="comment"># 把libHelloSLAM.cpp编译成一个叫作“hello”的库</span></span><br><span class="line">add_library( hello libHelloSLAM.cpp )</span><br><span class="line"><span class="comment"># 共享库</span></span><br><span class="line">add_library( hello_shared SHARED libHelloSLAM.cpp )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 添加一个可执行程序</span></span><br><span class="line"><span class="comment"># 语法：add_executable( 程序名 源代码文件 ）</span></span><br><span class="line">add_executable( useHello useHello.cpp )</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将库文件链接到可执行程序上</span></span><br><span class="line">target_link_libraries( useHello hello_shared )</span><br></pre></td></tr></table></figure></p>
+<p><strong>libHelloSLAM.cpp</strong>：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//这是一个库文件</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printHello</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="built_in">cout</span>&lt;&lt;<span class="string">"Hello SLAM"</span>&lt;&lt;<span class="built_in">endl</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>libHelloSLAM.h</strong>：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> LIBHELLOSLAM_H_</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> LIBHELLOSLAM_H_</span></span><br><span class="line"><span class="comment">// 上面的宏定义是为了防止重复引用这个头文件而引起的重定义错误</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">printHello</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure></p>
+<p><strong>useHello.cpp</strong>：<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"libHelloSLAM.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 libHelloSLAM.h 中的 printHello() 函数</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">( <span class="keyword">int</span> argc, <span class="keyword">char</span>** argv )</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    printHello();</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="使用IDE"><a href="#使用IDE" class="headerlink" title="使用IDE"></a>使用IDE</h3><p>安装Kdevelop：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install kdevelop</span><br></pre></td></tr></table></figure></p>
+<p><strong>断点调试</strong>功能<br>Project → Open/Import Project<br>Run → Configure Launches</p>
+<p>快捷键：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">快捷键</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">注释</td>
+<td style="text-align:center">Ctrl + D</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">取消注释</td>
+<td style="text-align:center">Ctrl + Shift + D</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">单步运行</td>
+<td style="text-align:center">F10</td>
+<td style="text-align:center">单步调试</td>
+</tr>
+<tr>
+<td style="text-align:center">单步跟进</td>
+<td style="text-align:center">F11</td>
+<td style="text-align:center">单步调试</td>
+</tr>
+<tr>
+<td style="text-align:center">单步跳出</td>
+<td style="text-align:center">F12</td>
+<td style="text-align:center">单步调试</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="CH3-三维空间刚体运动"><a href="#CH3-三维空间刚体运动" class="headerlink" title="CH3 三维空间刚体运动"></a>CH3 三维空间刚体运动</h1><h2 id="旋转矩阵"><a href="#旋转矩阵" class="headerlink" title="旋转矩阵"></a>旋转矩阵</h2><p>刚体：位置、姿态</p>
+<ul>
+<li>位置：相机在空间中的哪个地方</li>
+<li>姿态：相机的朝向</li>
+</ul>
+<h2 id="实践：Eigen"><a href="#实践：Eigen" class="headerlink" title="实践：Eigen"></a>实践：Eigen</h2><h2 id="旋转向量和欧拉角"><a href="#旋转向量和欧拉角" class="headerlink" title="旋转向量和欧拉角"></a>旋转向量和欧拉角</h2><h2 id="四元数"><a href="#四元数" class="headerlink" title="四元数"></a>四元数</h2><h2 id="相似、仿射、射影变换"><a href="#相似、仿射、射影变换" class="headerlink" title="*相似、仿射、射影变换"></a>*相似、仿射、射影变换</h2><h2 id="实践：Eigen几何模块"><a href="#实践：Eigen几何模块" class="headerlink" title="实践：Eigen几何模块"></a>实践：Eigen几何模块</h2><h2 id="可视化演示"><a href="#可视化演示" class="headerlink" title="可视化演示"></a>可视化演示</h2><h1 id="CH4-李群与李代数"><a href="#CH4-李群与李代数" class="headerlink" title="CH4 李群与李代数"></a>CH4 李群与李代数</h1><h2 id="李群与李代数基础"><a href="#李群与李代数基础" class="headerlink" title="李群与李代数基础"></a>李群与李代数基础</h2><h2 id="指数与对数映射"><a href="#指数与对数映射" class="headerlink" title="指数与对数映射"></a>指数与对数映射</h2><h2 id="李代数求导与扰动模型"><a href="#李代数求导与扰动模型" class="headerlink" title="李代数求导与扰动模型"></a>李代数求导与扰动模型</h2><h2 id="实践：Sophus"><a href="#实践：Sophus" class="headerlink" title="实践：Sophus"></a>实践：Sophus</h2><h2 id="相似变换群与李代数"><a href="#相似变换群与李代数" class="headerlink" title="*相似变换群与李代数"></a>*相似变换群与李代数</h2><h1 id="CH5-相机与图像"><a href="#CH5-相机与图像" class="headerlink" title="CH5 相机与图像"></a>CH5 相机与图像</h1><h2 id="相机模型"><a href="#相机模型" class="headerlink" title="相机模型"></a>相机模型</h2><h2 id="图像"><a href="#图像" class="headerlink" title="图像"></a>图像</h2><h2 id="实践：图像的存取与访问"><a href="#实践：图像的存取与访问" class="headerlink" title="实践：图像的存取与访问"></a>实践：图像的存取与访问</h2><h2 id="实践：拼接点云"><a href="#实践：拼接点云" class="headerlink" title="实践：拼接点云"></a>实践：拼接点云</h2><h1 id="CH6-非线性优化"><a href="#CH6-非线性优化" class="headerlink" title="CH6 非线性优化"></a>CH6 非线性优化</h1><h2 id="状态估计问题"><a href="#状态估计问题" class="headerlink" title="状态估计问题"></a>状态估计问题</h2><h2 id="非线性最小二乘"><a href="#非线性最小二乘" class="headerlink" title="非线性最小二乘"></a>非线性最小二乘</h2><h2 id="实践：Ceres"><a href="#实践：Ceres" class="headerlink" title="实践：Ceres"></a>实践：Ceres</h2><h2 id="实践：g2o"><a href="#实践：g2o" class="headerlink" title="实践：g2o"></a>实践：g2o</h2><h1 id="CH7-视觉里程计1"><a href="#CH7-视觉里程计1" class="headerlink" title="CH7 视觉里程计1"></a>CH7 视觉里程计1</h1><h2 id="特征点法"><a href="#特征点法" class="headerlink" title="特征点法"></a>特征点法</h2><h2 id="实践：特征提取和匹配"><a href="#实践：特征提取和匹配" class="headerlink" title="实践：特征提取和匹配"></a>实践：特征提取和匹配</h2><h2 id="2D-2D：对极几何"><a href="#2D-2D：对极几何" class="headerlink" title="2D-2D：对极几何"></a>2D-2D：对极几何</h2><h2 id="实践：对极约束求解相机运动"><a href="#实践：对极约束求解相机运动" class="headerlink" title="实践：对极约束求解相机运动"></a>实践：对极约束求解相机运动</h2><h2 id="三角测量"><a href="#三角测量" class="headerlink" title="三角测量"></a>三角测量</h2><h2 id="实践：三角测量"><a href="#实践：三角测量" class="headerlink" title="实践：三角测量"></a>实践：三角测量</h2><h2 id="3D-2D：PnP"><a href="#3D-2D：PnP" class="headerlink" title="3D-2D：PnP"></a>3D-2D：PnP</h2><h2 id="实践：求解PnP"><a href="#实践：求解PnP" class="headerlink" title="实践：求解PnP"></a>实践：求解PnP</h2><h2 id="3D-3D：ICP"><a href="#3D-3D：ICP" class="headerlink" title="3D-3D：ICP"></a>3D-3D：ICP</h2><h2 id="实践：求解ICP"><a href="#实践：求解ICP" class="headerlink" title="实践：求解ICP"></a>实践：求解ICP</h2><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参考内容</th>
+<th style="text-align:center">参考方面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="http://www.broadview.com.cn/book/4938" target="_blank" rel="noopener">《视觉SLAM十四讲》</a></td>
+<td style="text-align:center">主体内容</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/gaoxiang12/slambook" target="_blank" rel="noopener">《视觉SLAM十四讲》的代码</a></td>
+<td style="text-align:center">主体代码参考</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/SLAM/" rel="tag"># SLAM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/28/2018-12-28-imv-pycv-book/" rel="next" title="[机器视觉]Python计算机视觉学习笔记">
+                <i class="fa fa-chevron-left"></i> [机器视觉]Python计算机视觉学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/" rel="prev" title="[机器视觉]读无序抓取论文">
+                [机器视觉]读无序抓取论文 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#本书概要"><span class="nav-number">1.</span> <span class="nav-text">本书概要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本书框架"><span class="nav-number">1.1.</span> <span class="nav-text">本书框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例索引"><span class="nav-number">1.2.</span> <span class="nav-text">实例索引</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CH1-预备知识"><span class="nav-number">2.</span> <span class="nav-text">CH1 预备知识</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CH2-初识SLAM"><span class="nav-number">3.</span> <span class="nav-text">CH2 初识SLAM</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#引入"><span class="nav-number">3.1.</span> <span class="nav-text">引入</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#经典视觉SLAM框架"><span class="nav-number">3.2.</span> <span class="nav-text">经典视觉SLAM框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SLAM问题的数学表述"><span class="nav-number">3.3.</span> <span class="nav-text">SLAM问题的数学表述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践：编程基础"><span class="nav-number">3.4.</span> <span class="nav-text">实践：编程基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用g-编译"><span class="nav-number">3.4.1.</span> <span class="nav-text">使用g++编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用cmake编译"><span class="nav-number">3.4.2.</span> <span class="nav-text">使用cmake编译</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用库"><span class="nav-number">3.4.3.</span> <span class="nav-text">使用库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用IDE"><span class="nav-number">3.4.4.</span> <span class="nav-text">使用IDE</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CH3-三维空间刚体运动"><span class="nav-number">4.</span> <span class="nav-text">CH3 三维空间刚体运动</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#旋转矩阵"><span class="nav-number">4.1.</span> <span class="nav-text">旋转矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践：Eigen"><span class="nav-number">4.2.</span> <span class="nav-text">实践：Eigen</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#旋转向量和欧拉角"><span class="nav-number">4.3.</span> <span class="nav-text">旋转向量和欧拉角</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四元数"><span class="nav-number">4.4.</span> <span class="nav-text">四元数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相似、仿射、射影变换"><span class="nav-number">4.5.</span> <span class="nav-text">*相似、仿射、射影变换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践：Eigen几何模块"><span class="nav-number">4.6.</span> <span class="nav-text">实践：Eigen几何模块</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化演示"><span class="nav-number">4.7.</span> <span class="nav-text">可视化演示</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CH4-李群与李代数"><span class="nav-number">5.</span> <span class="nav-text">CH4 李群与李代数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#李群与李代数基础"><span class="nav-number">5.1.</span> <span class="nav-text">李群与李代数基础</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指数与对数映射"><span class="nav-number">5.2.</span> <span class="nav-text">指数与对数映射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#李代数求导与扰动模型"><span class="nav-number">5.3.</span> <span class="nav-text">李代数求导与扰动模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践：Sophus"><span class="nav-number">5.4.</span> <span class="nav-text">实践：Sophus</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相似变换群与李代数"><span class="nav-number">5.5.</span> <span class="nav-text">*相似变换群与李代数</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CH5-相机与图像"><span class="nav-number">6.</span> <span class="nav-text">CH5 相机与图像</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#相机模型"><span class="nav-number">6.1.</span> <span class="nav-text">相机模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像"><span class="nav-number">6.2.</span> <span class="nav-text">图像</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践：图像的存取与访问"><span class="nav-number">6.3.</span> <span class="nav-text">实践：图像的存取与访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践：拼接点云"><span class="nav-number">6.4.</span> <span class="nav-text">实践：拼接点云</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CH6-非线性优化"><span class="nav-number">7.</span> <span class="nav-text">CH6 非线性优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#状态估计问题"><span class="nav-number">7.1.</span> <span class="nav-text">状态估计问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#非线性最小二乘"><span class="nav-number">7.2.</span> <span class="nav-text">非线性最小二乘</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践：Ceres"><span class="nav-number">7.3.</span> <span class="nav-text">实践：Ceres</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践：g2o"><span class="nav-number">7.4.</span> <span class="nav-text">实践：g2o</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CH7-视觉里程计1"><span class="nav-number">8.</span> <span class="nav-text">CH7 视觉里程计1</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#特征点法"><span class="nav-number">8.1.</span> <span class="nav-text">特征点法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践：特征提取和匹配"><span class="nav-number">8.2.</span> <span class="nav-text">实践：特征提取和匹配</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2D-2D：对极几何"><span class="nav-number">8.3.</span> <span class="nav-text">2D-2D：对极几何</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践：对极约束求解相机运动"><span class="nav-number">8.4.</span> <span class="nav-text">实践：对极约束求解相机运动</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三角测量"><span class="nav-number">8.5.</span> <span class="nav-text">三角测量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践：三角测量"><span class="nav-number">8.6.</span> <span class="nav-text">实践：三角测量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3D-2D：PnP"><span class="nav-number">8.7.</span> <span class="nav-text">3D-2D：PnP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践：求解PnP"><span class="nav-number">8.8.</span> <span class="nav-text">实践：求解PnP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3D-3D：ICP"><span class="nav-number">8.9.</span> <span class="nav-text">3D-3D：ICP</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实践：求解ICP"><span class="nav-number">8.10.</span> <span class="nav-text">实践：求解ICP</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">9.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

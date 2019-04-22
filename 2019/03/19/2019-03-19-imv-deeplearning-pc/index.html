@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="精华,深度学习," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="配置Win10和Ubuntu双系统、配置深度学习环境、老版本CUDA的下载地址、Ubuntu常用命令的笔记。">
+<meta name="keywords" content="精华,深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[电脑配置]Win10+Ubuntu双系统">
+<meta property="og:url" content="http://yoursite.com/2019/03/19/2019-03-19-imv-deeplearning-pc/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="配置Win10和Ubuntu双系统、配置深度学习环境、老版本CUDA的下载地址、Ubuntu常用命令的笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-18T07:21:06.216Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[电脑配置]Win10+Ubuntu双系统">
+<meta name="twitter:description" content="配置Win10和Ubuntu双系统、配置深度学习环境、老版本CUDA的下载地址、Ubuntu常用命令的笔记。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/19/2019-03-19-imv-deeplearning-pc/"/>
+
+
+
+
+
+  <title>[电脑配置]Win10+Ubuntu双系统 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/19/2019-03-19-imv-deeplearning-pc/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[电脑配置]Win10+Ubuntu双系统</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-19T19:19:19+08:00">
+                2019-03-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  配置Win10和Ubuntu双系统、配置深度学习环境、老版本CUDA的下载地址、Ubuntu常用命令的笔记。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="说明"><a href="#说明" class="headerlink" title="说明"></a>说明</h1><p>跑3DMatch代码，Ubuntu14.04.5+CUDA7.5+cuDNN5.1<br>跑PointNet代码，Ubuntu14.04.5+CUDA9.0cuDNN7.0.5<br>（Ubuntu16.04.5默认内核是4.15.0-29-generic，与CUDA9.0冲突，将内核降为linux-image-4.4.0-78-generic后可以安装CUDA成功，但是系统没有网）</p>
+<h1 id="双系统安装"><a href="#双系统安装" class="headerlink" title="双系统安装"></a>双系统安装</h1><p>硬盘：256GB固态+1TB机械</p>
+<h2 id="先装win10"><a href="#先装win10" class="headerlink" title="先装win10"></a>先装win10</h2><p>华硕主板按F8，可选择启动项<br>进入<a href="http://www.wepe.com.cn/" target="_blank" rel="noopener">PE</a>，分固态中的120GB作为主分区，4k对齐，装win10</p>
+<h2 id="再装Ubuntu"><a href="#再装Ubuntu" class="headerlink" title="再装Ubuntu"></a>再装<a href="https://www.ubuntu.com/download/alternative-downloads" target="_blank" rel="noopener">Ubuntu</a></h2><p>使用<a href="https://cn.ultraiso.net/xiazai.html" target="_blank" rel="noopener">软碟通</a>制作Ubuntu镜像到U盘中，先“打开”镜像，再“写入硬盘映像”。<br>从U盘启动，在“是否与Win10共存”的界面，选择“其他选项”<br>分固态中剩余的120GB给Ubuntu，创建4个分区</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">大小</th>
+<th style="text-align:center">分区类型</th>
+<th style="text-align:center">用于</th>
+<th style="text-align:center">挂载点</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">200MB</td>
+<td style="text-align:center">逻辑分区</td>
+<td style="text-align:center">Ext4日志文件系统</td>
+<td style="text-align:center">/boot</td>
+<td style="text-align:center">Linux的内核及引导系统程序所需要的文件</td>
+</tr>
+<tr>
+<td style="text-align:center">4000MB</td>
+<td style="text-align:center">逻辑分区</td>
+<td style="text-align:center">交换空间</td>
+<td style="text-align:center">无</td>
+<td style="text-align:center">相当于Windows中的“虚拟内存”</td>
+</tr>
+<tr>
+<td style="text-align:center">20000MB</td>
+<td style="text-align:center">逻辑分区</td>
+<td style="text-align:center">Ext4日志文件系统</td>
+<td style="text-align:center">/</td>
+<td style="text-align:center">根目录，存放系统</td>
+</tr>
+<tr>
+<td style="text-align:center">剩余所有</td>
+<td style="text-align:center">逻辑分区</td>
+<td style="text-align:center">Ext4日志文件系统</td>
+<td style="text-align:center">/home</td>
+<td style="text-align:center">用户目录</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>“安装启动引导器的设备”选择/boot分区所在的设备。<br>使用<a href="https://easybcd.en.softonic.com/?ex=DSK-1262.5" target="_blank" rel="noopener">EasyBCD</a>，添加Ubuntu到Windows的MBR引导程序中，参考<a href="https://blog.csdn.net/weixin_38233274/article/details/80777805" target="_blank" rel="noopener">“（MBR模式）Win10下安装Ubuntu18.04双系统”</a></p>
+<h2 id="QA：Ubuntu16安装失败"><a href="#QA：Ubuntu16安装失败" class="headerlink" title="QA：Ubuntu16安装失败"></a>QA：Ubuntu16安装失败</h2><p>Q：装到最后报错：”subprocess installed post-installation script returned error exit status 1 “<br>A：<strong>将分区”/boot”由200M扩大到1000M</strong></p>
+<p>Q：装到最后报错：”the grub-efi-amd64-signed package failed to install into /target/“<br>A：进bios，关闭secure boot。从U盘的Legacy启动</p>
+<h1 id="双系统配置"><a href="#双系统配置" class="headerlink" title="双系统配置"></a>双系统配置</h1><h2 id="Win10配置"><a href="#Win10配置" class="headerlink" title="Win10配置"></a>Win10配置</h2><p>更新Win10，完成后驱动也安装好了</p>
+<h2 id="Ubuntu配置"><a href="#Ubuntu配置" class="headerlink" title="Ubuntu配置"></a>Ubuntu配置</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br></pre></td></tr></table></figure>
+<p>Q：update报错：W: Duplicate sources.list entry <a href="http://security.ubuntu.com/ubuntu/" target="_blank" rel="noopener">http://security.ubuntu.com/ubuntu/</a> trusty-security/main amd64 Packages (/var/lib/apt/lists/security.ubuntu.com_ubuntu_dists_trusty-security_main_binary-amd64_Packages)<br>A：换源即可，<a href="https://www.cnblogs.com/webnote/p/5767853.html" target="_blank" rel="noopener">参考</a></p>
+<h1 id="Ubuntu配置深度学习环境"><a href="#Ubuntu配置深度学习环境" class="headerlink" title="Ubuntu配置深度学习环境"></a>Ubuntu配置深度学习环境</h1><p>思路：装cuda、装cudnn、装Anaconda、装深度学习框架</p>
+<h2 id="安装CUDA"><a href="#安装CUDA" class="headerlink" title="安装CUDA"></a>安装CUDA</h2><p>思路：关闭nouveau、关闭lightdm、安装cuda</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install build-essential git</span><br><span class="line"></span><br><span class="line">lsmod | grep nouveau</span><br><span class="line"></span><br><span class="line">sudo service lightdm stop</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">chmod +x cuda_7.5.18_linux.run</span><br><span class="line"></span><br><span class="line">sudo ./cuda_7.5.18_linux.run –no-opengl-files</span><br><span class="line">空格 快速略过条约</span><br><span class="line">除了OpenGL库，其他都装</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Do you accept the previously read EULA? (accept/decline/quit): accept</span><br><span class="line">Install NVIDIA Accelerated Graphics Driver for Linux-x86_64 352.39? ((y)es/(n)o/(q)uit): y</span><br><span class="line">Do you want to install the OpenGL libraries? ((y)es/(n)o/(q)uit) [ default is yes ]: n</span><br><span class="line">Install the CUDA 7.5 Toolkit? ((y)es/(n)o/(q)uit): y</span><br><span class="line">Enter Toolkit Location [ default is /usr/local/cuda-7.5 ]:</span><br><span class="line">Do you want to install a symbolic link at /usr/local/cuda? ((y)es/(n)o/(q)uit): y</span><br><span class="line">Install the CUDA 7.5 Samples? ((y)es/(n)o/(q)uit): y</span><br><span class="line">Enter CUDA Samples Location [ default is /home/imv ]:</span><br></pre></td></tr></table></figure>
+<p>重要参考：<br><a href="https://blog.csdn.net/yaoweilee/article/details/69401283" target="_blank" rel="noopener">ubuntu14.04安装cuda7.5 详细教程</a><br><a href="https://zhuanlan.zhihu.com/p/36979657" target="_blank" rel="noopener">深度学习-在ubuntu16.04安装CUDA9.1-总结(问题完全解决方案)</a><br><a href="https://blog.csdn.net/zhubaohua_bupt/article/details/53838091" target="_blank" rel="noopener">ubuntu 14.04 （64bit） 安装 CUDA7.5</a><br><a href="https://blog.csdn.net/myg22/article/details/84029924" target="_blank" rel="noopener">Ubuntu 16.04 上安装 CUDA 9.0 详细教程</a><br><a href="https://blog.csdn.net/fdqw_sph/article/details/78745375" target="_blank" rel="noopener">史上最全的ubuntu16.04安装nvidia驱动+cuda9.0+cuDnn7.0（有配置cudnn的说明）</a></p>
+<h2 id="测试GPU是否配置成功"><a href="#测试GPU是否配置成功" class="headerlink" title="测试GPU是否配置成功"></a>测试GPU是否配置成功</h2><h3 id="测试mxnet的GPU"><a href="#测试mxnet的GPU" class="headerlink" title="测试mxnet的GPU"></a>测试mxnet的GPU</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mxnet-cu75</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> mxnet <span class="keyword">as</span> mx</span><br><span class="line"><span class="keyword">from</span> mxnet <span class="keyword">import</span> nd</span><br><span class="line"></span><br><span class="line">mx.cpu(), mx.gpu(), mx.gpu(<span class="number">0</span>)</span><br><span class="line"></span><br><span class="line">a = nd.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], ctx=mx.gpu())</span><br></pre></td></tr></table></figure>
+<h3 id="测试pycuda"><a href="#测试pycuda" class="headerlink" title="测试pycuda"></a>测试pycuda</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install pycuda</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> pycuda.autoinit</span><br><span class="line"><span class="keyword">import</span> pycuda.driver </span><br><span class="line"></span><br><span class="line">free_bytes, total_bytes = pycuda.driver.mem_get_info() <span class="comment"># 查询当前显卡的总显存，可用显存</span></span><br></pre></td></tr></table></figure>
+<h1 id="软件下载：各版本的CUDA、cuDNN、Anaconda、Ubuntu"><a href="#软件下载：各版本的CUDA、cuDNN、Anaconda、Ubuntu" class="headerlink" title="软件下载：各版本的CUDA、cuDNN、Anaconda、Ubuntu"></a>软件下载：各版本的CUDA、cuDNN、Anaconda、Ubuntu</h1><p><a href="https://developer.nvidia.com/cuda-toolkit-archive" target="_blank" rel="noopener">CUDA</a><br><a href="https://developer.nvidia.com/rdp/cudnn-archive" target="_blank" rel="noopener">cuDNN</a><br><a href="https://repo.continuum.io/archive/" target="_blank" rel="noopener">Anaconda</a><br><a href="http://old-releases.ubuntu.com/releases/" target="_blank" rel="noopener">Ubuntu</a></p>
+<p>配套关系：<br>CUDA 9.0、cuDNN 7.0<br>CUDA 7.5、cuDNN 5.1</p>
+<h1 id="Ubuntu命令"><a href="#Ubuntu命令" class="headerlink" title="Ubuntu命令"></a>Ubuntu命令</h1><h2 id="安装ssh服务"><a href="#安装ssh服务" class="headerlink" title="安装ssh服务"></a>安装ssh服务</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install openssh-server</span><br><span class="line">sudo service ssh restart</span><br></pre></td></tr></table></figure>
+<h2 id="安装htop"><a href="#安装htop" class="headerlink" title="安装htop"></a>安装htop</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install htop</span><br></pre></td></tr></table></figure>
+<h2 id="Ubuntu挂载Win10的ntfs分区"><a href="#Ubuntu挂载Win10的ntfs分区" class="headerlink" title="Ubuntu挂载Win10的ntfs分区"></a>Ubuntu挂载Win10的ntfs分区</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">（貌似非必须）</span><br><span class="line">sudo apt-get install ntfs-3g</span><br><span class="line"></span><br><span class="line">mkdir /home/imv/hdd</span><br><span class="line">sudo mount /dev/sdb1 /home/imv/hdd</span><br><span class="line">sudo umount /dev/sdb1</span><br><span class="line">df -lh</span><br></pre></td></tr></table></figure>
+<h2 id="查看分区信息"><a href="#查看分区信息" class="headerlink" title="查看分区信息"></a>查看分区信息</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo fdisk -l</span><br><span class="line">sudo fdisk -l | grep NTFS</span><br></pre></td></tr></table></figure>
+<h2 id="安装Anaconda（用户名imv）"><a href="#安装Anaconda（用户名imv）" class="headerlink" title="安装Anaconda（用户名imv）"></a>安装Anaconda（用户名imv）</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">bash Anaconda3-5.2.0-Linux-x86_64.sh</span><br><span class="line"></span><br><span class="line">改变默认python指向：</span><br><span class="line">sudo nano ~/.bashrc</span><br><span class="line">export PATH="/home/imv/anaconda3/bin:$PATH"</span><br></pre></td></tr></table></figure>
+<p>更换pip源，<a href="https://blog.csdn.net/qq_30163461/article/details/80401353" target="_blank" rel="noopener">参考</a><br>更换conda源，<a href="https://blog.csdn.net/dream_allday/article/details/80344511" target="_blank" rel="noopener">参考</a></p>
+<h2 id="环境变量立即生效"><a href="#环境变量立即生效" class="headerlink" title="环境变量立即生效"></a>环境变量立即生效</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+<h2 id="安装Teamviewer"><a href="#安装Teamviewer" class="headerlink" title="安装Teamviewer"></a>安装Teamviewer</h2><p>注意要下载teamviewer_12（也可能是32位的原因使安装成功），Ubuntu1404安装teamviewer_12成功，安装最新的失败<br><a href="https://www.cnblogs.com/wmr95/p/7574615.html" target="_blank" rel="noopener">法1</a><br><a href="https://www.cnblogs.com/kunyuanjushi/p/5205639.html" target="_blank" rel="noopener">法2</a></p>
+<h2 id="拷贝文件夹"><a href="#拷贝文件夹" class="headerlink" title="拷贝文件夹"></a>拷贝文件夹</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp -r /home/imv/Downloads/cudnn /usr/local</span><br></pre></td></tr></table></figure>
+<h2 id="监视GPU"><a href="#监视GPU" class="headerlink" title="监视GPU"></a>监视GPU</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">watch -n 1 -d nvidia-smi</span><br></pre></td></tr></table></figure>
+<h2 id="查看一个文件的头几行、末几行"><a href="#查看一个文件的头几行、末几行" class="headerlink" title="查看一个文件的头几行、末几行"></a>查看一个文件的头几行、末几行</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">head -n 10 a.txt</span><br><span class="line">tail -n 10 a.txt</span><br></pre></td></tr></table></figure>
+<h2 id="ubuntu14-04设置在当前目录打开终端"><a href="#ubuntu14-04设置在当前目录打开终端" class="headerlink" title="ubuntu14.04设置在当前目录打开终端"></a>ubuntu14.04设置在当前目录打开终端</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install nautilus-open-terminal</span><br><span class="line"></span><br><span class="line">nautilus -q</span><br></pre></td></tr></table></figure>
+<h1 id="python装包"><a href="#python装包" class="headerlink" title="python装包"></a>python装包</h1><p>pip install opencv-python</p>
+<p>pip install open3d-python</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/精华/" rel="tag"># 精华</a>
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/02/2019-03-02-imv-stereo-vision/" rel="next" title="[机器视觉]立体视觉技术流派">
+                <i class="fa fa-chevron-left"></i> [机器视觉]立体视觉技术流派
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/" rel="prev" title="[点云+深度学习]3DMatch论文解析">
+                [点云+深度学习]3DMatch论文解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#说明"><span class="nav-number">1.</span> <span class="nav-text">说明</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#双系统安装"><span class="nav-number">2.</span> <span class="nav-text">双系统安装</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#先装win10"><span class="nav-number">2.1.</span> <span class="nav-text">先装win10</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#再装Ubuntu"><span class="nav-number">2.2.</span> <span class="nav-text">再装Ubuntu</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#QA：Ubuntu16安装失败"><span class="nav-number">2.3.</span> <span class="nav-text">QA：Ubuntu16安装失败</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#双系统配置"><span class="nav-number">3.</span> <span class="nav-text">双系统配置</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Win10配置"><span class="nav-number">3.1.</span> <span class="nav-text">Win10配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ubuntu配置"><span class="nav-number">3.2.</span> <span class="nav-text">Ubuntu配置</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ubuntu配置深度学习环境"><span class="nav-number">4.</span> <span class="nav-text">Ubuntu配置深度学习环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装CUDA"><span class="nav-number">4.1.</span> <span class="nav-text">安装CUDA</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#测试GPU是否配置成功"><span class="nav-number">4.2.</span> <span class="nav-text">测试GPU是否配置成功</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#测试mxnet的GPU"><span class="nav-number">4.2.1.</span> <span class="nav-text">测试mxnet的GPU</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试pycuda"><span class="nav-number">4.2.2.</span> <span class="nav-text">测试pycuda</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#软件下载：各版本的CUDA、cuDNN、Anaconda、Ubuntu"><span class="nav-number">5.</span> <span class="nav-text">软件下载：各版本的CUDA、cuDNN、Anaconda、Ubuntu</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ubuntu命令"><span class="nav-number">6.</span> <span class="nav-text">Ubuntu命令</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装ssh服务"><span class="nav-number">6.1.</span> <span class="nav-text">安装ssh服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装htop"><span class="nav-number">6.2.</span> <span class="nav-text">安装htop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Ubuntu挂载Win10的ntfs分区"><span class="nav-number">6.3.</span> <span class="nav-text">Ubuntu挂载Win10的ntfs分区</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看分区信息"><span class="nav-number">6.4.</span> <span class="nav-text">查看分区信息</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Anaconda（用户名imv）"><span class="nav-number">6.5.</span> <span class="nav-text">安装Anaconda（用户名imv）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#环境变量立即生效"><span class="nav-number">6.6.</span> <span class="nav-text">环境变量立即生效</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Teamviewer"><span class="nav-number">6.7.</span> <span class="nav-text">安装Teamviewer</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#拷贝文件夹"><span class="nav-number">6.8.</span> <span class="nav-text">拷贝文件夹</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#监视GPU"><span class="nav-number">6.9.</span> <span class="nav-text">监视GPU</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查看一个文件的头几行、末几行"><span class="nav-number">6.10.</span> <span class="nav-text">查看一个文件的头几行、末几行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ubuntu14-04设置在当前目录打开终端"><span class="nav-number">6.11.</span> <span class="nav-text">ubuntu14.04设置在当前目录打开终端</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#python装包"><span class="nav-number">7.</span> <span class="nav-text">python装包</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

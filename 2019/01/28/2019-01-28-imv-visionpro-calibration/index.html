@@ -1,0 +1,971 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机视觉,标定,康耐视," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="复现Cognex的VisionPro9.1中的Cog3DCameraCalibrator。">
+<meta name="keywords" content="计算机视觉,标定,康耐视">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]康耐视的相机标定">
+<meta property="og:url" content="http://yoursite.com/2019/01/28/2019-01-28-imv-visionpro-calibration/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="复现Cognex的VisionPro9.1中的Cog3DCameraCalibrator。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-01-28T12:05:20.166Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]康耐视的相机标定">
+<meta name="twitter:description" content="复现Cognex的VisionPro9.1中的Cog3DCameraCalibrator。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/28/2019-01-28-imv-visionpro-calibration/"/>
+
+
+
+
+
+  <title>[机器视觉]康耐视的相机标定 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/28/2019-01-28-imv-visionpro-calibration/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]康耐视的相机标定</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-28T09:09:09+08:00">
+                2019-01-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  复现Cognex的VisionPro9.1中的Cog3DCameraCalibrator。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="总述"><a href="#总述" class="headerlink" title="总述"></a>总述</h1><p>康耐视中与<strong>双目3D定位</strong>相关的共涉及4个API，分别是相机标定、手眼标定、计算3D坐标、估计位姿偏移。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">函数功能</th>
+<th style="text-align:center">主体类型</th>
+<th style="text-align:center">返回值类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">相机标定</td>
+<td style="text-align:center">Cog3DCameraCalibrator</td>
+<td style="text-align:center">Cog3DCameraCalibrationResult</td>
+</tr>
+<tr>
+<td style="text-align:center">手眼标定</td>
+<td style="text-align:center">Cog3DHandEyeCalibrator</td>
+<td style="text-align:center">List<br>&lt;Cog3DHandEyeCalibrationResult&gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">三角测量获得3D点坐标</td>
+<td style="text-align:center">Cog3DTriangulator</td>
+<td style="text-align:center">Cog3DVect3Collection</td>
+</tr>
+<tr>
+<td style="text-align:center">通过2D点估计3D姿态</td>
+<td style="text-align:center">List<br>&lt;Cog3DPoseEstimatorUsing2DPoints&gt;</td>
+<td style="text-align:center">Cog3DPoseEstimatorUsing2DPointsResult</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="相机标定（Cognex）"><a href="#相机标定（Cognex）" class="headerlink" title="相机标定（Cognex）"></a>相机标定（Cognex）</h1><h2 id="相机标定执行"><a href="#相机标定执行" class="headerlink" title="相机标定执行"></a>相机标定执行</h2><p>康耐视的相机标定函数有6种重载：<br>一般用的是：</p>
+<figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Cog3DCameraCalibrationResult <span class="title">Execute</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">	List&lt;Rectangle&gt; pelRectRaw2Ds,</span></span></span><br><span class="line"><span class="function"><span class="params">	List&lt;List&lt;Cog3DCrspFeaturesCollection&gt;&gt; crspFeatures,</span></span></span><br><span class="line"><span class="function"><span class="params">	Cog3DScalarCollection zHeightsPhys3D,</span></span></span><br><span class="line"><span class="function"><span class="params">	List&lt;Cog3DCalibrationPlatePoseTypeConstants&gt; poseTypes</span></span></span><br><span class="line"><span class="function"><span class="params"></span>)</span></span><br></pre></td></tr></table></figure>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">pelRectRaw2Ds</td>
+<td style="text-align:center">原始获取图像的ROI</td>
+<td style="text-align:center">一般即图像大小</td>
+</tr>
+<tr>
+<td style="text-align:center">crspFeatures</td>
+<td style="text-align:center">相机拍摄标定板的特征对<br><strong>crspFeatures[i][j]对应第i个标定板姿态的第j个相机</strong></td>
+<td style="text-align:center">包含PointsModel3D、PointsRaw2D、Weights</td>
+</tr>
+<tr>
+<td style="text-align:center">zHeightsPhys3D</td>
+<td style="text-align:center">不同标定板姿态下的z位置<br>与下一个参数poseTypes对应，需长度相同</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">poseTypes</td>
+<td style="text-align:center">标定板姿态类型</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="标定板姿态"><a href="#标定板姿态" class="headerlink" title="标定板姿态"></a>标定板姿态</h2><p>康耐视支持5种标定板姿态：<br><strong>Cog3DCalibrationPlatePoseTypeConstants</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">成员名</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">PoseDefineWorldCoord</td>
+<td style="text-align:center">定义世界坐标系系统</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">PoseElevated</td>
+<td style="text-align:center">与定义世界坐标系的姿态精确平行（需指定两个标定板姿态之间的偏移）<br>注意：平面中的(x,y)平移和旋转是不受约束的</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">PoseTilted</td>
+<td style="text-align:center">任意位置</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">PoseSpecified</td>
+<td style="text-align:center">准确定位在世界坐标系下的已知姿态</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">DefaultPoseType</td>
+<td style="text-align:center">等价于PoseDefineWorldCoord</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="相机内参"><a href="#相机内参" class="headerlink" title="相机内参"></a>相机内参</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Cog3DCameraCalibrationIntrinsics</span>(<span class="params"></span></span></span><br><span class="line"><span class="function"><span class="params">	Cog3DVect2 scale,</span></span></span><br><span class="line"><span class="function"><span class="params">	<span class="keyword">double</span> skew,</span></span></span><br><span class="line"><span class="function"><span class="params">	Cog3DVect2 translation,</span></span></span><br><span class="line"><span class="function"><span class="params">	Cog3DCameraCalibrationDistortionModelConstants distortionModel,</span></span></span><br><span class="line"><span class="function"><span class="params">	Cog3DScalarCollection kc</span></span></span><br><span class="line"><span class="function"><span class="params"></span>)</span></span><br></pre></td></tr></table></figure>
+<p>相机内参由5部分构成：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">成员名</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">scale</td>
+<td style="text-align:center">x、y的比例</td>
+<td style="text-align:center">2个数</td>
+</tr>
+<tr>
+<td style="text-align:center">skew</td>
+<td style="text-align:center">偏度系数</td>
+<td style="text-align:center">1个数</td>
+</tr>
+<tr>
+<td style="text-align:center">translation</td>
+<td style="text-align:center">x、y的平移</td>
+<td style="text-align:center">2个数</td>
+</tr>
+<tr>
+<td style="text-align:center">distortionModel</td>
+<td style="text-align:center">畸变模型</td>
+<td style="text-align:center">默认是e3ParamRadial</td>
+</tr>
+<tr>
+<td style="text-align:center">kc</td>
+<td style="text-align:center">透镜畸变的系数</td>
+<td style="text-align:center">一般为3个数（e3ParamRadial）、6个数（eSineTanLawProjection）、0个数（eNoDistortion、eTelecentric）</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="畸变模型"><a href="#畸变模型" class="headerlink" title="畸变模型"></a>畸变模型</h2><p>康耐视支持4种畸变模型（distortion model）：<br><strong>Cog3DCameraCalibrationDistortionModelConstants</strong></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">成员名</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">eSineTanLawProjection</td>
+<td style="text-align:center">“high distortion” lenses – short focal length lenses which exhibit apparent distortion</td>
+<td style="text-align:center">高度畸变的镜头——短焦距镜头，表现出明显的畸变</td>
+</tr>
+<tr>
+<td style="text-align:center">eNoDistortion</td>
+<td style="text-align:center">ideal lenses without distortion</td>
+<td style="text-align:center">理想的无畸变的镜头</td>
+</tr>
+<tr>
+<td style="text-align:center">e3ParamRadial</td>
+<td style="text-align:center">“low distortion” lenses – where the distortion is not apparent to the human eye – but where distortion correction can improve accuracy performance nonetheless</td>
+<td style="text-align:center"><strong>默认</strong>，低畸变的镜头——畸变对人眼不明显，但畸变校正可以提高精度</td>
+</tr>
+<tr>
+<td style="text-align:center">eTelecentric</td>
+<td style="text-align:center">telecentric lenses</td>
+<td style="text-align:center">远心镜头</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="相机标定（Cognex-VS-OpenCV）"><a href="#相机标定（Cognex-VS-OpenCV）" class="headerlink" title="相机标定（Cognex VS OpenCV）"></a>相机标定（Cognex VS OpenCV）</h1><p>相机标定得到的内参仅仅是对相机物理特性的【近似】</p>
+<h1 id="VisionPro"><a href="#VisionPro" class="headerlink" title="VisionPro"></a>VisionPro</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">坐标系</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">原点</th>
+<th style="text-align:center">单位</th>
+<th style="text-align:center">左/右手</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Raw2D</td>
+<td style="text-align:center">相机获取的<strong>原始2D图像空间</strong></td>
+<td style="text-align:center">左上角</td>
+<td style="text-align:center">像素</td>
+<td style="text-align:center">左手系</td>
+</tr>
+<tr>
+<td style="text-align:center">Camera2D</td>
+<td style="text-align:center">去除光学畸变、像素高宽比的影响后的<strong>无畸变2D空间</strong></td>
+<td style="text-align:center">中心</td>
+<td style="text-align:center">物理</td>
+<td style="text-align:center">右手系</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>基于VisionPro的c#代码：<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> Cognex.VisionPro3D;</span><br><span class="line"><span class="keyword">using</span> Cognex.VisionPro;</span><br><span class="line"></span><br><span class="line">Cog3DVect2 point2D = <span class="keyword">new</span> Cog3DVect2(<span class="number">1000</span>, <span class="number">2000</span>);</span><br><span class="line"></span><br><span class="line">Cog3DVect2 scale = <span class="keyword">new</span> Cog3DVect2(<span class="number">10</span>, <span class="number">20</span>);</span><br><span class="line"><span class="keyword">double</span> skew = <span class="number">2</span>;</span><br><span class="line">Cog3DVect2 translation = <span class="keyword">new</span> Cog3DVect2(<span class="number">30</span>, <span class="number">40</span>);</span><br><span class="line">Cog3DCameraCalibrationDistortionModelConstants distortionModel = Cog3DCameraCalibrationDistortionModelConstants.eNoDistortion;</span><br><span class="line">Cog3DScalarCollection kc = <span class="keyword">new</span> Cog3DScalarCollection();</span><br><span class="line"></span><br><span class="line">Cog3DCameraCalibrationIntrinsics mIntrinsics = <span class="keyword">new</span> Cog3DCameraCalibrationIntrinsics(scale, skew, translation, distortionModel, kc);</span><br><span class="line">Cog3DVect2 pointRaw2D = mIntrinsics.MapPointFromCamera2DToRaw2D(point2D);</span><br><span class="line">Cog3DVect2 pointCam2D = mIntrinsics.MapPointFromRaw2DToCamera2D(point2D);</span><br></pre></td></tr></table></figure></p>
+<p>基于OpenCV的python代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">from</span> numpy.linalg <span class="keyword">import</span> inv</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_mtx33_FromCam2DToRaw2D</span><span class="params">(scale, skew, translation)</span>:</span></span><br><span class="line">    <span class="keyword">assert</span>(len(scale) == <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">assert</span>(type(skew) == float <span class="keyword">or</span> type(skew) == int)</span><br><span class="line">    <span class="keyword">assert</span>(len(translation) == <span class="number">2</span>)</span><br><span class="line">    </span><br><span class="line">    mtx33 = np.array([</span><br><span class="line">        [scale[<span class="number">0</span>],  skew,       translation[<span class="number">0</span>]],</span><br><span class="line">        [<span class="number">0</span>,         scale[<span class="number">1</span>],   translation[<span class="number">1</span>]],</span><br><span class="line">        [<span class="number">0</span>,         <span class="number">0</span>,          <span class="number">1</span>],</span><br><span class="line">    ])</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> mtx33</span><br><span class="line"></span><br><span class="line">point2D = np.array([<span class="number">1000</span>, <span class="number">2000</span>, <span class="number">1</span>]).reshape(<span class="number">3</span>,<span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">scale = [<span class="number">10</span>, <span class="number">20</span>]</span><br><span class="line">skew = <span class="number">2.0</span></span><br><span class="line">translation = [<span class="number">30</span>, <span class="number">40</span>]</span><br><span class="line"></span><br><span class="line">mtx33_FromCam2DToRaw2D = get_mtx33_FromCam2DToRaw2D(scale, skew, translation)</span><br><span class="line">mtx33_FromRaw2DToCam2D = inv(mtx33_FromCam2DToRaw2D)</span><br><span class="line"></span><br><span class="line">pointRaw2D = np.dot(mtx33_FromCam2DToRaw2D, point2D)</span><br><span class="line">pointCam2D = np.dot(mtx33_FromRaw2DToCam2D, point2D)</span><br></pre></td></tr></table></figure></p>
+<h1 id="标定验证"><a href="#标定验证" class="headerlink" title="标定验证"></a>标定验证</h1><p>Cog3DCameraCalibrationValidator</p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参考内容</th>
+<th style="text-align:center">参考方面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Cognex VisionPro 9.1的例程：samples3d\Programming\Setup\Calibration</td>
+<td style="text-align:center">主体思路</td>
+</tr>
+<tr>
+<td style="text-align:center">知乎：<a href="https://www.zhihu.com/question/29448299" target="_blank" rel="noopener">机器视觉的相机标定到底是什么？</a></td>
+<td style="text-align:center">相机标定总述</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+            <a href="/tags/标定/" rel="tag"># 标定</a>
+          
+            <a href="/tags/康耐视/" rel="tag"># 康耐视</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/24/2019-01-24-imv-pointcloud-deeplearning-paper/" rel="next" title="[机器视觉]读点云深度学习论文">
+                <i class="fa fa-chevron-left"></i> [机器视觉]读点云深度学习论文
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/30/2019-01-30-imv-pycv-book/" rel="prev" title="[机器视觉]Python计算机视觉学习笔记">
+                [机器视觉]Python计算机视觉学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#总述"><span class="nav-number">1.</span> <span class="nav-text">总述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相机标定（Cognex）"><span class="nav-number">2.</span> <span class="nav-text">相机标定（Cognex）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#相机标定执行"><span class="nav-number">2.1.</span> <span class="nav-text">相机标定执行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标定板姿态"><span class="nav-number">2.2.</span> <span class="nav-text">标定板姿态</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相机内参"><span class="nav-number">2.3.</span> <span class="nav-text">相机内参</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#畸变模型"><span class="nav-number">2.4.</span> <span class="nav-text">畸变模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相机标定（Cognex-VS-OpenCV）"><span class="nav-number">3.</span> <span class="nav-text">相机标定（Cognex VS OpenCV）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VisionPro"><span class="nav-number">4.</span> <span class="nav-text">VisionPro</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标定验证"><span class="nav-number">5.</span> <span class="nav-text">标定验证</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

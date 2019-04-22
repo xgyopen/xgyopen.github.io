@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机视觉,精华," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="简述立体视觉技术（侧重工业引导定位）流派及基本原理。">
+<meta name="keywords" content="计算机视觉,精华">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]立体视觉技术流派">
+<meta property="og:url" content="http://yoursite.com/2019/03/02/2019-03-02-imv-stereo-vision/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="简述立体视觉技术（侧重工业引导定位）流派及基本原理。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-01T05:12:28.512Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]立体视觉技术流派">
+<meta name="twitter:description" content="简述立体视觉技术（侧重工业引导定位）流派及基本原理。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/02/2019-03-02-imv-stereo-vision/"/>
+
+
+
+
+
+  <title>[机器视觉]立体视觉技术流派 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/02/2019-03-02-imv-stereo-vision/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]立体视觉技术流派</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-02T15:15:15+08:00">
+                2019-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  简述立体视觉技术（侧重工业引导定位）流派及基本原理。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h1><p>比较重点：速度（满足节拍）、精度（大视野/小视野）</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">流派</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">双目</td>
+<td style="text-align:center">视野1m，精度±1mm<br>视野500mm，精度0.5mm<br>（一般0.5mm-2mm）</td>
+</tr>
+<tr>
+<td style="text-align:center">3D结构光</td>
+<td style="text-align:center">用于<strong>没有明显特征</strong>的场合，引导定位精度mm级<br>本质：<strong>双目+投影仪</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">线扫激光</td>
+<td style="text-align:center">Z轴精度高，适合测高</td>
+</tr>
+<tr>
+<td style="text-align:center">TOF</td>
+<td style="text-align:center">高速运动用TOF，3D结构光需要工件不动</td>
+</tr>
+<tr>
+<td style="text-align:center">单目+激光测距</td>
+<td style="text-align:center">可作为大视野下双目做不了的补充方案</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="详述"><a href="#详述" class="headerlink" title="详述"></a>详述</h2><ul>
+<li><p>关于<strong>双目</strong><br>特点：<strong>视野大</strong>，但容易受外界环境光的影响<br>产品：大小工件都可以，但工件超过1.5m一般就不能做了，原因是受限于标定板（标定板最大1.2m）<br>精度：视野1m，精度±1mm；视野500mm，精度0.5mm（一般0.5mm-2mm）<br>产品：要<strong>有特征</strong>（圆的、完全对称的无法做），建议4~5个特征点<br>两种形式：眼在手上（建议）/眼在手外<br>支持通讯：TCP/IP</p>
+</li>
+<li><p>关于康耐视的DS（<strong>线扫激光</strong>）<br>适合测平面度（一般用DS，而不是A5000）<br>DS适合测量高度、体积（X、Y方向精度低，<strong>Z方向精度高</strong>）<br>DS要保证<strong>每次触发位置相同</strong><br>DS<strong>必须有相对运动</strong>，要保证图像没有被拉伸和压缩，可以装机器人上匀速运行<br>DS有盲区</p>
+</li>
+<li><p>关于康耐视的A5000（<strong>3D结构光</strong>）<br>适合做定位<br><strong>精度一般不高</strong>，<strong>视野也不大</strong>，康耐视最大视野600mm，因为相机分辨率是130w/200w<br>容易受外界光影响<br>不适合运动中取像</p>
+</li>
+<li><p><strong>Tof</strong><br>价格贵，量产的少<br>不受外界光影响<br>速度快，可以运动中取像</p>
+</li>
+</ul>
+<h2 id="工业现状"><a href="#工业现状" class="headerlink" title="工业现状"></a>工业现状</h2><ul>
+<li>机械臂<strong>相对精度0.02mm</strong>（重复精度），绝对精度0.2mm</li>
+<li><strong>ES（3D结构光）精度没有3D locate（双目）高</strong></li>
+<li>双目极限：视野500mm，3D locate精度最高0.5mm</li>
+<li>DS（线扫激光）波动2个像素，DS精度0.1mm，故系统精度能到0.2mm</li>
+</ul>
+<h1 id="双目"><a href="#双目" class="headerlink" title="双目"></a>双目</h1><p>重点：相机标定、手眼标定</p>
+<p>标定：机械臂带着相机/标定板走9个姿态，双目相机拍照，实现相机标定、手眼标定<br>实施：左右相机找n个对应特征点，计算3D坐标，计算姿态偏移</p>
+<h1 id="3D结构光-线扫激光"><a href="#3D结构光-线扫激光" class="headerlink" title="3D结构光/线扫激光"></a>3D结构光/线扫激光</h1><p>重点：点云配准</p>
+<p>标定：机械臂带着凸台走9个姿态，实现手眼标定<br>实施：取像，点云识别/点云分割、点云配准，计算姿态偏移</p>
+<h1 id="单目相机-激光测距（眼在手上）"><a href="#单目相机-激光测距（眼在手上）" class="headerlink" title="单目相机+激光测距（眼在手上）"></a>单目相机+激光测距（眼在手上）</h1><h2 id="标定"><a href="#标定" class="headerlink" title="标定"></a>标定</h2><h3 id="标定步骤"><a href="#标定步骤" class="headerlink" title="标定步骤"></a>标定步骤</h3><ol>
+<li>搭建系统：把 相机、激光测距仪、戳点用的针 固定在机械臂末端</li>
+<li>对机械臂做TCP：机械臂第六轴法兰盘中心坐标系（<strong>TCP1</strong>）、针尖坐标系（<strong>TCP2</strong>）、</li>
+<li>相机标定：棋盘格标定板放置在平面上，机械臂带着相机走9个位姿，<strong>保存9张棋盘格图片、记录9个TCP1的机械手位姿</strong> =&gt; 相机标定求得相机外参，再结合机械手位姿，求得<strong>手眼矩阵</strong>（<script type="math/tex">CamToTool</script>）</li>
+<li>激光光斑点的基坐标：以一定的姿态放置用于戳点的工件在平面上，控制机械臂末端，用针尖戳点，<strong>记录TCP2的机械手位姿</strong> =&gt; 其实只需要XYZ坐标，即激光<strong>光斑点</strong>在<strong>基坐标系</strong>下的坐标（<script type="math/tex">\begin{bmatrix}
+ X_{dst\_Base} \\
+ Y_{dst\_Base} \\
+ Z_{dst\_Base} \\
+\end{bmatrix}</script>）</li>
+<li>标定激光测距仪。控制机械臂末端，使激光对准工件上戳的点，<strong>记录TCP1的机械手位姿</strong>（<script type="math/tex">ToolToBase</script>）、<strong>记录激光测距仪测得的距离数据</strong>（<script type="math/tex">d</script>） =&gt; 实施标定</li>
+<li>戳9个点，可取其中6个用于标定，其余3个用于验证精度</li>
+</ol>
+<h3 id="标定原理"><a href="#标定原理" class="headerlink" title="标定原理"></a>标定原理</h3><ul>
+<li>测距激光、单目相机装在机械臂末端，相对关系不变，故<strong>激光源坐标</strong>在<strong>相机坐标系</strong>下是<strong>固定不变</strong>的（<script type="math/tex">\begin{bmatrix}
+  X_{src\_Cam} \\
+  Y_{src\_Cam} \\
+  Z_{src\_Cam} \\
+\end{bmatrix}</script>）</li>
+<li>单目相机固定在机械臂末端，两者相对关系不变（<script type="math/tex">CamToTool</script>）</li>
+<li>未知量：<script type="math/tex">\begin{bmatrix}
+  X_{src\_Cam} \\
+  Y_{src\_Cam} \\
+  Z_{src\_Cam} \\
+\end{bmatrix}</script>和<script type="math/tex">\begin{bmatrix}
+  V_{x\_Cam} \\
+  V_{y\_Cam} \\
+  V_{z\_Cam} \\
+\end{bmatrix}</script>，通过将<strong>激光光斑点</strong>统一到<strong>相机坐标系</strong>下通过最小二乘法求解。<ul>
+<li>等式左边：基坐标系下<strong>激光光斑点</strong>坐标，转换到相机坐标系下</li>
+<li>等式右边：相机坐标系下<strong>激光光源点</strong>坐标，加上距离数据，求得<strong>激光光斑点</strong>坐标</li>
+</ul>
+</li>
+</ul>
+<h3 id="标定公式"><a href="#标定公式" class="headerlink" title="标定公式"></a>标定公式</h3><p>至少两组点的值可求解6个未知数</p>
+<script type="math/tex; mode=display">
+CamToBase = ToolToBase·CamToTool
+\\
+CamToBase^{-1}
+\begin{bmatrix}
+    X_{dst\_Base} \\
+    Y_{dst\_Base} \\
+    Z_{dst\_Base} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    X_{src\_Cam} \\
+    Y_{src\_Cam} \\
+    Z_{src\_Cam} \\
+    1 \\
+\end{bmatrix}
++
+\begin{bmatrix}
+    V_{x\_Cam} \ d \\
+    V_{y\_Cam} \ d \\
+    V_{z\_Cam} \ d \\
+    0 \\
+\end{bmatrix}</script><h3 id="标定说明"><a href="#标定说明" class="headerlink" title="标定说明"></a>标定说明</h3><ul>
+<li>激光光源点：src</li>
+<li>激光光斑点：dst</li>
+<li>机械手坐标系：Tool</li>
+<li>基坐标系：Base</li>
+<li>相机坐标系：Cam</li>
+<li><script type="math/tex">ToolToBase</script>：机械手坐标系到基坐标系，通过示教器读取，随姿态变化而变化</li>
+<li><script type="math/tex">CamToTool</script>：相机坐标系到机械手坐标系，通过相机外参和机械臂姿态可求得，即手眼矩阵，固定值</li>
+<li><script type="math/tex">CamToBase</script>：相机坐标系到基坐标系，通过上面两者相乘</li>
+<li><script type="math/tex">\begin{bmatrix}
+  X_{dst\_Base} \\
+  Y_{dst\_Base} \\
+  Z_{dst\_Base} \\
+\end{bmatrix}</script>：激光<strong>光斑点</strong>在<strong>基坐标系</strong>下的坐标，标定时的已知量，机械臂做TCP通过戳点可得</li>
+<li><script type="math/tex">\begin{bmatrix}
+  X_{src\_Cam} \\
+  Y_{src\_Cam} \\
+  Z_{src\_Cam} \\
+\end{bmatrix}</script>：激光<strong>光源点</strong>在<strong>相机坐标系</strong>下的坐标，标定时待求解的未知量</li>
+<li><script type="math/tex">\begin{bmatrix}
+  V_{x\_Cam} \\
+  V_{y\_Cam} \\
+  V_{z\_Cam} \\
+\end{bmatrix}</script>：激光<strong>光束</strong>在<strong>相机坐标系</strong>下的<strong>单位方向向量</strong>，标定时待求解的未知量</li>
+<li><script type="math/tex">d</script>：激光测距仪测得的<strong>距离数据</strong>，通过激光测距仪读取</li>
+</ul>
+<h2 id="实施"><a href="#实施" class="headerlink" title="实施"></a>实施</h2><h3 id="实施原理"><a href="#实施原理" class="headerlink" title="实施原理"></a>实施原理</h3><p>通过将<strong>激光光斑点</strong>由相机坐标系变化到<strong>基坐标系</strong>即可求解</p>
+<ul>
+<li><strong>输入</strong><ul>
+<li>激光测距仪测得的距离数据（<script type="math/tex">d</script>）</li>
+<li>机械手位姿（<script type="math/tex">ToolToBase</script>，结合手眼矩阵计算<script type="math/tex">CamToBase</script>）</li>
+</ul>
+</li>
+<li><strong>已知</strong>（标定求得的不变量）<ul>
+<li>激光<strong>光源点</strong>在<strong>相机坐标系</strong>下的坐标（<script type="math/tex">\begin{bmatrix}
+X_{src\_Cam} \\
+Y_{src\_Cam} \\
+Z_{src\_Cam} \\
+\end{bmatrix}</script>）</li>
+<li>激光<strong>光束</strong>在<strong>相机坐标系</strong>下的<strong>单位方向向量</strong>（<script type="math/tex">\begin{bmatrix}
+V_{x\_Cam} \\
+V_{y\_Cam} \\
+V_{z\_Cam} \\
+\end{bmatrix}</script>）</li>
+<li>手眼矩阵（<script type="math/tex">CamToTool</script>）</li>
+</ul>
+</li>
+<li><strong>输出</strong><ul>
+<li>激光<strong>光斑点</strong>在<strong>基坐标系</strong>下的坐标（<script type="math/tex">\begin{bmatrix}
+X_{dst\_Base} \\
+Y_{dst\_Base} \\
+Z_{dst\_Base} \\
+\end{bmatrix}</script>）</li>
+</ul>
+</li>
+</ul>
+<h3 id="实施公式"><a href="#实施公式" class="headerlink" title="实施公式"></a>实施公式</h3><script type="math/tex; mode=display">
+\begin{bmatrix}
+    X_{dst\_Base} \\
+    Y_{dst\_Base} \\
+    Z_{dst\_Base} \\
+    1 \\
+\end{bmatrix}
+=
+CamToBase
+(
+\begin{bmatrix}
+    X_{src\_Cam} \\
+    Y_{src\_Cam} \\
+    Z_{src\_Cam} \\
+    1 \\
+\end{bmatrix}
++
+\begin{bmatrix}
+    V_{x\_Cam} \ d \\
+    V_{y\_Cam} \ d \\
+    V_{z\_Cam} \ d \\
+    0 \\
+\end{bmatrix}
+)</script><h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><ol>
+<li><p>相机能不能省去？<br>？？？不能，求解手眼矩阵时，相机外参是必须的<br>由论文，棋盘格标定板不是必须，但相机是必须的</p>
+</li>
+<li><p>激光测距仪能不能省去？<br>？？？通过三角测量法</p>
+</li>
+<li><p>测量来料工件位姿时，怎么控制激光打到对应的点上<br>？？？郑帅超的论文是怎么做的</p>
+</li>
+<li><p>优势<br>不受相机视野影响</p>
+</li>
+<li><p>劣势<br>不同于双目一次取像可以获得所有特征点，单目+激光测距需要多次移动机械臂，每次算得一个特征点</p>
+</li>
+</ol>
+<p><a href="https://blog.csdn.net/qq_37764129/article/details/81011221" target="_blank" rel="noopener">深度相机（一）——分类：TOF、RGB双目、结构光优劣分析</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+            <a href="/tags/精华/" rel="tag"># 精华</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/26/2019-02-26-imv-binocular-vision-benchmark/" rel="next" title="[机器视觉]双目视觉实验结果对比">
+                <i class="fa fa-chevron-left"></i> [机器视觉]双目视觉实验结果对比
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/19/2019-03-19-imv-deeplearning-pc/" rel="prev" title="[电脑配置]Win10+Ubuntu双系统">
+                [电脑配置]Win10+Ubuntu双系统 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简述"><span class="nav-number">1.</span> <span class="nav-text">简述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#详述"><span class="nav-number">1.1.</span> <span class="nav-text">详述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工业现状"><span class="nav-number">1.2.</span> <span class="nav-text">工业现状</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#双目"><span class="nav-number">2.</span> <span class="nav-text">双目</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3D结构光-线扫激光"><span class="nav-number">3.</span> <span class="nav-text">3D结构光/线扫激光</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#单目相机-激光测距（眼在手上）"><span class="nav-number">4.</span> <span class="nav-text">单目相机+激光测距（眼在手上）</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#标定"><span class="nav-number">4.1.</span> <span class="nav-text">标定</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#标定步骤"><span class="nav-number">4.1.1.</span> <span class="nav-text">标定步骤</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标定原理"><span class="nav-number">4.1.2.</span> <span class="nav-text">标定原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标定公式"><span class="nav-number">4.1.3.</span> <span class="nav-text">标定公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标定说明"><span class="nav-number">4.1.4.</span> <span class="nav-text">标定说明</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实施"><span class="nav-number">4.2.</span> <span class="nav-text">实施</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实施原理"><span class="nav-number">4.2.1.</span> <span class="nav-text">实施原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实施公式"><span class="nav-number">4.2.2.</span> <span class="nav-text">实施公式</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">4.3.</span> <span class="nav-text">问题</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

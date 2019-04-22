@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机视觉,标定,康耐视," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="刷Cognex的VisionPro9.1的文档，主要涉及坐标系（Coordinates）和标定（Calibration）。">
+<meta name="keywords" content="计算机视觉,标定,康耐视">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]刷康耐视文档">
+<meta property="og:url" content="http://yoursite.com/2018/12/20/2018-12-20-imv-visionpro-documentation/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="刷Cognex的VisionPro9.1的文档，主要涉及坐标系（Coordinates）和标定（Calibration）。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/12/20/2018-12-20-imv-visionpro-documentation/a_01左手坐标系右手坐标系.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/20/2018-12-20-imv-visionpro-documentation/a_02左手系转到右手系.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/20/2018-12-20-imv-visionpro-documentation/c_01RootSpace1.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/20/2018-12-20-imv-visionpro-documentation/c_02RootSpace2.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/20/2018-12-20-imv-visionpro-documentation/c_03UserSpaces.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/20/2018-12-20-imv-visionpro-documentation/e_01被选择的空间.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/20/2018-12-20-imv-visionpro-documentation/e_02坐标空间树.png">
+<meta property="og:updated_time" content="2018-12-28T01:00:04.573Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]刷康耐视文档">
+<meta name="twitter:description" content="刷Cognex的VisionPro9.1的文档，主要涉及坐标系（Coordinates）和标定（Calibration）。">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/20/2018-12-20-imv-visionpro-documentation/a_01左手坐标系右手坐标系.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/20/2018-12-20-imv-visionpro-documentation/"/>
+
+
+
+
+
+  <title>[机器视觉]刷康耐视文档 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/20/2018-12-20-imv-visionpro-documentation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]刷康耐视文档</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-20T19:19:19+08:00">
+                2018-12-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  刷Cognex的VisionPro9.1的文档，主要涉及坐标系（Coordinates）和标定（Calibration）。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="坐标系"><a href="#坐标系" class="headerlink" title="坐标系"></a>坐标系</h1><h2 id="转换到标准笛卡尔坐标系（Cartesian-Coordinates）"><a href="#转换到标准笛卡尔坐标系（Cartesian-Coordinates）" class="headerlink" title="转换到标准笛卡尔坐标系（Cartesian Coordinates）"></a>转换到标准笛卡尔坐标系（Cartesian Coordinates）</h2><p><strong>右手空间直角坐标系</strong>：各轴之间的顺序要求符合<strong>右手法则</strong>，即以右手握住Z轴，让右手的<strong>四指从X轴的正向以90度的直角转向Y轴的正向</strong>，这时<strong>大拇指所指的方向就是Z轴的正向</strong>。</p>
+<img src="/2018/12/20/2018-12-20-imv-visionpro-documentation/a_01左手坐标系右手坐标系.png" title="左手坐标系右手坐标系">
+<img src="/2018/12/20/2018-12-20-imv-visionpro-documentation/a_02左手系转到右手系.png" title="左手系(left-handed)转到右手系(right-handed)">
+<p>在<strong>计算机</strong>中通常使用的是<strong>左手坐标系</strong>，而<strong>数学</strong>中则通常使用<strong>右手坐标系</strong>。</p>
+<h2 id="坐标系空间（Coordinate-Spaces）"><a href="#坐标系空间（Coordinate-Spaces）" class="headerlink" title="坐标系空间（Coordinate Spaces）"></a>坐标系空间（Coordinate Spaces）</h2><p>在图像上附加坐标系空间，以提供表达特征（features）位置的数学框架。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">坐标系空间</th>
+<th style="text-align:center">用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Root Space</td>
+<td style="text-align:center">在最初获取的图像中，联系<strong>点</strong>与<strong>像素</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">User Spaces</td>
+<td style="text-align:center">在标定和固定空间（calibrated and fixtured spaces）中，获取特征位置和尺寸</td>
+</tr>
+<tr>
+<td style="text-align:center">Pixel Space</td>
+<td style="text-align:center">常用于绘制图像</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Root-Space"><a href="#Root-Space" class="headerlink" title="Root Space"></a>Root Space</h3><p>左手坐标系：(0,0)点在坐标系的左上方</p>
+<p>在<strong>图像处理前</strong>，完美对齐像素</p>
+<img src="/2018/12/20/2018-12-20-imv-visionpro-documentation/c_01RootSpace1.png" title="Root Space 二次抽样前">
+<p>在<strong>改变像素总数</strong>的图像处理（subsampling、morphology）后，<strong>自动调整</strong>以获取不变的坐标系位置，此时不再与像素保持联系</p>
+<img src="/2018/12/20/2018-12-20-imv-visionpro-documentation/c_02RootSpace2.png" title="Root Space 二次抽样后">
+<h3 id="User-Spaces"><a href="#User-Spaces" class="headerlink" title="User Spaces"></a>User Spaces</h3><p>标定和固定工具创建user spaces，需指定①左右手系、②单位、③如何联系到root space</p>
+<p>同一特征会有不同的坐标空间位置，取决于从不同的空间考虑</p>
+<img src="/2018/12/20/2018-12-20-imv-visionpro-documentation/c_03UserSpaces.png" title="User Spaces">
+<p>所有的user spaces存储在coordinate space tree中与图像相联系</p>
+<h3 id="Pixel-Space"><a href="#Pixel-Space" class="headerlink" title="Pixel Space"></a>Pixel Space</h3><p>类似root space，但<strong>不会自动调整</strong>以反映图像处理操作的影响</p>
+<p>原点在左上像素的左上角</p>
+<p>很少在应用程序中使用，<strong>绘制图像时有用</strong></p>
+<h2 id="坐标系空间名称"><a href="#坐标系空间名称" class="headerlink" title="坐标系空间名称"></a>坐标系空间名称</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">符号</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">@</td>
+<td style="text-align:center"><strong>Root space</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">#</td>
+<td style="text-align:center"><strong>Pixel space</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:center">显示<strong>pixel space</strong>，只能在绘图时使用</td>
+</tr>
+<tr>
+<td style="text-align:center">^</td>
+<td style="text-align:center"><strong>Root space</strong>的别名</td>
+</tr>
+<tr>
+<td style="text-align:center">.</td>
+<td style="text-align:center">图像的<strong>当前选择</strong>的坐标系空间</td>
+</tr>
+<tr>
+<td style="text-align:center">..</td>
+<td style="text-align:center">图像的当前选择的坐标系空间的<strong>父空间</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">$</td>
+<td style="text-align:center">由父空间创建的<strong>子空间</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="坐标系空间树（Coordinate-Space-Trees）"><a href="#坐标系空间树（Coordinate-Space-Trees）" class="headerlink" title="坐标系空间树（Coordinate Space Trees）"></a>坐标系空间树（Coordinate Space Trees）</h2><p>每个图像都关联一个coordinate space tree，包含<strong>root space</strong>和<strong>任意定义的user spaces</strong>，用以跟踪空间变换</p>
+<h3 id="被选择的空间"><a href="#被选择的空间" class="headerlink" title="被选择的空间"></a>被选择的空间</h3><p>注意：当vp工具改变了获取图像的像素，会自动更新root space从而反映到图像特征的改变上，<strong>所有起源于root space的user spaces也会自动更新</strong>。</p>
+<p>任一时刻，图像的coordinate space tree都会指定一个<strong>被选择的空间</strong>，即<strong>vp工具操作并返回结果</strong>的坐标系系统</p>
+<p>当使用<strong>标定和固定工具</strong>创建新图像，工具会添加新的坐标系空间到coordinate space tree上，并<strong>自动选择其为被选择的空间</strong></p>
+<img src="/2018/12/20/2018-12-20-imv-visionpro-documentation/e_01被选择的空间.png" title="被选择的空间">
+<h3 id="Pixel-Space-和-Coordinate-Space-Tree"><a href="#Pixel-Space-和-Coordinate-Space-Tree" class="headerlink" title="Pixel Space 和 Coordinate Space Tree"></a>Pixel Space 和 Coordinate Space Tree</h3><p>每个图像定义pixel space（通常并不需要关心），为真实图像像素，其并不真的在coordinate space tree上</p>
+<p>每个图像有自己独特的pixel space，每个图像管理pixel space和关联到图像的空间坐标系之间的关系，这让<strong>不同pixel spaces的多个图像可以共享coordinate space trees</strong></p>
+<img src="/2018/12/20/2018-12-20-imv-visionpro-documentation/e_02坐标空间树.png" title="坐标空间树">
+<h2 id="径向和透视变换（Radial-and-Perspective-Transformations）"><a href="#径向和透视变换（Radial-and-Perspective-Transformations）" class="headerlink" title="径向和透视变换（Radial and Perspective Transformations）"></a>径向和透视变换（Radial and Perspective Transformations）</h2><p>经常出现在用相机获取的图像上的<strong>透视和径向畸变</strong>的数学表示</p>
+<p>小结：CogTransform2DLinear、CogTransform2DPerspectiveAndRadial、CogTransform2DComposed</p>
+<h3 id="平面透视畸变（Planar-Perspective-Distortion）"><a href="#平面透视畸变（Planar-Perspective-Distortion）" class="headerlink" title="平面透视畸变（Planar Perspective Distortion）"></a>平面透视畸变（Planar Perspective Distortion）</h3><p>平面透视畸变是非线性的，出现在取像时<strong>相机光轴不垂直于场景</strong></p>
+<h3 id="径向畸变（Radial-Distortion）"><a href="#径向畸变（Radial-Distortion）" class="headerlink" title="径向畸变（Radial Distortion）"></a>径向畸变（Radial Distortion）</h3><p>。。。待整理。。。</p>
+<h2 id="变换（Transformations）"><a href="#变换（Transformations）" class="headerlink" title="变换（Transformations）"></a>变换（Transformations）</h2><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参考内容</th>
+<th style="text-align:center">参考方面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Cognex VisionPro Documentation 9.1</td>
+<td style="text-align:center">主体思路</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+            <a href="/tags/标定/" rel="tag"># 标定</a>
+          
+            <a href="/tags/康耐视/" rel="tag"># 康耐视</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/11/2018-12-11-imv-math-3d/" rel="next" title="[机器视觉]数学基础">
+                <i class="fa fa-chevron-left"></i> [机器视觉]数学基础
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/21/2018-12-21-imv-visionpro-3dalign/" rel="prev" title="[机器视觉]复现Cog3DAlignTool">
+                [机器视觉]复现Cog3DAlignTool <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#坐标系"><span class="nav-number">1.</span> <span class="nav-text">坐标系</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#转换到标准笛卡尔坐标系（Cartesian-Coordinates）"><span class="nav-number">1.1.</span> <span class="nav-text">转换到标准笛卡尔坐标系（Cartesian Coordinates）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#坐标系空间（Coordinate-Spaces）"><span class="nav-number">1.2.</span> <span class="nav-text">坐标系空间（Coordinate Spaces）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Root-Space"><span class="nav-number">1.2.1.</span> <span class="nav-text">Root Space</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#User-Spaces"><span class="nav-number">1.2.2.</span> <span class="nav-text">User Spaces</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pixel-Space"><span class="nav-number">1.2.3.</span> <span class="nav-text">Pixel Space</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#坐标系空间名称"><span class="nav-number">1.3.</span> <span class="nav-text">坐标系空间名称</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#坐标系空间树（Coordinate-Space-Trees）"><span class="nav-number">1.4.</span> <span class="nav-text">坐标系空间树（Coordinate Space Trees）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#被选择的空间"><span class="nav-number">1.4.1.</span> <span class="nav-text">被选择的空间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Pixel-Space-和-Coordinate-Space-Tree"><span class="nav-number">1.4.2.</span> <span class="nav-text">Pixel Space 和 Coordinate Space Tree</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#径向和透视变换（Radial-and-Perspective-Transformations）"><span class="nav-number">1.5.</span> <span class="nav-text">径向和透视变换（Radial and Perspective Transformations）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#平面透视畸变（Planar-Perspective-Distortion）"><span class="nav-number">1.5.1.</span> <span class="nav-text">平面透视畸变（Planar Perspective Distortion）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#径向畸变（Radial-Distortion）"><span class="nav-number">1.5.2.</span> <span class="nav-text">径向畸变（Radial Distortion）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#变换（Transformations）"><span class="nav-number">1.6.</span> <span class="nav-text">变换（Transformations）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

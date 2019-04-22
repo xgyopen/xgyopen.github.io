@@ -1,0 +1,1907 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="精华,点云," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="《点云库PCL学习教程》的学习笔记。">
+<meta name="keywords" content="精华,点云">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]PCL学习笔记">
+<meta property="og:url" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="《点云库PCL学习教程》的学习笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/a_01PCL架构图.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/a_02OpenNI应用框架.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/a_03kd-tree示例.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/a_04octree示例.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/a_05不同视角获得深度图像的过程示意图.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/a_06深度图像三种类型的边界示意图.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/a_07RANSAC算法在二维数据集中的简单应用.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/a_083D形状内容描述子网格划分.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/a_09旋转图像示意图.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/a_10点特征描述子示意图.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/a_11点云输入组合.png">
+<meta property="og:image" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/a_12不同的比例因子.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/a_13PCL中两两配准流程.jpg">
+<meta property="og:updated_time" content="2019-02-15T07:16:42.053Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]PCL学习笔记">
+<meta name="twitter:description" content="《点云库PCL学习教程》的学习笔记。">
+<meta name="twitter:image" content="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/a_01PCL架构图.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/"/>
+
+
+
+
+
+  <title>[机器视觉]PCL学习笔记 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/24/2018-12-24-imv-pcl-book/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]PCL学习笔记</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-24T16:16:16+08:00">
+                2018-12-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  《点云库PCL学习教程》的学习笔记。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="本书概要"><a href="#本书概要" class="headerlink" title="本书概要"></a>本书概要</h1><p>《点云库PCL学习教程》的出版日期 2012.10<br>库版本：<strong>PCL 1.51</strong><br><a href="http://pointclouds.org/" target="_blank" rel="noopener">PCL官网</a><br><a href="http://pointclouds.org/documentation/" target="_blank" rel="noopener">PCL官方文档</a><br><a href="http://pointclouds.org/documentation/tutorials/" target="_blank" rel="noopener">PCL官方教程</a><br><a href="http://docs.pointclouds.org/1.7.2/modules.html" target="_blank" rel="noopener">PCL1.7.2文档</a></p>
+<h2 id="本书框架"><a href="#本书框架" class="headerlink" title="本书框架"></a>本书框架</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">部分</th>
+<th style="text-align:center">章节</th>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">第1部分</td>
+<td style="text-align:center">第1~3章</td>
+<td style="text-align:center">PCL概述、入门、基础</td>
+<td style="text-align:center">基础篇</td>
+</tr>
+<tr>
+<td style="text-align:center">第2部分</td>
+<td style="text-align:center">第4~7章</td>
+<td style="text-align:center">PCL基础功能模块：输入/输出、kd-tree、八叉树、可视化</td>
+<td style="text-align:center">模块篇</td>
+</tr>
+<tr>
+<td style="text-align:center">第2部分</td>
+<td style="text-align:center">第8~15章</td>
+<td style="text-align:center">PCL高级处理功能模块：点云滤波、深度图像、关键点、采样一致性、点云特征描述与提取、点云配准、点云分割、点云曲面重建</td>
+<td style="text-align:center">模块篇</td>
+</tr>
+<tr>
+<td style="text-align:center">第3部分</td>
+<td style="text-align:center">第16章</td>
+<td style="text-align:center">综合应用：对齐对象模板到点云、基于VFH描述子的聚类识别与6自由度位姿估计</td>
+<td style="text-align:center">综合应用篇</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="实例索引"><a href="#实例索引" class="headerlink" title="实例索引"></a>实例索引</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">主题</th>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="http://docs.pointclouds.org/trunk/group__io.html" target="_blank" rel="noopener"><strong>输入/输出</strong></a></td>
+<td style="text-align:center">从PCD文件中<strong>读取点云</strong>数据</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">输入/输出</td>
+<td style="text-align:center">向PCD文件<strong>写入点云</strong>数据</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">输入/输出</td>
+<td style="text-align:center">连接两个点云中的<strong>字段</strong>形成新点云<br>连接两个点云中的<strong>数据</strong>形成新点云</td>
+<td style="text-align:center">连接字段<br>连接点云</td>
+</tr>
+<tr>
+<td style="text-align:center">输入/输出</td>
+<td style="text-align:center">PCL中的OpenNI<strong>点云获取</strong>框架</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://docs.pointclouds.org/trunk/group__kdtree.html" target="_blank" rel="noopener"><strong>kd-tree</strong></a></td>
+<td style="text-align:center">某一点的<strong>k近邻</strong>搜索<br>某一点的<strong>半径r内近邻</strong>搜索</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://docs.pointclouds.org/trunk/group__octree.html" target="_blank" rel="noopener"><strong>八叉树</strong></a></td>
+<td style="text-align:center"><strong>点云压缩</strong></td>
+<td style="text-align:center">单个点云<br>点云数据流</td>
+</tr>
+<tr>
+<td style="text-align:center">八叉树</td>
+<td style="text-align:center">基于octree的<strong>空间划分</strong>及<strong>近邻搜索</strong></td>
+<td style="text-align:center">体素内近邻搜索<br>K近邻搜索<br>半径内近邻搜索</td>
+</tr>
+<tr>
+<td style="text-align:center">八叉树</td>
+<td style="text-align:center">无序点云数据集的空间<strong>变化检测</strong></td>
+<td style="text-align:center"><strong>只能探测</strong>在cloudA上<strong>增加的点集</strong>，而不能探测在cloudA上减少的点集</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://docs.pointclouds.org/trunk/group__visualization.html" target="_blank" rel="noopener"><strong>可视化</strong></a></td>
+<td style="text-align:center">点云视窗类<strong>CloudViewer</strong></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">可视化</td>
+<td style="text-align:center"><strong>可视化深度图</strong></td>
+<td style="text-align:center">在3D视窗中以点云形式可视化<br>将深度值映射为颜色，从而以颜色图像方式可视化</td>
+</tr>
+<tr>
+<td style="text-align:center">可视化</td>
+<td style="text-align:center">可视化类<strong>PCLVisualizer</strong></td>
+<td style="text-align:center">没跑通，报错“pcl::visualization::PCLVisualizer::addCoordinateSystem”: 对重载函数的调用不明确</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://docs.pointclouds.org/trunk/group__filters.html" target="_blank" rel="noopener"><strong>点云滤波</strong></a></td>
+<td style="text-align:center">使用<strong>直通滤波器</strong>对点云进行滤波处理</td>
+<td style="text-align:center"><strong>pcl::PassThrough</strong><br>对指定的<strong>某一维度</strong>过滤掉指定范围内部（或外部）的点</td>
+</tr>
+<tr>
+<td style="text-align:center">点云滤波</td>
+<td style="text-align:center">使用<strong>VoxelGrid滤波器</strong>对点云进行下采样</td>
+<td style="text-align:center"><strong>pcl::VoxelGrid</strong><br>减少点的数量，并同时<strong>保持点云的形状特征</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">点云滤波</td>
+<td style="text-align:center">使用<strong>StatisticalOutlierRemoval滤波器</strong>移除离群点</td>
+<td style="text-align:center"><strong>pcl::StatisticalOutlierRemoval</strong><br>使用统计分析技术，从点云数据集中<strong>移除测量噪声点</strong>（即离群点）</td>
+</tr>
+<tr>
+<td style="text-align:center">点云滤波</td>
+<td style="text-align:center">使用参数化模型<strong>投影点云</strong></td>
+<td style="text-align:center"><strong>pcl::ProjectInliers</strong><br>将点投影到一个参数化模型（平面或球等）上</td>
+</tr>
+<tr>
+<td style="text-align:center">点云滤波</td>
+<td style="text-align:center">从点云中<strong>提取索引</strong></td>
+<td style="text-align:center"><strong>pcl::ExtractIndices</strong><br>基于某一分割算法提取点云中的一个子集</td>
+</tr>
+<tr>
+<td style="text-align:center">点云滤波</td>
+<td style="text-align:center">使用<strong>ConditionalRemoval</strong>或<strong>RadiusOutlierRemoval</strong>移除离群点</td>
+<td style="text-align:center"><strong>pcl::RadiusOutlierRemoval</strong><br>删除在输入的点云一定范围内没有至少达到足够多近邻的所有数据点，适合去除单个的离群点<br><strong>pcl::ConditionalRemoval</strong><br>一次删除满足对输入的点云设定的一个或多个条件指标的所有数据点，比较灵活</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://docs.pointclouds.org/trunk/classpcl_1_1_range_image.html" target="_blank" rel="noopener"><strong>深度图像</strong></a></td>
+<td style="text-align:center">从点云<strong>创建深度图像</strong></td>
+<td style="text-align:center">给定点云和传感器位置</td>
+</tr>
+<tr>
+<td style="text-align:center">深度图像</td>
+<td style="text-align:center">从深度图像中<strong>提取边界</strong></td>
+<td style="text-align:center"><strong>边界</strong>：从前景跨越到背景的位置</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://docs.pointclouds.org/trunk/group__keypoints.html" target="_blank" rel="noopener"><strong>关键点</strong></a></td>
+<td style="text-align:center">从深度图像中提取NARF<strong>关键点</strong></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://docs.pointclouds.org/trunk/group__sample__consensus.html" target="_blank" rel="noopener"><strong>采样一致性</strong></a></td>
+<td style="text-align:center">使用<strong>采样一致性</strong>算法获得点云的拟合平面模型</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://docs.pointclouds.org/trunk/group__features.html" target="_blank" rel="noopener"><strong>点云特征描述与提取</strong></a></td>
+<td style="text-align:center">法线估计</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">点云特征描述与提取</td>
+<td style="text-align:center">使用积分图进行法线估计</td>
+<td style="text-align:center">只适用于<strong>有序点云</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">点云特征描述与提取</td>
+<td style="text-align:center">从深度图像中提取NARF特征</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">点云特征描述与提取</td>
+<td style="text-align:center">特征描述子算法基准化分析</td>
+<td style="text-align:center">报错</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://docs.pointclouds.org/trunk/group__registration.html" target="_blank" rel="noopener"><strong>点云配准</strong></a></td>
+<td style="text-align:center">使用迭代最近点算法</td>
+<td style="text-align:center">ICP</td>
+</tr>
+<tr>
+<td style="text-align:center">点云配准</td>
+<td style="text-align:center">逐步匹配多幅点云</td>
+<td style="text-align:center">可视化迭代过程</td>
+</tr>
+<tr>
+<td style="text-align:center">点云配准</td>
+<td style="text-align:center">使用正态分布变换进行配准</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://docs.pointclouds.org/trunk/group__segmentation.html" target="_blank" rel="noopener"><strong>点云分割</strong></a></td>
+<td style="text-align:center">平面模型分割</td>
+<td style="text-align:center">基于<strong>RANSAC</strong>的分割算法</td>
+</tr>
+<tr>
+<td style="text-align:center">点云分割</td>
+<td style="text-align:center">圆柱体模型分割</td>
+<td style="text-align:center">基于<strong>RANSAC</strong>的分割算法，先加直通滤波</td>
+</tr>
+<tr>
+<td style="text-align:center">点云分割</td>
+<td style="text-align:center">欧式聚类提取</td>
+<td style="text-align:center"><strong>聚类</strong>分割算法</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://docs.pointclouds.org/trunk/group__surface.html" target="_blank" rel="noopener"><strong>点云曲面重建</strong></a></td>
+<td style="text-align:center">基于多项式拟合的法线估计、点云平滑、数据重采样</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">点云曲面重建</td>
+<td style="text-align:center">在平面模型上提取凹（凸）多边形</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">点云曲面重建</td>
+<td style="text-align:center">无序点云的快速三角化</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://pointclouds.org/documentation/tutorials/template_alignment.php#template-alignment" target="_blank" rel="noopener">对齐对象模板到点云</a></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://pointclouds.org/documentation/tutorials/vfh_recognition.php#vfh-recognition" target="_blank" rel="noopener">基于VFH描述子的聚类识别与6自由度位姿估计</a></td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="基础篇"><a href="#基础篇" class="headerlink" title="基础篇"></a>基础篇</h1><h2 id="PCL概述"><a href="#PCL概述" class="headerlink" title="PCL概述"></a>PCL概述</h2><ol>
+<li><p>PCL（<strong>Point Cloud Library</strong>）是跨平台开源<strong>C++</strong>编程库。</p>
+</li>
+<li><p>PCL架构图</p>
+<img src="/2018/12/24/2018-12-24-imv-pcl-book/a_01PCL架构图.png" title="PCL架构图">
+</li>
+<li><p>PCL中处理惯导的基本接口程序：</p>
+<ol>
+<li>创建处理对象（例如过滤、特征估计、分割等）</li>
+<li>使用setInputCloud通过输入点云数据，处理模块</li>
+<li>设置算法相关参数</li>
+<li>调用计算（或过滤、分割等）得到输出</li>
+</ol>
+</li>
+<li><p>PCL的模块化<br>libpcl filters<br>libpcl features<br>libpcl I/O<br>libpcl segmentations<br>libpcl surface<br>libpcl register<br>libpcl keypoints<br>libpcl range</p>
+</li>
+</ol>
+<h2 id="PCL入门"><a href="#PCL入门" class="headerlink" title="PCL入门"></a>PCL入门</h2><ol>
+<li><p>Windows下安装PCL<br> 从预编译包搭建开发环境（All in one安装包）<br> 用第三方预编译包从源码搭建开发环境<br> 从源码搭建开发环境</p>
+</li>
+<li><p>Ubuntu下安装PCL<br> 预编译包搭建</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:v-launchpad-jochen-sprickerhof-de/pcl</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get install libpcl-all</span><br></pre></td></tr></table></figure>
+<p> 从源代码安装</p>
+</li>
+<li><p>用<strong>CMake</strong>建立PCL应用程序</p>
+</li>
+</ol>
+<h2 id="PCL基础"><a href="#PCL基础" class="headerlink" title="PCL基础"></a>PCL基础</h2><p>1.PCL C++编程规范</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">命名规范</th>
+<th style="text-align:center">条目</th>
+<th style="text-align:center">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">文件命名</td>
+<td style="text-align:center">单词之间用下划线隔开</td>
+<td style="text-align:center">unordered_map.hpp</td>
+</tr>
+<tr>
+<td style="text-align:center">文件命名</td>
+<td style="text-align:center">头文件的扩展名</td>
+<td style="text-align:center">.h</td>
+</tr>
+<tr>
+<td style="text-align:center">文件命名</td>
+<td style="text-align:center">模板类实现文件的扩展名</td>
+<td style="text-align:center">.hpp</td>
+</tr>
+<tr>
+<td style="text-align:center">文件命名</td>
+<td style="text-align:center">源文件的扩展名</td>
+<td style="text-align:center">.cpp</td>
+</tr>
+<tr>
+<td style="text-align:center">目录命名</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Include语句</td>
+<td style="text-align:center">文件在同一目录下</td>
+<td style="text-align:center"><script type="math/tex">#include "file_name.cpp"</script></td>
+</tr>
+<tr>
+<td style="text-align:center">Include语句</td>
+<td style="text-align:center">其他情况下</td>
+<td style="text-align:center"><script type="math/tex">#include <pcl/module_name/file_name.hpp></script></td>
+</tr>
+<tr>
+<td style="text-align:center">宏定义命名</td>
+<td style="text-align:center">名称从include下目录开始，为头文件定义的宏最后要加上下划线</td>
+<td style="text-align:center"><script type="math/tex">#define PCL_MODULE_NAME_IMPL_FILE_NAME_HPP_</script></td>
+</tr>
+<tr>
+<td style="text-align:center">命名空间命名</td>
+<td style="text-align:center">单词之间用下划线隔开</td>
+<td style="text-align:center">namespace pcl_io{…}</td>
+</tr>
+<tr>
+<td style="text-align:center">类/结构命名</td>
+<td style="text-align:center">驼峰命名（CamelCased）</td>
+<td style="text-align:center">class ExampleClass;</td>
+</tr>
+<tr>
+<td style="text-align:center">函数/成员函数命名</td>
+<td style="text-align:center">首个单词首字母小写，其他单词首字母大写（camelCased）<br>参数用下划线隔开，最好采用动词</td>
+<td style="text-align:center">int applyExample(int example_arg);</td>
+</tr>
+<tr>
+<td style="text-align:center">变量命名</td>
+<td style="text-align:center">单词之间用下划线隔开</td>
+<td style="text-align:center">int my_variable;</td>
+</tr>
+<tr>
+<td style="text-align:center">变量命名</td>
+<td style="text-align:center">迭代自变量：反应出迭代的对象</td>
+<td style="text-align:center">std::list<int> pid_list;</int></td>
+</tr>
+<tr>
+<td style="text-align:center">变量命名</td>
+<td style="text-align:center">常量：全大写</td>
+<td style="text-align:center">const static int MY_CONSTANT = 1000;</td>
+</tr>
+<tr>
+<td style="text-align:center">变量命名</td>
+<td style="text-align:center">成员变量：单词之间用下划线隔开，并以下划线结尾</td>
+<td style="text-align:center">int example_int_;</td>
+</tr>
+<tr>
+<td style="text-align:center">Return语句</td>
+<td style="text-align:center">在圆括号中设定返回值</td>
+<td style="text-align:center">return(0);</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>2.编写新的PCL类<br>建立文件结构、填写类的内容</p>
+<p>3.点索引机制    </p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法</th>
+<th style="text-align:center">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">setInputCloud()</td>
+<td style="text-align:center">传递点云数据的标准方法</td>
+</tr>
+<tr>
+<td style="text-align:center">setIndices()</td>
+<td style="text-align:center">传递ROI或点云集</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>4.PCL已有点类型介绍（25种）、增加自定义的点类型</p>
+<p>5.异常处理机制</p>
+<h1 id="模块篇"><a href="#模块篇" class="headerlink" title="模块篇"></a>模块篇</h1><h2 id="输入-输出"><a href="#输入-输出" class="headerlink" title="输入/输出"></a>输入/输出</h2><h3 id="OpenNI开源框架"><a href="#OpenNI开源框架" class="headerlink" title="OpenNI开源框架"></a>OpenNI开源框架</h3><p>OpenNI提供一组基于<strong>传感器</strong>设备实现的API和另一组由<strong>中间件</strong>组件实现的API，可以保证编写应用程序的时候，不用考虑传感器或中间件供应商的相关细节。</p>
+<p>OpenNI框架应用概念分为三层</p>
+<ol>
+<li>应用层<br>基于OpenNI实现的自然交互应用软件</li>
+<li>中间件接口层<br>代表OpenNI本身，提供了传感器和中间件组件之间的交互接口</li>
+<li>硬件设备层<br>列出了捕捉视觉和音频数据的多种硬件设备</li>
+</ol>
+<img src="/2018/12/24/2018-12-24-imv-pcl-book/a_02OpenNI应用框架.png" title="OpenNI应用框架">
+<p>OpenNI兼容设备：Primesense Reference Design、Microsoft Kinect、Asus XtionPro</p>
+<h3 id="I-O模块"><a href="#I-O模块" class="headerlink" title="I/O模块"></a>I/O模块</h3><p>21个类、28个函数<br>获取、读入、存储<br>PCD、PLY<br>OBJ、VTK、PNG</p>
+<p>点云数据格式PCD（Point Cloud Data）<br>PCL中PCD文件格式的正式发布是0.7版本（PCD_V7）</p>
+<p>其他描述点云的格式：PLY、STL、OBJ、X3D</p>
+<p>PCD文件头格式 P88</p>
+<h2 id="KD树"><a href="#KD树" class="headerlink" title="KD树"></a>KD树</h2><h3 id="点云特点"><a href="#点云特点" class="headerlink" title="点云特点"></a>点云特点</h3><p>通过雷达、激光扫描、立体相机等三维测量设备获取的点云数据</p>
+<ul>
+<li>特点：<strong>数据量大</strong>、<strong>分布不均匀</strong></li>
+<li>表征：<strong>目标表面</strong>的海量点集合</li>
+</ul>
+<p>点云数据处理中最为核心的问题：<strong>建立离散点间的拓扑关系</strong>，实现基于邻域关系的快速查找</p>
+<h3 id="k维树"><a href="#k维树" class="headerlink" title="k维树"></a>k维树</h3><p>kd-tree是一种带有其他约束条件的<strong>二分查找树</strong>，用来组织表示k维空间中点集合，对于<strong>区间</strong>和<strong>近邻搜索</strong>十分有用<br>通常只在三个维度中进行处理，因此所有的kd-tree都将是<strong>三维kd-tree</strong></p>
+<img src="/2018/12/24/2018-12-24-imv-pcl-book/a_03kd-tree示例.png" title="kd-tree示例">
+<p>如上图，kd-tree的每一级在指定维度上分开所有的子节点</p>
+<h3 id="kd-tree模块"><a href="#kd-tree模块" class="headerlink" title="kd-tree模块"></a>kd-tree模块</h3><p>3个类、2个函数<br>PCL中kd-tree库提供了kd-tree数据结构，基于FLANN进行<strong>快速最近邻检索</strong><br>最近邻检索在<strong>匹配、特征描述子计算、邻域特征提取</strong>中是非常基础的核心操作</p>
+<h2 id="八叉树"><a href="#八叉树" class="headerlink" title="八叉树"></a>八叉树</h2><h3 id="octree概述"><a href="#octree概述" class="headerlink" title="octree概述"></a>octree概述</h3><p>建立空间索引，一般是<strong>自顶向下逐级划分空间</strong>的各种空间索引结构，其中<strong>KD树</strong>、<strong>八叉树</strong>在3D<strong>点云数据组织</strong>中应用广泛</p>
+<p>点云空间索引方法octree<br>八叉树结构通过对三维空间的几何实体进行体元剖析，每个体元具有相同的时间和空间复杂度，通过循环递归的划分方法对大小为2n×2n×2n的三维空间的几何对象进行剖分，从而构成一个具有根节点的方向图。</p>
+<img src="/2018/12/24/2018-12-24-imv-pcl-book/a_04octree示例.png" title="octree示例">
+<h3 id="octree模块"><a href="#octree模块" class="headerlink" title="octree模块"></a>octree模块</h3><p>16个类<br>PCL中octree库提供了octree数据结构，基于FLANN进行<strong>快速邻域检索</strong><br>邻域检索在<strong>匹配、特征描述子计算、邻域特征提取</strong>中是非常基础的核心操作</p>
+<p>octree是一种用于管理稀疏3D数据的树状数据结构，每个内部节点都正好有8个子节点</p>
+<p>把边界框内的点云分配给octree：defineBoundingBox</p>
+<p>OctreePointCloudChangeDetector类继承自Octree2BufBase类，Octree2BufBase类允许<strong>同时在内存中保存和管理两个octree</strong>。<br>通过访问”octree.switchBuffers()”，重置了八叉树octree对象的缓冲区，但把之前的octree数据仍保留在内存中。</p>
+<h2 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h2><h3 id="visualization类模块"><a href="#visualization类模块" class="headerlink" title="visualization类模块"></a>visualization类模块</h3><p>28个类<br>PCL中pcl_visualization库提供了可视化相关的数据结构和组件，其主要是为了可视化其他模块的算法处理后的结果，可直观的反馈给用户</p>
+<p>点云视窗类CloudViewer不能应用于多线程应用程序中<br>PCLVisualizer是CloudViewer的后端</p>
+<p>PCLVisualizer可视化类：</p>
+<ol>
+<li>可视化单个点云</li>
+<li>可视化点云颜色特征</li>
+<li>可视化点云自定义颜色特征</li>
+<li>可视化点云法线和其他特征</li>
+<li>绘制普通形状</li>
+<li>多视口显示</li>
+<li>自定义交互</li>
+</ol>
+<h2 id="点云滤波"><a href="#点云滤波" class="headerlink" title="点云滤波"></a>点云滤波</h2><h3 id="PCL中点云滤波方案"><a href="#PCL中点云滤波方案" class="headerlink" title="PCL中点云滤波方案"></a>PCL中点云滤波方案</h3><p>几种需要进行点云滤波的情况：</p>
+<ol>
+<li>点云数据密度不规则需要平滑</li>
+<li>因为遮挡等问题造成<strong>离群点</strong>需要去除</li>
+<li>大量数据需要进行下采样（Downsample）</li>
+<li><strong>噪声数据</strong>需要去除</li>
+</ol>
+<p>对应的方法：</p>
+<ol>
+<li>按具体给定的规则限制过滤去除点</li>
+<li>通过常用滤波算法修改点的部分属性</li>
+<li>对数据进行下采样</li>
+</ol>
+<p>滤波算法：双边滤波、高斯滤波、条件滤波、直通滤波、基于随机采样一致性滤波<br>滤波处理：点云处理流程中<strong>预处理</strong>的第一步</p>
+<h3 id="filters模块"><a href="#filters模块" class="headerlink" title="filters模块"></a>filters模块</h3><p>32个类、5个函数</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">类</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">class pcl::ApproximateVoxelGrid &lt;PointT&gt;</td>
+<td style="text-align:left">根据给定的点云形成<strong>三维体素栅格</strong>，并利用所有体素的<strong>中心</strong>点近似体素中包含的点集，这样完成<strong>下采样</strong>得到滤波结果<br>适合对海量点云数据在处理前进行<strong>数据压缩</strong>，特别是在特征提取等处理中选择合适的体素大小等尺度相关参数，可以<strong>提高算法效率</strong></td>
+</tr>
+<tr>
+<td style="text-align:left">class pcl::BilateralFilter&lt;PointT&gt;</td>
+<td style="text-align:left"><strong>双边滤波</strong><br>点云类型中必须有<strong>强度字段</strong></td>
+</tr>
+<tr>
+<td style="text-align:left">class pcl::BoxClipper3D&lt;PointT&gt;</td>
+<td style="text-align:left">实现用一个以原点为中心、XYZ各个方向尺寸为2、经过用户指定仿射变换的立方体进行<strong>空间剪裁</strong>，通过设置一个仿射变换矩阵先对立方体进行变换处理，之后输出仿射变换后落在该立方体内的点集</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>class pcl::ConditionalRemoval&lt;PointT&gt;</strong></td>
+<td style="text-align:left">过滤满足一定条件的点云数据<br>可由用户<strong>设置滤波条件</strong></td>
+</tr>
+<tr>
+<td style="text-align:left">class pcl::filters::Convolution&lt;PointIn, PointOut&gt;</td>
+<td style="text-align:left">实现<strong>卷积滤波</strong>的功能，通过设定不同的卷积核对点云进行卷积滤波处理</td>
+</tr>
+<tr>
+<td style="text-align:left">class pcl::filters::GaussionKernel&lt;PointIn, PointOut&gt;</td>
+<td style="text-align:left">基于<strong>高斯核</strong>的<strong>卷积滤波</strong>实现<br>高斯滤波器相当于一个具有<strong>平滑</strong>性能的低通滤波器，通过该类处理后的点云，通常比较平滑</td>
+</tr>
+<tr>
+<td style="text-align:left">class pcl::filters::GaussionKernelRGB&lt;PointIn, PointOut&gt;</td>
+<td style="text-align:left"><strong>附加RGB通道</strong>基于高斯核的卷积滤波实现<br>在滤波处理时不仅考虑空间XYZ信息，而且考虑RGB可见光信息</td>
+</tr>
+<tr>
+<td style="text-align:left">class pcl::CropBox&lt;PointT&gt;</td>
+<td style="text-align:left">过滤掉给定<strong>立方体</strong>内的点云数据</td>
+</tr>
+<tr>
+<td style="text-align:left">class pcl::CropHull&lt;PointT&gt;</td>
+<td style="text-align:left">过滤掉给定<strong>三维封闭曲面</strong>(ConvexHull)或<strong>二维封闭多边形</strong>(ConcaveHull)内部或外部的点云数据</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>class pcl::ExtractIndices&lt;PointT&gt;</strong></td>
+<td style="text-align:left">从点云中<strong>提取索引</strong></td>
+</tr>
+<tr>
+<td style="text-align:left">class pcl::NormalSpaceSampling&lt;PointT, NormalT&gt;</td>
+<td style="text-align:left">计算输入点云的每个点的<strong>法线</strong>，通过对法线方向的采样来对点云进行<strong>重采样</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>class pcl::PassThrough&lt;PointT&gt;</strong></td>
+<td style="text-align:left">用户给定点云<strong>某个字段的限定</strong>，对点云进行简单的基本过滤<br>如限制过滤掉点云中所有X字段不在某个范围内的点</td>
+</tr>
+<tr>
+<td style="text-align:left">class pcl::PlaneClipperD&lt;PointT&gt;</td>
+<td style="text-align:left">在三维空间实现<strong>平面裁剪</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>class pcl::ProjectInliers&lt;PointT&gt;</strong></td>
+<td style="text-align:left">使用一个模型和一组内点的索引，将内点<strong>投影</strong>到模型形成新的一个独立点云</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>class pcl::RadiusOutlierRemoval&lt;PointT&gt;</strong></td>
+<td style="text-align:left">实现<strong>删除离群点</strong>的简单的滤波功能<br>如果一个点在给定搜索半径范围内邻近点数量小于给定阈值K，则判定为离群点并删除</td>
+</tr>
+<tr>
+<td style="text-align:left">class pcl::RandomSample&lt;PointT&gt;</td>
+<td style="text-align:left">实现对点云的<strong>均匀概率随机抽样</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>class pcl::StatisticalOutlierRemoval&lt;PointT&gt;</strong></td>
+<td style="text-align:left">通过对查询点与邻域点集之间的距离<strong>统计判定</strong>来过滤离群点<br>对每个点的邻域进行统计分析，并修剪掉不符合一定标准的点<br><strong>稀疏离群点移除</strong>方法基于在输入数据中对<strong>点到邻近点的距离分布</strong>的计算。对每个点，计算它到它的所有邻近点的平均距离。假设得到的结果是一个高斯分布，其形状由均值和标准差决定，平均距离在标准范围（由全局距离平均值和方差定义）之外的点，可被定义为离群点，并可从数据集中去除掉</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>class pcl::VoxelGrid&lt;PointT&gt;</strong></td>
+<td style="text-align:left">根据给定的点云构造一个<strong>三维体素栅格</strong>并进行<strong>下采样</strong>达到滤波的效果<br>通过输入的点云数据创建一个三维体素栅格，然后将每个体素内所有的点都用该体素内的点集的<strong>重心</strong>来近似，这样就大大减少了数据量，常用于对大数据量的<strong>下采样</strong>处理，提高程序速度<br>PS:体素<strong>重心</strong>比体素<strong>中心</strong>慢，但采样点对应曲边的表示更准确</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="深度图像"><a href="#深度图像" class="headerlink" title="深度图像"></a>深度图像</h2><h3 id="Range-Images"><a href="#Range-Images" class="headerlink" title="Range Images"></a>Range Images</h3><p><strong>深度图像（Depth Images）</strong>也被称为<strong>距离影像（Range Images）</strong>，是指将从<strong>图像采集器到场景中各点的距离</strong>（深度）值作为像素值的图像，它直接反映了景物可见表面的几何形状，利用它可以很方便的解决3D目标描述中的许多问题。<br>深度图像经过坐标转换可以计算为<strong>点云数据</strong>，有规则及必要信息的点云数据也可以反算为深度图像数据。</p>
+<p>从数学模型上看，深度图像可以看做是标量函数<script type="math/tex">j:I^2→R</script>在集合K上的离散采样，得到<script type="math/tex">r_i=j(u_i)</script>，其中<script type="math/tex">u_i∈I^2</script>为二维网格（矩阵）的索引，<script type="math/tex">r_i∈R,i=\{1,...,k\}</script></p>
+<img src="/2018/12/24/2018-12-24-imv-pcl-book/a_05不同视角获得深度图像的过程示意图.png" title="不同视角获得深度图像的过程示意图">
+<p>深度图像的获取方法：</p>
+<ul>
+<li>激光雷达深度成像法</li>
+<li>计算机立体视觉成像</li>
+<li>坐标测量机法</li>
+<li>莫尔条纹法</li>
+<li>结构光法</li>
+</ul>
+<p>针对深度图像的研究重点：</p>
+<ul>
+<li>深度图像的分割技术</li>
+<li>深度图像的边缘检测技术</li>
+<li>基于不同视点的多幅深度图像的配准技术</li>
+<li>基于深度数据的三维重建技术</li>
+<li>基于深度图像的三维目标识别技术</li>
+<li>深度数据的多分辨率建模和几何压缩技术</li>
+</ul>
+<p>PCL中<strong>深度图像</strong>与<strong>点云</strong>最主要的区别：<strong>近邻的检索方式不同</strong>，并且<strong>可以互相转换</strong></p>
+<h3 id="RangeImage模块"><a href="#RangeImage模块" class="headerlink" title="RangeImage模块"></a>RangeImage模块</h3><p>深度图像（或距离图像）的像素值代表从传感器到物体的距离或者深度。<br>深度图像是物体的三维表达形式，一般通过立体相机或ToF相机获取。如果具备相机的<strong>内标定参数</strong>，就可以将深度图像转化为点云</p>
+<p>深度图像中的<strong>边界</strong>：从前景跨越到背景的位置</p>
+<p>我们对3种类型的<strong>点集</strong>感兴趣：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">点集类型</th>
+<th style="text-align:left">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">物体边界（object borders）</td>
+<td style="text-align:left">物体最外层和阴影边界的可见点集<br>(object borders, which are the outermost visible points still belonging to an object)</td>
+</tr>
+<tr>
+<td style="text-align:left">阴影边界（shadow borders）</td>
+<td style="text-align:left">毗连于遮挡的背景上的点集<br>(shadow borders, which are points in the background that adjoin occlusions)</td>
+</tr>
+<tr>
+<td style="text-align:left">Veil点集（veil points）</td>
+<td style="text-align:left">在被遮挡物边界和阴影边界之间的内插点<br>(veil points, interpolated points between the obstacle border and the shadow border, which are a typical phenomenon in 3D range data obtained by lidars)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2018/12/24/2018-12-24-imv-pcl-book/a_06深度图像三种类型的边界示意图.png" title="深度图像三种类型的边界示意图">
+<h2 id="关键点"><a href="#关键点" class="headerlink" title="关键点"></a>关键点</h2><h3 id="关键点-1"><a href="#关键点-1" class="headerlink" title="关键点"></a>关键点</h3><p><strong>关键点</strong>也称为<strong>兴趣点</strong>，是2D图像或3D点云或曲面模型上，可以通过定义检测标准来获取的具有<strong>稳定性</strong>、<strong>区别性</strong>的点集。<br>从技术上来说，关键点的数量相比于原始点云或图像的数据量减小很多，与局部特征描述子结合一起，组成<strong>关键点描述子</strong>常用来形成原始数据的紧凑表示，而且不失代表性与描述性，从而加快后续识别、追踪等对数据的处理速度。</p>
+<p>NARF（Normal Aligned Radial Reature）关键点</p>
+<h3 id="keypoints模块"><a href="#keypoints模块" class="headerlink" title="keypoints模块"></a>keypoints模块</h3><p>7个类</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:left">类</th>
+<th style="text-align:left">功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">class pcl::HarrisKeypoint2D&lt;PointInT, PointOutT, IntensityT&gt;</td>
+<td style="text-align:left">实现基于点云的<strong>强度字段</strong>的harris关键点检测子</td>
+</tr>
+<tr>
+<td style="text-align:left">class pcl::HarrisKeypoint3D&lt;PointInT, PointOutT, IntensityT&gt;</td>
+<td style="text-align:left">与HarrisKeypoint2D类似，利用点云的<strong>3D空间的信息表面法线向量</strong>来进行关键点检测</td>
+</tr>
+<tr>
+<td style="text-align:left">class pcl::HarrisKeypoint6D&lt;PointInT, PointOutT, IntensityT&gt;</td>
+<td style="text-align:left">与HarrisKeypoint2D类似，利用点云的<strong>欧式空间域XYZ或者强度域</strong>来确定候选关键点，或者前两者的交集，即<strong>同时满足XYZ域和强度域</strong>的关键点为候选关键点</td>
+</tr>
+<tr>
+<td style="text-align:left"><strong>pcl::NarfKeypoint</strong></td>
+<td style="text-align:left">实现提取NARF关键点<br>输入为一幅深度图像，输入出为NARF关键点</td>
+</tr>
+<tr>
+<td style="text-align:left">pcl::SIFTKeypoint&lt; PointInT, PointOutT &gt;</td>
+<td style="text-align:left">将二维图像中的SIFT算子调整后移植到3D空间的SIFT算子的实现<br>输入为带有XYZ坐标值和强度的点云，输出为点云中的SIFT关键点</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="采样一致性"><a href="#采样一致性" class="headerlink" title="采样一致性"></a>采样一致性</h2><h3 id="采样一致性参数估计算法"><a href="#采样一致性参数估计算法" class="headerlink" title="采样一致性参数估计算法"></a>采样一致性参数估计算法</h3><p><strong>采样一致性参数估计算法</strong>常用于排除错误样本，应用：</p>
+<ul>
+<li><strong>点云分割</strong>（根据设定不同的几何模型，估计对应的几何模型的参数，在一定允许误差范围内分割出在模型上的点云）</li>
+<li><strong>点云配准</strong>（点云的配准对的剔除）</li>
+</ul>
+<p>PCL中以<strong>随机采样一致性算法（RANSAC）</strong>为核心，同时实现了5种随机参数估计算法，均符合<strong>一致性准则</strong>：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量名</th>
+<th style="text-align:center">算法英文名</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">SAC_<strong>RANSAC</strong></td>
+<td style="text-align:center">RANdom SAmple Consensus</td>
+<td style="text-align:center">随机采样一致性估计<br>对所有样本同等对待从<strong>整个样本集</strong>中取样</td>
+</tr>
+<tr>
+<td style="text-align:center">SAC_LMEDS</td>
+<td style="text-align:center">Least Median of Squares</td>
+<td style="text-align:center">最小中值方差一致性估计<br>LMedS算法稳健性很好，可以处理<strong>有50%以上局外点</strong>的随机采样一致性模型估计，并且不需要设置阈值</td>
+</tr>
+<tr>
+<td style="text-align:center">SAC_MSAC</td>
+<td style="text-align:center">M-Estimator SAmple Consensus</td>
+<td style="text-align:center">M-采样一致性估计<br>基本思想是减小每个异常数据点对其相应的残差的影响<br>实验结果表明当<strong>数据中的异常数据是不精确的定位</strong>时，用M-estimators方法得到的结果非常好，但当数据中有错误匹配时，结果不够理想，因为该算法依赖于最初的由最小二乘法得到的初值（缺点）</td>
+</tr>
+<tr>
+<td style="text-align:center">SAC_RRANSAC</td>
+<td style="text-align:center">Randomized RANSAC</td>
+<td style="text-align:center">在RANSAC中加入了Td-d测试，比RANSAC快<br>适用于处理<strong>数据点中局内点所占比例较大</strong>的情况，可快速进行局外点剔除</td>
+</tr>
+<tr>
+<td style="text-align:center">SAC_RMSAC</td>
+<td style="text-align:center">Randomized MSAC</td>
+<td style="text-align:center">在MSAC中加入了Td-d测试，比RANSAC快<br>适用于处理<strong>数据点中局内点所占比例较大</strong>的情况，可快速进行局外点剔除</td>
+</tr>
+<tr>
+<td style="text-align:center">SAC_<strong>MLESAC</strong></td>
+<td style="text-align:center">Maximum LikeLihood Estimation SAmple Consensus</td>
+<td style="text-align:center">最大似然一致性估计<br>适用于处理<strong>数据点中局内点的比例较大</strong>的情况，可快速剔除局外点</td>
+</tr>
+<tr>
+<td style="text-align:center">SAC_PROSAC</td>
+<td style="text-align:center">PROgressive SAmple Consensus</td>
+<td style="text-align:center">从<strong>通过相似度排序的样本</strong>中取排名前N个样本，比RANSAC快很多，常用于<strong>伪配准对的剔除</strong>问题</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2018/12/24/2018-12-24-imv-pcl-book/a_07RANSAC算法在二维数据集中的简单应用.png" title="RANSAC算法在二维数据集中的简单应用">
+<h3 id="PCL中支持的几何模型"><a href="#PCL中支持的几何模型" class="headerlink" title="PCL中支持的几何模型"></a>PCL中支持的几何模型</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量名</th>
+<th style="text-align:center">几何模型</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">SACMODEL_LINE</td>
+<td style="text-align:center">平面模型</td>
+<td style="text-align:center">4个参数：[normal_x normal_y normal_z d]</td>
+</tr>
+<tr>
+<td style="text-align:center">SACMODEL_PLANE</td>
+<td style="text-align:center">直线模型</td>
+<td style="text-align:center">6个参数：[point_on_line.x point_on_line.y point_on_line.z line_direction.x line_direction.y line_direction.z]</td>
+</tr>
+<tr>
+<td style="text-align:center">SACMODEL_CIRCLE2D</td>
+<td style="text-align:center">二维圆的圆周模型</td>
+<td style="text-align:center">3个参数：[center.x center.y radius]</td>
+</tr>
+<tr>
+<td style="text-align:center">SACMODEL_CIRCLE3D</td>
+<td style="text-align:center">三维圆的圆周模型</td>
+<td style="text-align:center">7个参数：[center.x center.y center.z radius normal.x normal.y normal.z]</td>
+</tr>
+<tr>
+<td style="text-align:center">SACMODEL_SPHERE</td>
+<td style="text-align:center">三维球体模型</td>
+<td style="text-align:center">4个参数：[center.x center.y center.z radius]</td>
+</tr>
+<tr>
+<td style="text-align:center">SACMODEL_CYLINDER</td>
+<td style="text-align:center">圆柱体模型</td>
+<td style="text-align:center">7个参数：[point_on_axis.x point_on_axis.y point_on_axis.z axis_direction.x axis_direction.y axis_direction.z radius]</td>
+</tr>
+<tr>
+<td style="text-align:center">SACMODEL_CONE</td>
+<td style="text-align:center">圆锥模型</td>
+<td style="text-align:center">7个参数：[apex.x apex.y apex.z axis_direction.x axis_direction.y axis_direction.z opening_angle]</td>
+</tr>
+<tr>
+<td style="text-align:center">SACMODEL_TORUS</td>
+<td style="text-align:center">圆环面模型</td>
+<td style="text-align:center">尚未实现</td>
+</tr>
+<tr>
+<td style="text-align:center">SACMODEL_PARALLEL_LINE</td>
+<td style="text-align:center">有条件限制的直线模型</td>
+<td style="text-align:center">在规定的最大角度偏差限制下，直线模型与给定轴线平行，参数参见SACMODEL_LINE</td>
+</tr>
+<tr>
+<td style="text-align:center">SACMODEL_PARALLEL_LINES</td>
+<td style="text-align:center">有条件限制的直线s模型</td>
+<td style="text-align:center">尚未实现</td>
+</tr>
+<tr>
+<td style="text-align:center">SACMODEL_PERPENDICULAR_PLANE</td>
+<td style="text-align:center">有条件限制的平面模型</td>
+<td style="text-align:center">在规定的最大角度偏差限制下，平面模型与给定轴线垂直，参数参见SACMODEL_PLANE</td>
+</tr>
+<tr>
+<td style="text-align:center">SACMODEL_NORMAL_PLANE</td>
+<td style="text-align:center">有条件限制的平面模型</td>
+<td style="text-align:center">在规定的最大角度偏差限制下，每一个局内点的法线必须与估计的平面模型的法线平行，参数参见SACMODEL_PLANE</td>
+</tr>
+<tr>
+<td style="text-align:center">SACMODEL_PARALLEL_PLANE</td>
+<td style="text-align:center">有条件限制的平面模型</td>
+<td style="text-align:center">在规定的最大角度偏差限制下，平面模型与给定的轴线平行，参数参见SACMODEL_PLANE</td>
+</tr>
+<tr>
+<td style="text-align:center">SACMODEL_NORMAL_PARALLEL_PLANE</td>
+<td style="text-align:center">有条件限制的平面模型</td>
+<td style="text-align:center">在法线约束下，三维平面模型必须与用户设定的轴线平行，参数参见SACMODEL_PLANE</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Sample-consensus模块"><a href="#Sample-consensus模块" class="headerlink" title="Sample_consensus模块"></a>Sample_consensus模块</h3><p>23个类</p>
+<p>用不同的<strong>估计算法</strong>和不同的<strong>几何模型</strong>自由结合估算点云中隐含的具体几何模型的系数，实现对点云中所处的几何模型的<strong>分割</strong></p>
+<ul>
+<li><strong>平面模型</strong>经常被应用到常见的<strong>室内平面分割</strong>提取中，比如墙、地板、桌面</li>
+<li><strong>其他模型</strong>常应用到<strong>根据几何结构检测识别和分割物体</strong>中，如用一个圆柱体模型分割出一个杯子</li>
+</ul>
+<h2 id="点云特征描述与提取"><a href="#点云特征描述与提取" class="headerlink" title="点云特征描述与提取"></a>点云特征描述与提取</h2><p>3D点云特征描述与提取：点云信息处理中最基础、最关键的一部分。点云的识别、分割、重采样、配准、曲面重建等大部分算法，都严重依赖特征描述与提取的结果。</p>
+<p>从尺度上来分：</p>
+<ul>
+<li>局部特征描述：<strong>局部的法线</strong>等几何形状特征的描述</li>
+<li>全局特征描述：<strong>全局的拓扑特征</strong>描述</li>
+</ul>
+<h3 id="3D形状内容描述子（3D-shape-contexts）"><a href="#3D形状内容描述子（3D-shape-contexts）" class="headerlink" title="3D形状内容描述子（3D shape contexts）"></a>3D形状内容描述子（3D shape contexts）</h3><p>采用一个<strong>向量</strong>描述曲面上指定点及其邻域的形状特征，通过匹配向量的值来建立不同曲面间点的对应关系，此向量即为<strong>指定点的描述子</strong></p>
+<p><strong>3D形状内容描述子</strong>构造简单，辨别力强，且对噪声不敏感</p>
+<p>构造方法：在以指定点p为中心的球形支撑域内，沿径向、方向角、俯仰角3个坐标方向划分成网格，统计<strong>落入网格内的点数</strong>，构造向量V。V的每个元素与支撑域内的一个网格对应，元素的值为对应网格中的点数，<strong>向量V即为点p的描述子</strong>。</p>
+<img src="/2018/12/24/2018-12-24-imv-pcl-book/a_083D形状内容描述子网格划分.png" title="3D形状内容描述子网格划分">
+<h3 id="旋转图像（spin-image）"><a href="#旋转图像（spin-image）" class="headerlink" title="旋转图像（spin image）"></a>旋转图像（spin image）</h3><p>用于：3D场景中的曲面匹配和模型识别</p>
+<p>在模型表面上，存在顶点p和其法向量n定义的二维基、切平面P<br>假设模型上任意顶点x<br>现定义<strong>α</strong>为x在平面P上投影点与p点的距离，规定其值取大于0的实数<br><strong>β</strong>为x与其在平面P上投影点之间的距离，按照向上或向下规定其有正负之分<br><strong>点p的旋转图像</strong>为：将除p点外其他模型上的顶点在P上的投影<script type="math/tex">(α_i,β_i)</script>。其中i表示顶点的一维索引，将<script type="math/tex">(α_i,β_i)</script>统计得到二维直方图即为点p的旋转图像，图像的坐标由α和β而定，强度为<script type="math/tex">(α,β)</script>落在同一统计区间的点的统计个数</p>
+<p>下图为模型表面三个点的旋转图像</p>
+<img src="/2018/12/24/2018-12-24-imv-pcl-book/a_09旋转图像示意图.png" title="旋转图像示意图">
+<h3 id="三维特征描述子"><a href="#三维特征描述子" class="headerlink" title="三维特征描述子"></a>三维特征描述子</h3><p><strong>不适定问题</strong>（ill-posed problem）：在笛卡尔坐标系下两个点p1、p2，在时间t1、t2捕获，有着相同的坐标。<strong>对这两个点做比较是不适定问题</strong>。虽然相当于一些距离测度（欧几里得度量）它们是相等的。但它们取样于完全不同的表面，因此当把它们和邻近的其他环境中的点放在一起时，它们表达着完全不同的信息。</p>
+<p>用<strong>局部描述子</strong>（local descriptor）取代<strong>单一实体的三维点概念和笛卡尔坐标系</strong><br>又称为<strong>点特征表示</strong>（point feature representations）：通过包括周围的邻域，特征描述子能够表征采样表面的几何性质，有助于解决不适定的对比问题</p>
+<p>理想情况下，相同或相似表面上的点的特征值将非常相似（相对特定度量准则），而不同表面上的点的特征描述子将有明显差异。<br>下面几个条件，通过能否获得相同的局部表面特征值，可以判定点特征表示方式的优劣：</p>
+<ul>
+<li><strong>刚体变换</strong>（rigid transformations）：三维旋转和三维平移变化不会影响特征向量F估计，即<strong>特征向量具有平移旋转不变性</strong></li>
+<li><strong>改变采样密度</strong>（varing sampling density）：原则上，一个局部表面小块的采样密度无论是大还是小，都应该有相同的特征向量值，即<strong>特征向量具有抗密度干扰性</strong></li>
+<li><strong>噪声</strong>（noise）：数据中有轻微噪声的情况下，点特征表示在它的特征向量中必须保持相同或者极其相似的值，即<strong>特征向量对点云噪声具有稳健性</strong></li>
+</ul>
+<img src="/2018/12/24/2018-12-24-imv-pcl-book/a_10点特征描述子示意图.jpg" title="点特征描述子示意图">
+<p>PCL中特征向量利用快速kd-tree查询，使用近似法来计算查询点的最近邻元素，有两种常用的查询类型：</p>
+<ul>
+<li><strong>k-搜索</strong>：决定一个查询点的k邻域元素</li>
+<li><strong>半径-搜索</strong>：在半径r的范围内，确定一个查询点的所有邻域元素</li>
+</ul>
+<h3 id="输入点云调用习惯"><a href="#输入点云调用习惯" class="headerlink" title="输入点云调用习惯"></a>输入点云调用习惯</h3><p><setinputcloud(), setindices(),="" setsearchsurface()=""></setinputcloud(),></p>
+<ul>
+<li><strong>setInputCloud</strong>(PointCloudConstPtr &amp;) 指定完整的<strong>点云数据</strong>集</li>
+<li><strong>setIndices</strong>(IndicesConstPtr &amp;) 指定输入点云中的<strong>索引</strong></li>
+<li><strong>setSearchSurface</strong>(PointCloudConstPtr &amp;) 指定<strong>搜索时使用的点邻域</strong>集合</li>
+</ul>
+<p>假设有两个点云，<script type="math/tex">P=\{p_1, p_2, ..., p_n\}</script>，<script type="math/tex">Q=\{q_1, q_2, ..., q_n\}</script><br>总是需要setInputCloud()，故有4种情况：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">indices</th>
+<th style="text-align:center">surface</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">false</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">只需输入单一的点云数据集，为点云中的所有点估计特征向量<br><strong>图示</strong>：估计<script type="math/tex">p_1</script>的最近邻元素、<script type="math/tex">p_2</script>的最近邻元素，以此类推，直到估计完P中的所有点</td>
+</tr>
+<tr>
+<td style="text-align:center">true</td>
+<td style="text-align:center">false</td>
+<td style="text-align:center">只计算已给索引的点的特征<br><strong>图示</strong>：假设<script type="math/tex">p_2</script>的索引不在已给的索引向量中，因此在<script type="math/tex">p_2</script>点处，没有估计邻元素或者特征向量</td>
+</tr>
+<tr>
+<td style="text-align:center">false</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">为点云中的所有点估计特征向量，但在setSearchSurface()中给出的采样面点云将用来<strong>为输入点获取最近邻元素</strong>，而不是输入点云本身<br><strong>图示</strong>：如果<script type="math/tex">Q=\{q_1,q_2\}</script>作为输入，是不同于P的另一个给出的点云，P是Q的搜索表面，那么将从P中计算两个点<script type="math/tex">q_1</script>和<script type="math/tex">q_2</script>的近邻</td>
+</tr>
+<tr>
+<td style="text-align:center">true</td>
+<td style="text-align:center">true</td>
+<td style="text-align:center">用setSearchSurface()中给出的搜索点云，只对<input,indices>中的子集进行特征向量估计<br><strong>图示</strong>：假设<script type="math/tex">q_2</script>的索引没有在Q的已给索引向量中，因此在q2点处，没有估计其邻元素或者特征</input,indices></td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2018/12/24/2018-12-24-imv-pcl-book/a_11点云输入组合.png" title="点云输入组合">
+<p>案例：当有一个非常密集的输入点云数据集时，不想对它的所有点进行特征估计，而是希望在找到的一些<strong>关键点</strong>处（使用pcl_keypoints中的方法进行估计），或者在点云的<strong>下采样版本</strong>中（使用pcl::VoxelGrid<t>过滤而获得）进行特征估计。<br>通过<strong>setInputCloud()</strong>把<strong>下采样后的点云</strong>/关键点传递给特征估计算法<br>通过<strong>setSearchSurface()</strong>把<strong>原始数据</strong>设置为搜索集合<br>从而提高程序运行效率</t></p>
+<h3 id="估计点云的表面法线"><a href="#估计点云的表面法线" class="headerlink" title="估计点云的表面法线"></a>估计点云的表面法线</h3><ul>
+<li>使用曲面重建技术，从获取的点云数据集中得到采样点对应的曲面，然后从曲面模型中计算表面法线</li>
+<li>直接从点云数据集中近似推断表面法线（<strong>一般采用</strong>）</li>
+</ul>
+<p>最简单的法线估计方法：<strong>确定表面一点法线</strong>的问题近似于<strong>估计表面的一个相切面法线</strong>的问题，即最小二乘法平面拟合估计问题</p>
+<p>通常没有数学方法能解决<strong>法线的正负向问题</strong>，如果实际知道视点<script type="math/tex">V_p</script>，那么这个问题的解决是非常简单的，对所有法线<script type="math/tex">\vec{n_i}</script>定向只需要使它们一致朝向视点方向，满足下面的方程式：</p>
+<script type="math/tex; mode=display">\vec{n_i} · (v_p - P_i) > 0</script><p>注意：如果数据集是从多个捕获视点中配准后集成的，那么上述法线的一致性定向方法就不适用了</p>
+<p>选择合适的尺度<br>可粗略假设，以应用程序所需的细节需求为参考，选择确定点的邻域所用的尺度。<br>简言之，如果杯子手柄和圆柱体部分之间边缘的曲率是重要的，那么<strong>需要足够小的尺度来捕获这些细节信息</strong>，而在其他<strong>不需要细节信息的应用中可选择大的尺度</strong>。</p>
+<img src="/2018/12/24/2018-12-24-imv-pcl-book/a_12不同的比例因子.jpg" title="不同的比例因子">
+<p>使用OpenMP加速法线估计</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">头文件</th>
+<th style="text-align:center">函数名</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><script type="math/tex">#include <pcl/features/normal_3d.h></script></td>
+<td style="text-align:center"><script type="math/tex">pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> ne;</script></td>
+</tr>
+<tr>
+<td style="text-align:center"><script type="math/tex">#include <pcl/features/normal_3d_omp.h></script></td>
+<td style="text-align:center"><script type="math/tex">pcl::NormalEstimationOMP<pcl::PointXYZ, pcl::Normal> ne(4);</script></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="使用积分图进行法线估计"><a href="#使用积分图进行法线估计" class="headerlink" title="使用积分图进行法线估计"></a>使用积分图进行法线估计</h3><p>使用积分图（integral images）计算一个<strong>有序点云</strong>的法线</p>
+<h3 id="PFH、FPFH、VFH"><a href="#PFH、FPFH、VFH" class="headerlink" title="PFH、FPFH、VFH"></a>PFH、FPFH、VFH</h3><p>点特征直方图（Point Feature Histograms，PFH）不仅与<strong>坐标轴三维数据</strong>有关，还与<strong>表面法线</strong>有关。<br>快速点特征直方图（Fast Point Feature Histograms，FPFH）是PFH的简化形式</p>
+<p>计算复杂度：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">算法</th>
+<th style="text-align:center">复杂度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">PFH</td>
+<td style="text-align:center"><script type="math/tex">O(nk^2)</script></td>
+</tr>
+<tr>
+<td style="text-align:center">FPFH</td>
+<td style="text-align:center"><script type="math/tex">O(nk)</script></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>视点特征直方图（Viewpoint Feature Histograms，VFH）用于点云聚类识别和六自由度位姿估计</p>
+<h3 id="从深度图像中提取NARF特征"><a href="#从深度图像中提取NARF特征" class="headerlink" title="从深度图像中提取NARF特征"></a>从深度图像中提取NARF特征</h3><h3 id="特征描述子算法基准化分析"><a href="#特征描述子算法基准化分析" class="headerlink" title="特征描述子算法基准化分析"></a>特征描述子算法基准化分析</h3><p><a href="https://github.com/daviddoria/PCLMirror/blob/master/features/include/pcl/features/feature_evaluation/feature_evaluation_framework.h" target="_blank" rel="noopener">feature_evaluation_framework.h下载</a><br><a href="http://www.pointclouds.org/blog/gsoc/pararthshah/feature_evaluation_framework.php" target="_blank" rel="noopener">Feature Correspondence Test Source Code</a></p>
+<h3 id="pcl-features模块"><a href="#pcl-features模块" class="headerlink" title="pcl_features模块"></a>pcl_features模块</h3><p>48个类</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">描述子</th>
+<th style="text-align:center">说明</th>
+<th style="text-align:center">PCL中函数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">3D shape context descriptor<br>（3D形状内容描述子）</td>
+<td style="text-align:center">三维模型的识别、检索</td>
+<td style="text-align:center">pcl::ShapeContext3DEstimation&lt; PointInT, PointNT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">局部坐标系估计方法</td>
+<td style="text-align:center">估计局部坐标系时对处理点云边缘或有孔洞处有特殊的处理方式</td>
+<td style="text-align:center">pcl::BOARDLocalReferenceFrameEstimation&lt; PointInT, PointNT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">估计一组点集是否处于指定点的投影区域的边缘位置</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">pcl::BoundaryEstimation&lt; PointInT, PointNT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">BRISK-descriptor</td>
+<td style="text-align:center">书中没有</td>
+<td style="text-align:center">pcl::BRISK2DEstimation&lt; PointInT, PointOutT, KeypointT, IntensityT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">CRH（Camera Roll Histogram/旋转直方图描述子）</td>
+<td style="text-align:center">进行刚体对象的位姿估计</td>
+<td style="text-align:center">pcl::CRHEstimation&lt; PointInT, PointNT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>CVFH</strong>（Clustered Viewpoint Feature Histogram/聚类视点直方图描述子）</td>
+<td style="text-align:center">针对解决有残缺的点云识别问题</td>
+<td style="text-align:center">pcl::CVFHEstimation&lt; PointInT, PointNT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">Difference of Normals (DoN) scale filter</td>
+<td style="text-align:center">书中没有</td>
+<td style="text-align:center">pcl::DifferenceOfNormalsEstimation&lt; PointInT, PointNT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">ESF（Ensemble of Shape Function）</td>
+<td style="text-align:center">实时对三维场景中的点云模型进行分类</td>
+<td style="text-align:center">pcl::ESFEstimation&lt; PointInT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">the Fast LocAl Reference framE algorithm for local reference frame</td>
+<td style="text-align:center">书中没有</td>
+<td style="text-align:center">pcl::FLARELocalReferenceFrameEstimation&lt; PointInT, PointNT, PointOutT, SignedDistanceT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>FPFH</strong>（Fast Point Feature Histogram）</td>
+<td style="text-align:center">局部点特征描述子，针对点云配准中求对应点</td>
+<td style="text-align:center">pcl::FPFHEstimation&lt; PointInT, PointNT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">the Globally Aligned Spatial Distribution (GASD) descriptor</td>
+<td style="text-align:center">书中没有</td>
+<td style="text-align:center">pcl::GASDEstimation&lt; PointInT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">GFPFH（Global Fast Point Feature Histogram）</td>
+<td style="text-align:center">全局尺度描述子，针对三维场景中模型对象的分类</td>
+</tr>
+<tr>
+<td style="text-align:center">the Global Radius-based Surface Descriptor (GRSD)</td>
+<td style="text-align:center">书中没有</td>
+<td style="text-align:center">pcl::GRSDEstimation&lt; PointInT, PointNT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">强度梯度计算</td>
+<td style="text-align:center">强度梯度的方向是指向强度下降最快的方向，其二阶矩表征下降的速率</td>
+<td style="text-align:center">pcl::IntensityGradientEstimation&lt; PointInT, PointNT, PointOutT, IntensitySelectorT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">在强度域的旋转图像的计算</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">pcl::IntensitySpinEstimation&lt; PointInT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">对点云中每个点的不变矩的估计</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">pcl::MomentInvariantsEstimation&lt; PointInT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">NARF（Normal Aligned Radial Feature/归一化对齐径向特征）</td>
+<td style="text-align:center">针对三维场景中对象的识别</td>
+<td style="text-align:center">pcl::NarfDescriptor</td>
+</tr>
+<tr>
+<td style="text-align:center">对点云的法线进行估计</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">pcl::NormalEstimation&lt; PointInT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">the Oriented, Unique and Repetable Clustered Viewpoint Feature Histogram (CVFH) descriptor</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">pcl::OURCVFHEstimation&lt; PointInT, PointNT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>PFH</strong>（Point Feature Histogram/点特征直方图）</td>
+<td style="text-align:center">针对点云对齐配准</td>
+<td style="text-align:center">pcl::PFHEstimation&lt; PointInT, PointNT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">对主曲率的估计</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">pcl::PrincipalCurvaturesEstimation&lt; PointInT, PointNT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">对深度图像边缘的提取</td>
+<td style="text-align:center">该边缘表征此处是前景和背景分界处</td>
+<td style="text-align:center">pcl::RangeImageBorderExtractor</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>RIFT</strong>（Rotation Invariant Feature Transform）</td>
+<td style="text-align:center">为描述局部完整外观而提出，用于图像分类与检索，是SIFT的一般化，具有旋转不变性</td>
+<td style="text-align:center">pcl::RIFTEstimation&lt; PointInT, GradientT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">RSD（Radius-based Surface Descriptor）</td>
+<td style="text-align:center">计算速度快于FPFH的局部描述子</td>
+<td style="text-align:center">pcl::RSDEstimation&lt; PointInT, PointNT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">SHOT（Signature of Histogram of OrienTations）</td>
+<td style="text-align:center">局部描述子，用于曲面模型匹配</td>
+<td style="text-align:center">pcl::SHOTEstimation&lt; PointInT, PointNT, PointOutT, PointRFT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">在计算SHOT算子时所需的局部参考坐标系的估计</td>
+<td style="text-align:center"></td>
+<td style="text-align:center">pcl::SHOTLocalReferenceFrameEstimation&lt; PointInT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">Spin image（旋转图像）描述子</td>
+<td style="text-align:center">用于曲面匹配及3D对象识别</td>
+<td style="text-align:center">pcl::SpinImageEstimation&lt; PointInT, PointNT, PointOutT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">Unique Shape Context（唯一形状内容）</td>
+<td style="text-align:center">针对3D模型的检索，用于分类与识别</td>
+<td style="text-align:center">pcl::UniqueShapeContext&lt; PointInT, PointOutT, PointRFT &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>VFH</strong>（Viewpoint Feature Histogram）</td>
+<td style="text-align:center">全局描述子，用于3D场景中对象的识别</td>
+<td style="text-align:center">pcl::VFHEstimation&lt; PointInT, PointNT, PointOutT &gt;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>需注意的算子：PFH、FPFH、VFH、CVFH、RIFT</p>
+<p>普通版本及OpenMP版本：<br>pcl::FPFHEstimation&lt; PointInT, PointNT, PointOutT &gt;<br>pcl::FPFHEstimationOMP&lt; PointInT, PointNT, PointOutT &gt;</p>
+<p>pcl::NormalEstimation&lt; PointInT, PointOutT &gt;<br>pcl::NormalEstimationOMP&lt; PointInT, PointOutT &gt;</p>
+<p>pcl::SHOTEstimation&lt; PointInT, PointNT, PointOutT, PointRFT &gt;<br>pcl::SHOTEstimationOMP&lt; PointInT, PointNT, PointOutT, PointRFT &gt;</p>
+<p>pcl::SHOTLocalReferenceFrameEstimation&lt; PointInT, PointOutT &gt;<br>pcl::SHOTLocalReferenceFrameEstimationOMP&lt; PointInT, PointOutT &gt;</p>
+<h2 id="点云配准"><a href="#点云配准" class="headerlink" title="点云配准"></a><a href="http://pointclouds.org/documentation/tutorials/registration_api.php#registration-api" target="_blank" rel="noopener">点云配准</a></h2><p>点云配准实质：把在不同的坐标系中测量得到的数据点云进行坐标变换，以得到整体的数据模型。<br>问题的关键：如何求得坐标变换参数<strong>R（旋转矩阵）</strong>和<strong>T（平移向量）</strong>，使得两视角下测得的三维数据经坐标变换后的距离最小。</p>
+<p>配准算法按照<strong>实现过程</strong>分为：</p>
+<ul>
+<li>整体配准</li>
+<li>局部配准</li>
+</ul>
+<p>配准算法按照<strong>精度</strong>分为：</p>
+<ul>
+<li>粗配准（初始的变换矩阵的粗略估计）</li>
+<li>精配准（类似ICP的精确的变换矩阵估计）</li>
+</ul>
+<p>配准的关键技术：<strong>关键点选取</strong>、<strong>特征描述与提取</strong></p>
+<h3 id="两两配准（pairwise-registration）"><a href="#两两配准（pairwise-registration）" class="headerlink" title="两两配准（pairwise registration）"></a>两两配准（pairwise registration）</h3><p>两两配准：一对点云数据集的配准问题<br>通常通过<strong>应用一个估计得到的表示平移和旋转的4×4刚体变换矩阵</strong>来使一个点云数据集（source）精确地与另一个点云数据集（target/model）进行完美配准</p>
+<p>具体实现步骤：</p>
+<ol>
+<li>从两个数据集中按照同样的<strong>关键点选取</strong>标准，提取关键点</li>
+<li>对选择的所有关键点分别计算其<strong>特征描述子</strong></li>
+<li>结合特征描述子在两个数据集中的坐标的位置，以两者之间特征和位置的相似度为基础，来估算它们的对应关系，初步估计对应点对</li>
+<li>假定数据是有噪声的，除去对配准有影响的错误的对应点对</li>
+<li>利用剩余的正确对应关系来估算刚体变换，完成配准</li>
+</ol>
+<img src="/2018/12/24/2018-12-24-imv-pcl-book/a_13PCL中两两配准流程.jpg" title="PCL中两两配准流程">
+<h3 id="对应估计（correspondences-estimation）"><a href="#对应估计（correspondences-estimation）" class="headerlink" title="对应估计（correspondences estimation）"></a>对应估计（correspondences estimation）</h3><p>假设已经得到由两次扫描的点云数据获得的<strong>两组特征向量</strong>，在此基础上，必须找到<strong>相似特征</strong>再确定数据的<strong>重叠部分</strong>，然后才进行配准。<br>根据特征的类型，PCL使用不同方法来搜索特征之间的对应关系。</p>
+<p>进行<strong>点匹配（使用点的xyz三维坐标作为特征值）</strong>时，针对有序点云数据和无序点云数据有不同的处理策略：</p>
+<ul>
+<li>穷举配准（brute force matching）</li>
+<li>kd-tree最近邻查询（FLANN）</li>
+<li>在有序点云数据的图像空间中查找</li>
+<li>在无序点云数据的索引空间中查找</li>
+</ul>
+<p>进行<strong>特征匹配（不使用点的坐标，而是某些由查询点邻域确定的特征，如法向量、局部或全局形状直方图等）</strong>时，有以下几种方法：</p>
+<ul>
+<li>穷举配准</li>
+<li>kd-tree最近邻查询</li>
+</ul>
+<p>除了查询之外，对应估计也分为两种类型：</p>
+<ul>
+<li>直接（Direct）对应估计（默认）：为点云A中的每一个点，搜索点云B中的对应点，确认最终对应点对</li>
+<li>“相互”（Reciprocal）对应估计：首先为点云A中的点到点云B搜索对应点，然后又从点云B到点云A搜索对应点，最后只取交集作为对应点对</li>
+</ul>
+<h3 id="对应关系去除（correspondences-rejection）"><a href="#对应关系去除（correspondences-rejection）" class="headerlink" title="对应关系去除（correspondences rejection）"></a>对应关系去除（correspondences rejection）</h3><p>由于噪声的影响，通常并不是所有估计的对应关系都是正确的。<br>由于错误的对应关系对于最终的刚体变换矩阵的估算会产生负面的影响，所以必须去除它们，可以<strong>使用随机采样一致性（RANSAC）估计或者其他方法剔除错误对应关系</strong>，最终使用的对应关系数量只使用一定比例的对应关系，这样既能提高变换矩阵的估计精度，也能提高配准速度</p>
+<p>遇到有<strong>一对多对应关系</strong>的特例情况，即目标模型中的一个点对应源中的若干个点与之对应。可以通过只取与其距离最近的对应点或者检查附近的其他匹配的滤波方法过滤掉其他伪对应关系。</p>
+<h3 id="变换矩阵估计（transformation-estimation）"><a href="#变换矩阵估计（transformation-estimation）" class="headerlink" title="变换矩阵估计（transformation estimation）"></a>变换矩阵估计（transformation estimation）</h3><p>估算变换矩阵的步骤：</p>
+<ol>
+<li>在对应关系的基础上评估一些错误的度量标准</li>
+<li>在摄像机位姿（运动估算）和最小化错误度量标准下估算一个（刚体）变换</li>
+<li>优化点的结构（SVD、Levenberg-Marquardt）</li>
+<li>使用刚体变换把源旋转/平移到与目标所在的同一坐标系下，用所有点、点的一个子集或者关键点运行一个内部ICP循环</li>
+<li>进行迭代，直到符合收敛性判断标准为止</li>
+</ol>
+<h3 id="迭代最近点算法（Iterative-Closest-Point，简称ICP算法）"><a href="#迭代最近点算法（Iterative-Closest-Point，简称ICP算法）" class="headerlink" title="迭代最近点算法（Iterative Closest Point，简称ICP算法）"></a>迭代最近点算法（Iterative Closest Point，简称ICP算法）</h3><p>ICP算法对待拼接的2片点云，首先根据一定的准则确立对应点集P与Q，其中对应点对的个数为n。<br>然后通过最小二乘法迭代计算最优的坐标变换，即旋转矩阵R和平移矢量t，使得误差函数最小。</p>
+<p>ICP算法计算简单直观，且可使拼接具有较好的精度。但是算法的运行速度、向全局最优的收敛性在很大程度上依赖于<strong>给定的初始变换估计</strong>，以及在<strong>迭代过程中对应关系的确立</strong>。<br>各种<strong>粗拼接技术</strong>可为ICP算法提供较好的初始位置，所以迭代过程中确立正确对应点集，以避免迭代陷入局部极值成为各种改进算法的关键，决定了算法的收敛速度与最终的拼接精度。</p>
+<p>ICP处理流程的主要步骤：</p>
+<ol>
+<li>对原始点云数据进行采样</li>
+<li>确定初始对应点集</li>
+<li>去除错误对应点对</li>
+<li>坐标变换的求解</li>
+</ol>
+<h3 id="采样一致性初始配准算法（简称SAC-IA算法）"><a href="#采样一致性初始配准算法（简称SAC-IA算法）" class="headerlink" title="采样一致性初始配准算法（简称SAC-IA算法）"></a>采样一致性初始配准算法（简称SAC-IA算法）</h3><p>对于<strong>初始的变换矩阵粗略估计</strong>，贪婪的初始配准方法工作量很大，它使用了点云数据旋转不变的特性。（故一般先对点云进行<strong>下采样</strong>处理）<br>但计算复杂度较高，因为在合并的步骤需要查看所有可能的对应关系。此外，因为是贪婪算法，有可能只能得到局部最优解。<br>因此采用<strong>采样一致性方法</strong>，试图保持相同的对应关系的几何关系，而不必尝试了解有限个对应关系的所有组合。</p>
+<p>相反，从候选对应关系中进行大量的采样并通过以下<strong>步骤</strong>对它们中的每一个进行排名：</p>
+<ol>
+<li>从P中选择s个样本点，同时确定它们的配对距离大于用户设定的最小值<script type="math/tex">d_{min}</script></li>
+<li>对于每个样本点，在Q中找到相似FPFH特征的点存入一个列表中。从这些点中随机选择一些代表采样点的对应关系</li>
+<li>计算通过采样点定义的刚体变换和其对应关系，计算点云的度量错误来评价转换的质量</li>
+</ol>
+<p>我们计划通过查看非常大量的对应关系，快速找到一个好的变换<br>重复这3个步骤直至取得储存了最佳度量错误，并使用暴力配置部分数据。最后使用一个Levenberg-Marquardt算法进行非线性局部优化。</p>
+<h3 id="registration模块"><a href="#registration模块" class="headerlink" title="registration模块"></a>registration模块</h3><p>26个类、9个结构体</p>
+<p>包含：配准相关的基础数据结构、<strong>经典配准算法</strong>（如ICP）、<strong>配准过程中的对应点估计</strong>、<strong>错误对应点去除</strong>等</p>
+<p>能够进行<strong>ICP算法</strong>的点云需要粗略的预匹配（如在一个机器人的量距内或在地图框架内），并且一个点云与另一个点云需要有重叠部分</p>
+<p>使用<strong>正态分布变换</strong>（Normal Distributions Transform）算法来确定两个<strong>大型点云</strong>（都超过100000个点）之间的刚体变换<br>正态分布变换是一个配准算法，应用于三维点的统计模型，使用标准最优化技术来确定两个点云间的最优匹配，因为其<strong>在配准过程中不利用对应点的特征计算和匹配</strong>，所以时间比其他方法快<br>使用体素网格过滤器<strong>过滤输入点云</strong>（减少其数据量到原先的10%左右，为了缩短匹配时间），而<strong>目标点云不需要滤波</strong>处理，因为NDT算法中在目标点云对应的体素网格数据结构的统计计算不使用单个点，而是使用包含在每个体素单元格中的点的统计数据<br>欧式适合度评分（Euclidean fitness score）：计算<strong>输出点云</strong>到最近<strong>目标点云</strong>对应点对的距离平方和</p>
+<h2 id="点云分割"><a href="#点云分割" class="headerlink" title="点云分割"></a>点云分割</h2><p>点云分割：根据空间、几何、纹理等特征对点云进行划分，使得同一划分内的点云拥有相似的特征</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">比较</th>
+<th style="text-align:center">聚类分割算法</th>
+<th style="text-align:center">基于RANSAC的分割算法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">用处</td>
+<td style="text-align:center">将由多个<strong>空间分布独立</strong>的区域组成的点云分割成各自独立的点云子集</td>
+<td style="text-align:center">提取出<strong>特定的模型</strong>的点云数据</td>
+</tr>
+<tr>
+<td style="text-align:center">要点</td>
+<td style="text-align:center">设定参数化的的<strong>几何模型</strong></td>
+<td style="text-align:center">设置合适的聚类<strong>搜索半径</strong><br><script type="math/tex">ec.setClusterTolerance (0.02);</script><br>设置合适的<strong>点数目</strong><br><script type="math/tex">ec.setMinClusterSize (100);</script><br><script type="math/tex">ec.setMaxClusterSize (25000);</script></td>
+</tr>
+<tr>
+<td style="text-align:center">函数</td>
+<td style="text-align:center"><script type="math/tex">pcl::SACSegmentation< PointT ></script><br><script type="math/tex">pcl::SACSegmentationFromNormals< PointT, PointNT ></script></td>
+<td style="text-align:center"><script type="math/tex">pcl::EuclideanClusterExtraction< PointT ></script></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="聚类分割算法"><a href="#聚类分割算法" class="headerlink" title="聚类分割算法"></a><strong>聚类</strong>分割算法</h3><p>在聚类方法中的每个<strong>点</strong>都与一个<strong>特征向量</strong>相关联，特征向量又包含了若干个几何或者辐射度量值。<br>然后，在特征空间中通过<strong>聚类</strong>的方法（如K-means法、最大似然法、模糊聚类法）分割点云数据。</p>
+<p>聚类分割的基本原理：<br>考察m个数据点，在m维空间内定义点与点之间某种性质的亲疏聚类，<br>设m个数据点组成n类，然后将具有最小距离的两类合二为一，并重新计算类与类之间的距离，<br>迭代直到任意两类之间的距离大于指定的阈值，或者类的个数小于指定的数目，完成分割。</p>
+<h3 id="基于随机采样一致性（RANSAC）的分割算法"><a href="#基于随机采样一致性（RANSAC）的分割算法" class="headerlink" title="基于随机采样一致性（RANSAC）的分割算法"></a>基于随机采样一致性（<strong>RANSAC</strong>）的分割算法</h3><p>基于RANSAC的分割是通过随机取样剔除局外点，构建一个仅由<strong>局内点</strong>数据组成的基本子集的过程。</p>
+<p>基本思想：<br>在进行参数估计时，不是不加区分地对待所有可能的输入数据，<br>而是首先针对具体问题设计出一个<strong>判断准则模型</strong>，利用此判断准则迭代地剔除那些与所估计的参数不一致的输入数据，然后通过正确的输入数据来估计模型参数。</p>
+<p>分割过程：<br>首先从输入的点云数据集中随机选择一些点，并计算用户给定模型的参数，<br>对数据集中的所有点设置距离阈值，如果点到模型的距离在距离阈值范围内，则将该点归为局内点，否则为局外点，<br>然后统计所有局内点的个数，判断是否大于设定的阈值，<br>如果是，则用内点重新估计模型，作为模型输出，存储所有内点作为分割结果，<br>如果不是，则与当前最大的局内点个数对比，如果大于则取代当前最大局内点个数，并存储当前的模型系数，<br>然后进行迭代计算，直到分割出用户满意的模型</p>
+<h3 id="segmentation模块"><a href="#segmentation模块" class="headerlink" title="segmentation模块"></a>segmentation模块</h3><p>9个类、12个函数</p>
+<h2 id="点云曲面重建"><a href="#点云曲面重建" class="headerlink" title="点云曲面重建"></a>点云曲面重建</h2><p>插值法、逼近法</p>
+<p>参数曲面重建、隐式曲面重建、变形曲面重建、细分曲面重建、分片线性曲面重建</p>
+<h1 id="综合应用篇"><a href="#综合应用篇" class="headerlink" title="综合应用篇"></a>综合应用篇</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参考内容</th>
+<th style="text-align:center">参考方面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">《点云库PCL学习教程》</td>
+<td style="text-align:center">主体内容</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/精华/" rel="tag"># 精华</a>
+          
+            <a href="/tags/点云/" rel="tag"># 点云</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/23/2018-12-23-imv-csharp-writetxt/" rel="next" title="[C#]多线程写文件">
+                <i class="fa fa-chevron-left"></i> [C#]多线程写文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/28/2018-12-28-imv-pycv-book/" rel="prev" title="[机器视觉]Python计算机视觉学习笔记">
+                [机器视觉]Python计算机视觉学习笔记 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#本书概要"><span class="nav-number">1.</span> <span class="nav-text">本书概要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本书框架"><span class="nav-number">1.1.</span> <span class="nav-text">本书框架</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实例索引"><span class="nav-number">2.</span> <span class="nav-text">实例索引</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基础篇"><span class="nav-number">3.</span> <span class="nav-text">基础篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#PCL概述"><span class="nav-number">3.1.</span> <span class="nav-text">PCL概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PCL入门"><span class="nav-number">3.2.</span> <span class="nav-text">PCL入门</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#PCL基础"><span class="nav-number">3.3.</span> <span class="nav-text">PCL基础</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#模块篇"><span class="nav-number">4.</span> <span class="nav-text">模块篇</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#输入-输出"><span class="nav-number">4.1.</span> <span class="nav-text">输入/输出</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#OpenNI开源框架"><span class="nav-number">4.1.1.</span> <span class="nav-text">OpenNI开源框架</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#I-O模块"><span class="nav-number">4.1.2.</span> <span class="nav-text">I/O模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#KD树"><span class="nav-number">4.2.</span> <span class="nav-text">KD树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#点云特点"><span class="nav-number">4.2.1.</span> <span class="nav-text">点云特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#k维树"><span class="nav-number">4.2.2.</span> <span class="nav-text">k维树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kd-tree模块"><span class="nav-number">4.2.3.</span> <span class="nav-text">kd-tree模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八叉树"><span class="nav-number">4.3.</span> <span class="nav-text">八叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#octree概述"><span class="nav-number">4.3.1.</span> <span class="nav-text">octree概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#octree模块"><span class="nav-number">4.3.2.</span> <span class="nav-text">octree模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#可视化"><span class="nav-number">4.4.</span> <span class="nav-text">可视化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#visualization类模块"><span class="nav-number">4.4.1.</span> <span class="nav-text">visualization类模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点云滤波"><span class="nav-number">4.5.</span> <span class="nav-text">点云滤波</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#PCL中点云滤波方案"><span class="nav-number">4.5.1.</span> <span class="nav-text">PCL中点云滤波方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#filters模块"><span class="nav-number">4.5.2.</span> <span class="nav-text">filters模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#深度图像"><span class="nav-number">4.6.</span> <span class="nav-text">深度图像</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Range-Images"><span class="nav-number">4.6.1.</span> <span class="nav-text">Range Images</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#RangeImage模块"><span class="nav-number">4.6.2.</span> <span class="nav-text">RangeImage模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关键点"><span class="nav-number">4.7.</span> <span class="nav-text">关键点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#关键点-1"><span class="nav-number">4.7.1.</span> <span class="nav-text">关键点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#keypoints模块"><span class="nav-number">4.7.2.</span> <span class="nav-text">keypoints模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#采样一致性"><span class="nav-number">4.8.</span> <span class="nav-text">采样一致性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#采样一致性参数估计算法"><span class="nav-number">4.8.1.</span> <span class="nav-text">采样一致性参数估计算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PCL中支持的几何模型"><span class="nav-number">4.8.2.</span> <span class="nav-text">PCL中支持的几何模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Sample-consensus模块"><span class="nav-number">4.8.3.</span> <span class="nav-text">Sample_consensus模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点云特征描述与提取"><span class="nav-number">4.9.</span> <span class="nav-text">点云特征描述与提取</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3D形状内容描述子（3D-shape-contexts）"><span class="nav-number">4.9.1.</span> <span class="nav-text">3D形状内容描述子（3D shape contexts）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#旋转图像（spin-image）"><span class="nav-number">4.9.2.</span> <span class="nav-text">旋转图像（spin image）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三维特征描述子"><span class="nav-number">4.9.3.</span> <span class="nav-text">三维特征描述子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#输入点云调用习惯"><span class="nav-number">4.9.4.</span> <span class="nav-text">输入点云调用习惯</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#估计点云的表面法线"><span class="nav-number">4.9.5.</span> <span class="nav-text">估计点云的表面法线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用积分图进行法线估计"><span class="nav-number">4.9.6.</span> <span class="nav-text">使用积分图进行法线估计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PFH、FPFH、VFH"><span class="nav-number">4.9.7.</span> <span class="nav-text">PFH、FPFH、VFH</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从深度图像中提取NARF特征"><span class="nav-number">4.9.8.</span> <span class="nav-text">从深度图像中提取NARF特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征描述子算法基准化分析"><span class="nav-number">4.9.9.</span> <span class="nav-text">特征描述子算法基准化分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#pcl-features模块"><span class="nav-number">4.9.10.</span> <span class="nav-text">pcl_features模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点云配准"><span class="nav-number">4.10.</span> <span class="nav-text">点云配准</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#两两配准（pairwise-registration）"><span class="nav-number">4.10.1.</span> <span class="nav-text">两两配准（pairwise registration）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对应估计（correspondences-estimation）"><span class="nav-number">4.10.2.</span> <span class="nav-text">对应估计（correspondences estimation）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#对应关系去除（correspondences-rejection）"><span class="nav-number">4.10.3.</span> <span class="nav-text">对应关系去除（correspondences rejection）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变换矩阵估计（transformation-estimation）"><span class="nav-number">4.10.4.</span> <span class="nav-text">变换矩阵估计（transformation estimation）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迭代最近点算法（Iterative-Closest-Point，简称ICP算法）"><span class="nav-number">4.10.5.</span> <span class="nav-text">迭代最近点算法（Iterative Closest Point，简称ICP算法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#采样一致性初始配准算法（简称SAC-IA算法）"><span class="nav-number">4.10.6.</span> <span class="nav-text">采样一致性初始配准算法（简称SAC-IA算法）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#registration模块"><span class="nav-number">4.10.7.</span> <span class="nav-text">registration模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点云分割"><span class="nav-number">4.11.</span> <span class="nav-text">点云分割</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#聚类分割算法"><span class="nav-number">4.11.1.</span> <span class="nav-text">聚类分割算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于随机采样一致性（RANSAC）的分割算法"><span class="nav-number">4.11.2.</span> <span class="nav-text">基于随机采样一致性（RANSAC）的分割算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#segmentation模块"><span class="nav-number">4.11.3.</span> <span class="nav-text">segmentation模块</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点云曲面重建"><span class="nav-number">4.12.</span> <span class="nav-text">点云曲面重建</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#综合应用篇"><span class="nav-number">5.</span> <span class="nav-text">综合应用篇</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

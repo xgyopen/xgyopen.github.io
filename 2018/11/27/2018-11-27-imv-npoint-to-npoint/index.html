@@ -1,0 +1,1430 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机视觉,双目视觉,精华,标定," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="实习公司的项目，复现Cognex VisionPro的CogCalibNPointToNPointTool工具。">
+<meta name="keywords" content="计算机视觉,双目视觉,精华,标定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]欧式空间中的二维点变换关系">
+<meta property="og:url" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="实习公司的项目，复现Cognex VisionPro的CogCalibNPointToNPointTool工具。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_01平移.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_02旋转.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_03比例.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_04反射xy.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_04反射x.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_04反射y.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_05错切b=2.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_05错切c=-3.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_05错切b=1c=1.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/b_012D线性变换.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/b_02Uniform_Scaling.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/b_03Uniform_Rotation.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/b_04Nonuniform_Rotation.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/b_05Aspect.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/b_06Translation.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/b_07坐标系变换示意图.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/c_01动图NPointToNPoint.gif">
+<meta property="og:updated_time" content="2019-01-24T13:51:59.680Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]欧式空间中的二维点变换关系">
+<meta name="twitter:description" content="实习公司的项目，复现Cognex VisionPro的CogCalibNPointToNPointTool工具。">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_01平移.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/"/>
+
+
+
+
+
+  <title>[机器视觉]欧式空间中的二维点变换关系 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/27/2018-11-27-imv-npoint-to-npoint/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]欧式空间中的二维点变换关系</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-27T09:09:09+08:00">
+                2018-11-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  实习公司的项目，复现Cognex VisionPro的CogCalibNPointToNPointTool工具。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="二维图形的5种几何变换"><a href="#二维图形的5种几何变换" class="headerlink" title="二维图形的5种几何变换"></a>二维图形的5种几何变换</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变换</th>
+<th style="text-align:center">英文</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">平移</td>
+<td style="text-align:center">Translate</td>
+</tr>
+<tr>
+<td style="text-align:center">旋转</td>
+<td style="text-align:center">Rotate</td>
+</tr>
+<tr>
+<td style="text-align:center">比例</td>
+<td style="text-align:center">Scale</td>
+</tr>
+<tr>
+<td style="text-align:center">反射</td>
+<td style="text-align:center">Reflect</td>
+</tr>
+<tr>
+<td style="text-align:center">错切</td>
+<td style="text-align:center">shear</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="平移"><a href="#平移" class="headerlink" title="平移"></a>平移</h2><script type="math/tex; mode=display">
+T=
+\begin{bmatrix}
+    1 & 0 & T_x \\
+    0 & 1 & T_y \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">T_x,T_y为平移参数</script><script type="math/tex; mode=display">
+\begin{bmatrix}
+    x' \\
+    y' \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    1 & 0 & T_x \\
+    0 & 1 & T_y \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x \\
+    y \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    x+T_x \\
+    y+T_y \\
+    1 \\
+\end{bmatrix}</script><img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_01平移.png" title="红点沿x平移30沿y平移-30为蓝点">
+<h2 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h2><script type="math/tex; mode=display">
+T=
+\begin{bmatrix}
+    cosθ & -sinθ & 0 \\
+    sinθ & cosθ & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">θ为点的逆时针方向旋转角</script><script type="math/tex; mode=display">
+\begin{bmatrix}
+    x' \\
+    y' \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    cosθ & -sinθ & 0 \\
+    sinθ & cosθ & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x \\
+    y \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    x*cosθ-y*sinθ \\
+    x*sinθ+y*cosθ \\
+    1 \\
+\end{bmatrix}</script><img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_02旋转.png" title="红点绕原点逆时针旋转45°为蓝点">
+<h2 id="比例"><a href="#比例" class="headerlink" title="比例"></a>比例</h2><script type="math/tex; mode=display">
+T=
+\begin{bmatrix}
+    S_x & 0 & 0 \\
+    0 & S_y & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">S_x,S_y为比例系数</script><script type="math/tex; mode=display">
+\begin{bmatrix}
+    x' \\
+    y' \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    S_x & 0 & 0 \\
+    0 & S_y & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x \\
+    y \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    x*S_x \\
+    y*S_y \\
+    1 \\
+\end{bmatrix}</script><img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_03比例.png" title="红点沿x放大4倍沿y放大0.5倍为蓝点">
+<h2 id="反射"><a href="#反射" class="headerlink" title="反射"></a>反射</h2><script type="math/tex; mode=display">
+关于原点的二维反射变换矩阵
+T=
+\begin{bmatrix}
+    -1 & 0 & 0 \\
+    0 & -1 & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">
+关于x轴的二维反射变换矩阵
+T=
+\begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & -1 & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">
+关于y轴的二维反射变换矩阵
+T=
+\begin{bmatrix}
+    -1 & 0 & 0 \\
+    0 & 1 & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">
+\begin{bmatrix}
+    x' \\
+    y' \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    -1 & 0 & 0 \\
+    0 & -1 & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x \\
+    y \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    -x \\
+    -y \\
+    1 \\
+\end{bmatrix}</script><img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_04反射xy.png" title="红点关于原点反射为蓝点">
+<img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_04反射x.png" title="红点关于x轴反射为蓝点">
+<img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_04反射y.png" title="红点关于y轴反射为蓝点">
+<h2 id="错切"><a href="#错切" class="headerlink" title="错切"></a>错切</h2><script type="math/tex; mode=display">
+T=
+\begin{bmatrix}
+    1 & b & 0 \\
+    c & 1 & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">b,c为错切参数</script><script type="math/tex; mode=display">
+\begin{bmatrix}
+    x' \\
+    y' \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    1 & b & 0 \\
+    c & 1 & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x \\
+    y \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    x+c*y \\
+    b*x+y \\
+    1 \\
+\end{bmatrix}</script><img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_05错切b=2.png" title="红点错切b=2为蓝点">
+<img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_05错切c=-3.png" title="红点错切c=-3为蓝点">
+<img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/a_05错切b=1c=1.png" title="红点错切b=2 c=-3为蓝点">
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>符合下面形式的坐标变换称为<strong>二维仿射变换</strong>：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+    x' \\
+    y' \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    a_{1,1} & a_{1,2} & a_{1,3} \\
+    a_{2,1} & a_{2,2} & a_{2,3} \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x \\
+    y \\
+    1 \\
+\end{bmatrix}</script><p><strong>平移、旋转、比例、反射、错切</strong>都是<strong>二维仿射变换</strong>的特例，任何一组二维仿射变换总可表示为这5种变换的组合。<br>仿射变换具有<strong>平行线变换成平行线，有限点映射到有限点</strong>的一般特性。</p>
+<h1 id="VisionPro的CogCalibNPointToNPointTool的5种自由度"><a href="#VisionPro的CogCalibNPointToNPointTool的5种自由度" class="headerlink" title="VisionPro的CogCalibNPointToNPointTool的5种自由度"></a>VisionPro的CogCalibNPointToNPointTool的5种自由度</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">自由度</th>
+<th style="text-align:center">英文</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">平移</td>
+<td style="text-align:center">Translate</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">旋转</td>
+<td style="text-align:center">Rotate</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">缩放</td>
+<td style="text-align:center">Scale</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">纵横比</td>
+<td style="text-align:center">Aspect</td>
+<td style="text-align:center">缩放时xy比例不同</td>
+</tr>
+<tr>
+<td style="text-align:center">倾斜</td>
+<td style="text-align:center">Skew</td>
+<td style="text-align:center">旋转时xy角度不同</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>上述5种自由度均属于<strong>2D线性变换</strong></p>
+<p>CogCalibNPointToNPointTool功能：将<strong>图像坐标</strong>映射到<strong>“真实情况”坐标</strong>的二维转换，要求<strong>至少3个</strong>已知位置</p>
+<h2 id="2D线性变换（2D-Linear-Transformations）"><a href="#2D线性变换（2D-Linear-Transformations）" class="headerlink" title="2D线性变换（2D Linear Transformations）"></a>2D线性变换（2D Linear Transformations）</h2><p>2D变换常用于将点从pixel space<strong>映射</strong>到user space，两者之间常常有不同的测量单位</p>
+<img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/b_012D线性变换.png" title="2D线性变换">
+<p>包含3大类：</p>
+<ol>
+<li>缩放（scaling）</li>
+<li>旋转（rotation）</li>
+<li>平移（translation）</li>
+</ol>
+<h2 id="缩放（Scaling）"><a href="#缩放（Scaling）" class="headerlink" title="缩放（Scaling）"></a>缩放（Scaling）</h2><p><strong>缩放</strong>：改变一个坐标空间相对于另一个坐标空间的x轴单位和y轴单位</p>
+<h3 id="均匀缩放（Uniform-Scaling）"><a href="#均匀缩放（Uniform-Scaling）" class="headerlink" title="均匀缩放（Uniform Scaling）"></a>均匀缩放（Uniform Scaling）</h3><p>xy缩放比例相同</p>
+<script type="math/tex; mode=display">
+T=
+\begin{bmatrix}
+    S & 0 & 0 \\
+    0 & S & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">
+\begin{bmatrix}
+    x_{PB} \\
+    y_{PB} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    S & 0 & 0 \\
+    0 & S & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x_{PA} \\
+    y_{PA} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    x_{PA}*S \\
+    y_{PA}*S \\
+    1 \\
+\end{bmatrix}</script><img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/b_02Uniform_Scaling.png" title="Uniform Scaling">
+<h3 id="非均匀缩放（Nonuniform-Scaling）"><a href="#非均匀缩放（Nonuniform-Scaling）" class="headerlink" title="非均匀缩放（Nonuniform Scaling）"></a>非均匀缩放（Nonuniform Scaling）</h3><p>xy缩放比例不同，会改变坐标空间的<strong>纵横比</strong>（Aspect）</p>
+<p>两种实现：</p>
+<ul>
+<li>两个不同的缩放因子<script type="math/tex">S_x</script>、<script type="math/tex">S_y</script></li>
+</ul>
+<script type="math/tex; mode=display">
+T=
+\begin{bmatrix}
+    S_x & 0 & 0 \\
+    0 & S_y & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">
+\begin{bmatrix}
+    x_{PB} \\
+    y_{PB} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    S_x & 0 & 0 \\
+    0 & S_y & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x_{PA} \\
+    y_{PA} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    x_{PA}*S_x \\
+    y_{PA}*S_y \\
+    1 \\
+\end{bmatrix}</script><ul>
+<li>均匀缩放的缩放因子<script type="math/tex">S</script>和附加的纵横比（<strong>Aspect</strong>）<script type="math/tex">A</script></li>
+</ul>
+<script type="math/tex; mode=display">
+T=
+\begin{bmatrix}
+    S & 0 & 0 \\
+    0 & S*A & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    S & 0 & 0 \\
+    0 & S & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & A & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">
+\begin{bmatrix}
+    x_{PB} \\
+    y_{PB} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    S & 0 & 0 \\
+    0 & S*A & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x_{PA} \\
+    y_{PA} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    x_{PA}*S \\
+    y_{PA}*S*A \\
+    1 \\
+\end{bmatrix}</script><h2 id="旋转（Rotation）"><a href="#旋转（Rotation）" class="headerlink" title="旋转（Rotation）"></a>旋转（Rotation）</h2><p><strong>旋转</strong>：相对于另一个坐标空间，旋转x和y轴（弧度）</p>
+<h3 id="刚性旋转（Uniform-or-Rigid-Rotation）"><a href="#刚性旋转（Uniform-or-Rigid-Rotation）" class="headerlink" title="刚性旋转（Uniform or Rigid Rotation）"></a>刚性旋转（Uniform or Rigid Rotation）</h3><p>xy旋转角度相同</p>
+<script type="math/tex; mode=display">
+T=
+\begin{bmatrix}
+    cosθ & -sinθ & 0 \\
+    sinθ & cosθ & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><p>θ为点的逆时针方向旋转角<br>注意：旋转角度θ是在B中测量的，从空间B到空间A的角度</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+    x_{PB} \\
+    y_{PB} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    cosθ & -sinθ & 0 \\
+    sinθ & cosθ & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x_{PA} \\
+    y_{PA} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    x_{PA}*cosθ-y_{PA}*sinθ \\
+    x_{PA}*sinθ+y_{PA}*cosθ \\
+    1 \\
+\end{bmatrix}</script><img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/b_03Uniform_Rotation.png" title="Uniform Rotation">
+<h3 id="倾斜旋转（Nonuniform-or-Skew-Rotation）"><a href="#倾斜旋转（Nonuniform-or-Skew-Rotation）" class="headerlink" title="倾斜旋转（Nonuniform or Skew Rotation）"></a>倾斜旋转（Nonuniform or Skew Rotation）</h3><p>xy旋转角度不同</p>
+<p>两种实现：</p>
+<ul>
+<li>两个不同的旋转角度<script type="math/tex">θ_x</script>、<script type="math/tex">θ_y</script></li>
+</ul>
+<script type="math/tex; mode=display">
+T=
+\begin{bmatrix}
+    cosθ_x & -sinθ_y & 0 \\
+    sinθ_x & cosθ_y & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">
+\begin{bmatrix}
+    x_{PB} \\
+    y_{PB} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    cosθ_x & -sinθ_y & 0 \\
+    sinθ_x & cosθ_y & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x_{PA} \\
+    y_{PA} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    x_{PA}*cosθ_x-y_{PA}*sinθ_y \\
+    x_{PA}*sinθ_x+y_{PA}*cosθ_y \\
+    1 \\
+\end{bmatrix}</script><ul>
+<li>相同的旋转角度<script type="math/tex">θ</script>、附加的倾斜（<strong>Skew</strong>）因子<script type="math/tex">Q</script><script type="math/tex; mode=display">Q = θ_y - θ_x</script></li>
+</ul>
+<script type="math/tex; mode=display">
+T=
+\begin{bmatrix}
+    cosθ & -sin(Q+θ) & 0 \\
+    sinθ & cos(Q+θ) & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">
+\begin{bmatrix}
+    x_{PB} \\
+    y_{PB} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    cosθ & -sin(Q+θ) & 0 \\
+    sinθ & cos(Q+θ) & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x_{PA} \\
+    y_{PA} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    x_{PA}*cosθ-y_{PA}*sin(Q+θ) \\
+    x_{PA}*sinθ+y_{PA}*cos(Q+θ) \\
+    1 \\
+\end{bmatrix}</script><img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/b_04Nonuniform_Rotation.png" title="Nonuniform Rotation">
+<h2 id="纵横比（Aspect）"><a href="#纵横比（Aspect）" class="headerlink" title="纵横比（Aspect）"></a>纵横比（Aspect）</h2><p><strong>纵横比</strong>：沿y轴的缩放因子与沿x轴缩放因子的比率</p>
+<script type="math/tex; mode=display">A = \frac{S_y}{S_x}</script><script type="math/tex; mode=display">
+T=
+\begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & A & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/b_05Aspect.png" title="Aspect">
+<h2 id="平移（Translation）"><a href="#平移（Translation）" class="headerlink" title="平移（Translation）"></a>平移（Translation）</h2><p><strong>平移</strong>：由坐标空间相对于另一个坐标空间的原点的偏移量组成</p>
+<script type="math/tex; mode=display">
+T=
+\begin{bmatrix}
+    1 & 0 & T_x \\
+    0 & 1 & T_y \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><p>如果<script type="math/tex">(T_x,T_y)</script>是从坐标空间B到空间A的平移向量的分量，以空间B表示，则可以使用以下方法将空间A中的点P映射到空间B。</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+    x_{PB} \\
+    y_{PB} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    1 & 0 & T_x \\
+    0 & 1 & T_y \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x_{PA} \\
+    y_{PA} \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    x_{PA}+T_x \\
+    y_{PA}+T_y \\
+    1 \\
+\end{bmatrix}</script><img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/b_06Translation.png" title="b_06Translation">
+<h2 id="两种组合"><a href="#两种组合" class="headerlink" title="两种组合"></a>两种组合</h2><p>两种组合只是视角不同，均为<strong>6个约束变量</strong></p>
+<h3 id="ScalingX-Y-RotationX-Y-Method"><a href="#ScalingX-Y-RotationX-Y-Method" class="headerlink" title="ScalingX/Y-RotationX/Y Method"></a>ScalingX/Y-RotationX/Y Method</h3><script type="math/tex; mode=display">
+6个约束变量：S_x、S_y、θ_x、θ_y、T_x、T_y</script><script type="math/tex; mode=display">
+T=
+\begin{bmatrix}
+    cosθ_x & -sinθ_y & 0 \\
+    sinθ_x & cosθ_y & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    S_x & 0 & 0 \\
+    0 & S_y & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    1 & 0 & T_x \\
+    0 & 1 & T_y \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\\=
+\begin{bmatrix}
+    S_x\ cosθ_x & -S_y\ sinθ_y & T_x \\
+    S_x\ sinθ_x & S_y\ cosθ_y & T_y \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><h3 id="Scaling-Aspect-Rotation-Skew-Method"><a href="#Scaling-Aspect-Rotation-Skew-Method" class="headerlink" title="Scaling-Aspect-Rotation-Skew Method"></a>Scaling-Aspect-Rotation-Skew Method</h3><script type="math/tex; mode=display">
+6个约束变量：S、A（纵横比）、Q（倾斜）、θ、T_x、T_y</script><script type="math/tex; mode=display">
+T=
+\begin{bmatrix}
+    cosθ & -sinθ & 0 \\
+    sinθ & cosθ & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    1 & -sinQ & 0 \\
+    0 & cosQ & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    S & 0 & 0 \\
+    0 & S & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    1 & 0 & 0 \\
+    0 & A & 0 \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    1 & 0 & T_x \\
+    0 & 1 & T_y \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\\=
+\begin{bmatrix}
+    S\ cosθ & -S\ A\ sin(Q+θ) & T_x \\
+    S\ sinθ & S\ A\ cos(Q+θ) & T_y \\
+    0 & 0 & 1 \\
+\end{bmatrix}</script><h2 id="VisionPro-2D-Transformation-Objects"><a href="#VisionPro-2D-Transformation-Objects" class="headerlink" title="VisionPro 2D Transformation Objects"></a>VisionPro 2D Transformation Objects</h2><p>方法：GetTransform()、MapPoint()</p>
+<img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/b_07坐标系变换示意图.png" title="坐标系变换示意图">
+<h1 id="两步优化思路"><a href="#两步优化思路" class="headerlink" title="两步优化思路"></a>两步优化思路</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">符号</th>
+<th style="text-align:center">含义</th>
+<th style="text-align:center">维数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">N</td>
+<td style="text-align:center">映射的点的个数</td>
+<td style="text-align:center">N</td>
+</tr>
+<tr>
+<td style="text-align:center">w1</td>
+<td style="text-align:center"><strong>模板位</strong>的2D点坐标</td>
+<td style="text-align:center">3*N</td>
+</tr>
+<tr>
+<td style="text-align:center">w2</td>
+<td style="text-align:center"><strong>偏移位</strong>的2D点坐标</td>
+<td style="text-align:center">3*N</td>
+</tr>
+<tr>
+<td style="text-align:center">Rt</td>
+<td style="text-align:center">通过<strong>伪逆</strong>求得的变换关系=w2*pinv(w1)</td>
+<td style="text-align:center">3*3</td>
+</tr>
+<tr>
+<td style="text-align:center">init</td>
+<td style="text-align:center">由Rt求得的3个<strong>约束变量</strong>（旋转角度、x偏移、y偏移）</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">getRtFromRES()</td>
+<td style="text-align:center">由约束变量求变换关系(3*3)</td>
+<td style="text-align:center">3-&gt;3*3</td>
+</tr>
+<tr>
+<td style="text-align:center">x0</td>
+<td style="text-align:center">第1次优化的结果</td>
+<td style="text-align:center">3</td>
+</tr>
+<tr>
+<td style="text-align:center">x</td>
+<td style="text-align:center">第2次优化的结果</td>
+<td style="text-align:center">3</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">优化步骤</th>
+<th style="text-align:center">优化量初始值</th>
+<th style="text-align:center">优化函数</th>
+<th style="text-align:center">目的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">第1次优化</td>
+<td style="text-align:center">init</td>
+<td style="text-align:center">getRtFromRES(init) - Rt</td>
+<td style="text-align:center">得到满足<strong>物理约束</strong>的3个约束变量</td>
+</tr>
+<tr>
+<td style="text-align:center">第2次优化</td>
+<td style="text-align:center">x0</td>
+<td style="text-align:center">getRtFromRES(x0)*w1 - w2</td>
+<td style="text-align:center">使约束变量映射后的点与<strong>偏移位</strong>的点尽量接近</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="可视化"><a href="#可视化" class="headerlink" title="可视化"></a>可视化</h1><p>红点：模板（w1）<br>绿色：偏移（w2）<br>蓝色：估计（getRtFromRES(x)*w1）</p>
+<img src="/2018/11/27/2018-11-27-imv-npoint-to-npoint/c_01动图NPointToNPoint.gif" title="动图NPointToNPoint">
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参考内容</th>
+<th style="text-align:center">参考方面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/qq_36537774/article/details/81604481" target="_blank" rel="noopener">单目视觉标定：世界坐标系、相机坐标系、图像坐标系、像素坐标系——简单粗暴，粗暴</a></td>
+<td style="text-align:center">2D点到点的映射矩阵</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/zhyh1435589631/article/details/70666280" target="_blank" rel="noopener">使用 levenberg-marquardt 优化 欧式空间中的三维点变换关系</a></td>
+<td style="text-align:center">求点到点的映射的LM法优化思路</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/jxch____/article/details/80726594" target="_blank" rel="noopener">二维图形基本几何变换矩阵</a></td>
+<td style="text-align:center">二维图形的5种变化关系</td>
+</tr>
+<tr>
+<td style="text-align:center">Cognex VisionPro Documentation 9.1中的Transformations</td>
+<td style="text-align:center">VisionPro的2D点变换</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+            <a href="/tags/双目视觉/" rel="tag"># 双目视觉</a>
+          
+            <a href="/tags/精华/" rel="tag"># 精华</a>
+          
+            <a href="/tags/标定/" rel="tag"># 标定</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/" rel="next" title="[机器视觉]双目视觉在机械臂抓取中的应用（3D locate）">
+                <i class="fa fa-chevron-left"></i> [机器视觉]双目视觉在机械臂抓取中的应用（3D locate）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/06/2018-12-06-imv-calibrate-camera/" rel="prev" title="[机器视觉]详解相机标定">
+                [机器视觉]详解相机标定 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#二维图形的5种几何变换"><span class="nav-number">1.</span> <span class="nav-text">二维图形的5种几何变换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#平移"><span class="nav-number">1.1.</span> <span class="nav-text">平移</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#旋转"><span class="nav-number">1.2.</span> <span class="nav-text">旋转</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#比例"><span class="nav-number">1.3.</span> <span class="nav-text">比例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#反射"><span class="nav-number">1.4.</span> <span class="nav-text">反射</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#错切"><span class="nav-number">1.5.</span> <span class="nav-text">错切</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">1.6.</span> <span class="nav-text">小结</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#VisionPro的CogCalibNPointToNPointTool的5种自由度"><span class="nav-number">2.</span> <span class="nav-text">VisionPro的CogCalibNPointToNPointTool的5种自由度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#2D线性变换（2D-Linear-Transformations）"><span class="nav-number">2.1.</span> <span class="nav-text">2D线性变换（2D Linear Transformations）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#缩放（Scaling）"><span class="nav-number">2.2.</span> <span class="nav-text">缩放（Scaling）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#均匀缩放（Uniform-Scaling）"><span class="nav-number">2.2.1.</span> <span class="nav-text">均匀缩放（Uniform Scaling）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#非均匀缩放（Nonuniform-Scaling）"><span class="nav-number">2.2.2.</span> <span class="nav-text">非均匀缩放（Nonuniform Scaling）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#旋转（Rotation）"><span class="nav-number">2.3.</span> <span class="nav-text">旋转（Rotation）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#刚性旋转（Uniform-or-Rigid-Rotation）"><span class="nav-number">2.3.1.</span> <span class="nav-text">刚性旋转（Uniform or Rigid Rotation）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#倾斜旋转（Nonuniform-or-Skew-Rotation）"><span class="nav-number">2.3.2.</span> <span class="nav-text">倾斜旋转（Nonuniform or Skew Rotation）</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#纵横比（Aspect）"><span class="nav-number">2.4.</span> <span class="nav-text">纵横比（Aspect）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#平移（Translation）"><span class="nav-number">2.5.</span> <span class="nav-text">平移（Translation）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#两种组合"><span class="nav-number">2.6.</span> <span class="nav-text">两种组合</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#ScalingX-Y-RotationX-Y-Method"><span class="nav-number">2.6.1.</span> <span class="nav-text">ScalingX/Y-RotationX/Y Method</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Scaling-Aspect-Rotation-Skew-Method"><span class="nav-number">2.6.2.</span> <span class="nav-text">Scaling-Aspect-Rotation-Skew Method</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VisionPro-2D-Transformation-Objects"><span class="nav-number">2.7.</span> <span class="nav-text">VisionPro 2D Transformation Objects</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#两步优化思路"><span class="nav-number">3.</span> <span class="nav-text">两步优化思路</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#可视化"><span class="nav-number">4.</span> <span class="nav-text">可视化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

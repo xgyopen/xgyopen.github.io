@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content=",," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="精读5篇关于uvw的论文，此文为笔记。">
+<meta name="keywords" content="计算机视觉,读论文">
+<meta property="og:type" content="website">
+<meta property="og:title" content="[机器视觉]uvw与xyθ的转换">
+<meta property="og:url" content="http://yoursite.com/暂时放弃1/2018-12-08-imv-uvw-paper.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="精读5篇关于uvw的论文，此文为笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-09T06:14:30.977Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]uvw与xyθ的转换">
+<meta name="twitter:description" content="精读5篇关于uvw的论文，此文为笔记。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/暂时放弃1/2018-12-08-imv-uvw-paper.html"/>
+
+
+
+
+
+  <title>[机器视觉]uvw与xyθ的转换 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/暂时放弃1/2018-12-08-imv-uvw-paper.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]uvw与xyθ的转换</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-08T13:13:13+08:00">
+                2018-12-08
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  精读5篇关于uvw的论文，此文为笔记。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="资料查阅"><a href="#资料查阅" class="headerlink" title="资料查阅"></a>资料查阅</h1><h2 id="硕士（2篇）"><a href="#硕士（2篇）" class="headerlink" title="硕士（2篇）"></a>硕士（2篇）</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">题名</th>
+<th style="text-align:center">作者</th>
+<th style="text-align:center">学校</th>
+<th style="text-align:center">年份</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">基于双目视觉的UVW定位平台关键技术研究</td>
+<td style="text-align:center">刘重阳（机械）</td>
+<td style="text-align:center">北方工业</td>
+<td style="text-align:center">2017</td>
+<td style="text-align:center">重在第2章P11，包含标定</td>
+</tr>
+<tr>
+<td style="text-align:center">面向双对位翻板贴合机的UVW对位平台运动特性的研究</td>
+<td style="text-align:center">程建（机械）</td>
+<td style="text-align:center">广东工业</td>
+<td style="text-align:center">2018</td>
+<td style="text-align:center">重在第4章P40，整个UVW平台的设计，侧重硬件，T形波控制电机，Matlab仿真</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="期刊（3篇）"><a href="#期刊（3篇）" class="headerlink" title="期刊（3篇）"></a>期刊（3篇）</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">题名</th>
+<th style="text-align:center">期刊</th>
+<th style="text-align:center">学校</th>
+<th style="text-align:center">年份</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">基于机器视觉的UVW定位系统</td>
+<td style="text-align:center">机床与液压（中文核心）</td>
+<td style="text-align:center">北方工业大学</td>
+<td style="text-align:center">2018</td>
+<td style="text-align:center">与刘重阳的硕士论文是同一作者</td>
+</tr>
+<tr>
+<td style="text-align:center">精密对位系统中共平面UVW工作平台的研究</td>
+<td style="text-align:center">机械制造（中文核心）</td>
+<td style="text-align:center">上海大学</td>
+<td style="text-align:center">2007</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">UVW平台在平板显示贴附类设备中的应用与研究</td>
+<td style="text-align:center">电子工业专用设备</td>
+<td style="text-align:center">中国电子科技集团公司第二研究所</td>
+<td style="text-align:center">2016</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="平面并联结构3-PRP"><a href="#平面并联结构3-PRP" class="headerlink" title="平面并联结构3-PRP"></a>平面并联结构3-PRP</h1><h2 id="4种形式的机械工作平台"><a href="#4种形式的机械工作平台" class="headerlink" title="4种形式的机械工作平台"></a>4种形式的机械工作平台</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">平台</th>
+<th style="text-align:center">特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">XYθ</td>
+<td style="text-align:center">最常用，串联结构，X、Y、θ是独立的转动轴，可实现<strong>大尺度平移</strong>、<strong>大角度旋转</strong>，但<strong>对θ的小分辨率很难做到</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">UVW</td>
+<td style="text-align:center">常用于<strong>平板显示精密对位</strong>，串联结构，结构紧凑，可实现<strong>微米级定位精度</strong>，但<strong>工作空间小</strong>、控制复杂</td>
+</tr>
+<tr>
+<td style="text-align:center">θXY</td>
+<td style="text-align:center">少见，使用场合特殊</td>
+</tr>
+<tr>
+<td style="text-align:center">Xθ+Y</td>
+<td style="text-align:center">用于平板显示器玻璃基板的切割</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="UVW工作平台"><a href="#UVW工作平台" class="headerlink" title="UVW工作平台"></a>UVW工作平台</h2><p>UVW工作平台采用<strong>共平面</strong>的结构设计思想，能同时完成X、Y、θ三轴的运动<br><strong>共平面运动</strong>：将驱动电机安装在同一水平面内，并且工作台面平行于电机安装面作相应运动<br>用共线的<strong>“滑动-转动-滑动”</strong>即<strong>3-PRP的平面并联机构</strong>完成运动的传递</p>
+<h2 id="自由度分析"><a href="#自由度分析" class="headerlink" title="自由度分析"></a>自由度分析</h2><p><strong>自由度为3</strong>，运动唯一</p>
+<h2 id="运动反解模型"><a href="#运动反解模型" class="headerlink" title="运动反解模型"></a>运动反解模型</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">正反解</th>
+<th style="text-align:center">已知</th>
+<th style="text-align:center">求解</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">正解</td>
+<td style="text-align:center">机构驱动部件的运动规律变化</td>
+<td style="text-align:center">机构末端执行器上指定观测点的位姿、速度、加速度、转动构件相关参数变化规律</td>
+</tr>
+<tr>
+<td style="text-align:center">反解</td>
+<td style="text-align:center">末端执行机构的运动规律、机构的结构参数变化</td>
+<td style="text-align:center">机构驱动部件所需的运动参数</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="《基于机器视觉的UVW定位系统》-《基于双目视觉的UVW定位平台关键技术研究》"><a href="#《基于机器视觉的UVW定位系统》-《基于双目视觉的UVW定位平台关键技术研究》" class="headerlink" title="《基于机器视觉的UVW定位系统》/《基于双目视觉的UVW定位平台关键技术研究》"></a>《基于机器视觉的UVW定位系统》/《基于双目视觉的UVW定位平台关键技术研究》</h1><h2 id="定位系统结构"><a href="#定位系统结构" class="headerlink" title="定位系统结构"></a>定位系统结构</h2><p>UVW精密对位平台、控制系统、视觉检测系统</p>
+
+
+<p>定位对准范围：X方向[-5mm, 5mm]，Y方向[-5mm, 5mm]，θ方向[-5°, 5°]<br>定位对准精度：3.5μm</p>
+<h2 id="UVW平台运动学分析与位置解"><a href="#UVW平台运动学分析与位置解" class="headerlink" title="UVW平台运动学分析与位置解"></a>UVW平台运动学分析与位置解</h2>
+
+<h2 id="平台定位对准算法"><a href="#平台定位对准算法" class="headerlink" title="平台定位对准算法"></a>平台定位对准算法</h2>
+<ol>
+<li><strong>标定相机</strong>。建立<strong>图像坐标</strong>和<strong>世界坐标</strong>的关系，为了之后将图像坐标转换为世界坐标做准备。</li>
+<li><strong>获取模板与当前位姿</strong>。选定一个<strong>标准位置</strong>作为<strong>模板位姿</strong>。通过双目相机采集得到图像1、图像2，从中提取<strong>中心坐标</strong>及<strong>选择角度</strong>作为模板数据被记录。<br>然后，再进行<strong>当前位姿</strong>提取并记录。</li>
+<li>通过标定所建立的坐标系之间的关系，利用<strong>模板位姿</strong>信息与<strong>当前位姿</strong>信息进行计算从而求出<strong>世界坐标系</strong>下<strong>转动（角度）偏移量和移动偏移量</strong>。</li>
+<li>通过平台运动学分析<strong>逆解</strong>转换为UVW控制量，计算机控制输出使平台完成对准。</li>
+</ol>
+<h2 id="标定相机：基于系统位置反馈的的自标定方法"><a href="#标定相机：基于系统位置反馈的的自标定方法" class="headerlink" title="标定相机：基于系统位置反馈的的自标定方法"></a>标定相机：基于系统位置反馈的的自标定方法</h2><p>标定：<strong>图像坐标系</strong> ⇄ <strong>世界坐标系</strong></p>
+<h3 id="标定流程"><a href="#标定流程" class="headerlink" title="标定流程"></a>标定流程</h3><p>程序：<strong>世界坐标</strong>下的<strong>运动量</strong> → <strong>UVW平台</strong>的<strong>控制量</strong><br>⇒ 运动控制卡：平台运动到达新位姿<br>⇒ 双相机：采集此位姿的Mark点<br>⇒ 图像坐标与世界坐标下的运动量：建立<strong>相似仿射变换矩阵</strong><br>⇒ 系统位置反馈的<strong>自标定</strong></p>
+
+<h3 id="旋转标定原理"><a href="#旋转标定原理" class="headerlink" title="旋转标定原理"></a>旋转标定原理</h3><p>旋转标定：给定的（已知）<strong>世界坐标系</strong>下的旋转信息<strong>θ[i]</strong> ⇄ 双目相机提取目标的<strong>图像坐标系</strong>下的<strong>D[i]</strong></p>
+<p>在平台上方固定的<strong>两台工业相机</strong>中心连线<strong>与Y轴共线</strong>，当输入一组角度<strong>θ[i]</strong>，通过控制平台U、V、W各轴输出得到目标一个新的位姿。<br>相机采集平台运动后的图像，将这i组新位姿记录下。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">组别</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">A组</td>
+<td style="text-align:center"><strong>相机1</strong>采集目标<strong>Mark点</strong>的i个位置</td>
+</tr>
+<tr>
+<td style="text-align:center">B组</td>
+<td style="text-align:center"><strong>相机2</strong>采集目标<strong>另一个Mark点</strong>的i个相应位置</td>
+</tr>
+<tr>
+<td style="text-align:center">C组</td>
+<td style="text-align:center">将A组点坐标<strong>映射</strong>到B组点所在图像，得到映射后的i个点坐标<br>（<strong>映射</strong>：为了将A组与B组统一在一个坐标系下）</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>如图，B组点与C组对应点距离为<strong>D[i]</strong><br>由于平台旋转工作范围要求小于5度（<script type="math/tex">θ[i]≤5°</script>），即<script type="math/tex">θ[i]≈tan[i]</script>，<script type="math/tex">D[i]/θ[i]=Y</script>，其中Y为定值，所以<strong>D[i]与θ[i]为线性关系</strong><br>假设平台旋转逆时针为正，θ[i]满足条件：若<script type="math/tex">D_{X[i]}≥0</script>，<script type="math/tex">θ[i]≥0°</script></p>
+
+<h3 id="旋转标定实施"><a href="#旋转标定实施" class="headerlink" title="旋转标定实施"></a>旋转标定实施</h3><p>程序：一组旋转量θ[i] → UVW平台的运动量<br>⇒ 计算机：控制平台移动<br>⇒ 相机：提取<strong>A组点坐标<script type="math/tex">P[i]</script></strong>与<strong>B组点坐标<script type="math/tex">Q[i]</script></strong>，进行映射得到<strong>C组点坐标<script type="math/tex">P_Q[i]</script></strong>（如下公式）</p>
+<script type="math/tex; mode=display">
+\sum_{i=1}^n
+\begin{Vmatrix}
+    \begin{bmatrix}
+        Q.X[i] \\
+        Q.Y[i] \\
+        1 \\
+    \end{bmatrix}
+    -
+    MatrixR
+    \begin{bmatrix}
+        P.X[i] \\
+        P.Y[i] \\
+        1 \\
+    \end{bmatrix}
+\end{Vmatrix}
+^2
+=δ</script><script type="math/tex; mode=display">P_Q[i]=MatrixR · P[i]</script><p>即得到B组点与C组点位置差：</p>
+<script type="math/tex; mode=display">D[i] = \sqrt[]{(P_Q.X[i] - Q.X[i])^2 + (P_Q.Y[i] - Q.Y[i])^2}</script><p>假设相机采集了n次，即A组、B组个数为n，则建立的平均比例关系：</p>
+<script type="math/tex; mode=display">Ave(θ[i], D[i]) = \frac{\sum_{i=1}^n(θ[i]/D[i])}{n}</script><p>（<strong>AVE</strong>：平均提取方差值，或称平均变抽取，是统计学中检验结构变量内部一致性的统计量）<br>上式表示，<strong>旋转标定</strong>通过已知目标<strong>世界坐标系</strong>下的旋转信息θ[i]与双目相机提取目标的<strong>图像坐标</strong>信息D[i]建立关系</p>
+<h3 id="平移标定原理"><a href="#平移标定原理" class="headerlink" title="平移标定原理"></a>平移标定原理</h3><p>平移标定：Mark点的<strong>世界坐标</strong>矩阵M（多组Mark点坐标） ⇄ <strong>图像坐标</strong>(x,y)</p>
+<p>输入：平移量即是输入的脉冲矩阵M（多组世界坐标）<br>⇒ 计算机：控制平台移动<br>⇒ 两个相机：采集图像1、图像2，提取多组图像坐标<br>⇒ <strong>图像坐标</strong>与<strong>世界坐标系</strong>下的矩阵M建立相似仿射关系</p>
+<h3 id="平移标定实施"><a href="#平移标定实施" class="headerlink" title="平移标定实施"></a>平移标定实施</h3><p>假设一组输入的平移量</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">组别</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><script type="math/tex">A_1</script>组</td>
+<td style="text-align:center"><strong>相机1</strong>采集目标<strong>Mark点</strong>的i个位置</td>
+</tr>
+<tr>
+<td style="text-align:center"><script type="math/tex">B_1</script>组</td>
+<td style="text-align:center"><strong>相机2</strong>采集目标<strong>另一个Mark点</strong>的i个相应位置</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>有<script type="math/tex">A_1</script>组提取的Mark点坐标P[i]、<script type="math/tex">B_1</script>组提取的Mark点坐标Q[i]，分别与输入脉冲矩阵M(X[i], Y[i])建立<strong>相似仿射变换矩阵</strong>如下：</p>
+<script type="math/tex; mode=display">
+\sum_{i=1}^n
+\begin{Vmatrix}
+    \begin{bmatrix}
+        M.X[i] \\
+        M.Y[i] \\
+        1 \\
+    \end{bmatrix}
+    -
+    MatrixP_1
+    \begin{bmatrix}
+        P.X[i] \\
+        P.Y[i] \\
+        1 \\
+    \end{bmatrix}
+\end{Vmatrix}
+^2
+=δ_1</script><script type="math/tex; mode=display">
+\sum_{i=1}^n
+\begin{Vmatrix}
+    \begin{bmatrix}
+        M.X[i] \\
+        M.Y[i] \\
+        1 \\
+    \end{bmatrix}
+    -
+    MatrixP_2
+    \begin{bmatrix}
+        P.X[i] \\
+        P.Y[i] \\
+        1 \\
+    \end{bmatrix}
+\end{Vmatrix}
+^2
+=δ_2</script><p>上式通过计算得到<script type="math/tex">MatrixP_1</script>、<script type="math/tex">MatrixP_2</script>相似仿射变换矩阵，即是<strong>标定矩阵</strong>。</p>
+<h2 id="定位对准算法第2步-第4步"><a href="#定位对准算法第2步-第4步" class="headerlink" title="定位对准算法第2步~第4步"></a>定位对准算法第2步~第4步</h2><h3 id="获取模板位姿信息"><a href="#获取模板位姿信息" class="headerlink" title="获取模板位姿信息"></a>获取模板位姿信息</h3><p>计算模板旋转量<script type="math/tex">θ_m</script>：</p>
+<script type="math/tex; mode=display">D_m = \sqrt{(x_{12}-x_2)^2+(y_{12}-y_2)^2}</script><script type="math/tex; mode=display">θ_m = D * Ave(θ[i], D[i])</script><p>计算模板世界坐标<script type="math/tex">X_m</script>、<script type="math/tex">Y_m</script>：<br>目标：通过双目相机采集<strong>模板位姿</strong>两个Mark中心点<strong>图像坐标</strong>x、y，通过标定结果得到<strong>世界坐标</strong><script type="math/tex">X_m</script>、<script type="math/tex">Y_m</script></p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+    M_{m1}.X \\
+    M_{m1}.Y \\
+    1 \\
+\end{bmatrix}
+=
+MatrixP_1
+\begin{bmatrix}
+    x_1 \\
+    y_1 \\
+    1 \\
+\end{bmatrix}
++{δ_1}^∀</script><script type="math/tex; mode=display">
+\begin{bmatrix}
+    M_{m2}.X \\
+    M_{m2}.Y \\
+    1 \\
+\end{bmatrix}
+=
+MatrixP_2
+\begin{bmatrix}
+    x_2 \\
+    y_2 \\
+    1 \\
+\end{bmatrix}
++{δ_2}^∀</script><script type="math/tex; mode=display">X_m = \frac{M_{m1}.X + M_{m2}.X}{2}</script><script type="math/tex; mode=display">Y_m = \frac{M_{m1}.Y + M_{m2}.Y}{2}</script><h3 id="获取当前位姿信息"><a href="#获取当前位姿信息" class="headerlink" title="获取当前位姿信息"></a>获取当前位姿信息</h3><p>公式如上同理：</p>
+<script type="math/tex; mode=display">θ = D * Ave(θ[i], D[i])</script><script type="math/tex; mode=display">X = \frac{M_1.X + M_2.X}{2}</script><script type="math/tex; mode=display">Y = \frac{M_1.Y + M_2.Y}{2}</script><h3 id="位置2与位置1的差异"><a href="#位置2与位置1的差异" class="headerlink" title="位置2与位置1的差异"></a>位置2与位置1的差异</h3><p>通过运动学逆解计算，将<strong>当前位姿</strong>的坐标和<strong>模板位姿</strong>的坐标转换为U、V、W各轴向的进给量，位置2与位置1的差异：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+    ΔU \\
+    ΔV \\
+    ΔW \\
+\end{bmatrix}
+=
+K_2
+\begin{bmatrix}
+    X \\
+    Y \\
+    tanθ \\
+\end{bmatrix}
+-
+K_1
+\begin{bmatrix}
+    X_m \\
+    Y_m \\
+    tanθ_m \\
+\end{bmatrix}</script><p>上式计算获得系统的对准量，即是平台的运动量，系统将平台的运动量通过运动控制卡传送到电机及其驱动器，电机在相应转动后带动平台的丝杠及导轨，平台运动相应量完成对准。</p>
+<h1 id="疑问：P23-D-i-θ-i-Y-为啥"><a href="#疑问：P23-D-i-θ-i-Y-为啥" class="headerlink" title="疑问：P23 D[i]/θ[i]=Y?? 为啥"></a>疑问：P23 D[i]/θ[i]=Y?? 为啥</h1>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/" rel="tag"># </a>
+          
+            <a href="/" rel="tag"># </a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#资料查阅"><span class="nav-number">1.</span> <span class="nav-text">资料查阅</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#硕士（2篇）"><span class="nav-number">1.1.</span> <span class="nav-text">硕士（2篇）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期刊（3篇）"><span class="nav-number">1.2.</span> <span class="nav-text">期刊（3篇）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#平面并联结构3-PRP"><span class="nav-number">2.</span> <span class="nav-text">平面并联结构3-PRP</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#4种形式的机械工作平台"><span class="nav-number">2.1.</span> <span class="nav-text">4种形式的机械工作平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UVW工作平台"><span class="nav-number">2.2.</span> <span class="nav-text">UVW工作平台</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自由度分析"><span class="nav-number">2.3.</span> <span class="nav-text">自由度分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运动反解模型"><span class="nav-number">2.4.</span> <span class="nav-text">运动反解模型</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#《基于机器视觉的UVW定位系统》-《基于双目视觉的UVW定位平台关键技术研究》"><span class="nav-number">3.</span> <span class="nav-text">《基于机器视觉的UVW定位系统》/《基于双目视觉的UVW定位平台关键技术研究》</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定位系统结构"><span class="nav-number">3.1.</span> <span class="nav-text">定位系统结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UVW平台运动学分析与位置解"><span class="nav-number">3.2.</span> <span class="nav-text">UVW平台运动学分析与位置解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#平台定位对准算法"><span class="nav-number">3.3.</span> <span class="nav-text">平台定位对准算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标定相机：基于系统位置反馈的的自标定方法"><span class="nav-number">3.4.</span> <span class="nav-text">标定相机：基于系统位置反馈的的自标定方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#标定流程"><span class="nav-number">3.4.1.</span> <span class="nav-text">标定流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#旋转标定原理"><span class="nav-number">3.4.2.</span> <span class="nav-text">旋转标定原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#旋转标定实施"><span class="nav-number">3.4.3.</span> <span class="nav-text">旋转标定实施</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#平移标定原理"><span class="nav-number">3.4.4.</span> <span class="nav-text">平移标定原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#平移标定实施"><span class="nav-number">3.4.5.</span> <span class="nav-text">平移标定实施</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定位对准算法第2步-第4步"><span class="nav-number">3.5.</span> <span class="nav-text">定位对准算法第2步~第4步</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#获取模板位姿信息"><span class="nav-number">3.5.1.</span> <span class="nav-text">获取模板位姿信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取当前位姿信息"><span class="nav-number">3.5.2.</span> <span class="nav-text">获取当前位姿信息</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位置2与位置1的差异"><span class="nav-number">3.5.3.</span> <span class="nav-text">位置2与位置1的差异</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#疑问：P23-D-i-θ-i-Y-为啥"><span class="nav-number">4.</span> <span class="nav-text">疑问：P23 D[i]/θ[i]=Y?? 为啥</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,891 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机视觉,精华,标定," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="读张正友的相机标定论文，对照Matlab和OpenCV中的相关源码，自己实现。">
+<meta name="keywords" content="计算机视觉,精华,标定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]张氏相机标定论文解析">
+<meta property="og:url" content="http://yoursite.com/2019/04/06/2019-04-06-imv-calibrate-camera-paper/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="读张正友的相机标定论文，对照Matlab和OpenCV中的相关源码，自己实现。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-07T11:31:57.331Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]张氏相机标定论文解析">
+<meta name="twitter:description" content="读张正友的相机标定论文，对照Matlab和OpenCV中的相关源码，自己实现。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/06/2019-04-06-imv-calibrate-camera-paper/"/>
+
+
+
+
+
+  <title>[机器视觉]张氏相机标定论文解析 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/06/2019-04-06-imv-calibrate-camera-paper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]张氏相机标定论文解析</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-06T15:15:15+08:00">
+                2019-04-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  读张正友的相机标定论文，对照Matlab和OpenCV中的相关源码，自己实现。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>《A Flexible New Technique for Camera Calibration》</p>
+<h1 id="论文简述"><a href="#论文简述" class="headerlink" title="论文简述"></a>论文简述</h1><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>输入：</p>
+<ul>
+<li><strong>标定板物理坐标系</strong>中的角点坐标（p×n×3=姿态数×角点数×3 =&gt; z=0）</li>
+<li><strong>图像像素坐标系</strong>中的角点坐标（p×n×2=姿态数×角点数×2）</li>
+</ul>
+<p>输出：</p>
+<ul>
+<li><strong>相机内参</strong>（3×3）</li>
+<li><strong>畸变系数</strong></li>
+<li><strong>相机外参</strong>（p×4×4=姿态数×4×4）</li>
+</ul>
+<p>总体步骤：</p>
+<ol>
+<li>估算单应性矩阵H（封闭解）</li>
+<li>计算相机内参</li>
+<li>计算径向畸变k1,k2,相机外参</li>
+<li>最大似然估计</li>
+</ol>
+<h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>动机：从二维图像中提取几何信息<br>（我的理解：①像素与物理之间的尺度变化②纠正畸变）</p>
+<p>要求：相机从不同方位（至少两个）来观测标定板（贴到平面上），不必知道相机或者标定板的位置</p>
+<p><strong>张氏标定法</strong>介于<strong>摄影测量标定法</strong>和<strong>自标定法</strong>之间。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">标定方法</th>
+<th style="text-align:center">利用信息</th>
+<th style="text-align:center">特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">张氏标定法</td>
+<td style="text-align:center">利用二维几何信息</td>
+<td style="text-align:center">灵活、鲁棒性好</td>
+</tr>
+<tr>
+<td style="text-align:center">摄影测量标定法<br>Photogrammetric calibration</td>
+<td style="text-align:center">三维信息</td>
+<td style="text-align:center">有效，但标定装置昂贵</td>
+</tr>
+<tr>
+<td style="text-align:center">自标定法<br>Self-calibration</td>
+<td style="text-align:center">纯粹的特征信息</td>
+<td style="text-align:center">灵活，但鲁棒性不好</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="基础方程"><a href="#基础方程" class="headerlink" title="基础方程"></a>基础方程</h2><h3 id="符号"><a href="#符号" class="headerlink" title="符号"></a>符号</h3><script type="math/tex; mode=display">s\ \widetilde{m} = A\ [R|t]\ \widetilde{M} \tag{1}</script><script type="math/tex; mode=display">实数×(3*1)\ =\ (3*3)×(3*4)×(4*1)</script><ul>
+<li>含义：<strong>3D点</strong><script type="math/tex">M</script>和它的<strong>图像投影点</strong><script type="math/tex">m</script>之间的关系</li>
+<li><script type="math/tex">m=[u,v]^T</script>：2D点</li>
+<li><script type="math/tex">\widetilde{m}=[u,v,1]^T</script>：2D点的齐次形式 —— 图像像素坐标系</li>
+<li><script type="math/tex">M=[X,Y,Z]^T</script>：3D点</li>
+<li><script type="math/tex">\widetilde{M}=[X,Y,Z,1]^T</script>：3D点的齐次形式 —— 标定板物理坐标系</li>
+<li><script type="math/tex">s</script>：任意的比例因子</li>
+<li><script type="math/tex">[R|t]</script>：相机外参（联系<strong>世界坐标系</strong>和<strong>相机坐标系</strong>）</li>
+<li><script type="math/tex">A=\begin{bmatrix}
+  α & γ & u_0 \\
+  0 & β & v_0 \\
+  0 & 0 & 1 \\
+\end{bmatrix}</script>：相机内参<ul>
+<li><script type="math/tex">(u_0,v_0)</script>：主点的坐标</li>
+<li><script type="math/tex">α,β</script>：图像在u轴和v轴的比例因子</li>
+<li><script type="math/tex">γ</script>：描述两个坐标轴倾斜角的参数</li>
+</ul>
+</li>
+</ul>
+<h3 id="标定板平面与其图像之间的单应性（Homograph）"><a href="#标定板平面与其图像之间的单应性（Homograph）" class="headerlink" title="标定板平面与其图像之间的单应性（Homograph）"></a>标定板平面与其图像之间的单应性（Homograph）</h3><script type="math/tex; mode=display">s\ \begin{bmatrix}
+    u \\
+    v \\
+    1 \\
+\end{bmatrix} = A\ [r_1\ r_2\ r_3\ t]\ \begin{bmatrix}
+    X \\
+    Y \\
+    0 \\
+    1 \\
+\end{bmatrix}
+\\= 
+A\ [r_1\ r_2\ t]\ \begin{bmatrix}
+    X \\
+    Y \\
+    1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">实数×(3*1)\ =\ (3*3)×(3*4)×(4*1) =\ (3*3)×(3*3)×(3*1)</script><ul>
+<li><strong>假设标定板平面在世界坐标系中Z=0</strong></li>
+<li>旋转矩阵<script type="math/tex">R</script>的<strong>第i列</strong>记为<script type="math/tex">r_i</script></li>
+</ul>
+<script type="math/tex; mode=display">简写为： s\ \widetilde{m} = H\ \widetilde{M}
+\\
+H=A\ [r_1\ r_2\ t] \tag{2}</script><script type="math/tex; mode=display">实数×(3*1)\ =\ (3*3)×(3*1)</script><h3 id="内参的约束条件"><a href="#内参的约束条件" class="headerlink" title="内参的约束条件"></a>内参的约束条件</h3><h4 id="数学基础"><a href="#数学基础" class="headerlink" title="数学基础"></a>数学基础</h4><p><strong>旋转矩阵的性质：旋转矩阵是正交矩阵</strong></p>
+<ul>
+<li>行列式为1</li>
+<li>各行是单位向量且两两正交</li>
+<li><strong>各列是单位向量且两两正交</strong><a href="https://blog.csdn.net/datase/article/details/74502958" target="_blank" rel="noopener">[1]</a></li>
+<li>逆 = 转置</li>
+</ul>
+<p>由“<strong>各列是单位向量且两两正交</strong>”可得（<script type="math/tex">r_1</script>、<script type="math/tex">r_2</script>为旋转矩阵的第1列、第2列）：</p>
+<script type="math/tex; mode=display">
+r_1^T\ r_2 = 0
+\\
+r_1^T\ r_1 = r_2^T\ r_2 = 1</script><p>矩阵的性质（转置、逆）：</p>
+<script type="math/tex; mode=display">
+(A\ B)^T = B^T\ A^T
+\\
+(A\ B)^{-1} = B^{-1}\ A^{-1}</script><h4 id="公式推导"><a href="#公式推导" class="headerlink" title="公式推导"></a>公式推导</h4><p>把<script type="math/tex">H</script>记为<script type="math/tex">H=[h_1\ h_2\ h_3]</script>，由公式(2)可得（λ是任意的标量）：</p>
+<script type="math/tex; mode=display">[h_1\ h_2\ h_3] = λ A [r_1\ r_2\ T]</script><p>可得：</p>
+<script type="math/tex; mode=display">
+\begin{cases} 
+    h_1 = λ\ A\ r_1 \\ 
+    h_2 = λ\ A\ r_2 \\ 
+    h_3 = λ\ A\ t \\ 
+\end{cases}</script><script type="math/tex; mode=display">
+\begin{cases} 
+    r_1 = \frac{1}{λ}\ A^{-1}\ h_1 \\ 
+    r_2 = \frac{1}{λ}\ A^{-1}\ h_2 \\ 
+    t = \frac{1}{λ}\ A^{-1}\ h_3 \\ 
+\end{cases}</script><p>代入“单位向量+两两正交”的公式：</p>
+<script type="math/tex; mode=display">
+\begin{cases} 
+    r_1^T\ r_2 = (\frac{1}{λ}\ A^{-1}\ h_1)^T\ (\frac{1}{λ}\ A^{-1}\ h_2) = 0 \\ 
+    r_1^T\ r_1 = (\frac{1}{λ}\ A^{-1}\ h_1)^T\ (\frac{1}{λ}\ A^{-1}\ h_1) = r_2^T\ r_2 = (\frac{1}{λ}\ A^{-1}\ h_2)^T\ (\frac{1}{λ}\ A^{-1}\ h_2) = 1 \\ 
+\end{cases}</script><p>整理可得：</p>
+<script type="math/tex; mode=display">h_1^T\ A^{-T}\ A^{-1}\ h_2 = 0 \tag{3}</script><script type="math/tex; mode=display">h_1^T\ A^{-T}\ A^{-1}\ h_1 = h_2^T\ A^{-T}\ A^{-1}\ h_2 \tag{4}</script><p>几何解释是绝对二次曲线（absolute conic），见论文P4 2.4 Geometric Interpretation。（此部分没看懂）</p>
+<h2 id="实现功能"><a href="#实现功能" class="headerlink" title="实现功能"></a>实现功能</h2><h2 id="实用代码"><a href="#实用代码" class="headerlink" title="实用代码"></a>实用代码</h2><p>matlab的符号计算<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 推导《A Flexible New Technique for Camera Calibration》 P5 3.1 Colsed-form solution 中的公式(5) B = A^(-T) * A^(-1)</span></span><br><span class="line">syms a b c u v;</span><br><span class="line">A = [a, c, u; <span class="number">0</span>, b, v; <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>]; <span class="comment">% 相机内参</span></span><br><span class="line">inv(A); <span class="comment">% 逆</span></span><br><span class="line">A.<span class="string">'; % 转置</span></span><br><span class="line"><span class="string">B = inv(A).'</span> * inv(A);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 输出结果</span></span><br><span class="line">A <span class="comment">% 相机内参</span></span><br><span class="line">B <span class="comment">% 对称矩阵</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 结果：</span></span><br><span class="line"><span class="comment">% A =</span></span><br><span class="line"><span class="comment">%     [ a, c, u]</span></span><br><span class="line"><span class="comment">%     [ 0, b, v]</span></span><br><span class="line"><span class="comment">%     [ 0, 0, 1]</span></span><br><span class="line"><span class="comment">% B =</span></span><br><span class="line"><span class="comment">%     [                1/a^2,                        -c/(a^2*b),                  -(b*u - c*v)/(a^2*b)]</span></span><br><span class="line"><span class="comment">%     [           -c/(a^2*b),             1/b^2 + c^2/(a^2*b^2),     (c*(b*u - c*v))/(a^2*b^2) - v/b^2]</span></span><br><span class="line"><span class="comment">%     [ -(b*u - c*v)/(a^2*b), (c*(b*u - c*v))/(a^2*b^2) - v/b^2, v^2/b^2 + (b*u - c*v)^2/(a^2*b^2) + 1]</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 推导《A Flexible New Technique for Camera Calibration》 P5 3.1 Colsed-form solution 中的公式(7)、公式(8)</span></span><br><span class="line">syms B11 B12 B22 B13 B23 B33;</span><br><span class="line">syms h11 h12 h13 h21 h22 h23 h31 h32 h33;</span><br><span class="line">B = [B11, B12, B13; B12, B22, B23; B13, B23, B33]; <span class="comment">% 维度=(3*3)</span></span><br><span class="line">b = [B11, B12, B22, B13, B23, B33].<span class="string">'; % 维度=(6*1)</span></span><br><span class="line"><span class="string">h1 = [h11, h12, h13].'</span>; <span class="comment">% 单应性矩阵(3*3)的列向量 维度=(3*1)</span></span><br><span class="line">h2 = [h21, h22, h23].<span class="string">';</span></span><br><span class="line"><span class="string">v12 = [h11*h21, h11*h22+h12*h21, h12*h22, h13*h21+h11*h23, h13*h22+h12*h23, h13*h23].'</span>; <span class="comment">% 维度=(6*1)</span></span><br><span class="line">v11 = [h11*h11, h11*h12+h12*h11, h12*h12, h13*h11+h11*h13, h13*h12+h12*h13, h13*h13].<span class="string">'; % 维度=(6*1)</span></span><br><span class="line"><span class="string">v22 = [h21*h21, h21*h22+h22*h21, h22*h22, h23*h21+h21*h23, h23*h22+h22*h23, h23*h23].'</span>; <span class="comment">% 维度=(6*1)</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 第1个等式：i=1, j=2</span></span><br><span class="line">equation1_left  = h1.<span class="string">' * B * h2;</span></span><br><span class="line"><span class="string">equation1_right = v12.'</span> * b;</span><br><span class="line"></span><br><span class="line"><span class="comment">% 第2个等式：i=1, j=1; i=2, j=2</span></span><br><span class="line">equation2_left  = h1.<span class="string">' * B * h1 - h2.'</span> * B * h2;</span><br><span class="line">equation2_right = (v11-v22).<span class="string">' * b;</span></span><br><span class="line"><span class="string"></span></span><br><span class="line"><span class="string">% 输出结果</span></span><br><span class="line"><span class="string">equation1_left  % 第1个等式的左边</span></span><br><span class="line"><span class="string">equation1_right % 第1个等式的右边</span></span><br><span class="line"><span class="string">equation2_left  % 第2个等式的左边</span></span><br><span class="line"><span class="string">equation2_right % 第2个等式的右边</span></span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">题目</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">[1]<a href="https://blog.csdn.net/datase/article/details/74502958" target="_blank" rel="noopener">正交矩阵和旋转矩阵之间关系和性质总结</a></td>
+<td style="text-align:center">总结旋转矩阵的性质，各列是单位向量且两两正交</td>
+</tr>
+<tr>
+<td style="text-align:center">[2]<a href="https://blog.csdn.net/humanking7/article/details/44756235" target="_blank" rel="noopener">[图像]摄像机标定(2) 张正友标定推导详解</a></td>
+<td style="text-align:center">精华文章，包含张氏相机标定的公式详细推导</td>
+</tr>
+<tr>
+<td style="text-align:center">[3]<a href="https://blog.csdn.net/tiantangzixue/article/details/79878996" target="_blank" rel="noopener">张正友标定法</a></td>
+<td style="text-align:center">精华文章，包含张氏相机标定的公式详细推导</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a href="https://blog.csdn.net/humanking7/article/details/44756073" target="_blank" rel="noopener">[图像]摄像机标定(1) 标定中的四个坐标系</a></p>
+<p><a href="https://blog.csdn.net/Hu_weichen/article/details/80919695" target="_blank" rel="noopener">Multiple View Geometry(多视图几何)学习笔记（24）— 摄像机标定与绝对二次曲线的图像</a></p>
+<p><a href="https://blog.csdn.net/a6333230/article/details/83478064" target="_blank" rel="noopener">相机标定（具体过程详解）张正友、单应矩阵、B、R、T</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+            <a href="/tags/精华/" rel="tag"># 精华</a>
+          
+            <a href="/tags/标定/" rel="tag"># 标定</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/03/2019-04-03-imv-deeplearning-gluon/" rel="next" title="[深度学习框架]Gluon">
+                <i class="fa fa-chevron-left"></i> [深度学习框架]Gluon
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/07/2019-04-07-job-aihuishou/" rel="prev" title="[找工作]上海悦易-机器视觉">
+                [找工作]上海悦易-机器视觉 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#论文简述"><span class="nav-number">1.</span> <span class="nav-text">论文简述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">1.1.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#概述"><span class="nav-number">1.2.</span> <span class="nav-text">概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基础方程"><span class="nav-number">1.3.</span> <span class="nav-text">基础方程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#符号"><span class="nav-number">1.3.1.</span> <span class="nav-text">符号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标定板平面与其图像之间的单应性（Homograph）"><span class="nav-number">1.3.2.</span> <span class="nav-text">标定板平面与其图像之间的单应性（Homograph）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#内参的约束条件"><span class="nav-number">1.3.3.</span> <span class="nav-text">内参的约束条件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#数学基础"><span class="nav-number">1.3.3.1.</span> <span class="nav-text">数学基础</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#公式推导"><span class="nav-number">1.3.3.2.</span> <span class="nav-text">公式推导</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现功能"><span class="nav-number">1.4.</span> <span class="nav-text">实现功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实用代码"><span class="nav-number">1.5.</span> <span class="nav-text">实用代码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

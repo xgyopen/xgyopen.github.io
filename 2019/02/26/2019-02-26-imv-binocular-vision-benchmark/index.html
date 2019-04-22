@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机视觉,双目视觉,精华,标定," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="将VisionPro中相机标定、手眼标定、姿态偏移的结果，与OpenCV、Matlab做对比。">
+<meta name="keywords" content="计算机视觉,双目视觉,精华,标定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]双目视觉实验结果对比">
+<meta property="og:url" content="http://yoursite.com/2019/02/26/2019-02-26-imv-binocular-vision-benchmark/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="将VisionPro中相机标定、手眼标定、姿态偏移的结果，与OpenCV、Matlab做对比。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/02/26/2019-02-26-imv-binocular-vision-benchmark/a_01matlab相机标定工具箱.png">
+<meta property="og:updated_time" content="2019-03-06T09:21:38.041Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]双目视觉实验结果对比">
+<meta name="twitter:description" content="将VisionPro中相机标定、手眼标定、姿态偏移的结果，与OpenCV、Matlab做对比。">
+<meta name="twitter:image" content="http://yoursite.com/2019/02/26/2019-02-26-imv-binocular-vision-benchmark/a_01matlab相机标定工具箱.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/26/2019-02-26-imv-binocular-vision-benchmark/"/>
+
+
+
+
+
+  <title>[机器视觉]双目视觉实验结果对比 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/26/2019-02-26-imv-binocular-vision-benchmark/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]双目视觉实验结果对比</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-26T09:09:09+08:00">
+                2019-02-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  将VisionPro中相机标定、手眼标定、姿态偏移的结果，与OpenCV、Matlab做对比。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>一个想法：立体标定后再三角定位、点的归一化、基于SVD的三角测量</p>
+<h1 id="实验思路"><a href="#实验思路" class="headerlink" title="实验思路"></a>实验思路</h1><h2 id="实验设计"><a href="#实验设计" class="headerlink" title="实验设计"></a>实验设计</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">实验</th>
+<th style="text-align:center">相机标定</th>
+<th style="text-align:center">手眼标定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">实验1</td>
+<td style="text-align:center">VisionPro</td>
+<td style="text-align:center">VisionPro</td>
+</tr>
+<tr>
+<td style="text-align:center">实验2</td>
+<td style="text-align:center">OpenCV</td>
+<td style="text-align:center">OpenCV</td>
+</tr>
+<tr>
+<td style="text-align:center">实验3</td>
+<td style="text-align:center">OpenCV</td>
+<td style="text-align:center">VisionPro</td>
+</tr>
+<tr>
+<td style="text-align:center">实验4</td>
+<td style="text-align:center">VisionPro</td>
+<td style="text-align:center">OpenCV</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="对照组"><a href="#对照组" class="headerlink" title="对照组"></a>对照组</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">目的</th>
+<th style="text-align:center">对照组</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">比较OpenCV与VisionPro的<strong>总体性能</strong></td>
+<td style="text-align:center">实验1、实验2</td>
+</tr>
+<tr>
+<td style="text-align:center">验证<strong>相机标定</strong>对总体性能的影响（如果三者结果类似，说明相机标定对总体性能影响小）</td>
+<td style="text-align:center">①实验1、实验3<br>②实验2、实验4</td>
+</tr>
+<tr>
+<td style="text-align:center">验证<strong>手眼标定</strong>对总体性能的影响（如果三者结果类似，说明手眼标定对总体性能影响小）</td>
+<td style="text-align:center">①实验1、实验4<br>②实验2、实验3</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="相机标定"><a href="#相机标定" class="headerlink" title="相机标定"></a>相机标定</h1><h2 id="Matlab"><a href="#Matlab" class="headerlink" title="Matlab"></a>Matlab</h2><p>使用<strong>Camera Calibrator APP</strong></p>
+<h3 id="值得注意的功能"><a href="#值得注意的功能" class="headerlink" title="值得注意的功能"></a>值得注意的功能</h3><ol>
+<li>指定估计的模型<ul>
+<li>径向畸变（Radial Distortion）：2个系数/3个系数</li>
+<li>斜交（Skew）：是否考虑</li>
+<li>切向畸变（Tangential Distortion）：是否考虑</li>
+</ul>
+</li>
+<li>衡量标定效果<ul>
+<li>重投影误差（Reprojection Errors）画图，可过滤掉重投影误差大的</li>
+<li>可视化的方式观察外参：固定相机/移动相机</li>
+<li>显示无畸变的图像<img src="/2019/02/26/2019-02-26-imv-binocular-vision-benchmark/a_01matlab相机标定工具箱.png" title="matlab相机标定工具箱"></li>
+</ul>
+</li>
+<li>Matlab的误差计算方式是欧氏距离：<a href="https://www.mathworks.com/help/vision/ref/cameraparameters.html" target="_blank" rel="noopener">MeanReprojectionError — Average Euclidean distance</a></li>
+<li>Matlab提供了计算世界坐标的函数：cameraParameters类中有方法<a href="https://www.mathworks.com/help/vision/ref/cameraparameters.pointstoworld.html" target="_blank" rel="noopener"><strong>pointsToWorld</strong></a>、<a href="https://www.mathworks.com/help/vision/ref/cameraparameters.worldtoimage.html" target="_blank" rel="noopener">worldToImage</a><ul>
+<li>pointsToWorld()：</li>
+<li>worldToImage()：</li>
+</ul>
+</li>
+</ol>
+<h3 id="与OpenCV对应关系"><a href="#与OpenCV对应关系" class="headerlink" title="与OpenCV对应关系"></a>与OpenCV对应关系</h3><p><strong>Matlab与OpenCV中的相机标定完全一致</strong><br>Matlab中2D角点必须对齐后才能输入函数，OpenCV则没有此限制<br>表示方式上，两者的内参互为转置</p>
+<h4 id="相机标定-1"><a href="#相机标定-1" class="headerlink" title="相机标定"></a>相机标定</h4><p>Matlab代码：<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% size(imagePoints) = (170, 2, 9)</span></span><br><span class="line"><span class="comment">% size(worldPoints) = (170, 2)</span></span><br><span class="line"><span class="comment">% [mrows, ncols] = [2050, 2448]</span></span><br><span class="line"><span class="comment">% 故在Matlab中2D角点必须对齐后才能输入函数，因为worldPoints比imagePoints少一个维度</span></span><br><span class="line">[cameraParams, imagesUsed, estimationErrors] = estimateCameraParameters(imagePoints, worldPoints, ...</span><br><span class="line">    <span class="string">'EstimateSkew'</span>, flag_skew, <span class="string">'EstimateTangentialDistortion'</span>, flag_tangential, ...      <span class="comment">% false/true, false/true</span></span><br><span class="line">    <span class="string">'NumRadialDistortionCoefficients'</span>, num_radial, <span class="string">'WorldUnits'</span>, <span class="string">'millimeters'</span>, ...      <span class="comment">% 2/3</span></span><br><span class="line">    <span class="string">'InitialIntrinsicMatrix'</span>, [], <span class="string">'InitialRadialDistortion'</span>, [], ...</span><br><span class="line">    <span class="string">'ImageSize'</span>, [mrows, ncols]);</span><br></pre></td></tr></table></figure></p>
+<p>OpenCV代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># len(obj_list) == len(img_list) == 9</span></span><br><span class="line"><span class="comment"># obj_list[0].shape == (170, 3)</span></span><br><span class="line"><span class="comment"># img_list[0].shape == (170, 2)</span></span><br><span class="line">ret, mtx33_cameraIntrinsic, dist, rvecs, tvecs = cv2.calibrateCamera(obj_list, img_list, (<span class="number">2448</span>, <span class="number">2050</span>), <span class="keyword">None</span>, <span class="keyword">None</span>, flags=<span class="number">0</span>)</span><br></pre></td></tr></table></figure></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">径向畸变</th>
+<th style="text-align:center">Skew</th>
+<th style="text-align:center">切向畸变</th>
+<th style="text-align:center">calibrateCamera()的flags</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">2系数</td>
+<td style="text-align:center">不考虑</td>
+<td style="text-align:center">不考虑</td>
+<td style="text-align:center">cv2.CALIB_ZERO_TANGENT_DIST+cv2.CALIB_FIX_K3</td>
+</tr>
+<tr>
+<td style="text-align:center">3系数</td>
+<td style="text-align:center">不考虑</td>
+<td style="text-align:center">不考虑</td>
+<td style="text-align:center">cv2.CALIB_ZERO_TANGENT_DIST</td>
+</tr>
+<tr>
+<td style="text-align:center">2系数</td>
+<td style="text-align:center">不考虑</td>
+<td style="text-align:center">考虑</td>
+<td style="text-align:center">cv2.CALIB_FIX_K3</td>
+</tr>
+<tr>
+<td style="text-align:center">3系数</td>
+<td style="text-align:center">不考虑</td>
+<td style="text-align:center">考虑</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="相机内外参"><a href="#相机内外参" class="headerlink" title="相机内外参"></a>相机内外参</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">比较条目</th>
+<th style="text-align:center">Matlab</th>
+<th style="text-align:center">OpenCV</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">相机内参</td>
+<td style="text-align:center">cameraParams.IntrinsicMatrix’</td>
+<td style="text-align:center">mtx33_cameraIntrinsic</td>
+</tr>
+<tr>
+<td style="text-align:center">径向畸变</td>
+<td style="text-align:center">cameraParams.RadialDistortion</td>
+<td style="text-align:center">dist.flatten()[[0,1,4]]</td>
+</tr>
+<tr>
+<td style="text-align:center">切向畸变</td>
+<td style="text-align:center">cameraParams.TangentialDistortion</td>
+<td style="text-align:center">dist.flatten()[[2,3]]</td>
+</tr>
+<tr>
+<td style="text-align:center">相机外参</td>
+<td style="text-align:center">cameraParams.RotationMatrices(:,:,1)’<br>cameraParams.TranslationVectors(1,:)</td>
+<td style="text-align:center">cv2.Rodrigues(rvecs[0])[0]<br>tvecs[0]</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="对点纠正畸变"><a href="#对点纠正畸变" class="headerlink" title="对点纠正畸变"></a>对点纠正畸变</h4><p>Matlab代码：<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 对第1个姿态的第1个点纠正畸变</span></span><br><span class="line">undistortPoints(imagePoints(<span class="number">1</span>,:,<span class="number">1</span>), cameraParams)</span><br></pre></td></tr></table></figure></p>
+<p>OpenCV代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 先纠正畸变,再化为齐次形式,再左乘内参</span></span><br><span class="line">point_undistorted = cv2.undistortPoints(img_list[<span class="number">0</span>][<span class="number">0</span>].reshape(<span class="number">1</span>,<span class="number">1</span>,<span class="number">2</span>), mtx33_cameraIntrinsic, dist)</span><br><span class="line">point_undistorted = np.array(point_undistorted.flatten().tolist() + [<span class="number">1</span>]).reshape(<span class="number">3</span>,<span class="number">1</span>)</span><br><span class="line">pointCam2D_undistorted = np.dot(mtx33_cameraIntrinsic, point_undistorted).flatten()[<span class="number">0</span>:<span class="number">2</span>]</span><br></pre></td></tr></table></figure></p>
+<h4 id="已知内参求外参"><a href="#已知内参求外参" class="headerlink" title="已知内参求外参"></a>已知内参求外参</h4><p>Matlab代码：<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% 对第idx个姿态求外参</span></span><br><span class="line">idx = <span class="number">1</span>;</span><br><span class="line">imagePoints_undistorted = undistortPoints(imagePoints(:,:,idx), cameraParams);</span><br><span class="line">[R,t] = extrinsics(imagePoints_undistorted, worldPoints, cameraParams);</span><br><span class="line"></span><br><span class="line"><span class="comment">% R、t是extrinsics()求得的</span></span><br><span class="line"><span class="comment">% R0、t0是estimateCameraParameters()求得的，两者几乎完全等同</span></span><br><span class="line">R0 = cameraParams.RotationMatrices(:,:,idx);</span><br><span class="line">t0 = cameraParams.TranslationVectors(idx,:);</span><br></pre></td></tr></table></figure></p>
+<p>OpenCV代码：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">idx = <span class="number">0</span></span><br><span class="line">retval_, rvec_, tvec_ = cv2.solvePnP(obj_list[idx], img_list[idx], mtx33_cameraIntrinsic, dist)</span><br><span class="line"></span><br><span class="line"><span class="comment"># rvec_、tvec_是cv2.solvePnP()求得的</span></span><br><span class="line"><span class="comment"># rvecs[idx]、tvecs[idx]是cv2.calibrateCamera()求得的，两者完全等同</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="OpenCV"><a href="#OpenCV" class="headerlink" title="OpenCV"></a>OpenCV</h2><p>OpenCV源码的Python例程中与标定相关的：calibrate.py、camera_calibration_show_extrinsics.py、test_calibration.py</p>
+<h3 id="flag参数"><a href="#flag参数" class="headerlink" title="flag参数"></a>flag参数</h3><p>calibrateCamera()函数的flag参数：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">flag值</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">0</td>
+<td style="text-align:center">默认值</td>
+</tr>
+<tr>
+<td style="text-align:center">cv2.CALIB_USE_INTRINSIC_GUESS</td>
+<td style="text-align:center">指定算法初始化的相机内参（fx, fy, cx, cy）<br>不指定会报错</td>
+</tr>
+<tr>
+<td style="text-align:center">cv2.CALIB_FIX_PRINCIPAL_POINT</td>
+<td style="text-align:center">在全局优化中，主点不改变<br>即按默认cx, cy为图像大小的一半</td>
+</tr>
+<tr>
+<td style="text-align:center">cv2.CALIB_FIX_ASPECT_RATIO</td>
+<td style="text-align:center">仅将fy视为自由参数</td>
+</tr>
+<tr>
+<td style="text-align:center">cv2.CALIB_ZERO_TANGENT_DIST</td>
+<td style="text-align:center">忽略切向畸变，即p1, p2设置为0且一直为0</td>
+</tr>
+<tr>
+<td style="text-align:center">cv2.CALIB_FIX_K1 … cv2.CALIB_FIX_K6</td>
+<td style="text-align:center">在优化过程中保持k1/…/k6不变，默认是0</td>
+</tr>
+<tr>
+<td style="text-align:center">cv2.CALIB_RATIONAL_MODEL</td>
+<td style="text-align:center">k4、k5、k6被启用，返回的distCoeffs由5个值变为8个值</td>
+</tr>
+<tr>
+<td style="text-align:center">cv2.CALIB_THIN_PRISM_MODEL</td>
+<td style="text-align:center">s1、s2、s3、s4被启用，返回的distCoeffs由5个值变为8个值</td>
+</tr>
+<tr>
+<td style="text-align:center">cv2.CALIB_FIX_S1_S2_S3_S4</td>
+<td style="text-align:center">优化期间，薄透镜系数不改变</td>
+</tr>
+<tr>
+<td style="text-align:center">cv2.CALIB_TILTED_MODEL</td>
+<td style="text-align:center">系数τx、τy被启用，返回的distCoeffs由5个值变为7个值</td>
+</tr>
+<tr>
+<td style="text-align:center">cv2.CALIB_FIX_TAUX_TAUY</td>
+<td style="text-align:center">优化期间，倾斜传感器模型的系数不改变</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="迭代求解系数"><a href="#迭代求解系数" class="headerlink" title="迭代求解系数"></a>迭代求解系数</h3><p>OpenCV迭代求解的所有系数：<strong>(fx,fy,cx,cy,k1,k2,p1,p2,k3,k4,k5,k6,s1,s2,s3,s4,τx,τy)</strong></p>
+<ul>
+<li>内参：(fx,fy,cx,cy) —— 4个</li>
+<li>畸变系数：(k1,k2,p1,p2[,k3[,k4,k5,k6[,s1,s2,s3,s4[,τx,τy]]]]) —— 14个<ul>
+<li>径向畸变：k1~k6</li>
+<li>切向畸变：p1、p2</li>
+<li>薄透镜畸变：s1~s4</li>
+<li>倾斜传感器：τx、τy</li>
+</ul>
+</li>
+</ul>
+<h2 id="VisionPro"><a href="#VisionPro" class="headerlink" title="VisionPro"></a>VisionPro</h2><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Cog3DCameraCalibrationResult = Cog3DCameraCalibrator.Execute</span><br><span class="line">(</span><br><span class="line">	List&lt;Rectangle&gt;, ——图像大小（如<span class="number">2448</span>×<span class="number">2050</span>）</span><br><span class="line">	List&lt;List&lt;Cog3DCrspFeaturesCollection&gt;&gt;, ——特征点对（Raw2D、Phys3D）</span><br><span class="line">	Cog3DScalarCollection, ——高度（如<span class="number">0</span>）</span><br><span class="line">	List&lt;Cog3DCalibrationPlatePoseTypeConstants&gt; ——姿态类型（如倾斜）</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>总体的衡量指标：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">指标</th>
+<th style="text-align:left">内容</th>
+<th style="text-align:center">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">MaximumTilt</td>
+<td style="text-align:left">所有测量姿态的棋盘格最大倾斜</td>
+<td style="text-align:center">0.27318</td>
+</tr>
+<tr>
+<td style="text-align:center">NumCalPlatePoses</td>
+<td style="text-align:left">棋盘格姿态数量</td>
+<td style="text-align:center">9</td>
+</tr>
+<tr>
+<td style="text-align:center">NumCameras</td>
+<td style="text-align:left">相机数量</td>
+<td style="text-align:center">2</td>
+</tr>
+<tr>
+<td style="text-align:center">☆OverallResidualsRaw2D</td>
+<td style="text-align:left"><strong>Raw2D</strong>中的总体残差统计数据（在<strong>所有相机</strong>和<strong>所有标定板姿势</strong>上）</td>
+<td style="text-align:center">&lt; Cog3DResiduals : Max 8.816 Rms 1.068 &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">☆OverallResidualsPhys3D</td>
+<td style="text-align:left"><strong>Phys3D</strong>中的总体残差统计数据（在<strong>所有相机</strong>和<strong>所有标定板姿势</strong>上）</td>
+<td style="text-align:center">&lt; Cog3DResiduals : <strong>Max</strong> 1.564 <strong>Rms</strong> 0.166 &gt;</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Cog3DCameraCalibrationResult.OverallResidualsPhys3D：Residual error in <strong>Phys3D</strong> space is the distance between <strong>a ray of any 2D feature</strong> (generated using the estimated camera calibration data) and <strong>its corresponding 3D feature</strong>. </p>
+<p>Cog3DCameraCalibrationResult.OverallResidualsRaw2D：Residual error in <strong>Raw2D</strong> space is the distance from <strong>the found location of any 2D feature in the image</strong> to <strong>the 2D location that you would expect</strong> if you took the 3D feature and mapped it using the estimated camera calibration data. </p>
+<p>Cog3DHandEyeCalibrationResult.PositionResidualsPhys3D：Gets the overall residual statistics. These statistics represent <strong>all mapped samples from all stations</strong>.  </p>
+<p>Remarks</p>
+<p>每个相机每个姿态的衡量指标：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">指标</th>
+<th style="text-align:left">内容</th>
+<th style="text-align:center">举例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">FeatureCoverageOfCamera<br>（1个）</td>
+<td style="text-align:left">在<strong>所有</strong>标定板姿态中的特征点对的<strong>凸包覆盖</strong>的特定相机<strong>视野的比例</strong></td>
+<td style="text-align:center">0.85801</td>
+</tr>
+<tr>
+<td style="text-align:center">NumCorrespondences<br>（9个）</td>
+<td style="text-align:left">在特定标定板姿态、特定相机的<strong>对应关系数</strong></td>
+<td style="text-align:center">222</td>
+</tr>
+<tr>
+<td style="text-align:center">FeatureCoverageOfCameraPlate<br>（9个）</td>
+<td style="text-align:left">在<strong>特定</strong>标定板姿态中的特征点对的<strong>凸包覆盖</strong>的特定相机<strong>视野的比例</strong></td>
+<td style="text-align:center">0.80139</td>
+</tr>
+<tr>
+<td style="text-align:center">CalPlate3DFromCamera3D<br>（9个）</td>
+<td style="text-align:left"><strong>Camera3D-&gt;CalPlate3D</strong><br>相机外参</td>
+<td style="text-align:center">Cog3DTransformRigid（4×4）</td>
+</tr>
+<tr>
+<td style="text-align:center">Camera3DFromPhys3D</td>
+<td style="text-align:left"><strong>Phys3D-&gt;Camera3D</strong><br>相机外参</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">ResidualsRaw2D<br>（9个）</td>
+<td style="text-align:left"><strong>Raw2D</strong>中的残差统计数据（在<strong>特定相机</strong>和<strong>特定标定板姿势</strong>上）</td>
+<td style="text-align:center">&lt; Cog3DResiduals : Max 5.238 Rms 1.028 &gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">ResidualsPhys3D</td>
+<td style="text-align:left"><strong>Phys3D</strong>中的残差统计数据（在<strong>特定相机</strong>和<strong>特定标定板姿势</strong>上）</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">GetPhys3DFromCalPlate3Ds()</td>
+<td style="text-align:left"><strong>CalPlate3D-&gt;Phys3D</strong><br>每个姿态相对于第1个姿态（世界坐标系）的变换</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">GetRaw2DFromCamera2Ds()</td>
+<td style="text-align:left"><strong>Camera2D-&gt;Raw2D</strong><br>相机内参</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">GetRaw2DFromPhys3Ds()</td>
+<td style="text-align:left"><strong>Phys3D-&gt;Raw2D</strong><br>标定的所有结果</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="手眼标定"><a href="#手眼标定" class="headerlink" title="手眼标定"></a>手眼标定</h1><script type="math/tex; mode=display">
+List<Cog3DHandEyeCalibrationResult> = Cog3DHandEyeCalibrator.Execute
+(
+\\
+List<Rectangle>, 
+\\
+List<Cog3DCameraCalibrationIntrinsics>, 
+\\
+List<List<Cog3DCrspFeaturesCollection>>, 
+\\
+List<Cog3DTransformRigid>
+)</script><h1 id="姿态偏移"><a href="#姿态偏移" class="headerlink" title="姿态偏移"></a>姿态偏移</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参考内容</th>
+<th style="text-align:center">参考方面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://www.mathworks.com/help/vision/ug/single-camera-calibrator-app.html" target="_blank" rel="noopener">MATLAB “Camera Calibrator APP”的使用</a></td>
+<td style="text-align:center">matlab自带相机标定工具箱的使用</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://docs.opencv.org/3.4.4/d9/d0c/group__calib3d.html#ga3207604e4b1a1758aa66acb6ed5aa65d" target="_blank" rel="noopener">OpenCV中的相机标定函数</a></td>
+<td style="text-align:center">算法的输入输出、总体流程</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://www.vision.caltech.edu/bouguetj/calib_doc/" target="_blank" rel="noopener">MATLAB相机标定工具箱</a></td>
+<td style="text-align:center">标定流程、可视化工具（没用到）</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://www.microsoft.com/en-us/research/wp-content/uploads/2016/02/tr98-71.pdf" target="_blank" rel="noopener">《A flexible new technique for camera calibration》</a></td>
+<td style="text-align:center">张正友的相机标定论文</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://www.cnblogs.com/flyinggod/p/8470365.html" target="_blank" rel="noopener">内参、外参、畸变参数三种参数与相机的标定方法与相机坐标系的理解</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/godenlove007/article/details/9364971" target="_blank" rel="noopener">OpenCV仿射变换+投射变换+单应性矩阵</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://www.mvtec.com/products/halcon/documentation/" target="_blank" rel="noopener">HALCON文档</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://www.mvtec.com/doc/halcon/1811/en/" target="_blank" rel="noopener">HALCON Operator Reference</a></td>
+<td style="text-align:center">HALCON算子手册</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://www.mvtec.com/doc/halcon/1811/en/camera_calibration.html" target="_blank" rel="noopener">HALCON中的相机标定算子</a>、<a href="https://www.mvtec.com/doc/halcon/1811/en/calibrate_hand_eye.html" target="_blank" rel="noopener">手眼标定算子</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="HALCON文档中出现的参考文献（References）"><a href="#HALCON文档中出现的参考文献（References）" class="headerlink" title="HALCON文档中出现的参考文献（References）"></a>HALCON文档中出现的参考文献（References）</h2><h3 id="Chapter-6-Calibration"><a href="#Chapter-6-Calibration" class="headerlink" title="Chapter 6 Calibration"></a>Chapter 6 Calibration</h3><p>6.4 Hand-Eye P368<br>K. Daniilidis: <strong>“Hand-Eye Calibration Using Dual Quaternions”</strong>; International Journal of Robotics Research, Vol. 18, No. 3, pp. 286-298; 1999.<br>M. Ulrich, C. Steger: “Hand-Eye Calibration of SCARA Robots Using Dual Quaternions”; Pattern Recognition and Image Analysis, Vol. 26, No. 1, pp. 231-239; January 2016.</p>
+<p>6.7 Multi-View P394<br>Carsten Steger: “A Comprehensive and Versatile Camera Model for Cameras with Tilt Lenses”; International Journal of Computer Vision, vol. 123, no. 2, pp. 121-159, 2017.</p>
+<p>6.10 Self-Calibration P443<br>T. Thormälen, H. Broszio: “Automatic line-based estimation of radial lens distortion”; in: Integrated Computer Aided Engineering; vol. 12; pp. 177-190; 2005.<br>P451<br>Lourdes Agapito, E. Hayman, I. Reid: “Self-Calibration of Rotating and Zooming Cameras”; International Journal of Computer Vision; vol. 45, no. 2; pp. 107–127; 2001</p>
+<h3 id="Chapter-27-Transformations"><a href="#Chapter-27-Transformations" class="headerlink" title="Chapter 27 Transformations"></a>Chapter 27 Transformations</h3><p>27.5 Poses P2569<br>[1] Francesc Moreno-Noguer, Vincent Lepetit, and Pascal Fua: “Accurate Non-Iterative O(n) Solution to the PnP Problem”; Eleventh IEEE International Conference on Computer Vision, 2007.<br>[2] Gerald Schweighofer, and Axel Pinz: “Robust Pose Estimation from a Planar Target”; Transactions on Pattern Analysis and Machine Intelligence (PAMI), 28(12):2024-2030, 2006.<br>[3] Carsten Steger: “Algorithms for the Orthographic-n-Point Problem”; Journal of Mathematical Imaging and Vision, vol. 60, no. 2, pp. 246-266, 2018.<br>[4] Zhengyou Zhang: <strong>“A flexible new technique for camera calibration.”</strong>; Transactions on Pattern Analysis and Machine Intelligence (PAMI), 22(11):1330-1334, 2000</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+            <a href="/tags/双目视觉/" rel="tag"># 双目视觉</a>
+          
+            <a href="/tags/精华/" rel="tag"># 精华</a>
+          
+            <a href="/tags/标定/" rel="tag"># 标定</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/" rel="next" title="[机器视觉]读无序抓取论文2">
+                <i class="fa fa-chevron-left"></i> [机器视觉]读无序抓取论文2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/02/2019-03-02-imv-stereo-vision/" rel="prev" title="[机器视觉]立体视觉技术流派">
+                [机器视觉]立体视觉技术流派 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实验思路"><span class="nav-number">1.</span> <span class="nav-text">实验思路</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实验设计"><span class="nav-number">1.1.</span> <span class="nav-text">实验设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对照组"><span class="nav-number">1.2.</span> <span class="nav-text">对照组</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相机标定"><span class="nav-number">2.</span> <span class="nav-text">相机标定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Matlab"><span class="nav-number">2.1.</span> <span class="nav-text">Matlab</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#值得注意的功能"><span class="nav-number">2.1.1.</span> <span class="nav-text">值得注意的功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与OpenCV对应关系"><span class="nav-number">2.1.2.</span> <span class="nav-text">与OpenCV对应关系</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#相机标定-1"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">相机标定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相机内外参"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">相机内外参</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对点纠正畸变"><span class="nav-number">2.1.2.3.</span> <span class="nav-text">对点纠正畸变</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#已知内参求外参"><span class="nav-number">2.1.2.4.</span> <span class="nav-text">已知内参求外参</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#OpenCV"><span class="nav-number">2.2.</span> <span class="nav-text">OpenCV</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#flag参数"><span class="nav-number">2.2.1.</span> <span class="nav-text">flag参数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#迭代求解系数"><span class="nav-number">2.2.2.</span> <span class="nav-text">迭代求解系数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#VisionPro"><span class="nav-number">2.3.</span> <span class="nav-text">VisionPro</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#手眼标定"><span class="nav-number">3.</span> <span class="nav-text">手眼标定</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#姿态偏移"><span class="nav-number">4.</span> <span class="nav-text">姿态偏移</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#HALCON文档中出现的参考文献（References）"><span class="nav-number">5.1.</span> <span class="nav-text">HALCON文档中出现的参考文献（References）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Chapter-6-Calibration"><span class="nav-number">5.1.1.</span> <span class="nav-text">Chapter 6 Calibration</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Chapter-27-Transformations"><span class="nav-number">5.1.2.</span> <span class="nav-text">Chapter 27 Transformations</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

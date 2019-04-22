@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机视觉,双目视觉,精华,标定," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="实习公司的项目，复现Cognex VisionPro 3D的大部分内容，涵盖眼在手外、眼在手上，包括相机标定、手眼标定、计算偏移。">
+<meta name="keywords" content="计算机视觉,双目视觉,精华,标定">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]双目视觉在机械臂抓取中的应用（3D locate）">
+<meta property="og:url" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="实习公司的项目，复现Cognex VisionPro 3D的大部分内容，涵盖眼在手外、眼在手上，包括相机标定、手眼标定、计算偏移。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_01几个坐标系.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_02几个坐标系.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_16手眼标定坐标系.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_04康耐视棋盘格.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_03Raw2D中的2D点转变为Phys3D中的3D线.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_08三角测量过程.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_09单相机3D姿态估计.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_10多相机3D姿态估计.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_15手眼标定图示.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_16手眼标定坐标系.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_17手眼标定步骤.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/c_01眼在手外.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/c_02眼在手上.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_05标定实施.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_06多相机标定.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_07多相机标定.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_12倾斜旋转变高视角的轴线.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_13倾斜旋转视角的标定板.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_14变高视角的标定板.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_183D视角项目架构.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_19模型生成的5种姿态.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/b_01相机标定输入输出.PNG">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/b_02手眼标定输入输出.PNG">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/c_03眼在手外眼在手上.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/c_04眼在手外求解思路.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/c_06眼在手外.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/c_05眼在手上求解思路.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/c_07眼在手上.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/b_03计算偏移.PNG">
+<meta property="og:updated_time" content="2019-01-23T08:17:18.619Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]双目视觉在机械臂抓取中的应用（3D locate）">
+<meta name="twitter:description" content="实习公司的项目，复现Cognex VisionPro 3D的大部分内容，涵盖眼在手外、眼在手上，包括相机标定、手眼标定、计算偏移。">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_01几个坐标系.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/"/>
+
+
+
+
+
+  <title>[机器视觉]双目视觉在机械臂抓取中的应用（3D locate） | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]双目视觉在机械臂抓取中的应用（3D locate）</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-23T09:09:09+08:00">
+                2018-11-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  实习公司的项目，复现Cognex VisionPro 3D的大部分内容，涵盖眼在手外、眼在手上，包括相机标定、手眼标定、计算偏移。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="项目简述"><a href="#项目简述" class="headerlink" title="项目简述"></a>项目简述</h1><h2 id="实现功能"><a href="#实现功能" class="headerlink" title="实现功能"></a>实现功能</h2><p>实习公司的项目，复现Cognex VisionPro 3D的大部分内容，涵盖<strong>眼在手外、眼在手上</strong>，包括<strong>相机标定、手眼标定、3D定位计算位移偏差</strong>。最后的<strong>位移偏差</strong>与Cognex的结果在<strong>1mm</strong>左右。</p>
+<h2 id="实施路线"><a href="#实施路线" class="headerlink" title="实施路线"></a>实施路线</h2><p>用python实现原型验证算法，再移植成C++编译为dll，供C#调用。<br><strong>python</strong>的库主要用到：<strong>cv2</strong>、<strong>numpy</strong><br><strong>C++</strong>的库主要用到：<strong>OpenCV</strong>、<strong>Eigen</strong></p>
+<h2 id="复现的VisionPro-3D函数"><a href="#复现的VisionPro-3D函数" class="headerlink" title="复现的VisionPro 3D函数"></a>复现的VisionPro 3D函数</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">函数语句</th>
+<th style="text-align:center">函数功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">camCalRes = camCalibrator.Execute(pelRects, extractedFeatures, calHeights, calPoseTypes);</td>
+<td style="text-align:center">相机标定</td>
+</tr>
+<tr>
+<td style="text-align:center">heCalibs = heCalibrator.Execute(pelRects, intrinsics, extractedFeatures, robotPositions);</td>
+<td style="text-align:center">手眼标定</td>
+</tr>
+<tr>
+<td style="text-align:center">modelPoints = triangulator.Execute(cameraCalibs, pointsRaw2D, isPointValid, out is3DPointValid, out resRaw2D, out resPhys3D);</td>
+<td style="text-align:center">三角测量获得3D点坐标</td>
+</tr>
+<tr>
+<td style="text-align:center">Cog3DPoseEstimatorUsing2DPointsResult res = pParam.Models[model].Execute(camCalibs, features2D, weights2D);</td>
+<td style="text-align:center">通过2D点估计3D姿态</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">函数功能</th>
+<th style="text-align:center">主体类型</th>
+<th style="text-align:center">返回值类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">相机标定</td>
+<td style="text-align:center">Cog3DCameraCalibrator</td>
+<td style="text-align:center">Cog3DCameraCalibrationResult</td>
+</tr>
+<tr>
+<td style="text-align:center">手眼标定</td>
+<td style="text-align:center">Cog3DHandEyeCalibrator</td>
+<td style="text-align:center">List<br>&lt;Cog3DHandEyeCalibrationResult&gt;</td>
+</tr>
+<tr>
+<td style="text-align:center">三角测量获得3D点坐标</td>
+<td style="text-align:center">Cog3DTriangulator</td>
+<td style="text-align:center">Cog3DVect3Collection</td>
+</tr>
+<tr>
+<td style="text-align:center">通过2D点估计3D姿态</td>
+<td style="text-align:center">List<br>&lt;Cog3DPoseEstimatorUsing2DPoints&gt;</td>
+<td style="text-align:center">Cog3DPoseEstimatorUsing2DPointsResult</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="封装成dll的函数接口"><a href="#封装成dll的函数接口" class="headerlink" title="封装成dll的函数接口"></a>封装成dll的函数接口</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">函数功能</th>
+<th style="text-align:center">函数名</th>
+<th style="text-align:center">所属dll</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><strong>眼在手外</strong>的相机标定、手眼标定</td>
+<td style="text-align:center">void getMatsEth()</td>
+<td style="text-align:center">CalibrateCpp.dll</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>眼在手上</strong>的相机标定、手眼标定</td>
+<td style="text-align:center">void getMatsEih()</td>
+<td style="text-align:center">CalibrateCpp.dll</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>3D定位</strong>：左右相机的2D点转换为3D点</td>
+<td style="text-align:center">void calc_ImageToWorld()</td>
+<td style="text-align:center">CalcImageToWorldCpp.dll</td>
+</tr>
+<tr>
+<td style="text-align:center"><strong>计算偏移</strong></td>
+<td style="text-align:center">void calc_Excursion()</td>
+<td style="text-align:center">CalcExcursionCpp.dll</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>函数接口：</p>
+<ol>
+<li>void <strong>getMatsEth</strong>(int* <strong>other_info</strong>, char* <strong>point3d_str</strong>, char* <strong>point2d_str</strong>, char* <strong>robot_str</strong>, double* <strong>mtx33_l</strong>, double* <strong>mtx33_r</strong>, double* <strong>mtx44_l</strong>, double* <strong>mtx44_r</strong>)</li>
+<li>void <strong>getMatsEih</strong>(int* <strong>other_info</strong>, char* <strong>point3d_str</strong>, char* <strong>point2d_str</strong>, char* <strong>robot_str</strong>, double* <strong>mtx33_l</strong>, double* <strong>mtx33_r</strong>, double* <strong>mtx44_l</strong>, double* <strong>mtx44_r</strong>)</li>
+<li>void <strong>calc_ImageToWorld</strong>(double* <strong>_mtx44_cam3dToPhy3d_l</strong>, double* <strong>_mtx33_camIntrin_l</strong>, double* <strong>_mtx44_cam3dToPhy3d_r</strong>, double* <strong>_mtx33_camIntrin_r</strong>, double* <strong>_Point_Cl</strong>, double* <strong>_Point_Cr</strong>, double* <strong>params</strong>)</li>
+<li>void <strong>calc_Excursion</strong>(int <strong>pointNum</strong>, double* <strong>_Point_Model_3D</strong>, double* <strong>_Point_Now_3D</strong>, double* <strong>_res_excursion</strong>)</li>
+</ol>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">函数名</th>
+<th style="text-align:left">输入</th>
+<th style="text-align:left">输出</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">void getMatsEth()</td>
+<td style="text-align:left"><strong>other_info</strong>是长度为3的整型一维数组，3个元素分别代表标定图片数量、标定图片宽、标定图片高<br><strong>point3d_str</strong>是字符串数组，为标定板角点在CalPlate3D下的坐标<br><strong>point2d_str</strong>是字符串数组，为标定板角点在Raw2D下的坐标<br><strong>robot_str</strong>是字符串数组，为机械手位姿所代表的4*4的矩阵</td>
+<td style="text-align:left"><strong>mtx33_l</strong>是浮点型数组，为左相机内参所代表的3*3的矩阵<br><strong>mtx33_r</strong>是浮点型数组，为右相机内参所代表的3*3的矩阵<br><strong>mtx44_l</strong>是浮点型数组，为左相机的手眼矩阵所代表的4*4的矩阵<br><strong>mtx44_r</strong>是浮点型数组，为右相机的手眼矩阵所代表的4*4的矩阵</td>
+</tr>
+<tr>
+<td style="text-align:center">void getMatsEih()</td>
+<td style="text-align:left">同上</td>
+<td style="text-align:left">同上</td>
+</tr>
+<tr>
+<td style="text-align:center">void calc_ImageToWorld()</td>
+<td style="text-align:left"><strong>_mtx44_cam3dToPhy3d_l</strong>是浮点型数组，为左相机的手眼矩阵所代表的4*4的矩阵<br><strong>_mtx33_camIntrin_l</strong>是浮点型数组，为左相机内参所代表的3*3的矩阵<br><strong>_mtx44_cam3dToPhy3d_r</strong>是浮点型数组，为右相机的手眼矩阵所代表的4*4的矩阵<br><strong>_mtx33_camIntrin_r</strong>是浮点型数组，为右相机内参所代表的3*3的矩阵<br><strong>_Point_Cl</strong>是长度为3的齐次形式的浮点型一位数组，为左相机的特征点在在Raw2D下的坐标<br><strong>_Point_Cr</strong>是长度为3的齐次形式的浮点型一位数组，为右相机的特征点在在Raw2D下的坐标</td>
+<td style="text-align:left"><strong>params</strong>是长度为3的非齐次形式的浮点型一位数组，为特征点在在RobotBase3D下的坐标</td>
+</tr>
+<tr>
+<td style="text-align:center">CalcExcursionCpp.dll</td>
+<td style="text-align:left"><strong>pointNum</strong>是整型值，为一组需计算偏移的点的个数<br><strong>_Point_Model_3D</strong>是浮点型数组，为这组点在偏移前坐标系下的坐标值<br><strong>_Point_Now_3D</strong>是浮点型数组，为这组点在偏移后坐标系下的坐标值</td>
+<td style="text-align:left"><strong>_res_excursion</strong>是长度为6的浮点型一维数组，分别是x、y、z、rx、ry、rz</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="原理概述"><a href="#原理概述" class="headerlink" title="原理概述"></a>原理概述</h1><h2 id="6个坐标系"><a href="#6个坐标系" class="headerlink" title="6个坐标系"></a>6个坐标系</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">坐标系</th>
+<th style="text-align:center">含义</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Raw2D</td>
+<td style="text-align:center">图像坐标系（像素单位）</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Camera2D</td>
+<td style="text-align:center">图像坐标系（物理单位）</td>
+<td style="text-align:center">无畸变：去除光学畸变和像素比例的影响</td>
+</tr>
+<tr>
+<td style="text-align:center">Camera3D</td>
+<td style="text-align:center">相机坐标系</td>
+<td style="text-align:center">z轴即是相机的光轴，Z=1即为Camera2D</td>
+</tr>
+<tr>
+<td style="text-align:center">CalPlate3D/Phys3D</td>
+<td style="text-align:center">标定板坐标系</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Hand3D/Tool</td>
+<td style="text-align:center">机械手坐标系/工具坐标系</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">RobotBase3D</td>
+<td style="text-align:center">基坐标系</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_01几个坐标系.png" title="几个坐标系1（Raw2D Camera2D Camera3D Phys3D）">
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_02几个坐标系.png" title="几个坐标系2（Hand3D RobotBase3D）">
+<h2 id="总体步骤"><a href="#总体步骤" class="headerlink" title="总体步骤"></a>总体步骤</h2><ol>
+<li>相机标定</li>
+<li>手眼标定</li>
+<li>计算偏移</li>
+</ol>
+<h2 id="坐标系转换"><a href="#坐标系转换" class="headerlink" title="坐标系转换"></a>坐标系转换</h2><ol>
+<li>左右相机通过<strong>特征提取</strong>，得到<strong>Raw2D</strong>下的特征点坐标</li>
+<li>通过<strong>相机内参</strong>，将特征点转到<strong>Camera2D</strong>下</li>
+<li>把<strong>未知高度</strong>作为未知数，将特征点转到<strong>Camera3D</strong>下</li>
+<li>通过<strong>手眼矩阵</strong>，将特征点转到<strong>Hand3D</strong>下</li>
+<li>通过示教器读取的<strong>机械手位姿</strong>，将特征点转到<strong>RobotBase3D</strong>下</li>
+</ol>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_16手眼标定坐标系.png" title="手眼标定坐标系">
+<h2 id="方程求解"><a href="#方程求解" class="headerlink" title="方程求解"></a>方程求解</h2><p>最终共有<strong>6个方程</strong>，即左右相机各3个方程（x、y、z）<br>但6个方程中只有<strong>5个未知数</strong>，即RobotBase3D下的X、Y、Z、Camera3D下的左右相机的z<br>一般做法，用<strong>优化方法</strong>解超定方程即可</p>
+<h1 id="3D视觉基础知识"><a href="#3D视觉基础知识" class="headerlink" title="3D视觉基础知识"></a>3D视觉基础知识</h1><h2 id="位姿"><a href="#位姿" class="headerlink" title="位姿"></a>位姿</h2><p>刚体在坐标系中用<strong>位姿</strong>描述<br><strong>位姿 = 位置（position） + 姿态（orientation）</strong><br>一般地，位置和姿态各用3个值表示，位置用x、y、z表示偏移，姿态用rx、ry、rz表示欧拉角旋转</p>
+<h2 id="标定板"><a href="#标定板" class="headerlink" title="标定板"></a>标定板</h2><p>工业常用标定板分两大类：实心圆阵列（Halcon）、棋盘格（VisionPro、OpenCV、Matlab）<br>非精确制造的标定板会导致不好的标定结果，比如激光/喷墨打印机打印的标定板</p>
+<p>康耐视的棋盘格（Cognex checkerboard）包含标准的基准标识，能够做到不必在一张图片内拍摄整张棋盘格</p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_04康耐视棋盘格.png" title="康耐视棋盘格">
+<h2 id="相机标定"><a href="#相机标定" class="headerlink" title="相机标定"></a>相机标定</h2><p>3D标定：在<strong>与图像像素相关的2D坐标系</strong>和<strong>与物理世界相关的3D坐标系</strong>间建立数学联系<br>最初定义的物理世界坐标系是<strong>标定板坐标系</strong>。</p>
+<p>3D标定后的相机可以实现：<br>①Raw2D中的<strong>2D point</strong> ⇒ Phys3D中的<strong>3D ray</strong><br>②Raw2D中的<strong>2D point</strong> + Phys3D中的<strong>3D plane</strong> ⇒ Phys3D中的<strong>3D point</strong><br>③Phys3D中的<strong>3D point</strong> ⇒ Raw2D中的<strong>2D point</strong></p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_03Raw2D中的2D点转变为Phys3D中的3D线.png" title="Raw2D中的2D点转变为Phys3D中的3D线">
+<h2 id="三角测量（Triangulation）"><a href="#三角测量（Triangulation）" class="headerlink" title="三角测量（Triangulation）"></a>三角测量（Triangulation）</h2><p>单个标定相机：Raw2D中的<strong>2D point</strong> ⇒ Phys3D中的<strong>3D ray</strong><br>多个标定相机：Raw2D中的<strong>2D point</strong> ⇒ Phys3D中的<strong>3D point</strong><br>（从不同位置观察同一物体，可在Phys3D中生成与物体同一特征相关的多个交叉直线，从而算出3D位姿）</p>
+<p>注意：2D特征必须<strong>准确</strong>且<strong>可靠</strong>（不会被3D影响，如透视收缩）</p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_08三角测量过程.png" title="三角测量过程">
+<h2 id="姿态估计"><a href="#姿态估计" class="headerlink" title="姿态估计"></a>姿态估计</h2><p>估计3D物体姿态至少需要3个不共线的点</p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_09单相机3D姿态估计.png" title="单相机3D姿态估计">
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_10多相机3D姿态估计.png" title="多相机3D姿态估计">
+<h2 id="手眼标定"><a href="#手眼标定" class="headerlink" title="手眼标定"></a>手眼标定</h2><p>输入：标定板图像、Hand3D位姿（示教器提供）</p>
+<p><strong>眼在手外</strong>：Camera3D中的<strong>3D point</strong> ⇒ RobotBase3D中的<strong>3D point</strong><br><strong>眼在手上</strong>：Hand3D中的<strong>3D point</strong> ⇒ Camera3D中的<strong>3D point</strong></p>
+<p>最终实现，Raw2D中的<strong>2D point</strong> ⇒ RobotBase3D中的<strong>3D point</strong></p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_15手眼标定图示.png" title="手眼标定图示">
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_16手眼标定坐标系.png" title="手眼标定坐标系">
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_17手眼标定步骤.png" title="手眼标定步骤">
+<h2 id="3D严格变换（3D-Rigid-Transforms）"><a href="#3D严格变换（3D-Rigid-Transforms）" class="headerlink" title="3D严格变换（3D Rigid Transforms）"></a>3D严格变换（3D Rigid Transforms）</h2><p>实现两个3D笛卡尔坐标系之间的映射。<br>只包含<strong>旋转</strong>和<strong>平移</strong>，不包含比例、反射、错切。</p>
+<p>维基百科讲解：<a href="https://en.wikipedia.org/wiki/Rotation_formalisms_in_three_dimensions" target="_blank" rel="noopener">旋转矩阵、欧拉角、四元数</a></p>
+<h1 id="标定实施"><a href="#标定实施" class="headerlink" title="标定实施"></a>标定实施</h1><h2 id="输入输出"><a href="#输入输出" class="headerlink" title="输入输出"></a>输入输出</h2><p>在不同位姿下，用<strong>固定光学和机械参数的相机</strong>采集一组标定板的图像<br>输入：标定板图像、标定板的网格尺寸<del>、标定板位姿</del><br>输出：内参、外参</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内外参</th>
+<th style="text-align:center">变换关系</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">内参（intrinsic）</td>
+<td style="text-align:center">Raw2DfromCamera2D</td>
+<td style="text-align:center">去除光学畸变和像素比例的影响的<strong>非线性变换</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">外参（extrinsic）</td>
+<td style="text-align:center">Camera3DfromPhys3D</td>
+<td style="text-align:center">两个坐标系之间的6个自由度的<strong>线性变换</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="眼在手外-眼在手上"><a href="#眼在手外-眼在手上" class="headerlink" title="眼在手外/眼在手上"></a>眼在手外/眼在手上</h2><p>眼在手外：<strong>相机固定</strong>，<strong>相机</strong>拍被机械臂带着移动n个姿态的<strong>棋盘格</strong><br>眼在手上：<strong>相机移动</strong>，机械臂带着移动n个姿态的<strong>相机</strong>拍固定的<strong>棋盘格</strong></p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/c_01眼在手外.png" title="眼在手外">
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/c_02眼在手上.png" title="眼在手上">
+<h2 id="推荐单相机标定实施"><a href="#推荐单相机标定实施" class="headerlink" title="推荐单相机标定实施"></a>推荐单相机标定实施</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">图像数</th>
+<th style="text-align:center">实施</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">最少<strong>4张</strong></td>
+<td style="text-align:center">以图像平面<strong>倾斜</strong>20°~30°<br>以相机光轴<strong>旋转</strong>90°</td>
+</tr>
+<tr>
+<td style="text-align:center">推荐<strong>9张</strong></td>
+<td style="text-align:center">上述4张+互相平行<strong>高度不同</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">工业<strong>9张</strong></td>
+<td style="text-align:center">1张基准+8张倾斜旋转</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_05标定实施.png" title="标定实施">
+<h2 id="多相机标定"><a href="#多相机标定" class="headerlink" title="多相机标定"></a>多相机标定</h2><p>注意点：</p>
+<ol>
+<li><strong>固定</strong>两个相机间的<strong>相互位姿</strong></li>
+<li><strong>固定</strong>所有相机的<strong>光学参数</strong></li>
+<li>多个相机需<strong>同时</strong>采集图像</li>
+</ol>
+<p>本质上：每个相机有<strong>独立的Raw2D、Camera2D、Camera3D</strong>，有<strong>同一个Phys3D</strong></p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_06多相机标定.png" title="多相机标定1">
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_07多相机标定.png" title="多相机标定2">
+<h2 id="推荐多相机标定实施"><a href="#推荐多相机标定实施" class="headerlink" title="推荐多相机标定实施"></a>推荐多相机标定实施</h2><h3 id="轴线"><a href="#轴线" class="headerlink" title="轴线"></a>轴线</h3><p>倾斜、旋转：轴线应当大体在相机光心的中心，且大体在工作空间的中心<br>变高：使用倾斜视角的轴线，并使标定板垂直于轴线</p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_12倾斜旋转变高视角的轴线.png" title="倾斜旋转变高视角的轴线">
+<h3 id="倾斜、旋转"><a href="#倾斜、旋转" class="headerlink" title="倾斜、旋转"></a>倾斜、旋转</h3><p>标定板：倾斜20°、旋转90°</p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_13倾斜旋转视角的标定板.png" title="倾斜旋转视角的标定板">
+<h3 id="变高"><a href="#变高" class="headerlink" title="变高"></a>变高</h3><p>标定板：彼此之间平行，改变高度</p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_14变高视角的标定板.png" title="变高视角的标定板">
+<h1 id="3D定位"><a href="#3D定位" class="headerlink" title="3D定位"></a>3D定位</h1><h2 id="3D视角项目架构"><a href="#3D视角项目架构" class="headerlink" title="3D视角项目架构"></a>3D视角项目架构</h2><p><strong>先粗定位，再精定位</strong></p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_183D视角项目架构.png" title="3D视角项目架构">
+<h2 id="寻找特征"><a href="#寻找特征" class="headerlink" title="寻找特征"></a>寻找特征</h2><p>关键：2D特征和3D特征的特征对（feature correspondence）</p>
+<h3 id="稳定的2D特征（能承受3D的不确定）"><a href="#稳定的2D特征（能承受3D的不确定）" class="headerlink" title="稳定的2D特征（能承受3D的不确定）"></a>稳定的2D特征（能承受3D的不确定）</h3><p>1.尖锐、平直的<strong>边缘</strong><br>2.<strong>圆</strong><br>3.具有旋转、缩放、平移不变性的<strong>独特特征</strong></p>
+<p>英文原文：<br>• Sharp, straight edges<br>• Circles<br>• Unique features that can be found regardless of rotation, scale or translation changes</p>
+<h3 id="应当避免的2D特征"><a href="#应当避免的2D特征" class="headerlink" title="应当避免的2D特征"></a>应当避免的2D特征</h3><p>1.圆角<br>2.倒圆边<br>3.部件其余部分的特出特征</p>
+<p>英文原文：<br>• Round corners<br>• Round edges<br>• Features that extrude significantly towards the camera from the rest of the part</p>
+<h3 id="检查2D特征的准确性：5个姿态"><a href="#检查2D特征的准确性：5个姿态" class="headerlink" title="检查2D特征的准确性：5个姿态"></a>检查2D特征的准确性：5个姿态</h3><p>1.原始姿态<br>2.视野左上角，z轴旋转20°<br>3.视野右上角，z轴旋转45°<br>4.视野左下角，z轴旋转67°<br>5.视野右下角，z轴旋转90°</p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/a_19模型生成的5种姿态.png" title="模型生成的5种姿态">
+<h1 id="相机标定-1"><a href="#相机标定-1" class="headerlink" title="相机标定"></a>相机标定</h1><p>输入：correspondence pairs，即图像特征与其物理位置<br>输出：相机内参、相机外参、畸变系数</p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/b_01相机标定输入输出.PNG" title="相机标定输入输出">
+<p>一般<strong>相机标定</strong>均采用<strong>张正友</strong>的标定方法<br>论文传送：<a href="https://www.microsoft.com/en-us/research/publication/a-flexible-new-technique-for-camera-calibration/?from=http%3A%2F%2Fresearch.microsoft.com%2Fen-us%2Fum%2Fpeople%2Fzhang%2Fpapers%2Ftr98-71.pdf" target="_blank" rel="noopener">Zhang z．A flexible new technique for canlera calibration[J]．IEEE transactions on pattern analysis and machine intelligence，200．22(11)：1330—1334．</a></p>
+<p>论文解析与实现见我的另一篇博客，<a href="http://localhost:5000/2018/12/06/2018-12-06-imv-calibrate-camera/" target="_blank" rel="noopener">[机器视觉]详解相机标定</a></p>
+<h1 id="手眼标定-1"><a href="#手眼标定-1" class="headerlink" title="手眼标定"></a>手眼标定</h1><h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><p>手眼标定的本质：求解<strong>CX=XD</strong>，C与相机相关，D与机械臂相关<br>输入：C、D<br>输出：X</p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/b_02手眼标定输入输出.PNG" title="手眼标定输入输出">
+<h2 id="眼在手外-眼在手上-1"><a href="#眼在手外-眼在手上-1" class="headerlink" title="眼在手外/眼在手上"></a>眼在手外/眼在手上</h2><p>工业应用中，<strong>手（机械臂）</strong>和<strong>眼（相机）</strong>有两种位置关系：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">分类</th>
+<th style="text-align:center">相机关系</th>
+<th style="text-align:center">所求关系</th>
+<th style="text-align:center">详细描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">眼在手外</td>
+<td style="text-align:center">相机固定</td>
+<td style="text-align:center">Camera3D与RobotBase3D的关系</td>
+<td style="text-align:center">相机（眼）和机械臂（手）分离，眼的位置相对于手是固定的</td>
+</tr>
+<tr>
+<td style="text-align:center">眼在手上</td>
+<td style="text-align:center">相机移动</td>
+<td style="text-align:center">Camera3D与Hand3D的关系</td>
+<td style="text-align:center">把相机（眼）固定在机械臂（手）上面，眼随手移动</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/c_03眼在手外眼在手上.png" title="眼在手上 眼在手外">
+<h2 id="眼在手外"><a href="#眼在手外" class="headerlink" title="眼在手外"></a>眼在手外</h2><p>相机固定：Camera3D与RobotBase3D的关系固定<br>标定板固定在机械臂上：CalPlate3D与Hand3D的关系固定</p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/c_04眼在手外求解思路.png" title="眼在手外求解思路">
+<p>结合上图，有公式：</p>
+<script type="math/tex; mode=display">^{cam}H_{cal} \ = \ ^{cam}H_{base} \ ^{base}H_{tool} \ ^{tool}H_{cal}</script><p>标定时控制机械臂从<strong>位置1</strong>移动到<strong>位置2</strong>：<br>坐标系变换关系为：Hand3D → RobotBase3D → Camera3D → CalPlate3D<br>可得<strong>位置1</strong>的公式：</p>
+<script type="math/tex; mode=display">
+base = baseHtool(1) * tool(1)
+\\
+cam = camHbase *base
+\\
+obj(1) = inv(camHcal(1)) * cam</script><p>合并，可得：</p>
+<script type="math/tex; mode=display">obj(1) = inv(camHcal(1)) * camHbase * baseHtool(1) * tool(1)</script><p>移动到<strong>位置2</strong>后：</p>
+<script type="math/tex; mode=display">obj(2) = inv(camHcal(2)) * camHbase * baseHtool(2) * tool(2)</script><img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/c_06眼在手外.png" title="眼在手外">
+<p>由于cal和tool的相对位置是不变的，可通过此联立方程：</p>
+<script type="math/tex; mode=display">inv(camHcal(1)) * camHbase * baseHtool(1) = inv(camHcal(2)) * camHbase * baseHtool(2)</script><p>化为<strong>CX=XD</strong>的形式，可得：</p>
+<script type="math/tex; mode=display">camHcal(2) * inv(camHcal(1)) * camHbase = camHbase * baseHtool(2) * inv(baseHtool(1))</script><p>其中，<strong>camHbase</strong>是待求解的，<strong>camHcal</strong>可通过相机外参获得，<strong>baseHtool</strong>可通过示教器读取</p>
+<h2 id="眼在手上"><a href="#眼在手上" class="headerlink" title="眼在手上"></a>眼在手上</h2><p>相机移动：CalPlate3D与RobotBase3D的关系固定<br>相机固定在机械臂上：Camera3D与Hand3D的关系固定</p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/c_05眼在手上求解思路.png" title="眼在手上求解思路">
+<p>结合上图，有公式：</p>
+<script type="math/tex; mode=display">^{cam}H_{cal} \ = \ ^{cam}H_{tool} \ ({^{base}H_{tool}})^{-1} \ ^{base}H_{cal}</script><p>标定时控制机械臂从<strong>位置1</strong>移动到<strong>位置2</strong>：<br>坐标系变换关系为：CalPlate3D → Camera3D → Hand3D → RobotBase3D<br>可得<strong>位置1</strong>的公式：</p>
+<script type="math/tex; mode=display">
+cam(1) = camHcal(1) * obj
+\\
+tool(1) = inv(camHtool) * cam(1)
+\\
+base = baseHtool(1) * tool(1)</script><p>合并，可得：</p>
+<script type="math/tex; mode=display">base = baseHtool(1) * inv(camHtool) * camHcal(1) * obj</script><p>移动到<strong>位置2</strong>后：</p>
+<script type="math/tex; mode=display">base = baseHtool(2) * inv(camHtool) * camHcal(2) * obj</script><img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/c_07眼在手上.png" title="眼在手上">
+<p>由于base和obj的相对位置是不变的，可通过此联立方程：</p>
+<script type="math/tex; mode=display">baseHtool(1) * inv(camHtool) * camHcal(1) = baseHtool(2) * inv(camHtool) * camHcal(2)</script><p>化为<strong>CX=XD</strong>的形式，可得：</p>
+<script type="math/tex; mode=display">camHcal(2) * inv(camHcal(1)) * camHtool = camHtool * inv(baseHtool(2)) * baseHtool(1)</script><p>其中，<strong>camHtool</strong>是待求解的，<strong>camHcal</strong>可通过相机外参获得，<strong>baseHtool</strong>可通过示教器读取</p>
+<h1 id="计算偏移"><a href="#计算偏移" class="headerlink" title="计算偏移"></a>计算偏移</h1><p>本质上是一个<strong>NPointToNPoint</strong>的问题<br>输入：一组点在A坐标系下的坐标、这组点在B坐标系下的坐标<br>输出：这组点从A坐标系变换到B坐标系的转换关系</p>
+<img src="/2018/11/23/2018-11-23-imv-hand-eye-calibrate-complete/b_03计算偏移.PNG" title="计算偏移">
+<p>一般做法是将其看作<strong>优化问题</strong>，将伪逆作为初始值，只考虑仿射变换中的旋转、平移</p>
+<p>具体细节见我的另一篇博客，<a href="http://localhost:5000/2018/11/27/2018-11-27-imv-npoint-to-npoint/" target="_blank" rel="noopener">[机器视觉]欧式空间中的二维点变换关系</a></p>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参考内容</th>
+<th style="text-align:center">参考方面</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://xgyopen.github.io/2018/06/20/2018-06-20-imv-binocular-vision-paper/" target="_blank" rel="noopener">硕士论文《基于OpenCV的机器人双目手眼标定系统的研究与实现》</a></td>
+<td style="text-align:center">相机标定、手眼标定、3D定位的整体框架</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">Cognex VisionPro 3D Developer’s Guide</td>
+<td style="text-align:center">主体思路</td>
+<td style="text-align:center">标定流程是重点 P59<br>手眼标定注意点 P74 P75</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/u011089570/article/details/47945733" target="_blank" rel="noopener">手眼标定的两种方式</a></td>
+<td style="text-align:center">手眼标定公式推导</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">HALCON培训文档：三维定位方法</td>
+<td style="text-align:center">手眼标定思路</td>
+<td style="text-align:center"></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+            <a href="/tags/双目视觉/" rel="tag"># 双目视觉</a>
+          
+            <a href="/tags/精华/" rel="tag"># 精华</a>
+          
+            <a href="/tags/标定/" rel="tag"># 标定</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/10/2018-10-10-imv-hand-eye-calibrate-paper/" rel="next" title="[机器视觉]读手眼标定论文">
+                <i class="fa fa-chevron-left"></i> [机器视觉]读手眼标定论文
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/27/2018-11-27-imv-npoint-to-npoint/" rel="prev" title="[机器视觉]欧式空间中的二维点变换关系">
+                [机器视觉]欧式空间中的二维点变换关系 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#项目简述"><span class="nav-number">1.</span> <span class="nav-text">项目简述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实现功能"><span class="nav-number">1.1.</span> <span class="nav-text">实现功能</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实施路线"><span class="nav-number">1.2.</span> <span class="nav-text">实施路线</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#复现的VisionPro-3D函数"><span class="nav-number">1.3.</span> <span class="nav-text">复现的VisionPro 3D函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#封装成dll的函数接口"><span class="nav-number">1.4.</span> <span class="nav-text">封装成dll的函数接口</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#原理概述"><span class="nav-number">2.</span> <span class="nav-text">原理概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#6个坐标系"><span class="nav-number">2.1.</span> <span class="nav-text">6个坐标系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总体步骤"><span class="nav-number">2.2.</span> <span class="nav-text">总体步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#坐标系转换"><span class="nav-number">2.3.</span> <span class="nav-text">坐标系转换</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方程求解"><span class="nav-number">2.4.</span> <span class="nav-text">方程求解</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3D视觉基础知识"><span class="nav-number">3.</span> <span class="nav-text">3D视觉基础知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#位姿"><span class="nav-number">3.1.</span> <span class="nav-text">位姿</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#标定板"><span class="nav-number">3.2.</span> <span class="nav-text">标定板</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#相机标定"><span class="nav-number">3.3.</span> <span class="nav-text">相机标定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三角测量（Triangulation）"><span class="nav-number">3.4.</span> <span class="nav-text">三角测量（Triangulation）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#姿态估计"><span class="nav-number">3.5.</span> <span class="nav-text">姿态估计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#手眼标定"><span class="nav-number">3.6.</span> <span class="nav-text">手眼标定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3D严格变换（3D-Rigid-Transforms）"><span class="nav-number">3.7.</span> <span class="nav-text">3D严格变换（3D Rigid Transforms）</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#标定实施"><span class="nav-number">4.</span> <span class="nav-text">标定实施</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#输入输出"><span class="nav-number">4.1.</span> <span class="nav-text">输入输出</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#眼在手外-眼在手上"><span class="nav-number">4.2.</span> <span class="nav-text">眼在手外/眼在手上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐单相机标定实施"><span class="nav-number">4.3.</span> <span class="nav-text">推荐单相机标定实施</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多相机标定"><span class="nav-number">4.4.</span> <span class="nav-text">多相机标定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推荐多相机标定实施"><span class="nav-number">4.5.</span> <span class="nav-text">推荐多相机标定实施</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#轴线"><span class="nav-number">4.5.1.</span> <span class="nav-text">轴线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#倾斜、旋转"><span class="nav-number">4.5.2.</span> <span class="nav-text">倾斜、旋转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变高"><span class="nav-number">4.5.3.</span> <span class="nav-text">变高</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#3D定位"><span class="nav-number">5.</span> <span class="nav-text">3D定位</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#3D视角项目架构"><span class="nav-number">5.1.</span> <span class="nav-text">3D视角项目架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#寻找特征"><span class="nav-number">5.2.</span> <span class="nav-text">寻找特征</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#稳定的2D特征（能承受3D的不确定）"><span class="nav-number">5.2.1.</span> <span class="nav-text">稳定的2D特征（能承受3D的不确定）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#应当避免的2D特征"><span class="nav-number">5.2.2.</span> <span class="nav-text">应当避免的2D特征</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查2D特征的准确性：5个姿态"><span class="nav-number">5.2.3.</span> <span class="nav-text">检查2D特征的准确性：5个姿态</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相机标定-1"><span class="nav-number">6.</span> <span class="nav-text">相机标定</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#手眼标定-1"><span class="nav-number">7.</span> <span class="nav-text">手眼标定</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#本质"><span class="nav-number">7.1.</span> <span class="nav-text">本质</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#眼在手外-眼在手上-1"><span class="nav-number">7.2.</span> <span class="nav-text">眼在手外/眼在手上</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#眼在手外"><span class="nav-number">7.3.</span> <span class="nav-text">眼在手外</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#眼在手上"><span class="nav-number">7.4.</span> <span class="nav-text">眼在手上</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#计算偏移"><span class="nav-number">8.</span> <span class="nav-text">计算偏移</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">9.</span> <span class="nav-text">参考</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

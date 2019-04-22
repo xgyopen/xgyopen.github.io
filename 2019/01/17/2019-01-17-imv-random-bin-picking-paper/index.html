@@ -1,0 +1,2758 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机视觉,读论文,精华,随机箱体抓取," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="精读几篇关于随机箱体抓取的论文，此文为笔记。">
+<meta name="keywords" content="计算机视觉,读论文,精华,随机箱体抓取">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]读无序抓取论文">
+<meta property="og:url" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="精读几篇关于随机箱体抓取的论文，此文为笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_01RBP系统原理图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_02小孔模型.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_03测量系统架构.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_04视野几何计算模型.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_05编码结构光立体视觉原理图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_06点云获取流程_点云处理流程.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_076位Gray码条纹图案.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_08边缘扩散示意图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_09边缘扩散实物图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_104位Gray码最小周期宽度示意图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_115幅线移图案的编码示意图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_12线移编码图案.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_12左相机采集的Gray码图像.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_13左相机采集的线移图像.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_14初始图像_边缘图像.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_15标记部分的放大图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_16去除阴影和优化边缘.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_17Gray码结合线移解码示意图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_18实物图_初始点云图_滤波后点云图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_19点云分割结果_点云筛选结果.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_20自适应阈值约束算法流程图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_21遗传算法优化的ICP算法流程图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_22几种算法的误差收敛图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_23系统实物图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_24木质工件1.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_25木质工件2.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_26塑料工件1.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_27塑料工件2.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_28金属工件1.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_29金属工件2.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_30不同工件的性能计算指标.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_01RBP系统示意图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_02点云数据获取.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_03双目视觉模型.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_04针孔相机模型.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_05编码结构光立体视觉原理图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_06冗余点去除.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_07场景点云中的离群点.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_08r=3邻域半径下去除离群点.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_09迭代半径滤波_半径滤波.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_10欧式聚类分割算法流程.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_11点云过分割与欠分割.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_12点云分割流程.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_13不同k邻域下模板点云的平均距离和标准差.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_14不同r邻域下模板点云的最大邻近点数目和法线夹角均值.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_15相互接触工件点云法线示意图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_16本文算法实验参数.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_17点云分割实现.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_18欧式聚类结果_区域生长分割结果.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_19三种算法分割结果统计.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_20三种算法分割效果对比.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_21不同场景下三种算法分割结果图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_22点云配准算法流程图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_23包围盒分类.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_24点云方向包围盒示意图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_25关键点获取.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_26特征对应结果示意图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_27实验结果与误差统计.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_28点云配准结果.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_29系统实物图.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_30不同邻域半径下迭代收敛次数.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_31r=3时不同阈值下滤波收敛曲线.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_32离群点去除结果.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_14不同r邻域下模板点云的最大邻近点数目和法线夹角均值.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_33α对边缘点提取结果的影响.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_34分割结果.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_35本文算法耗时.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_36不同邻域下分割效果.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_37分割结果.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_38本文算法_ICP算法得到的各零件位姿信息.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_39本文算法_ICP算法各子集配准结果.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_40塑料零件配准结果在原图中显示.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_41木质零部件预处理和分割.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_42本文算法_ICP算法得到的各零件位姿信息.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_43本文算法_ICP算法各子集配准结果.png">
+<meta property="og:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_44木质零件配准结果在原图中显示.png">
+<meta property="og:updated_time" content="2019-02-25T02:17:07.546Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]读无序抓取论文">
+<meta name="twitter:description" content="精读几篇关于随机箱体抓取的论文，此文为笔记。">
+<meta name="twitter:image" content="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_01RBP系统原理图.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/"/>
+
+
+
+
+
+  <title>[机器视觉]读无序抓取论文 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/17/2019-01-17-imv-random-bin-picking-paper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]读无序抓取论文</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-17T16:16:16+08:00">
+                2019-01-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  精读几篇关于随机箱体抓取的论文，此文为笔记。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="资料查阅"><a href="#资料查阅" class="headerlink" title="资料查阅"></a>资料查阅</h1><h2 id="硕士（6篇）"><a href="#硕士（6篇）" class="headerlink" title="硕士（6篇）"></a>硕士（6篇）</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">题名</th>
+<th style="text-align:center">作者</th>
+<th style="text-align:center">学校</th>
+<th style="text-align:center">年份</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">基于编码结构光的立体视觉定位技术的研究与开发</td>
+<td style="text-align:center">石爱军（控制）</td>
+<td style="text-align:center">江南大学</td>
+<td style="text-align:center">2017.6</td>
+<td style="text-align:center">编码结构光（自制3D相机）、ICP没用到特征描述子（GA粗配准）、不涉及机器人抓取</td>
+</tr>
+<tr>
+<td style="text-align:center">基于点云处理的散乱零部件识别与定位技术的研究</td>
+<td style="text-align:center">田青华（控制）</td>
+<td style="text-align:center">江南大学</td>
+<td style="text-align:center">2018.6</td>
+<td style="text-align:center">点云分割（去除边缘）、点云配准（改进的SHOT特征）、不涉及机器人抓取</td>
+</tr>
+<tr>
+<td style="text-align:center">面向机器人抓取的散乱零件自动识别与定位技术研究</td>
+<td style="text-align:center">佐立营（机械）</td>
+<td style="text-align:center">哈工大</td>
+<td style="text-align:center">2015.7</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">基于双目视觉的散乱堆放工件拾取系统</td>
+<td style="text-align:center">柯科勇（机械）</td>
+<td style="text-align:center">广东工业</td>
+<td style="text-align:center">2016.6</td>
+<td style="text-align:center">涉及机器人抓取</td>
+</tr>
+<tr>
+<td style="text-align:center">基于点云配准的3D物体检测与定位</td>
+<td style="text-align:center">张凯霖（通信）</td>
+<td style="text-align:center">中国民航大学</td>
+<td style="text-align:center">2017.5</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">基于深度相机的场景物体定位与抓取研究</td>
+<td style="text-align:center">周逸徉（计算机）</td>
+<td style="text-align:center">南京大学</td>
+<td style="text-align:center">2017.5</td>
+<td style="text-align:center">涉及机器人抓取</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="期刊（1篇）"><a href="#期刊（1篇）" class="headerlink" title="期刊（1篇）"></a>期刊（1篇）</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">题名</th>
+<th style="text-align:center">期刊</th>
+<th style="text-align:center">学校</th>
+<th style="text-align:center">年份</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">基于Kinect的机器人臂手系统的目标抓取</td>
+<td style="text-align:center">上海大学学报（自然科学版）（中文核心遴选）</td>
+<td style="text-align:center">上海大学</td>
+<td style="text-align:center">2016.8</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="重点部分☆"><a href="#重点部分☆" class="headerlink" title="重点部分☆"></a>重点部分☆</h2><h1 id="硕士-基于编码结构光的立体视觉定位技术的研究与开发"><a href="#硕士-基于编码结构光的立体视觉定位技术的研究与开发" class="headerlink" title="硕士_基于编码结构光的立体视觉定位技术的研究与开发"></a>硕士_基于编码结构光的立体视觉定位技术的研究与开发</h1><h2 id="摘要"><a href="#摘要" class="headerlink" title="摘要"></a>摘要</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">提纲</th>
+<th style="text-align:left">简述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">领域</td>
+<td style="text-align:left"><strong>随机箱体抓取</strong>（Random Bin Picking, <strong>RBP</strong>），视觉引导的机器人能够从一个随机堆放或未经过整理的箱体中以一个正确的姿态抓取目标</td>
+</tr>
+<tr>
+<td style="text-align:center">应用</td>
+<td style="text-align:left"><strong>自动装配</strong>，提高装配的自动化程度</td>
+</tr>
+<tr>
+<td style="text-align:center">RBP的难点</td>
+<td style="text-align:left"><strong>场景三维重构</strong><br><strong>工件位姿估计</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">硬件平台</td>
+<td style="text-align:left">EPSON投影仪、Imaging Source工业相机</td>
+</tr>
+<tr>
+<td style="text-align:center">材质</td>
+<td style="text-align:left">木质、塑料、金属</td>
+</tr>
+<tr>
+<td style="text-align:center">适用场合</td>
+<td style="text-align:left">识别并定位<strong>低反光率</strong>的工件<br>对于<strong>高反光</strong>的工件，需要达到一定的体积才能被定位</td>
+</tr>
+<tr>
+<td style="text-align:center">论文重点</td>
+<td style="text-align:left">利用摄像机和投影仪搭建编码结构光立体视觉<strong>硬件平台</strong><br>采用<strong>结构光编解码</strong>与<strong>点云处理</strong>技术设计混乱工件六自由度位姿定位整体方案<br>优化其中的核心技术，提高三维位姿定位的<strong>速度</strong>和<strong>精度</strong><br>涉及到的关键技术有：<strong>摄像机标定</strong>、<strong>结构光编解码</strong>、<strong>三维重构</strong>、<strong>点云预处理</strong>、<strong>位姿估计</strong>等</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>工作量：</p>
+<ol>
+<li>针对结构光测量中的边缘扩散问题，在Gray码边缘解码基础上，提出一种改进型线移的组合编码方法。</li>
+<li>针对传统迭代最近点法（Iterative Closest Points, ICP）存在的缺点，提出了一种<strong>遗传算法结合自适应阈值约束优化的ICP位姿估计方法</strong>。<ul>
+<li>采用统计学滤波和区域增长分割算法对初始点云进行预处理，去除离群点并得到各混乱工件的点云集</li>
+<li>针对ICP易陷于局部最优的问题，利用遗传优化算法对点云进行粗匹配，得到目标点集相对于参考点云的初始位姿</li>
+<li>针对迭代速度较慢的缺点，提出了一种自适应阈值约束法，利用点对距离约束和法向量夹角约束去除局部大变形点，提高了位姿定位的精度和算法收敛的速度</li>
+<li>实验表明，该方法相对于传统算法，精度提高了35%，在保证位姿计算精度的同时提高了算法的实时性。</li>
+</ul>
+</li>
+</ol>
+<h2 id="RBP系统"><a href="#RBP系统" class="headerlink" title="RBP系统"></a>RBP系统</h2><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_01RBP系统原理图.png" title="RBP系统原理图">
+<p>RBP系统系统包括如下工作：</p>
+<ul>
+<li>采集目标与箱体图像</li>
+<li>分割图像中目标与背景</li>
+<li>计算目标相对于图像传感器或者机械手末端的位姿</li>
+<li>多目标抓取规划</li>
+<li>机械手抓取路径规划</li>
+<li>目标传送到指定的位置等</li>
+</ul>
+<h2 id="研究进展"><a href="#研究进展" class="headerlink" title="研究进展"></a>研究进展</h2><h3 id="RBP研究进展"><a href="#RBP研究进展" class="headerlink" title="RBP研究进展"></a>RBP研究进展</h3><p>工业界：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">公司</th>
+<th style="text-align:center">产品</th>
+<th style="text-align:left">概述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">美国Universal Robotics公司</td>
+<td style="text-align:center">Spatial Vision Robotics</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">德国SICK</td>
+<td style="text-align:center">PLB-500视觉系统</td>
+<td style="text-align:left">一个3D相机、一个660nm的激光发射器</td>
+</tr>
+<tr>
+<td style="text-align:center">比利时Vision++</td>
+<td style="text-align:center">BinPicker++</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">丹麦<strong>Scape</strong> Technologies公司</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">2005年，两个固定的相机、一个随动相机、外加红色光源增强光照<br>2007年，两个固定静止的相机构成立体视觉，在自然光照条件下<br>2009年，单个相机固定在机械臂末端，外加红色光源增强光照<br>2014年，机械臂上固定于一个随动相机，无需外部光照条件<br></td>
+</tr>
+<tr>
+<td style="text-align:center">日本<strong>FANUC</strong>公司</td>
+<td style="text-align:center">iRVision</td>
+<td style="text-align:left">2006年，十字激光器和一个全局相机<br>2012年，固定双目+投影仪</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>学术界（参考文献[3]~[6]、[7]~[11]）：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">作者/年份/论文</th>
+<th style="text-align:left">概述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">[3]Oh J K/2012<br>Stereo vision based automation for a bin-picking solution</td>
+<td style="text-align:left">提出了利用双目视觉解决RBP问题的的通用方法，首先在大的视野下，利用二维几何模板匹配(Geometric Pattern Matching, GPM)算法从箱体目标中选择候选抓取目标，然后采用三个不共线的三维特征计算目标的位姿，并使用大量的模板采样和椭圆拟合来提高系统的可靠性，降低光照和遮挡带来的影响。</td>
+</tr>
+<tr>
+<td style="text-align:center">[4]Kai-Tai Song/2017<br>CAD-based pose estimation design for random bin picking using a RGB-D camera</td>
+<td style="text-align:left">提出一种基于CAD模型的随机箱体抓取方法，该方法使用深度相机获取点云信息，采用立体像素网格滤波器对数据下采样，利用基于投票决策的方法识别和估计位姿信息，并使用离群滤波器去除错误的匹配目标，该方法的平均识别率为92.39%，抓取成功率为89.67%。</td>
+</tr>
+<tr>
+<td style="text-align:center">[5]Kensuke Harada等/2016<br>Initial experiments on learning-based randomized bin-picking allowing finger contact with neighboring objects</td>
+<td style="text-align:left">采用机器学习的方法完成箱体抓取。</td>
+</tr>
+<tr>
+<td style="text-align:center">[6]Nikolay Atanasov等/2014<br>Nonmyopic view planning for active object classification and pose estimation</td>
+<td style="text-align:left">采用可移动的相机解决抓取多目标的抓取和决策问题。</td>
+</tr>
+<tr>
+<td style="text-align:center">[7]哈尔滨工业大学佐立营/2015<br>[硕士]面向机器人抓取的散乱零件自动识别与定位技术研究</td>
+<td style="text-align:left">提出基于Kinect的散乱工件位姿估计方法。首先通过修复传感器深度图像得到工件点云信息，然后采用工件连接部分的特征和平面结构进行目标分割，最后采用随机采样一致方法设计位姿估计方法，定位误差小于5mm，角度误差约3°。</td>
+</tr>
+<tr>
+<td style="text-align:center">[8]上海大学丁美昆等/2016<br>基于 Kinect 的机器人臂手系统的目标抓取</td>
+<td style="text-align:left">采用Kinect实现机械臂的目标抓取。首先利用Kinect获得深度信息，并进行深度分割，滤除背景噪声，再利用颜色与形状特征识别和定位目标，整体实验误差约为10mm。</td>
+</tr>
+<tr>
+<td style="text-align:center">[9]山东机器人重点实验室和自动化制造技术研究所Fan X等/2014<br>A combined 2D-3D vision system for automatic robot picking</td>
+<td style="text-align:left">通过结合2D和3D视觉来决定混乱场景中目标的工件位置，定位精度小于10mm。</td>
+</tr>
+<tr>
+<td style="text-align:center">[10]国立台北大学Wen-Chung Chang等/2016<br>Eye-in-hand vision-based robotic bin-picking with active laser projection</td>
+<td style="text-align:left">利用激光线扫方法实现散乱管道部件的重构和抓取。</td>
+</tr>
+<tr>
+<td style="text-align:center">[11]颜培清等/2016<br>基于深度信息的多目标抓取规划方法研究</td>
+<td style="text-align:left">针对散乱堆放的物体，提出了一种多目标抓取规划方法。</td>
+</tr>
+<tr>
+<td style="text-align:center">库柏特公司创始人李淼</td>
+<td style="text-align:left">研究了机器人抓取的动态自适应方法，被NIST选为机器人基于传感的抓取效率的测试标准。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>相关论文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">[3] Oh J K, Lee S, Lee C H. Stereo vision based automation for a bin-picking solution [J]. International Journal of Control, Automation and Systems, 2012, 10(2): 362-373. </span><br><span class="line">[4] Song  K  T, Wu C H, Jiang S Y. CAD-based pose estimation design for random bin picking using a RGB-D camera [J]. Journal of Intelligent and Robotic Systems, 2017, doi: 10.1007/s10846-017-0501-1. </span><br><span class="line">[5] Harada K, Wan W, Tsuji T, et al. Initial experiments on learning-based randomized bin-picking allowing finger contact with neighboring objects [C]. IEEE Automation Science and Engineering, 2016: 1196-1202. </span><br><span class="line">[6] Atanasov N, Sankaran B, Le Ny J, et al. Nonmyopic view planning for active object classification and pose estimation [J]. IEEE Transactions on Robotics, 2014, 30(5): 1078-1090. </span><br><span class="line">[7] 佐立营. 面向机器人抓取的散乱零件自动识别与定位技术研究[D]: [硕士学位论文]. 哈尔滨: 哈尔滨工业大学, 2015. </span><br><span class="line">[8] 丁美昆, 徐昱琳, 蒋财军, 等. 基于 Kinect 的机器人臂手系统的目标抓取[J]. 上海大学学报(自然科学版), 2016, 22(4): 421-431. </span><br><span class="line">[9] Fan X, Wang X, Xiao Y. A combined 2D-3D vision system for automatic robot picking [C]. IEEE International Conference on Advanced Mechatronic Systems, 2014: 513-516. </span><br><span class="line">[10] Chang W C, Wu C H. Eye-in-hand vision-based robotic bin-picking with active laser projection [J]. The International Journal of Advanced Manufacturing Technology, 2016, 85(9-12): 2873-2885. </span><br><span class="line">[11] 颜培清, 何炳蔚, 雷阿唐, 等. 基于深度信息的多目标抓取规划方法研究[J]. 电子测量与仪器学报, 2016, 30(9): 1342-1350.</span><br></pre></td></tr></table></figure></p>
+<p>总述：<br>目前在工业上还没有成熟的应用案例，大多局限在<strong>复杂工件的精准建模</strong>或者是<strong>简单工件的定位抓取</strong></p>
+<h3 id="编码结构光研究现状"><a href="#编码结构光研究现状" class="headerlink" title="编码结构光研究现状"></a>编码结构光研究现状</h3><p>编码结构光广泛用于三维重构，优点：</p>
+<ul>
+<li>非接触测量</li>
+<li>视野大</li>
+<li>精度高</li>
+<li>速度快</li>
+</ul>
+<p>本文研究的是<strong>静态环境</strong>下的随机箱体抓取，目的是从散堆的工件中抓取目标，最关键的是获得箱体内目标的六自由度深度信息，在保证<strong>3D测量周期小于机械手运动周期</strong>的前提下，测量精度对于RBP问题来说十分重要</p>
+<h3 id="位姿估计研究现状"><a href="#位姿估计研究现状" class="headerlink" title="位姿估计研究现状"></a>位姿估计研究现状</h3><p>学术界（参考文献[27]~[35]、[36]~[43]）：</p>
+<p>基于特征提取：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">作者/年份/论文</th>
+<th style="text-align:left">概述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">[27]Kirkegaard J/2006<br>Bin-picking based on harmonic shape contexts and graph-based matching</td>
+<td style="text-align:left">将具有平移、尺度和旋转不变的HSC特征(Harmonic Shape Contexts, HSC)应用到模板匹配中，并将这些特征利用基于图理论的方法与CAD模板的HSC特征进行匹配，得到目标的位姿信息。该方法可至少识别出一个目标，但是对噪声敏感。</td>
+</tr>
+<tr>
+<td style="text-align:center">[28]Drost B等/2010<br>Model globally, match locally: efficient and robust 3D object recognition</td>
+<td style="text-align:left">提出了一种基于方向点对特征的全局描述特征，可通过投票与本地的模板进行局部匹配，该方法对于遮挡、混乱场景具有较高的识别率。</td>
+</tr>
+<tr>
+<td style="text-align:center">[29]Xu J等/2012<br>3D pose estimation for bin-picking task using convex hull</td>
+<td style="text-align:left">针对含有平面的工件，利用场景检测到的平面的凸壳与CAD模型中平面的凸壳匹配，从而获得基于CAD模型的位姿定位。该算法可以忽略目标形状的细节，更具鲁棒性。整个处理过程不超过3s。</td>
+</tr>
+<tr>
+<td style="text-align:center">[30]Choi C等/2012<br>Voting-based pose estimation for robotic assembly using a 3D sensor</td>
+<td style="text-align:left">提出了一种基于投票的位姿估计算法，该方法使用面方向点、边界方向点和边界直线作为基元，对他们进行组合，分别给出了四种位姿估计的算法：面方向点对、面方向点和边界方向点组合、边界方向点对、边界直线对。首先通过以上的算法对目标进行粗略的位姿估计，然后采用ICP算法进行位姿修正。该算法在机器人箱体抓取中有较好的表现，匹配速度小于1s，定位精度小于0.3mm。</td>
+</tr>
+<tr>
+<td style="text-align:center">[31]Buchholz D等/2013<br>Efficient bin-picking and grasp planning based on depth data</td>
+<td style="text-align:left">利用随机采样匹配(Random Sample Matching, RANSAM)算法将场景点云数据与CAD模型数据进行匹配，获取待抓取工件的位姿信息，点云处理耗时约为5.5s。</td>
+</tr>
+<tr>
+<td style="text-align:center">[32]Kim J等/2013<br>Structured light camera base 3D visual perception and tracking application system with robot grasping task</td>
+<td style="text-align:left">通过提取点云的曲面信息，与工件的CAD模型进行匹配，从而实现工件位置定位与位姿估计。从获取图像到位姿定位共耗时8.75s，其中，工件重构耗时3.11s，工件定位与位姿估计耗时0.52s，直线定位精度达1.23mm，圆心拟合精度2.58mm。</td>
+</tr>
+<tr>
+<td style="text-align:center">[33]Akizuki S/2014<br>Position and pose recognition of randomly stacked objects using highly observable 3D vector pairs</td>
+<td style="text-align:left">使用“3D向量对”作为描述特征，采用向量对匹配(Vector Pair Matching, VPM)算法进行位姿估计。由于向量对具有可观性，该方法具有较高的识别率，相对于传统方法识别率从45.8%提升到93.1%，匹配时间小于2s。</td>
+</tr>
+<tr>
+<td style="text-align:center">[34]Max Schwarz等/2015<br>RGB-D object recognition and pose estimation based on pre-trained convolutional neural network features</td>
+<td style="text-align:left">采用卷积神经网络对图像进行分类训练，得到大量图像特征集，然后结合深度信息对图像进行渲染，采用SVM分类器识别目标，采用支持向量机回归(Support Vector Regression, SVR)算法估计目标位姿，该方法的识别率和定位精度依赖较大数量的训练对象。</td>
+</tr>
+<tr>
+<td style="text-align:center">[35]Xianjie Chen等/2014<br>Articulated pose estimation by a graphical model with image dependent pairwise relations</td>
+<td style="text-align:left">采用深卷积神经网络对人体骨架进行识别，并计算得到相对于训练对象的位姿信息。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>基于点云配准：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">作者/年份/论文</th>
+<th style="text-align:left">概述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Paul J等</td>
+<td style="text-align:left">提出了<strong>迭代最近点方法</strong>(Iterative Closest Point，<strong>ICP</strong>)，该方法利用最小二乘计算两片点云的位姿变换，可以获得极高的匹配精度，但是该方法易收敛于局部最优，收敛速度较慢。</td>
+</tr>
+<tr>
+<td style="text-align:center">[36-37]Jihua Zhu等/2016/2014<br>Automatic multiview registration of unordered range scans without feature extraction<br>Robust registration of partially overlapping point sets via genetic algorithm with growth operator</td>
+<td style="text-align:left">针对ICP算法易收敛于局部最优的缺点，采用<strong>遗传算法</strong>(Genetic Algorithm, <strong>GA</strong>)计算两幅点云的初始位姿关系以保证匹配结果为全局最优，获得较好的收敛性。</td>
+</tr>
+<tr>
+<td style="text-align:center">[38]钟莹等/2014<br>基于改进 ICP 算法的点云自动配准技术</td>
+<td style="text-align:left">利用<strong>主成分分析方法</strong>(Principal Component Analysis, <strong>PCA</strong>)使点云的三个主方向重合，快速得到粗略配准的点云，该方法具有较快的响应速度，但要求点云之间存在足够大的重叠区域。</td>
+</tr>
+<tr>
+<td style="text-align:center">[39]钱鹏鹏等/2013<br>一种新的扫描点云自动配准方法</td>
+<td style="text-align:left">提出了一种结合曲率的随机抽样一致(Random Sample Consensus, RANSAC)点云初始配准方法，此方法能显著提高初始拼接的精度，但匹配速度满足不了工业抓取的实时性。</td>
+</tr>
+<tr>
+<td style="text-align:center">[30]Choi C等/2012<br>Voting-based pose estimation for robotic assembly using a 3D sensor</td>
+<td style="text-align:left">提出了一种基于投票的位姿粗略估计算法，定位精度达0.3mm，但需要足够多的运算次数。针对ICP算法收敛速度慢的缺点，一般设置距离阈值来剔除错误对应点对。</td>
+</tr>
+<tr>
+<td style="text-align:center">[40]侯东兴等/2015<br>剔除误同名点的约束改进 ICP 算法</td>
+<td style="text-align:left">提出了点对坐标约束法和自适应阈值法来剔除错误的同名点对，提高了收敛速度。</td>
+</tr>
+<tr>
+<td style="text-align:center">[41]徐万鑫等/2012<br>改进的 ICP 算法在点云配准中的应用</td>
+<td style="text-align:left">利用最长轴的KD树搜索方法，结合曲率特征快速搜索同名点，在不改变准确度的情况下提高了配准速度。</td>
+</tr>
+<tr>
+<td style="text-align:center">[42]Bae K H等/2008<br>A method for automated registration of unorganised point clouds</td>
+<td style="text-align:left">提出一种结合基元、近邻搜索和位置不确定性的迭代最近点算法(Geometric Primitive ICP with the RANSAC, GP-ICPR)，该算法利用点的曲率变化与其对应点法向量夹角确定对应点，匹配的欧氏距离平均误差为0.25mm，但该方法需要手动校准初始位姿。</td>
+</tr>
+<tr>
+<td style="text-align:center">[43]张蕾等/2012<br>约束改进的 ICP 点云配准方法</td>
+<td style="text-align:left">提出了改进距离约束的迭代邻近点方法，选取最近点作为匹配点，利用距离阈值剔除误匹配点，相对于传统ICP算法，该方法配准的速度和精度得到了显著提高。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>相关论文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">[27] Kirkegaard J, Moeslund T B. Bin-picking based on harmonic shape contexts and graph-based matching  [C]. IEEE Pattern Recognition, 2006: 581-584.  </span><br><span class="line">[28] Drost  B,  Ulrich M, Navab N, et al. Model globally, match locally: efficient and robust 3D object recognition [C]. IEEE Computer Vision and Pattern Recognition, 2010: 998-1005. </span><br><span class="line">[29] Xu J, Pu S, Zeng G, et al. 3D pose estimation for bin-picking task using convex hull [C]. IEEE Mechatronics and Automation, 2012: 1381-1385. </span><br><span class="line">[30] Choi C, Taguchi Y, Tuzel O, et al. Voting-based pose estimation for robotic assembly using a 3D sensor [C]. IEEE Robotics and Automation, 2012: 1724-1731. </span><br><span class="line">[31] Buchholz D, Futterlieb M, Winkelbach S, et al. Efficient bin-picking and grasp planning based on depth data [C]. IEEE Robotics and Automation, 2013: 3245-3250. </span><br><span class="line">[32] Kim J, Nguyen H H, Lee Y, et al. Structured light camera base 3D visual perception and tracking application system with robot grasping task [C]. IEEE Assembly and Manufacturing, 2013: 187-192. </span><br><span class="line">[33] Akizuki S, Hashimoto M. Position and pose recognition of randomly stacked objects using highly observable 3D vector pairs [C]. IEEE Industrial Electronics Society, 2014: 5266-5271. </span><br><span class="line">[34] Schwarz M, Schulz H, Behnke S. RGB-D object recognition and pose estimation based on pre-trained convolutional neural network features [C]. IEEE Robotics and Automation, 2015: 1329-1335. </span><br><span class="line">[35] Chen X, Yuille A L. Articulated pose estimation by a graphical model with image dependent pairwise relations [C]. Advances in Neural Information Processing Systems. 2014: 1736-1744. </span><br><span class="line">[36] Zhu J, Zhu L, Li Z, et al. Automatic multiview registration of unordered range scans without feature extraction [J]. Neurocomputing, 2016(171): 1444-1453. </span><br><span class="line">[37] Zhu J, Meng D, Li Z, et al. Robust registration of partially overlapping point sets via genetic algorithm with growth operator [J]. IET Image Processing, 2014, 8(10): 582-590. </span><br><span class="line">[38] 钟莹 , 张蒙 . 基于改进 ICP 算法的点云自动配准技术 [J]. 控制工程 , 2014, 21(1): 37-40. </span><br><span class="line">[39] 钱鹏鹏 , 郑德华 . 一种新的扫描点云自动配准方法 [J]. 水利与建筑工程学报 , 2013(3): 162-164. </span><br><span class="line">[40] 侯东兴 , 王耀华 , 李宗春 . 剔除误同名点的约束改进 ICP 算法 [J]. 测绘科学 , 2015, 40(8): 103-107. </span><br><span class="line">[41] 徐万鑫 , 许宏丽 . 改进的 ICP 算法在点云配准中的应用 [C]. 中国系统仿真技术及其应用学术年会 . 2012: 205-208. </span><br><span class="line">[42] Bae K H, Lichti D D. A method for automated registration of unorganised point clouds [J].Journal of Photogrammetry and Remote Sensing, 2008, 63(1): 36-54. </span><br><span class="line">[43] 张蕾 , 冀治航 , 普杰信 , 等 . 约束改进的 ICP 点云配准方法 [J]. 计算机工程与应用 , 2012, 48(18): 197-200.</span><br></pre></td></tr></table></figure></p>
+<p>总述：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">位姿计算方法</th>
+<th style="text-align:left">优缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">基于<strong>特征提取</strong></td>
+<td style="text-align:left">只能应用于具有明显几何特征的点云，<strong>适用范围受限</strong><br>很多特征利用了特征点或边界，点云在边界处易受噪声的干扰，因此基于特征的方法<strong>鲁棒性较差</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">基于<strong>点云配准</strong></td>
+<td style="text-align:left">可以获得<strong>较高的匹配精度</strong><br>但<strong>实时性较差</strong></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="系统数学模型"><a href="#系统数学模型" class="headerlink" title="系统数学模型"></a>系统数学模型</h2><h3 id="双目视觉基本原理"><a href="#双目视觉基本原理" class="headerlink" title="双目视觉基本原理"></a>双目视觉基本原理</h3><h4 id="摄像机成像模型"><a href="#摄像机成像模型" class="headerlink" title="摄像机成像模型"></a>摄像机成像模型</h4><p>小孔模型<br>相似三角形原理</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_02小孔模型.png" title="小孔模型">
+<h4 id="摄像机标定"><a href="#摄像机标定" class="headerlink" title="摄像机标定"></a>摄像机标定</h4><p>根据给定的摄像机模型求取摄像机的内部参数、外部参数，以建立图像上的点和空间坐标系中点的一一对应关系</p>
+<p>内参数矩阵：相机坐标系 → 图像坐标系<br>外参数矩阵：世界坐标系 → 相机坐标系</p>
+<p>镜头畸变：仅需要考虑镜头的<strong>径向畸变</strong></p>
+<p>标定方法：<strong>张正友</strong>提出的棋盘格靶标标定方法（内参 ⇒ 外参 ⇒ 畸变）<br>共11个参数（内参5个、外参6个）</p>
+<h4 id="双目联合标定"><a href="#双目联合标定" class="headerlink" title="双目联合标定"></a>双目联合标定</h4><p>世界坐标系 → 相机1坐标系<br>世界坐标系 → 相机2坐标系<br> ⇒ 相机2坐标系 → 相机1坐标系</p>
+<h3 id="系统硬件组成"><a href="#系统硬件组成" class="headerlink" title="系统硬件组成"></a>系统硬件组成</h3><h4 id="系统架构"><a href="#系统架构" class="headerlink" title="系统架构"></a>系统架构</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">三个部分</th>
+<th style="text-align:center">作用</th>
+<th style="text-align:center">组成</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">视觉传感器部件</td>
+<td style="text-align:center">获取图像信息</td>
+<td style="text-align:center">双目相机、投影仪、标定板、铝合金固定架等</td>
+</tr>
+<tr>
+<td style="text-align:center">信息处理平台</td>
+<td style="text-align:center">处理传感器获取的图像信息、控制机械臂的运动</td>
+<td style="text-align:center">计算机A负责投射编码图像序列、计算机B负责采集图像并处理图像信息、机械手的运动由机器人控制器独立完成</td>
+</tr>
+<tr>
+<td style="text-align:center">抓取部件</td>
+<td style="text-align:center">工件的抓取</td>
+<td style="text-align:center">机械臂及其组件、手操器稍等</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_03测量系统架构.png" title="测量系统架构">
+<h4 id="相机与镜头的选择"><a href="#相机与镜头的选择" class="headerlink" title="相机与镜头的选择"></a>相机与镜头的选择</h4><p>要求：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">规格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">视野</td>
+<td style="text-align:center">300mm×300mm</td>
+</tr>
+<tr>
+<td style="text-align:center">分辨率</td>
+<td style="text-align:center">小于0.2mm</td>
+</tr>
+<tr>
+<td style="text-align:center">相机到物体的距离L</td>
+<td style="text-align:center">1000mm左右</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>相机参数：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">规格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">传感器制式</td>
+<td style="text-align:center">1/2.5（5.12mm×3.84mm）</td>
+</tr>
+<tr>
+<td style="text-align:center">分辨率</td>
+<td style="text-align:center">2588×1940</td>
+</tr>
+<tr>
+<td style="text-align:center">像元</td>
+<td style="text-align:center">2.2μm</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>选择镜头：<br>（1）焦距</p>
+<script type="math/tex; mode=display">系统放大倍数β=\frac{3.84}{300}=0.0128</script><script type="math/tex; mode=display">可分辨的景物精度=\frac{0.0022}{0.0128}=0.1719mm</script><script type="math/tex; mode=display">镜头焦距f=\frac{L}{1+\frac{1}{β}}=12.006mm</script><p>当工作距离L不变时，若测量视野增大，则系统放大倍数β减小，应当选取较短的焦距<br>实验的测量视野介于240mm×240mm和300mm×300mm之间，所以<strong>选取焦距为12mm的镜头</strong></p>
+<p>系统的分辨率（0.1719mm）算得的结果达到要求（0.2mm）</p>
+<p>（2）视野<br><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_04视野几何计算模型.png" title="视野几何计算模型"></p>
+<p>视野大小由传感器大小、焦距、物距决定。<br>由相似定理得：</p>
+<script type="math/tex; mode=display">H=hL/f=5.12×1000/12=426.67mm</script><script type="math/tex; mode=display">W=wL/f=3.84×1000/12=320mm</script><ul>
+<li>H和W：视野的长和宽</li>
+<li>h和w：传感器的长和宽</li>
+</ul>
+<p>视野（H、W）算得的结果均大于要求的最大测量视野300mm×300mm</p>
+<p>（3）景深<br>景深D计算公式：</p>
+<script type="math/tex; mode=display">
+\begin{cases}
+D_1 = \frac{f^2 × L}{f^2 + σ×F×L} = \frac{12×12×1000}{12×12+0.03333×1.4×1000} = 755.26mm \\
+D_2 = \frac{f^2 × L}{f^2 - σ×F×L} = \frac{12×12×1000}{12×12-0.03333×1.4×1000} = 1479.38mm \\
+D = D_2 - D_1 = 1479.38 - 755.26 = 724.12mm \\
+\end{cases}</script><ul>
+<li><script type="math/tex">D_1</script>：景深远界</li>
+<li><script type="math/tex">D_2</script>：景深近界</li>
+<li>σ：可容许弥散圆直径，一般取值为1/30</li>
+<li>F：光圈系数</li>
+<li>设镜头焦距f=12mm，光圈系数F=1.4，拍摄距离L=1000mm</li>
+</ul>
+<p>景深（D）算得的结果满足一般测量需要</p>
+<p>系统性能影响因素：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">焦距f</th>
+<th style="text-align:center">物距L</th>
+<th style="text-align:center">传感器分辨率</th>
+<th style="text-align:center">光圈值F</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">系统分辨率</td>
+<td style="text-align:center">↑</td>
+<td style="text-align:center">↓</td>
+<td style="text-align:center">↑</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">视野FOV</td>
+<td style="text-align:center">↓</td>
+<td style="text-align:center">↑</td>
+<td style="text-align:center">↑</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">景深</td>
+<td style="text-align:center">↓</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">↑</td>
+</tr>
+</tbody>
+</table>
+</div>
+<ul>
+<li>要提高<strong>系统分辨率</strong>，需要增大传感器的分辨率，或者减小工作距离，即减小相机视野</li>
+<li>在相机确定的前提下，要增大测量<strong>视野</strong>，需要减小焦距，或增大物距</li>
+<li>景深与焦距和光圈值F有关，F越大（光圈越小），焦距越短，<strong>景深</strong>越大。</li>
+</ul>
+<p>PS：↑表示随着硬件参数（如焦距）的增大，系统性能（如系统分辨率）增强</p>
+<h4 id="投影仪的选择"><a href="#投影仪的选择" class="headerlink" title="投影仪的选择"></a>投影仪的选择</h4><p><strong>投影仪的作用</strong>：向场景投射编码条纹，<strong>根据条纹特征确定匹配点</strong>，从而计算出对应点的三维信息。</p>
+<p><strong>三维重构的本质</strong>是对测量表面再采样，编码图案是用于<strong>确定匹配的采样点</strong>，该过程需符合编码结构光<strong>采样定理</strong>。<br>采样定理要求摄像机的采样频率大于投影仪对测量表面划分频率的2倍，即<strong>要求编码划分的最小区域宽度要大于一个像素视野宽度的2倍</strong>。<br>转换到图像上，<strong>条纹宽度应至少占据两个像素</strong>。因此，条纹的宽度不能无限缩小。</p>
+<p>若摄像机的分辨率为800×600，则8位Gray码条纹图案就是极限（<script type="math/tex">2^8 × 2 = 512 < 600</script>），此时投影仪投影图案部分的分辨率至少为256×256。<br><strong>Gray码位数越高，采样点密度越大，但摄像机对编码图案中单个像素的分辨能力越差。</strong><br>此外，受被测物表面散射、投影仪和摄像机的离焦以及光学系统点扩散特性等因素的影响，摄像机的分辨能力变差，因此，解码的准确度会更低。</p>
+<p><strong>测量视野和系统分辨率是相互制约的</strong>，在投射图案时，投影仪的视野与摄像机的视野不能完全重合。<br>一般情况下，<strong>投影仪的视野要大于双目摄像机的共同的视野</strong>。<br>因此，在设计编码图像时，<strong>应当减小编码图像占整个投影图案的比重</strong>。<br>故而在选择投影仪时，<strong>投影仪的分辨率应稍大于计算所得的分辨率</strong>。</p>
+<h3 id="系统软件实现"><a href="#系统软件实现" class="headerlink" title="系统软件实现"></a>系统软件实现</h3><h4 id="基于编码结构光的立体视觉定位技术"><a href="#基于编码结构光的立体视觉定位技术" class="headerlink" title="基于编码结构光的立体视觉定位技术"></a>基于编码结构光的立体视觉定位技术</h4><ol>
+<li>视觉系统标定<br> ①对左右<strong>相机</strong>进行<strong>标定</strong>，获得相机的内外参数，再根据内外参数进行<strong>双目联合标定</strong><br> ②结合机械臂对左摄像机坐标系和机器人本体坐标系进行标定，实现<strong>手眼标定</strong>，从而得到视觉系统参数</li>
+<li>单个工件点云信息注册<br> 主要是利用编码结构光获取单个工件的点云信息，然后通过点云预处理得到<strong>工件模板点云</strong>，用于后期的位姿计算</li>
+<li>箱体点云获取与位姿计算<br> 利用同样的三维重构方法获取混乱工件点云，通过预处理、点云分割、点云筛选、位姿定位等步骤计算<strong>箱体内工件</strong>相对于注册工件的<strong>位姿</strong>状态</li>
+<li>机械手定位抓取<br> 将相对位姿信息发送给机器人，根据<strong>手眼关系</strong>利用机械臂执行抓取动作</li>
+</ol>
+<h4 id="三维重构的原理图"><a href="#三维重构的原理图" class="headerlink" title="三维重构的原理图"></a>三维重构的原理图</h4><p>利用编码结构光进行三维重构的原理图如下：</p>
+<ol>
+<li>通过计算机离线生成编码图案，利用投影仪将编码图案序列按时间顺序投射在目标工件上</li>
+<li>通过摄像机同步获取包含编码图案的场景图像</li>
+<li>将该图像传输到计算机中，通过图像处理等技术得到三维点云信息</li>
+</ol>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_05编码结构光立体视觉原理图.png" title="编码结构光立体视觉原理图">
+<h4 id="系统工作流程"><a href="#系统工作流程" class="headerlink" title="系统工作流程"></a>系统工作流程</h4><p>点云获取+点云处理</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_06点云获取流程_点云处理流程.png" title="点云获取流程 点云处理流程">
+<h2 id="混乱工件三维重构"><a href="#混乱工件三维重构" class="headerlink" title="混乱工件三维重构"></a>混乱工件三维重构</h2><p>结构光三维测量法、Gray码结合线移的编码结构光方法</p>
+<h3 id="Gray码编码"><a href="#Gray码编码" class="headerlink" title="Gray码编码"></a>Gray码编码</h3><p>二值编码一般采用k个图案对<script type="math/tex">2^k</script>个条纹编码，其中，第i+1个图案的条纹数量是第i个图案的2倍，在第k个图案中，同一条纹里的像素的码值相同。<br>由于n位二值编码相邻编码之间有多位不同，使得解码误差不只一位。<br>针对该问题，Inokuchi S等利用<strong>Gray码</strong>进行重构，Gray码的任意两个相邻码字只有一位不同，解码时最多只有一位解码误差，解码准确度较高。</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_076位Gray码条纹图案.png" title="6位Gray码条纹图案">
+<p>PS：数中间黑白相间的边的数量</p>
+<p>实验中所采用的液晶<strong>投影仪的分辨率为800×600</strong>，如果用<strong>9幅Gray码</strong>就可以把待测物体表面分割成<strong>512个不同的区域</strong>，而当Gray码图案数量大于8时，摄像机难以分<br>辨投影图案的黑条纹与白条纹，不利于后面的图像处理。<br>因此，<strong>本文在此基础上投射二值条纹线移图案</strong>。</p>
+<h3 id="线移编码"><a href="#线移编码" class="headerlink" title="线移编码"></a>线移编码</h3><p>Gray码对测量空间的划分是有限的，在同一个区间内，所有像素的码值是相同的，故而需要对测量空间进一步细分。<br>相移法通过连续的相位变化得到每个像素的相位值，该值在同一周期内具有唯一性，因为可用于实现立体匹配，利用Gray可消除相位的多义性。<br>但是，采集图像的噪声、目标形状的非连续性和图像的非正弦特性都会导致相位计算错误，最终影响匹配的精准度。<br><strong>本文采用离散的边缘或者中心线代替连续变化的相位</strong>。</p>
+<h4 id="边缘扩散影响"><a href="#边缘扩散影响" class="headerlink" title="边缘扩散影响"></a>边缘扩散影响</h4><p>影响边缘定位精度的因素有很多，主要分为<strong>硬件限制</strong>（光学点扩散、离焦）和<strong>全局光照影响</strong>（散射、子表面反射）。</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_08边缘扩散示意图.png" title="边缘扩散示意图">
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_09边缘扩散实物图.png" title="边缘扩散实物图">
+<p>不同的<strong>材质</strong>，边缘扩散的影响不同。对于<strong>高反射率</strong>的工件如螺栓等<strong>金属工件</strong>，边缘扩散影响较<strong>大</strong>，对于<strong>白色塑料瓶</strong>，其反射率低于金属工件，因此边缘扩散影响较<strong>小</strong>，而对于背景<strong>木板材质</strong>，边缘扩散影响更<strong>小</strong>，但是仍然存在。</p>
+<p>不同的<strong>曝光时间</strong>对边缘的影响不同，当曝光时间在1/1502s~1/400s之间时黑白条纹宽度趋于稳定，且黑条纹宽度略大于白条纹宽度。<strong>本文实验选取曝光时间为1/1000s</strong>。</p>
+<h4 id="计算线移区间"><a href="#计算线移区间" class="headerlink" title="计算线移区间"></a>计算线移区间</h4><p><strong>计算Gray码最小周期条纹相邻边缘之间的距离<script type="math/tex">W_k</script></strong>，对周期宽度进行分类，并计算线移区间。</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_104位Gray码最小周期宽度示意图.png" title="4位Gray码最小周期宽度示意图">
+<p>计算单位平移距离<script type="math/tex">d</script></p>
+<script type="math/tex; mode=display">d=\frac{W_s}{2+2s}</script><ul>
+<li><script type="math/tex">W_s</script>：Gray码三种周期条纹宽度中较小值的均值</li>
+<li><script type="math/tex">s</script>：向左或向右平移的次数</li>
+</ul>
+<h4 id="线移条纹编码"><a href="#线移条纹编码" class="headerlink" title="线移条纹编码"></a>线移条纹编码</h4><p>投射Gray码图案后，继续投射<strong>宽度</strong>与Gray码最小周期宽度相等、<strong>方向</strong>与Gray码条纹方向平行的二值条纹图案，将该图案条纹分别向左、向右对称<strong>平移</strong>s次，单次平移距离为d。</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_115幅线移图案的编码示意图.png" title="5幅线移图案的编码示意图">
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_12线移编码图案.png" title="线移编码图案">
+<h3 id="Gray码-线移解码"><a href="#Gray码-线移解码" class="headerlink" title="Gray码-线移解码"></a>Gray码-线移解码</h3><h4 id="图像预处理"><a href="#图像预处理" class="headerlink" title="图像预处理"></a>图像预处理</h4><p>由于<strong>利用边缘进行解码</strong>，在解码前需要对图像进行预处理，得到条纹图案中有效测量区域的<strong>单像素边缘</strong>，有利于边缘解码和匹配。</p>
+<p>具体操作如下：<br>（1）<strong>图像采集</strong></p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_12左相机采集的Gray码图像.png" title="左相机采集的Gray码图像">
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_13左相机采集的线移图像.png" title="左相机采集的线移图像">
+<p>（2）采用<strong>中值滤波</strong>对图像进行预处理，有效去除图像传感器及传输过程中产生的椒盐噪声。</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_14初始图像_边缘图像.png" title="初始图像 边缘图像">
+<p>（3）对滤波后图像<strong>归一化处理</strong>，消除左右摄像机光照不一致造成的影响。</p>
+<script type="math/tex; mode=display">h(x,y)=\frac{g(x,y)-min(g(x,y))}{max(g(x,y))-min(g(x,y))} × 255</script><ul>
+<li>g(x,y)、h(x,y)：归一化处理前后的图像灰度值</li>
+<li>max(g(x,y))、min(g(x,y))：图像灰度值的最大值和最小值</li>
+</ul>
+<p>（4）利用Ostu法对图像进行<strong>阈值处理</strong>，得到二值图像后，采用半径为5的圆盘结构元素对图像进行先闭后开的<strong>形态学处理</strong>，去除毛刺和内部孔洞。 </p>
+<p>（5）利用edge边缘检测器<strong>提取像素边缘</strong>。</p>
+<p>（6）<strong>去除阴影边缘</strong>。阴影为摄像机拍摄不到的区域，左右摄像机位姿不同，采集图像中的阴影区域也不一样。消除不同物体造成的阴影边缘（<strong>Mark1</strong>）</p>
+<p>（7）对edge<strong>边缘优化处理</strong>。细化多像素边缘（<strong>Mark2</strong>）、抑制非主方向干扰边缘（<strong>Mark3</strong>）。</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_15标记部分的放大图.png" title="标记部分的放大图">
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_16去除阴影和优化边缘.png" title="去除阴影和优化边缘">
+<h4 id="Gray码解码"><a href="#Gray码解码" class="headerlink" title="Gray码解码"></a>Gray码解码</h4><p>解码时，将<strong>边缘上的点</strong>作为图像采样点，并根据采样点的二进制码值求解 Gray码码值。</p>
+<h4 id="线移条纹解码"><a href="#线移条纹解码" class="headerlink" title="线移条纹解码"></a>线移条纹解码</h4><p>线移图案经过预处理后得到线移条纹边缘，取中值得到各条纹的中心，根据该条纹<br>对应的Gray码条纹确定<strong>线移条纹所处的周期</strong>，对线移条纹进行解码。</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_17Gray码结合线移解码示意图.png" title="Gray码结合线移解码示意图">
+<p>利用条纹中心向两侧对称位移的方法，避开了因边缘扩散造成的边缘定位误差，从<br>而消除了线移条纹周期定位的解码误差，提高了全局解码的正确率。</p>
+<h3 id="三维重构"><a href="#三维重构" class="headerlink" title="三维重构"></a>三维重构</h3><p>利用<strong>正交投射</strong>的方法，获得左视图正交方向上的码值<script type="math/tex">l\_h\_code</script>、<script type="math/tex">l\_v\_code</script>，右视图正交方向上的码值<script type="math/tex">r\_h\_code</script>、<script type="math/tex">r\_v\_code</script>，则整幅视图的唯一性编码<script type="math/tex">L\_code</script>、<script type="math/tex">R\_code</script>可表示为：</p>
+<script type="math/tex; mode=display">L\_code = l\_h\_code + 2^n × l\_v\_code</script><script type="math/tex; mode=display">R\_code = r\_h\_code + 2^n × r\_v\_code</script><ul>
+<li><script type="math/tex">L\_code</script>、<script type="math/tex">R\_code</script>：左、右视图全局编码值</li>
+<li>n：Gray码位数</li>
+</ul>
+<p>在右视图中搜索与左视图中<strong>码值相同的点</strong>，将左右视图对应点的坐标分别存储在有效地址<script type="math/tex">L\_mask</script>、<script type="math/tex">R\_mask</script>中。</p>
+<p>本文只对左右视图中<strong>有效匹配点</strong>进行<strong>畸变校正</strong>。<br>四阶径向畸变模型：</p>
+<script type="math/tex; mode=display">实际图像坐标 = 无畸变的理想图像坐标 + ...k_1...k_2...</script><p>☆<strong>三维坐标计算</strong>：<br>利用三角测量法求解各点的三维信息。通过<strong>SVD</strong>求结果。</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+    u_1 \\
+    v_1 \\
+    1 \\
+\end{bmatrix}
+=
+S_1 ×
+\begin{bmatrix}
+    m_{11}^1 & m_{12}^1 & m_{13}^1 & m_{14}^1 \\
+    m_{21}^1 & m_{22}^1 & m_{23}^1 & m_{24}^1 \\
+    m_{31}^1 & m_{32}^1 & m_{33}^1 & m_{34}^1 \\
+\end{bmatrix}
+×
+\begin{bmatrix}
+    X \\
+    Y \\
+    Z \\
+    1 \\
+\end{bmatrix}
+\\
+\begin{bmatrix}
+    u_2 \\
+    v_2 \\
+    1 \\
+\end{bmatrix}
+=
+S_2 ×
+\begin{bmatrix}
+    m_{11}^2 & m_{12}^2 & m_{13}^2 & m_{14}^2 \\
+    m_{21}^2 & m_{22}^2 & m_{23}^2 & m_{24}^2 \\
+    m_{31}^2 & m_{32}^2 & m_{33}^2 & m_{34}^2 \\
+\end{bmatrix}
+×
+\begin{bmatrix}
+    X \\
+    Y \\
+    Z \\
+    1 \\
+\end{bmatrix}</script><ul>
+<li><script type="math/tex">S_1</script>、<script type="math/tex">S_2</script>：比例因子</li>
+<li><script type="math/tex">m_{11}^1</script>~<script type="math/tex">m_{34}^1</script>、<script type="math/tex">m_{11}^2</script>~<script type="math/tex">m_{34}^2</script>：左右相机的成像变化矩阵</li>
+<li><script type="math/tex">\begin{bmatrix}
+  u_1 \\
+  v_1 \\
+  1 \\
+\end{bmatrix}</script>、<script type="math/tex">\begin{bmatrix}
+  u_2 \\
+  v_2 \\
+  1 \\
+\end{bmatrix}</script>：左右图的匹配点</li>
+<li><script type="math/tex">\begin{bmatrix}
+  X \\
+  Y \\
+  Z \\
+  1 \\
+\end{bmatrix}</script>：左右图匹配点对应的空间三维坐标</li>
+</ul>
+<p>消去上式中的<script type="math/tex">S_1</script>、<script type="math/tex">S_2</script>，则有<script type="math/tex">ax=b</script>，即：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+    u_1 m_{31}^1 - m_{11}^1 & u_1 m_{32}^1 - m_{12}^1 & u_1 m_{33}^1 - m_{13}^1 \\
+    v_1 m_{31}^1 - m_{21}^1 & v_1 m_{32}^1 - m_{22}^1 & v_1 m_{33}^1 - m_{23}^1 \\
+    u_2 m_{31}^2 - m_{11}^2 & u_2 m_{32}^2 - m_{12}^2 & u_2 m_{33}^2 - m_{13}^2 \\
+    v_2 m_{31}^2 - m_{21}^2 & v_2 m_{32}^2 - m_{22}^2 & v_2 m_{33}^2 - m_{23}^2 \\
+\end{bmatrix}
+\begin{bmatrix}
+    X \\
+    Y \\
+    Z \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    m_{14}^1 - u_1 m_{34}^1 \\
+    m_{24}^1 - v_1 m_{34}^1 \\
+    m_{14}^2 - u_2 m_{34}^2 \\
+    m_{24}^2 - v_2 m_{34}^2 \\
+\end{bmatrix}</script><p>对<script type="math/tex">ax=b</script>，用<strong>最小二乘法</strong>，可得</p>
+<script type="math/tex; mode=display">x = (a^T a )^{-1} a^T b</script><p><strong>公式推导</strong>：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+    u_1 \\
+    v_1 \\
+    1 \\
+\end{bmatrix}
+=
+S_1 ×
+\begin{bmatrix}
+    m_{11}^1 & m_{12}^1 & m_{13}^1 & m_{14}^1 \\
+    m_{21}^1 & m_{22}^1 & m_{23}^1 & m_{24}^1 \\
+    m_{31}^1 & m_{32}^1 & m_{33}^1 & m_{34}^1 \\
+\end{bmatrix}
+×
+\begin{bmatrix}
+    X \\
+    Y \\
+    Z \\
+    1 \\
+\end{bmatrix}
+\\
+\begin{bmatrix}
+    u_2 \\
+    v_2 \\
+    1 \\
+\end{bmatrix}
+=
+S_2 ×
+\begin{bmatrix}
+    m_{11}^2 & m_{12}^2 & m_{13}^2 & m_{14}^2 \\
+    m_{21}^2 & m_{22}^2 & m_{23}^2 & m_{24}^2 \\
+    m_{31}^2 & m_{32}^2 & m_{33}^2 & m_{34}^2 \\
+\end{bmatrix}
+×
+\begin{bmatrix}
+    X \\
+    Y \\
+    Z \\
+    1 \\
+\end{bmatrix}</script><p>展开矩阵：</p>
+<script type="math/tex; mode=display">\frac{1}{S_1} u_1 = m_{11}^1 X + m_{12}^1 Y + m_{13}^1 Z + m_{14}^1 \tag {1}</script><script type="math/tex; mode=display">\frac{1}{S_1} v_1 = m_{21}^1 X + m_{22}^1 Y + m_{23}^1 Z + m_{24}^1 \tag {2}</script><script type="math/tex; mode=display">\frac{1}{S_1} = m_{31}^1 X + m_{32}^1 Y + m_{33}^1 Z + m_{34}^1 \tag {3}</script><script type="math/tex; mode=display">\frac{1}{S_2} u_2 = m_{11}^2 X + m_{12}^2 Y + m_{13}^2 Z + m_{14}^2 \tag {4}</script><script type="math/tex; mode=display">\frac{1}{S_2} v_2 = m_{21}^2 X + m_{22}^2 Y + m_{23}^2 Z + m_{24}^2 \tag {5}</script><script type="math/tex; mode=display">\frac{1}{S_2} = m_{31}^2 X + m_{32}^2 Y + m_{33}^2 Z + m_{34}^2 \tag {6}</script><p>(3)×<script type="math/tex">u_1</script>-(1)、(2)×<script type="math/tex">v_1</script>-(1)，可得：</p>
+<script type="math/tex; mode=display">(u_1 m_{31}^1 - m_{11}^1) X + (u_1 m_{32}^1 - m_{12}^1) Y + (u_1 m_{33}^1 - m_{13}^1) Z + (u_1 m_{34}^1 - m_{14}^1) = 0</script><script type="math/tex; mode=display">(v_1 m_{31}^1 - m_{21}^1) X + (v_1 m_{32}^1 - m_{22}^1) Y + (v_1 m_{33}^1 - m_{23}^1) Z + (v_1 m_{34}^1 - m_{24}^1) = 0</script><p>同理，(6)×<script type="math/tex">u_2</script>-(4)、(5)×<script type="math/tex">v_2</script>-(4)，可得：</p>
+<script type="math/tex; mode=display">(u_2 m_{31}^2 - m_{11}^2) X + (u_2 m_{32}^2 - m_{12}^2) Y + (u_2 m_{33}^2 - m_{13}^2) Z + (u_2 m_{34}^2 - m_{14}^2) = 0</script><script type="math/tex; mode=display">(v_2 m_{31}^2 - m_{21}^2) X + (v_2 m_{32}^2 - m_{22}^2) Y + (v_2 m_{33}^2 - m_{23}^2) Z + (v_2 m_{34}^2 - m_{24}^2) = 0</script><p>最终可得：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+    u_1 m_{31}^1 - m_{11}^1 & u_1 m_{32}^1 - m_{12}^1 & u_1 m_{33}^1 - m_{13}^1 \\
+    v_1 m_{31}^1 - m_{21}^1 & v_1 m_{32}^1 - m_{22}^1 & v_1 m_{33}^1 - m_{23}^1 \\
+    u_2 m_{31}^2 - m_{11}^2 & u_2 m_{32}^2 - m_{12}^2 & u_2 m_{33}^2 - m_{13}^2 \\
+    v_2 m_{31}^2 - m_{21}^2 & v_2 m_{32}^2 - m_{22}^2 & v_2 m_{33}^2 - m_{23}^2 \\
+\end{bmatrix}
+\begin{bmatrix}
+    X \\
+    Y \\
+    Z \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    m_{14}^1 - u_1 m_{34}^1 \\
+    m_{24}^1 - v_1 m_{34}^1 \\
+    m_{14}^2 - u_2 m_{34}^2 \\
+    m_{24}^2 - v_2 m_{34}^2 \\
+\end{bmatrix}</script><h3 id="实验验证"><a href="#实验验证" class="headerlink" title="实验验证"></a>实验验证</h3><h4 id="视觉传感器标定"><a href="#视觉传感器标定" class="headerlink" title="视觉传感器标定"></a>视觉传感器标定</h4><p>利用<strong>Bouguet算法</strong>对左右相机进行标定<br>利用Harris算法提取标定板上所有的角点<br>对左右摄像机进行立体标定得到内外参数（左、右相机内参，右相机相对于左相机的旋转矩阵、平移向量）<br>查看<strong>重投影误差分布图</strong>，计算X方向与Y方向的平均误差</p>
+<h4 id="三维重构-1"><a href="#三维重构-1" class="headerlink" title="三维重构"></a>三维重构</h4><p>采用本文方法对<strong>平板平面</strong>重构，对点云进行平面拟合。<br>与文献[17]、文献[20]对比<strong>相对误差</strong>、<strong>重构时间</strong></p>
+<h2 id="混乱工件位姿定位"><a href="#混乱工件位姿定位" class="headerlink" title="混乱工件位姿定位"></a>混乱工件位姿定位</h2><p>本文针对编码结构光获得的无序点云，采用<strong>点云去噪、点云分割、点云筛选、位姿粗略估计、位姿精确估计</strong>等方法，计算箱体<strong>混乱工件</strong>相对于<strong>参考工件</strong>的六自由度位姿信息。</p>
+<h3 id="点云预处理"><a href="#点云预处理" class="headerlink" title="点云预处理"></a>点云预处理</h3><h4 id="点云去噪"><a href="#点云去噪" class="headerlink" title="点云去噪"></a>点云去噪</h4><p>点云数据的常见<strong>平滑滤波</strong>方法：均值滤波、中值滤波、高斯滤波</p>
+<p>点云去噪方法主要有数学形态学滤波[54]、三角网滤波[55]、小波分层滤波、基于局部离群点的滤波方法[56]、基于密度分析和深度数据双边滤波的方法[57]、<strong>稀疏离群点移除算法</strong>[58]等。</p>
+<p>利用<strong>基于统计学的滤波方法</strong>可以有效去除靠近点集的噪声。（本文采用<strong>稀疏离群点移除算法</strong>）</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_18实物图_初始点云图_滤波后点云图.png" title="实物图 初始点云图 滤波后点云图">
+<h4 id="点云分割"><a href="#点云分割" class="headerlink" title="点云分割"></a>点云分割</h4><p>点云处理的完整流程包括：<strong>点云去噪</strong>、点云精简、点云配准、<strong>特征识别</strong>、<strong>区域分割</strong>、几何估算、模型重建等。<br>由于本文目的不是精准三维重构，故而省去点云精简、点云配准、几何估算、模型重建过程。</p>
+<p>本文的目标是从一个混乱的场景中识别并定位物体，因此需要先对<strong>点云</strong>进行<strong>分割</strong>处理，得到各工件点云集，便于后期一对一的位姿计算。</p>
+<p>点云分割方法可分为边缘检测法[59]、区域生长法[60]、扫面线法[61]、聚类法[62]、基于图的分割[63]、基于径向反射[64]等方法。</p>
+<p>可分为两类：</p>
+<ul>
+<li><strong>基于区域增长</strong>的方法：利用最小生成树方法分割点云[65]、三角面片法向量方向调整方法[66]、基于连通性的分割方法[67]、利用局部点云密度的建筑立面自适应分割方法[68]</li>
+<li><strong>基于特征</strong>的方法：基于三维边缘检测、基于曲面分割、基于边界技术、聚类等</li>
+</ul>
+<p>在<strong>RBP问题</strong>中，一方面，数据存在遮挡和阴影，导致<strong>边界或曲面不能单一地表示工件特征</strong>，另一方面，为了提高实时性，可能会牺牲部分预处理操作，而<strong>边界噪声和曲面孔洞都会对分割产生较大的影响</strong>。<br>因此利用曲面或边界特征的分割方法不适用于混乱物体点云分割。</p>
+<p>本文采用<strong>基于区域增长的点云分割方法</strong>。该方法利用点及其邻域特征，利用<strong>点法向量夹角</strong>作为<strong>区域的评判</strong>，利用<strong>曲率</strong>作为<strong>种子的评判</strong>，因此需要设置夹角阈值和曲率阈值。 </p>
+<p>具体实现：<br>（1）首先，计算所有点的<strong>曲率</strong>，将曲率最小的点作为区域<strong>生长起点</strong>（种子）。原因是曲率最小的点位于平面，而从平面开始生长可以减少分割的数量。</p>
+<p>（2）然后，搜索生长起点（种子）的邻近点：</p>
+<ol>
+<li>对于每一个邻近点，计算其法向量与当前种子点<strong>法向量的夹角</strong>，若该夹角小于阈值q1，则将该邻近点归于当前区域，否则舍弃；</li>
+<li>然后计算当前区域剩余邻近点的<strong>曲率</strong>，若曲率小于阈值q2，则将该邻近点添加到种子群中；</li>
+<li>从种子群中移除当前种子；</li>
+<li>选择下一个种子点，重复上述三个步骤。</li>
+</ol>
+<p>（3）当种子点群为空时，重复上述步骤（1）和步骤（2），得到按法向量特征得到的点集。</p>
+<p>具体实现参数：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">取值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">法向量估计近邻</td>
+<td style="text-align:center">50</td>
+</tr>
+<tr>
+<td style="text-align:center">最小点集</td>
+<td style="text-align:center">50</td>
+</tr>
+<tr>
+<td style="text-align:center">最大点集</td>
+<td style="text-align:center">5000</td>
+</tr>
+<tr>
+<td style="text-align:center">区域增长近邻</td>
+<td style="text-align:center">30</td>
+</tr>
+<tr>
+<td style="text-align:center">法向量夹角阈值</td>
+<td style="text-align:center">π/18</td>
+</tr>
+<tr>
+<td style="text-align:center">曲率阈值</td>
+<td style="text-align:center">0.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_19点云分割结果_点云筛选结果.png" title="点云分割结果 点云筛选结果">
+<h4 id="点云筛选"><a href="#点云筛选" class="headerlink" title="点云筛选"></a>点云筛选</h4><p>为了提高算法速度，需要尽量<strong>减少非目标点集的干扰</strong>，因此对点云集进行筛选。</p>
+<p>本文采用点集的<strong>最小立方体包围盒</strong>进行筛选。</p>
+<p>具体实现：</p>
+<ol>
+<li>利用点数阈值去除背景点集和部分遮挡严重的工件点集；</li>
+<li>求解点集的特征向量，将所有点分别映射到三个特征向量上，求得各点在特征向量上的投影；</li>
+<li>用投影的最大值减去最小值，得到三个特征方向上的长度。</li>
+</ol>
+<p>当长度阈值设置为105mm、45mm、22mm时，筛选结果如上图。</p>
+<h3 id="ICP优化算法"><a href="#ICP优化算法" class="headerlink" title="ICP优化算法"></a>ICP优化算法</h3><p>ICP对初始计算值的选取非常严格，如果选择了不合适的初值，会使算法陷入局部最优，可能造成匹配失败，因而<strong>粗配准是ICP算法精确定位必要的步骤</strong>。</p>
+<p>一种<strong>遗传算法</strong>结合<strong>自适应阈值约束优化</strong>的ICP位姿估计方法：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">trick</th>
+<th style="text-align:center">效果</th>
+<th style="text-align:center">优化点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">利用<strong>遗传算法</strong></td>
+<td style="text-align:center">得到目标点集相对参考点云初始位姿的<strong>全局最优解</strong></td>
+<td style="text-align:center">时间↓</td>
+</tr>
+<tr>
+<td style="text-align:center">采用<strong>自适应欧氏距离约束</strong></td>
+<td style="text-align:center">可以<strong>剔除</strong>大部分局部大变形点</td>
+<td style="text-align:center">精度↑</td>
+</tr>
+<tr>
+<td style="text-align:center">利用<strong>法向量夹角阈值</strong></td>
+<td style="text-align:center">进一步<strong>剔除</strong>满足距离条件但不满足夹角条件的误匹配点对</td>
+<td style="text-align:center">精度↑</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="☆遗传算法优化的初始位姿计算"><a href="#☆遗传算法优化的初始位姿计算" class="headerlink" title="☆遗传算法优化的初始位姿计算"></a>☆遗传算法优化的初始位姿计算</h4><p><strong>遗传算法</strong>作为一种<strong>全局寻优</strong>的方法，可有效克服陷于局部最优的缺点。<br><strong>编码方式</strong>和<strong>适应度函数</strong>是遗传算法实现的关键。</p>
+<p>（1）染色体编码<br>本文的编码就是用编码的方式表示六自由度位姿转换的解，并将问题的解映射到搜索空间，每个编码的染色体都代表问题的解。</p>
+<p>针对目标点集和参考点云的位姿计算问题，可以<strong>将其解分为平移和旋转</strong>，由于该算法用于点云的粗匹配，因此<strong>平移解可利用两片点云质心的相对位置关系求解</strong>，即计算目标点集的形心到参考点云形心的相对位置变换，这样<strong>只需要优化三个旋转角变量α、β、γ</strong>。</p>
+<p>α,β,γ的定义域为<script type="math/tex">(0,2π)</script>，取间隔为<script type="math/tex">\frac{π}{60}</script>，则旋转角定义域为<script type="math/tex">\{ \frac{π}{60}, \frac{2π}{60}, ..., \frac{120π}{60} \}</script>，可转化为<script type="math/tex">\{1,2,...,120\}</script><br>数值120对应的二进制编码为1111000，故<strong>解的编码可用21位二进制编码表示</strong>，其中前面7位表示绕X轴转角、中间7位表示绕Y轴转角、后面7位表示绕Z轴转角。</p>
+<p>（2）适应度函数<br>适应度函数是判断子代种群中个体优劣的决定因素，它的选取对遗传算法的收敛速度和最优解的寻找具有关键作用。 </p>
+<p>采用<strong>符合欧氏距离阈值的点数</strong>构造适应度函数。</p>
+<script type="math/tex; mode=display">F = \frac{ \sum_{i=1}^{N_1} W_i }{N_2}</script><ul>
+<li>$<br>W_i =<br>\begin{cases}<br>1,参考点云Q中存在一点j使||r_{ij}||&lt;δ \\<br>0,参考点云Q中不存在点j使||r_{ij}||&lt;δ \\<br>\end{cases}<br>$</li>
+<li><script type="math/tex">N_1</script>：参考点云Q中点的个数</li>
+<li><script type="math/tex">N_2</script>：目标点集P中点的个数</li>
+<li><script type="math/tex">δ</script>：阈值</li>
+<li><script type="math/tex">||r_{ij}||</script>：目标点集P中一点i与参考点云Q中一点j之间的欧氏距离</li>
+</ul>
+<h4 id="☆阈值约束优化的精确位姿计算"><a href="#☆阈值约束优化的精确位姿计算" class="headerlink" title="☆阈值约束优化的精确位姿计算"></a>☆阈值约束优化的精确位姿计算</h4><p>ICP算法采用最近邻点求两片点云之间的变换参数R和T，使用的方法就是不停的计算和迭代。<br>在传统ICP算法中，判断迭代停止的条件是<strong>整体误差小于某一固定阈值</strong>或<strong>手动设置迭代上限</strong>，前者需要先验信息且不能反应出局部匹配的好坏，尤其是存在局部大变形点时，收敛速度较慢，后者可能导致匹配结果较差或过度迭代。 </p>
+<p>本文<strong>根据每次匹配的结果自动更新欧氏距离偏差阈值</strong>，并<strong>结合法向量夹角滤除点群中的局部大变形点</strong>。</p>
+<p>设第k次匹配后目标点集为<script type="math/tex">P_i^k</script>，k=1,2,…，第k次迭代后的目标函数为：</p>
+<script type="math/tex; mode=display">F_k = \sum_{i=1}^{N_2} || R_k P_i^{k-1} + T_k - Q_i ||</script><ul>
+<li><script type="math/tex">R_k</script>：第k次旋转矩阵</li>
+<li><script type="math/tex">T_k</script>：第k次平移矩阵</li>
+<li><script type="math/tex">P_i^{k-1}</script>：第k次变换前的目标点集</li>
+<li><script type="math/tex">Q_i</script>：参考点云</li>
+</ul>
+<p>计算位姿定位误差E：</p>
+<script type="math/tex; mode=display">E = \frac{1}{N_2} \sum_{i=1}^{N_2} || M P_i - Q_i ||</script><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_20自适应阈值约束算法流程图.png" title="自适应阈值约束算法流程图">
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_21遗传算法优化的ICP算法流程图.png" title="遗传算法优化的ICP算法流程图">
+<h3 id="实验验证-1"><a href="#实验验证-1" class="headerlink" title="实验验证"></a>实验验证</h3><p>位姿估计实验工件（<strong>圆柱木块</strong>）：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">工件</th>
+<th style="text-align:center">数量</th>
+<th style="text-align:center">参数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">混乱工件</td>
+<td style="text-align:center">各5个</td>
+<td style="text-align:center">直径40mm、长100mm<br>直径30mm、长120mm<br>直径30mm、长60mm</td>
+</tr>
+<tr>
+<td style="text-align:center">参考工件</td>
+<td style="text-align:center">共1个</td>
+<td style="text-align:center">直径40mm、长100mm</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>实验平台：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">平台</th>
+<th style="text-align:center">配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">操作系统</td>
+<td style="text-align:center">Win7 64位</td>
+</tr>
+<tr>
+<td style="text-align:center">IDE</td>
+<td style="text-align:center">VS2013 64位</td>
+</tr>
+<tr>
+<td style="text-align:center">点云库</td>
+<td style="text-align:center">PCL 1.8.0</td>
+</tr>
+<tr>
+<td style="text-align:center">计算机配置</td>
+<td style="text-align:center">CPU i7-4790，内存8GB</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="单目标点云注册"><a href="#单目标点云注册" class="headerlink" title="单目标点云注册"></a>单目标点云注册</h4><ul>
+<li>箱体混乱工件点云</li>
+</ul>
+<ol>
+<li>点云去噪<strong>去</strong>除<strong>噪</strong>声</li>
+<li>用区域增长法对点云进行<strong>分割</strong>，得到单个工件的点集，用于后期一对一的点云位姿计算</li>
+<li>对点集进行<strong>筛选</strong>，得到符合条件的点云，以减少算法运行时间</li>
+</ol>
+<ul>
+<li>参考工件点云</li>
+</ul>
+<ol>
+<li>经过点云<strong>去噪</strong>后即可作为模板点云<br>主要原因：<strong>圆柱体木块</strong>具有圆柱面和平面几何形状，而圆柱面是<strong>旋转对称</strong>的，因此无需对工件进行完整三维重构，只需利用曲面匹配即可计算点云间的相对位姿。</li>
+</ol>
+<h4 id="粗略位姿估计"><a href="#粗略位姿估计" class="headerlink" title="粗略位姿估计"></a>粗略位姿估计</h4><p>取遗传算法的初始种群规模为60，距离阈值δ=2.5mm</p>
+<p>目标点云与模板点云<strong>形心重合且以形心为坐标原点</strong>（故可以只忽略平移，只考虑旋转），然后采用遗传算法进行位姿粗匹配</p>
+<h4 id="精确位姿估计"><a href="#精确位姿估计" class="headerlink" title="精确位姿估计"></a>精确位姿估计</h4><p>对比算法：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">算法</th>
+<th style="text-align:center">文献</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">传统ICP</td>
+<td style="text-align:center">Besl P J, Mckay N D. A method for registration of 3D shapes [J]. IEEE Transactions on Pattern Analysis &amp; Machine Intelligence, 1992, 14(2): 239-256.</td>
+</tr>
+<tr>
+<td style="text-align:center">ICP+KDTree</td>
+<td style="text-align:center">[41]徐万鑫, 许宏丽. 改进的ICP算法在点云配准中的应用[C]. 中国系统仿真技术及其应用学术年会. 2012: 205-208.</td>
+</tr>
+<tr>
+<td style="text-align:center">PCA+ICP+KDTree</td>
+<td style="text-align:center">[38]钟莹, 张蒙. 基于改进ICP算法的点云自动配准技术[J]. 控制工程, 2014, 21(1): 37-40.</td>
+</tr>
+<tr>
+<td style="text-align:center">GA+ICP+KDTree</td>
+<td style="text-align:center">[37]Zhu J, Meng D, Li Z, et al. Robust registration of partially overlapping point sets via genetic algorithm with growth operator [J]. IET Image Processing, 2014, 8(10): 582-590.</td>
+</tr>
+<tr>
+<td style="text-align:center">本文方法</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>对比参数：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">精度</td>
+<td style="text-align:center">相邻两次迭代的欧氏距离均方差的<strong>差异小于0.001mm</strong>时的<strong>欧氏距离均方差</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">时间</td>
+<td style="text-align:center">相邻两次迭代的欧氏距离均方差的差异小于0.001mm时的算法耗时</td>
+</tr>
+<tr>
+<td style="text-align:center">迭代次数</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_22几种算法的误差收敛图.png" title="几种算法的误差收敛图">
+<h2 id="工件三维定位与误差分析"><a href="#工件三维定位与误差分析" class="headerlink" title="工件三维定位与误差分析"></a>工件三维定位与误差分析</h2><p>在工业实际中，总是存在各种光照干扰，故本文不采用其他辅助光源，分别对<strong>不同材质、不同形状、不同大小</strong>的箱体混乱工件进行实验，从<strong>迭代次数、匹配耗时、定位误差、识别率</strong>等角度来评价本文提出的RBP解决方案。（分析算法的<strong>可靠性</strong>和<strong>通用性</strong>）</p>
+<h3 id="实验装置"><a href="#实验装置" class="headerlink" title="实验装置"></a>实验装置</h3><p>结构光双目视觉测量系统</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">平台</th>
+<th style="text-align:center">配置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">两台IMAGING相机</td>
+<td style="text-align:center">IMAGING DMK23GP031 COMS相机，传感器制式为1/2.5，分辨率为2588×1940，像元大小为2.2×2.2μm</td>
+</tr>
+<tr>
+<td style="text-align:center">两个KOWA工业镜头</td>
+<td style="text-align:center">KOWA百万分辨率镜头，制式为2/3，焦距12mm，光圈值为F1.4</td>
+</tr>
+<tr>
+<td style="text-align:center">一台EPSON投影仪</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">网格标定板</td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">两台计算机</td>
+<td style="text-align:center">计算机B CPU i7-4790，内存8GB<br>软件平台为Matlab R2014a、VS2013，库文件为PCL1.8.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_23系统实物图.png" title="系统实物图">
+<h3 id="木质工具实验"><a href="#木质工具实验" class="headerlink" title="木质工具实验"></a>木质工具实验</h3><p>注意：箩筐里放了多种不同的木质工具。</p>
+<p>初始点云存在大量噪声，因此要对点云进行预处理，<strong>去除离群点</strong>，同时，对各个目标点集进行<strong>分割</strong>，用于一对一的模板匹配。</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_24木质工件1.png" title="木质工件1">
+<p>由于木块面积较小，在进行单个工件注册时噪声较多，因此为了提高匹配的精度，尽量<strong>减少模板噪声</strong>。<br>在筛选时，<strong>采用面积阈值法进行筛选</strong>，即<strong>目标点集点云个数要大于参考点云的一半</strong>，从筛选结果可以看出，除了遮挡严重和立着的木块，其他木块均可被检测出。</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_25木质工件2.png" title="木质工件2">
+<h3 id="塑料工具实验"><a href="#塑料工具实验" class="headerlink" title="塑料工具实验"></a>塑料工具实验</h3><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_26塑料工件1.png" title="塑料工件1">
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_27塑料工件2.png" title="塑料工件2">
+<h3 id="金属工具实验"><a href="#金属工具实验" class="headerlink" title="金属工具实验"></a>金属工具实验</h3><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_28金属工件1.png" title="金属工件1">
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_29金属工件2.png" title="金属工件2">
+<h3 id="综合分析"><a href="#综合分析" class="headerlink" title="综合分析"></a>综合分析</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">工件</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">详情</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">木质</td>
+<td style="text-align:center">矩形木块</td>
+<td style="text-align:center">长51mm、宽16mm、高9mm</td>
+</tr>
+<tr>
+<td style="text-align:center">木质</td>
+<td style="text-align:center">圆柱体木块</td>
+<td style="text-align:center">直径40mm、长100mm<br>直径30mm、长120mm<br>直径30mm、长60mm</td>
+</tr>
+<tr>
+<td style="text-align:center">塑料</td>
+<td style="text-align:center">白色塑料瓶</td>
+<td style="text-align:center">瓶口到底部高度47mm，瓶身直径21.5mm</td>
+</tr>
+<tr>
+<td style="text-align:center">金属</td>
+<td style="text-align:center">圆柱体铝块</td>
+<td style="text-align:center">直径2.4cm，长2.2cm<br>直径2.4cm，长4.4cm<br>直径2.4cm，长6.6cm</td>
+</tr>
+<tr>
+<td style="text-align:center">金属</td>
+<td style="text-align:center">塞打螺栓</td>
+<td style="text-align:center">规格￠8*50的12.9级公制塞打螺栓</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>分析思路</strong>：<br>先单独分析每一项，再综合分析，再分析影响定位精度的因素</p>
+<ul>
+<li><p>单独分析</p>
+<ol>
+<li>三维重构与点云预处理<br>4张图（实物图、重构结果、滤波效果、分割效果）</li>
+<li>点集筛选与位姿计算<br>参考工件点云及点集筛选结果：3张图（参考点云、所有目标、筛选结果）<br>位姿定位和误差计算：2张图（木块位姿定位图、点集误差收敛图）、2张表（点云计算结果表、位姿定位结果表）</li>
+</ol>
+</li>
+<li><p>综合分析</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/a_30不同工件的性能计算指标.png" title="不同工件的性能计算指标">
+<ul>
+<li>对比三种<strong>材质</strong>的工件，可以发现，<strong>木质工件</strong>和<strong>塑料工件</strong>的可识别性要大于金属工件，不管形状、大小、遮挡等因素，至少能够识别箱体中两个目标；</li>
+<li>对比不同的<strong>形状</strong>，<strong>立方体平面</strong>的定位误差要小于圆柱体曲面的定位误差，所有的工件中，只有立方体木块的定位误差小于0.4mm；</li>
+<li>对比不同的<strong>大小</strong>，<strong>大工件</strong>的可识别性大于小工件的可识别性，但耗时较多。 </li>
+</ul>
+</li>
+<li><p>影响定位精度的因素</p>
+<ol>
+<li>传感器标定误差<ul>
+<li><strong>标定板的精度</strong></li>
+<li><strong>角点提取精度</strong></li>
+<li>左右图像的采集延时</li>
+</ul>
+</li>
+<li>三维重构误差<ul>
+<li>特征提取（<strong>光照</strong>、拍摄角度、<strong>镜头畸变</strong>）</li>
+<li>立体匹配</li>
+</ul>
+</li>
+<li>点云处理误差<ul>
+<li>点云预处理（部分贴近工件表面的离群点难以去除）</li>
+<li><strong>点云分割</strong>（利用<strong>曲率分割</strong>，当一个工件存在较大的曲面转折时，可能会被分割成多个点集，而箱体底面、箱体侧面对<strong>平面</strong>的<strong>分割</strong>也会产生干扰）</li>
+<li><strong>位姿计算</strong>（<strong>夹角阈值</strong>和<strong>欧氏距离阈值</strong>均会影响匹配的精度和速度）</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h2 id="主要结论与展望"><a href="#主要结论与展望" class="headerlink" title="主要结论与展望"></a>主要结论与展望</h2><h3 id="主要结论"><a href="#主要结论" class="headerlink" title="主要结论"></a>主要结论</h3><ol>
+<li>设计RBP系统整体方案（参考<strong>FANUC iRVision 3D Area Sensor</strong>硬件架构和功能实现），完成编码结构光立体视觉定位系统的<strong>硬件选型</strong>，从图像获取到位姿定位的<strong>软件实现</strong>（<strong>没有涉及到手眼标定和机器人抓取</strong>）</li>
+<li>针对结构光测量中的边缘扩散问题，在Gray码边缘解码基础上，提出一种<strong>改进型线移的组合编码方法</strong></li>
+<li>针对传统ICP算法存在的缺点，在初始点云预处理的基础上，提出一种<strong>遗传算法结合自适应阈值约束优化的ICP位姿估计方法</strong></li>
+<li>利用本文算法对<strong>不同材质、不同形状、不同大小</strong>的混乱工件进行整体测试</li>
+</ol>
+<h3 id="展望"><a href="#展望" class="headerlink" title="展望"></a>展望</h3><ol>
+<li>在三维重构中：<ul>
+<li><strong>条纹边缘提取的精度不够高</strong>（可采用亚像素边缘提取方法）</li>
+<li><strong>编码图案较多影响算法实时性</strong>（可将正交投射优化为极线约束立体匹配）</li>
+<li>未能实现投射图案与采集图像的同步触发（可采用嵌入式系统整合投影仪图案投射与摄像机图像采集）</li>
+</ul>
+</li>
+<li>若采用<strong>复杂曲面工件</strong>或<strong>不规则形状工件</strong>，本文方法难以保证点云分割的准确性<br>（本文实验对象：具有一定曲面信息的工件，且<strong>曲面曲率整体变化较小</strong>）<br>解决方法（二选一）：<ul>
+<li>在<strong>注册参考点云</strong>时，对工件进行<strong>完整扫描</strong>，合成工件的所有信息，在位姿匹配时，只需要<strong>目标工件</strong>的<strong>部分曲面</strong>即可完成定位</li>
+<li>利用点云的特征，计算<strong>注册工件</strong>的<strong>特有特征</strong>，然后在<strong>箱体点云</strong>中<strong>搜索</strong>具有同一<strong>特征</strong>的点集，再利用匹配算法实现定位</li>
+</ul>
+</li>
+<li>本文方法就<strong>不能应用于金属螺栓的定位</strong>，需提高RBP系统的通用性<br>（RBP的设计应当考虑不同应用的需求，包括目标工件的<strong>材质、形状、大小、几何特征、凌乱程度</strong>等）</li>
+</ol>
+<h2 id="我的思考"><a href="#我的思考" class="headerlink" title="我的思考"></a>我的思考</h2><ol>
+<li><p>设计实验时如何验证？如何衡量定位误差和精度？<br>不同材质、不同形状、不同大小<br>由于本文未涉及机械臂抓取，故没有定位误差<br><strong>精度</strong>为相邻两次迭代的欧氏距离均方差的差异小于0.001mm时的<strong>欧氏距离均方差</strong><br><strong>误差</strong>为源点云与匹配点云之间的欧式距离，貌似与<strong>精度</strong>等价</p>
+</li>
+<li><p>是否涉及机器人示教？<br>不涉及，文中没有手眼标定、机器人抓取</p>
+</li>
+<li><p>不同三维重构算法、不同位姿估计算法？<br>三维重构算法：<strong>§5混乱工件三维重构-实验验证-三维重构</strong>（文献[17]、文献[20]、本文方法）<br>位姿估计算法：<strong>§6混乱工件位姿定位-实验验证-精确位姿估计</strong>（传统ICP、ICP+KDTree、PCA+ICP+KDTree、GA+ICP+KDTree、本文方法）</p>
+</li>
+</ol>
+<h1 id="硕士-基于点云处理的散乱零部件识别与定位技术的研究"><a href="#硕士-基于点云处理的散乱零部件识别与定位技术的研究" class="headerlink" title="硕士_基于点云处理的散乱零部件识别与定位技术的研究"></a>硕士_基于点云处理的散乱零部件识别与定位技术的研究</h1><h2 id="摘要-1"><a href="#摘要-1" class="headerlink" title="摘要"></a>摘要</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">提纲</th>
+<th style="text-align:center">简述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">领域</td>
+<td style="text-align:center">随机箱体抓取（RBP）</td>
+</tr>
+<tr>
+<td style="text-align:center">论文重点</td>
+<td style="text-align:center">分割<br>配准</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>工作量：</p>
+<ol>
+<li>针对机器人随机箱体抓取过程中<strong>场景分割困难</strong>的问题，提出<strong>基于改进欧式聚类的散乱零部件点云分割方法</strong>。<ul>
+<li>预处理阶段，采用<strong>直通滤波</strong>和<strong>迭代半径滤波方法</strong>，得到去除干扰点后的零部件点云</li>
+<li>通过<strong>基于法线夹角的边缘检测方法</strong>去除点云中的边缘点，使相互碰撞的零件在空间上分离</li>
+<li>采用<strong>改进的搜索半径自适应欧式聚类方法</strong>进行点云分割，得到多个零件点云子集</li>
+<li>根据<strong>基于距离约束的方法</strong>将去除的边缘点补齐到点云子集之中，从而完成点云分割</li>
+<li>此外，提出<strong>线下模板点云注册</strong>为分割<strong>提供参数选取依据</strong>，保证了分割结果的准确性，提高了分割速度</li>
+<li>实验结果表明，该方法能够准确地分割出感兴趣零件，分割速度约696ms，满足工业机器人抓取的实时性要求。</li>
+</ul>
+</li>
+<li>针对<strong>目标识别和定位</strong>问题，提出<strong>基于SHOT特征融合的点云配准方法</strong>。<ul>
+<li>线下建立<strong>模板点云特征库</strong>，用于后续单个零件的位姿计算</li>
+<li>线上对分割得到的各零件点云子集进行位姿估计，提出<strong>基于方向包围盒裁剪</strong>的方法，得到去除稀疏边缘点后的零件点云，结合<strong>均匀采样</strong>算法获取关键点集</li>
+<li>通过<strong>改进SHOT特征描述子</strong>对关键点进行唯一性描述；采用<strong>最小方差法</strong>查找零件点云的关键点在模板点云中的对应点，根据对应关系求解初始变换矩阵</li>
+<li>使用<strong>ICP算法</strong>进行精确配准，得到零件的精确位姿信息。</li>
+<li>实验结果表明，本文算法可以准确快速的分割出各零件，且配准效果相对于基于SHOT特征配准、FPFH特征配准算法精度分别提高了37.10%和30.07%，配准速度分别提高了21.21%和35.64%</li>
+</ul>
+</li>
+</ol>
+<h2 id="RBP系统-1"><a href="#RBP系统-1" class="headerlink" title="RBP系统"></a>RBP系统</h2><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_01RBP系统示意图.png" title="RBP系统示意图">
+<p>运用3D视觉结合三维数据处理技术解决RBP问题，<strong>可转化成采用视觉技术识别和定位箱体中的目标</strong>。</p>
+<p>整个过程包括以下六个部分：</p>
+<ul>
+<li>零部件<strong>点云</strong>数据<strong>获取</strong>（<strong>关键</strong>）</li>
+<li>零部件的<strong>位姿估计</strong>（<strong>关键</strong>）</li>
+<li>选取最优抓取对象</li>
+<li>定义抓取点</li>
+<li>确定抓取路径</li>
+<li>抓取错误管理</li>
+</ul>
+<p>本课题的研究目标：识别和定位箱体内单个零件，得到其位姿信息<br>算法分为三个部分：</p>
+<ul>
+<li>点云数据获取</li>
+<li>预处理与<strong>分割</strong>（<strong>重点</strong>）</li>
+<li><strong>位姿估计</strong>（<strong>重点</strong>）</li>
+</ul>
+<h2 id="研究进展-1"><a href="#研究进展-1" class="headerlink" title="研究进展"></a>研究进展</h2><h3 id="RBP研究进展-1"><a href="#RBP研究进展-1" class="headerlink" title="RBP研究进展"></a>RBP研究进展</h3><p>工业界：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">公司</th>
+<th style="text-align:center">产品</th>
+<th style="text-align:left">概述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">德国ISRA Vision公司</td>
+<td style="text-align:center">IntelliPICK3D</td>
+<td style="text-align:left">两台相机、一个激光线扫装置；几乎适用于所有零件</td>
+</tr>
+<tr>
+<td style="text-align:center">日本FANUC公司</td>
+<td style="text-align:center">iRVision 3DL<br>3D Area Sensor<br>LR Mate 200iD</td>
+<td style="text-align:left">2006年，激光器+全局相机<br>2012年，双目相机+投影仪<br>2016年，使用<strong>深度学习</strong>，反复抓取获得抓取模型</td>
+</tr>
+<tr>
+<td style="text-align:center">丹麦Scape Technologies公司</td>
+<td style="text-align:center"></td>
+<td style="text-align:left">2005年，两个固定相机、一个随动相机<br>2009年，单个相机固定在机械臂末端，外加红色光源增强光照<br>2014年，UR机械臂上固定一个随动相机，无需外部光照</td>
+</tr>
+<tr>
+<td style="text-align:center">南京埃斯顿(ESTUN)机器人有限公司</td>
+<td style="text-align:center">意大利引进</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">上海沸谷自动化科技有限公司</td>
+<td style="text-align:center">FG-IR200</td>
+<td style="text-align:left">结构光和激光结合</td>
+</tr>
+<tr>
+<td style="text-align:center">北京大恒图像</td>
+<td style="text-align:center">机器人3D视觉引导智能装配系统</td>
+<td style="text-align:left">3D智能传感器</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>学术界（参考文献[3]~[6]、[7]~[12]）：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">作者/年份/论文</th>
+<th style="text-align:left">概述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">[3]Drost B等/2010<br>Model globally, match locally: efficient and robust 3D object recognition</td>
+<td style="text-align:left">结合了投票法和哈希表，生成全局模型描述符，用来识别自由形态的对象及其6-DoF姿态。</td>
+</tr>
+<tr>
+<td style="text-align:center">[4]Fukuchi N等/2016<br>Pose estimation for random bin picking with random forest</td>
+<td style="text-align:left">给出一种随机森林随机抓取的位姿定位方法，提出立方体特征(CF)和基于段特征对，采用随机森林算法实现模板点云和场景点云对应点查找，算法可以实现高精度工业位姿定位。</td>
+</tr>
+<tr>
+<td style="text-align:center">[5]He R等/2017<br>A 3D object detection and pose estimation pipeline using RGB-D images</td>
+<td style="text-align:left">提出基于RGB-D图像对管道进行三维检测，可实现多个对象同时检测，同时减少误报，平均抓取成功率为83.41%。</td>
+</tr>
+<tr>
+<td style="text-align:center">[6]Song K T等/2017<br>CAD-based pose estimation design for random bin picking using a RGB-D camera</td>
+<td style="text-align:left">提出一种基于CAD的6-DoF姿态估计方法，使用虚拟相机生成测量对象点云数据库，通过投票法识别并估计不同物体的6-DoF姿态，识别率可达到92.39%，抓取成功率为89.67%。</td>
+</tr>
+<tr>
+<td style="text-align:center">[7]广东工业大学柯科勇/2016<br>[硕士]基于双目视觉的散乱堆放零件拾取系统</td>
+<td style="text-align:left">提出散乱堆放工件抓取解决方案，采用区域生长算法对获取的点云进行分割，得到零件点云子集，提取ISS关键点并计算关键点的SHOT特征描述子，最后通过模板匹配估计零件位姿信息，抓取成功率首次和再次抓取的成功率分别为58.3%，86.3%，平均耗时676s。</td>
+</tr>
+<tr>
+<td style="text-align:center">[8]上海大学丁美昆等/2016<br>基于Kinect的机器人臂手系统的目标抓取</td>
+<td style="text-align:left">采用Kinect相机获取深度图像，并进行深度分割，然后基于颜色、形状特征进行目标识别，定位误差约为10mm。</td>
+</tr>
+<tr>
+<td style="text-align:center">[9]哈尔滨工业大学佐立营/2015<br>[硕士]面向机器人抓取的散乱零件自动识别与定位技术研究</td>
+<td style="text-align:left">提出基于Kinect的散乱零件位姿估计方法，首先对点云进行空洞修复，然后基于全局阈值和平面特征将目标从背景中分离，最后使用RANSAC方法进行位姿估计，定位误差小于5mm，角度误差约3°。</td>
+</tr>
+<tr>
+<td style="text-align:center">[10]山东机器人重点实验室和自动化制造技术研究所的FanX等/2014<br>A combined 2D-3D vision system for automatic robot picking</td>
+<td style="text-align:left">通过结合2D和3D视觉来决定混乱场景中目标的零件位置，定位精度小于10mm。</td>
+</tr>
+<tr>
+<td style="text-align:center">[11]中国科学院大学郑晶怡/2017<br>基于形状先验模型的平面型工件抓取位姿检测</td>
+<td style="text-align:left">为了实现平面工件位姿估算，首先建立工件的先验形状模型，然后结合图割法将工件复杂环境分割出来，从而计算出平面法向量，得到工件位姿。</td>
+</tr>
+<tr>
+<td style="text-align:center">[12]江南大学石爱军/2017<br>[硕士]基于编码结构光的立体视觉定位技术的研究与开发</td>
+<td style="text-align:left">通过搭建结构光三维测量系统进行场景三维重构，重构误差在2mm以内，然后对获取到的点云数据使用改进的ICP算法进行精确位姿估计，为后续的机器人抓取提供依据。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>相关论文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[3] Drost B, Ulrich M, Navab N, et al. Model globally, match locally: efficient and robust 3D object recognition [C]. Proc 2010 IEEE International Conference on Computer Vision and Pattern Recognition, pp, 2010: 998–1005. </span><br><span class="line">[4] Fukuchi N, Arai S, Hashimoto K. Pose estimation for random bin picking with random forest [J], 2016, (1): 2A1-19b7. </span><br><span class="line">[5] He R, Rojas J, Guan Y. A 3D object detection and pose estimation pipeline using RGB-D images[J]. arXiv preprint arXiv:1703.03940, 2017:1-7. </span><br><span class="line">[6] Song K T, Wu C H, Jiang S Y. CAD-based pose estimation design for random bin picking using a RGB-D camera [J]. Journal of Intelligent &amp; Robotic Systems, 2017, 87(3-4): 1-16. </span><br><span class="line">[7] 柯科勇. 基于双目视觉的散乱堆放零件拾取系统[D]: [硕士学位论文]. 广州: 广东工业大学机电工程学院, 2016. </span><br><span class="line">[8] 丁美昆, 徐昱琳, 蒋财军, 等. 基于Kinect的机器人臂手系统的目标抓取[J]. 上海大学学报自然科学版, 2016, 22(4): 421-431.  </span><br><span class="line">[9] 佐立营. 面向机器人抓取的散乱零件自动识别与定位技术研究[D]: [硕士学位论文]. 哈尔滨: 哈尔滨工业大学机电工程学院, 2015. </span><br><span class="line">[10] Fan X, Wang X, Xiao Y. A combined 2D-3D vision system for automatic robot picking [C]. Advanced Mechatronic Systems, 2014 International Conference on, 2014, 513-516. </span><br><span class="line">[11] 郑晶怡,李恩,梁自泽. 基于形状先验模型的平面型工件抓取位姿检测[J]. 机器人, 2017, 39(1): 99-110. </span><br><span class="line">[12] 石爱军. 基于编码结构光的立体视觉定位技术的研究与开发[D]: [硕士学位论文].江南大学物联网工程学院, 2017.</span><br></pre></td></tr></table></figure></p>
+<p>总述：<br>多局限于<strong>简单零件的识别和定位</strong>，对于RBP应用的开发还处于初始阶段</p>
+<h3 id="点云获取方法"><a href="#点云获取方法" class="headerlink" title="点云获取方法"></a>点云获取方法</h3><p>参考文献[14]<br>相关论文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[14] 郝雯, 王映辉, 宁小娟, 等. 面向点云的三维物体识别方法综述[J]. 计算机科学, 2017, 44(9): 11-16.</span><br></pre></td></tr></table></figure></p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">接触式</th>
+<th style="text-align:center">非接触式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">描述</td>
+<td style="text-align:center">通过将传感探头<strong>接触被测物体表面</strong>来获取物体表面三维数据</td>
+<td style="text-align:center">基于光学原理、声学原理等进行数据采集，将一定的<strong>物理量</strong>通过适当的算法<strong>转换为</strong>被测物表面的<strong>三维坐标</strong>点</td>
+</tr>
+<tr>
+<td style="text-align:center">优点</td>
+<td style="text-align:center">①对物体颜色和光照没有要求<br>②能精确测量物体的轮廓边缘<br>③测量精度高</td>
+<td style="text-align:center">①测量速度快<br>②不与物体接触<br>③测量精度高</td>
+</tr>
+<tr>
+<td style="text-align:center">缺点</td>
+<td style="text-align:center">①速度慢，效率低<br>②不宜测量变形、易碎、很薄以及材质偏软的物体</td>
+<td style="text-align:center">①不容易确定被测物的边缘<br>②对光照和物体表面情况变化不具有鲁棒性</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_02点云数据获取.png" title="点云数据获取">
+<p>工业实际应用中会根据<strong>被测对象的性质、测量精度和速度需求、成本</strong>选取合适的测量方法<br>本文采用基于<strong>结构光</strong>立体视觉系统获取散乱零部件表面的三维点云数据</p>
+<h3 id="点云分割研究现状"><a href="#点云分割研究现状" class="headerlink" title="点云分割研究现状"></a>点云分割研究现状</h3><p>参考文献[15]~[31]、[9]、[52]~[54]<br>相关论文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">[15] Nguyen A, Le B. 3D point cloud segmentation: a survey [C]. 2013 6th IEEE Conference on Robotics, Automation and Mechatronics (RAM). 2013: 225-230. </span><br><span class="line">[16] Grilli E, Menna F, Remondino F. A review of point clouds segmentation and classification algorithms [J]. Int. Arch. Photogramm. Remote Sens. Spatial Inf. Sci, 2017, 42(2): 339-344. </span><br><span class="line">[17] Giovanna Sansoni, Paolo Bellandi etc. A 3D pattern matching method for bin picking applications [J]. Optics and Lasers in Engineering. 2014, 54: 222–231. </span><br><span class="line">[18] 孙红岩, 孙晓鹏, 李华. 基于 K-means 聚类方法的三维点云模型分割[J]. 计算机工程应用, 2006, 10: 42-45. </span><br><span class="line">[19] 吴燕雄, 李峰, 刘芳, 等. 平滑度欧式聚类算法分割点云数据[J]. 测控技术, 2016, 35(3): 36-38. </span><br><span class="line">[20] 李宝顺, 岑红燕. 基于平面提取的点云数据分割算法[J]. 计算机应用与软件,2014, 31(7): 145-148. </span><br><span class="line">[21] Bao T, Zhao J, Xu M. Step edge detection method for 3D point clouds based on 2D range images [J]. Optik-International Journal for Light and Electron Optics, 2015, 126(20): 2706-2710. </span><br><span class="line">[22] Lim T W, Ramos P F, O’Dowd M C. Edge detection using point cloud data for noncooperative pose estimation [J]. Journal of Spacecraft &amp; Rockets, 2016, 54(2): 1-6. </span><br><span class="line">[23] 倪欢, 张继贤, 林祥国. 三维点云边缘检测和直线段提取进展与展望[J]. 测绘通报, 2016 (7): 1-4.</span><br><span class="line">[24] 丰少伟, 张晶, 杨云生. 基于形状特征的点云简化技术研究[J]. 微型机与应用, 2011, 30(7): 32-35. </span><br><span class="line">[25] 王果, 沙从术, 王健. 考虑局部点云密度的建筑立面自适应分割方法[J]. 激光与光电子学进展, 2015, 52(6): 108-113. </span><br><span class="line">[26] 卢维欣, 万幼川, 何培培, 等. 大场景内建筑物点云提取及平面分割算法[J]. 中国激光, 2015, 42(9): 336-342. </span><br><span class="line">[27] Vo A V, Truong-Hong L, Laefer D F, et al. Octree-based region growing for point cloud segmentation [J]. ISPRS Journal of Photogrammetry and Remote Sensing, 2015, 104: 88-100. </span><br><span class="line">[28] Tóvári D, Pfeifer N. Segmentation based robust interpolation-a new approach to laser data filtering [J]. International Archives of Photogrammetry, Remote Sensing and Spatial Information Sciences, 2005, 36(3/19): 79-84. </span><br><span class="line">[29] 朱德海. 点云库 PCL 学习教程[M]. 北京：北京航空航天大学出版社. 2012: 338-350. </span><br><span class="line">[30] Choi C, Christensen H I. 3D pose estimation of daily objects using an RGB-D camera [C]. Ieee/rsj International Conference on Intelligent Robots and Systems, 2012: 3342-3349. </span><br><span class="line">[31] R. Schnabel, R. Wahl, R.Klein. Efficient ransac for point cloud shape detection [J]. Comput Graph. Forum, 2007, 26(2), 214-226.</span><br><span class="line"></span><br><span class="line">[9] 佐立营. 面向机器人抓取的散乱零件自动识别与定位技术研究[D]: [硕士学位论文]. 哈尔滨: 哈尔滨工业大学机电工程学院, 2015. </span><br><span class="line">[52] Sansoni G, Bellandi P, Leoni F, et al. Optoranger: a 3D pattern matching method for bin picking applications [J]. Optics and Lasers in Engineering, 2014, 54:222-231.  </span><br><span class="line">[53] 樊丽, 刘晋浩, 黄青青. 基于特征融合的林下环境点云分割[J]. 北京林业大学学报, 2016, 38(5): 133-138. </span><br><span class="line">[54] 李洋洋, 史历程, 万卫兵, 等. 基于卷积神经网络的三维物体检测方法[J]. 上海交通大学学报, 2018(1).</span><br></pre></td></tr></table></figure></p>
+<p>点云分割：将点云分成多个区域的过程，同一区域中的数据点具有相同的属性。</p>
+<p>点云分割分为四大类：</p>
+<ul>
+<li><strong>基于属性</strong>（参考文献[17]~[20]）<br>基于点云属性进行分类，算法鲁棒性好。<br>可分为两步：第一步计算属性，第二步根据所计算的属性进行分类，将具有相似属性的点划分到一组。<br><strong>聚类分割</strong>方法提供了适应空间关系和属性的灵活性。这些方法的局限性在于它们高度依赖于所选<strong>属性</strong>的质量。——（参考文献[9]、[52]~[54]）<br><strong>属性</strong>：距离、法向量、点密度、水平或垂直方向上点分布等。</li>
+<li><strong>基于边缘</strong>（参考文献[21]~[24]）<br>通过检测点云中区域间的边界获得分段区域，其关键是确定强度急剧变化的点。<br>边缘描述物体的形状特征，现有的点云边缘检测算法分为两类：直接检测边缘、间接检测边缘。两者都存在边缘漏检、算法通用性受到限制、自动化程度低等缺点。<br><strong>有待进一步深入研究</strong>。</li>
+<li><strong>基于区域</strong>（参考文献[25]~[28]）<br>基于邻近点信息的相似性进行分类的分割方法。<br>最常见的是<strong>区域生长法</strong>，算法需要预先选取种子区域，如果种子区域邻近点满足既定准则或是阈值条件（如曲率），若该邻近点属于该区域，从而实现区域生长。该算法缺点为时间消耗大、对边界点的法线或曲率的不准确估计敏感。——参考文献[25][26]</li>
+<li><strong>基于模型</strong>（参考文献[29]~[31]）<br>使用几何原始形状（如球体，圆锥体，平面）进行分组，具有相同数学表示的点被分为一类。<br>典型代表是<strong>随机采样一致性</strong>（RANSAC）算法，但是其<strong>只能</strong>从特定的点云中<strong>分割出一个模型</strong>，并不适合具有多个点云聚类的场景点云分割的问题。——参考文献[31]</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">作者/年份/论文</th>
+<th style="text-align:left">概述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">[17]Giovanna Sansoni等/2014<br>A 3D pattern matching method for bin picking applications</td>
+<td style="text-align:left">首先利用k-d树建立点云的拓扑关系，然后计算点云中点的k邻域范围的平均欧式距离，去除大于所设阈值的点达到初步分割点云的目的，最后设置邻域半径阈值，将距离小于阈值的点归为一类，完成点云分割。</td>
+</tr>
+<tr>
+<td style="text-align:center">[18]孙红岩等/2006<br>基于K-means聚类方法的三维点云模型分割</td>
+<td style="text-align:left">提出基于k-means<strong>聚类</strong>方法的三维点云模型分割，从三维模型面片重心坐标中选定k个坐标作为初始聚类中心，并依据最小距离原则将集合中的面片重心坐标划分到k类中的某一类，然后重新计算聚类中心，直到其距离平方和最小从而达到最佳聚类。该算法易实现且速度快。但是受类数目和初始聚类中心的影响，算法结果是局部最优的。</td>
+</tr>
+<tr>
+<td style="text-align:center">[19]吴燕雄等/2016<br>平滑度欧式聚类算法分割点云数据</td>
+<td style="text-align:left">提出一种平滑度欧式聚类点云分割算法，在传统的欧式聚类分割算法的基础上加入平滑阈值的约束来防止过分割或欠割，算法分割速度快，在对阀门点云数据的分割实验中取得了不错的效果。</td>
+</tr>
+<tr>
+<td style="text-align:center">[20]李宝顺等/2014<br>基于平面提取的点云数据分割算法</td>
+<td style="text-align:left">提出一种基于平面提取的点云数据分割算法，达到分割的目的，实验结果表明，该算法能取得很好的分割效果，并能获得数据本身含有的几何信息，抗噪性和鲁棒性好。</td>
+</tr>
+<tr>
+<td style="text-align:center">[23]倪欢等/2016<br>三维点云边缘检测和直线段提取进展与展望</td>
+<td style="text-align:left">提出了一种边缘检测技术，通过计算梯度，将3D线确定到设定点，并检测表面上单位法向量方向的变化。</td>
+</tr>
+<tr>
+<td style="text-align:center">[24]丰少伟等/2011<br>基于形状特征的点云简化技术研究</td>
+<td style="text-align:left">将范围图像的扫描线分割成曲线，然后将它们聚类来表示曲面，这种方法在分割质量和运行时间方面都是有利的。但它只适用于范围图像，对于不均匀的密度点云分割效果欠佳。</td>
+</tr>
+<tr>
+<td style="text-align:center">[27]Vo A V等/2015<br>Octree-based region growing for point cloud segmentation</td>
+<td style="text-align:left">提出基于八叉树的区域生长点云分割方法。</td>
+</tr>
+<tr>
+<td style="text-align:center">[28]Tóvári D等/2005<br>Segmentation based robust interpolation-a new approach to laser data filtering</td>
+<td style="text-align:left">介绍了一种机载激光点云的区域生长分割方法，该方法将种子区域的法向量和生长平面的距离结合作为评判准则。</td>
+</tr>
+<tr>
+<td style="text-align:center">[52]Sansoni G等/2014<br>Optoranger: a 3D pattern matching method for bin picking applications</td>
+<td style="text-align:left">在欧式聚类算法的基础上优化了子集选择，根据分割子集的深度值来判断零件的遮挡与被遮挡关系。</td>
+</tr>
+<tr>
+<td style="text-align:center">[9]佐立营/2015<br>[硕士]面向机器人抓取的散乱零件自动识别与定位技术研究</td>
+<td style="text-align:left">将零件点云分割分为两个部分，首先结合统计距离和空间聚类实现粗分割，然后对欠分割子集，通过法线差异提取零件平面特征，根据平面特征实现进一步分割。</td>
+</tr>
+<tr>
+<td style="text-align:center">[53]樊丽等/2016<br>基于特征融合的林下环境点云分割</td>
+<td style="text-align:left">融合法线和激光反射强度共同作为判断准则，实现林下环境的聚类分割。</td>
+</tr>
+<tr>
+<td style="text-align:center">[54]李洋洋等/2018<br>基于卷积神经网络的三维物体检测方法</td>
+<td style="text-align:left">为了减少物体检测的计算量，采用随机采样一致和欧式聚类算法相结合的方法分割出物体的平面。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="点云配准研究现状"><a href="#点云配准研究现状" class="headerlink" title="点云配准研究现状"></a>点云配准研究现状</h3><p>参考文献[32]~[44]<br>相关论文：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">[32] Weber C, Hahmann S, Hagen H. Sharp feature detection in point clouds [C]. Shape Modeling International Conference. Computer Society, 2010: 175-186. </span><br><span class="line">[33] Wohlkinger W, Vincze M. Ensemble of shape functions for 3D object classification [C]. IEEE International Conference on Robotics and Biomimetics, 2012: 2987-2992. </span><br><span class="line">[34] Rusu R B, Blodow N, Beetz M. Fast point feature histograms (FPFH) for 3D registration [C]. IEEE International Conference on Robotics and Automation, 2009: 3212-3217. </span><br><span class="line">[35] Cheng G, Wang G, Lin X. Hand gesture recognition using 3d shape context feature on depth images [J]. Journal of Computational Information Systems, 2015, 11(1): 9-16. </span><br><span class="line">[36] Guo Y, Sohel F, Bennamoun M, et al. Rotational projection statistics for 3D local surface description and object recognition [J]. International Journal of Computer Vision, 2013, 105(1): 63-86. </span><br><span class="line">[37] Tombari F, Salti S, Stefano L D. Unique signatures of histograms for local surface description [C]. European Conference on Computer Vision Conference on Computer Vision. Springer-Verlag, 2010: 356-369. </span><br><span class="line">[38] Bielicki J, Sitnik R. A method of 3D object recognition and localization in a cloud of points [J]. Eurasip Journal on Advances in Signal Processing, 2013, 2013(1): 1-13. </span><br><span class="line">[39] Salti S, Tombari F, Stefano L D. SHOT: Unique signatures of histograms for surface and texture description [J]. Computer Vision &amp; Image Understanding, 2014, 125(8): 251-264. </span><br><span class="line">[40] 张凯霖, 张良. 复杂场景下基于 C-SHOT 特征的 3D 物体识别与位姿估计[J]. 计算机辅助设计与图形学学报, 2017, 29(5): 846-853.</span><br><span class="line">[41] Besl P J, Mckay N D. A method for registration of 3D shapes [J]. IEEE Transactions on Pattern Analysis &amp; Machine Intelligence, 1992, 14(2): 239-256. </span><br><span class="line">[42] 杨小青, 杨秋翔, 杨剑. 基于法向量改进的 ICP 算法[J]. 计算机工程与设计, 2016, 37(1): 169-173. </span><br><span class="line">[43] 刘斌, 郭际明, 邓祥祥. 结合八叉树和最近点迭代算法的点云配准[J]. 测绘科学, 2016, 41(2): 130-132. </span><br><span class="line">[44] 秦绪佳, 徐菲, 王建奇, 等. 基于法向量直方图特征描述的点云 ICP 拼接[J]. 小型微型计算机系统, 2016, 37(3): 593-597.</span><br></pre></td></tr></table></figure></p>
+<p>点云配准：模型点云和目标点云的匹配过程</p>
+<p>点云配准分为两大类：</p>
+<ul>
+<li><strong>粗配准</strong><ul>
+<li><strong>基于图</strong><br>使用一个图来提取3D形状的几何属性<br>图表示<strong>形状分量之间的类型和空间关系</strong><br>优点：姿态的独立性和能够实现部分匹配<br>缺点：不同形状对象需要不同的匹配方法，并且计算时间长；匹配效果对图的变化比较敏感</li>
+<li><strong>基于视图</strong><br>原理：两个被测对象当且仅当从<strong>所有视角</strong>看起来都相似时，才判定两者类似。<br>因其相似性比较是旋转独立的，所以该类方法的位姿亦具有独立性。<br>该方法可以应用在几乎所有类型的对象，且不需要任何特征提取。<br>然而，在数据库和图像获取方面，基于视图计算复杂性较高，这使得该算法<strong>不适用于实时应用之中</strong>。</li>
+<li><strong>基于特征</strong>（参考文献[32]~[40]）<br>通过在模型点云和目标点云的特征对应，建立两者之间的转换关系，并输出配准质量最好的转换关系。<br><strong>特征的描述和选取</strong>很重要，其结果直接影响后续配准的准确性。<br>特征可以分为<strong>全局特征</strong>和<strong>局部特征</strong>，通过测量和比较3D形状的<strong>几何形状</strong>和<strong>拓扑属性</strong>来区分3D对象。<br>全局特征：对于杂乱、有遮挡场景的抗干扰能力不强<br>局部特征：对视点、杂波和遮挡的变化具有很好的鲁棒性（在<strong>工业上采用</strong>的最多）</li>
+</ul>
+</li>
+<li><strong>精配准</strong>（参考文献[41]~[44]）<ul>
+<li><strong>ICP</strong>（Iterative Closest Point，迭代最近点算法）——参考文献[41]<br>优点：原理简单易实现，配准精度高<br>缺点：(1)当两幅点云之间不存在包含关系或初始位置偏差较小时，<strong>算法易陷入局部最优</strong>；(2)<strong>迭代收敛速度慢</strong></li>
+</ul>
+</li>
+</ul>
+<p>常见的局部特征描述子：</p>
+<ul>
+<li>快速点特征直方图描述子(Fast Point Feature Histograms，<strong>FPFH</strong>)——参考文献[34]</li>
+<li>3D形状内容描述子——参考文献[35]</li>
+<li>旋转图像、方向直方图签名描述子(Signature of Histograms of OrienTations，<strong>SHOT</strong>)——参考文献[37]</li>
+<li>旋转投影统计——参考文献[36]</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">描述子</th>
+<th style="text-align:center">选型标准</th>
+<th style="text-align:center">特点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">旋转投影统计描述子</td>
+<td style="text-align:center"><strong>不具有实时性</strong></td>
+<td style="text-align:center">抗噪能力好<br><strong>鉴别力最好</strong><br>实时性较差</td>
+</tr>
+<tr>
+<td style="text-align:center">FPFH</td>
+<td style="text-align:center"><strong>具有实时性</strong><br><strong>局部表面上的点较少</strong></td>
+<td style="text-align:center">鉴别力强<br>运算速度快<br>占用存储资源少</td>
+</tr>
+<tr>
+<td style="text-align:center">SHOT</td>
+<td style="text-align:center"><strong>具有实时性</strong><br><strong>局部表面上的点较多</strong></td>
+<td style="text-align:center">在鉴别力与计算效率之间能取得很好的折中</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">作者/年份/论文</th>
+<th style="text-align:left">概述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">[37]Tombari F等/2010<br>Unique signatures of histograms for local surface description</td>
+<td style="text-align:left">SHOT描述子结合了几何分布信息的鲁棒性和直方图统计信息的特异性。<br>（3D特征描述符分为两类：<strong>基于标签</strong>和<strong>基于直方图</strong>特征描述符，分别强调特征的描述性和鲁棒性）<br>SHOT特征结合了两者的优点，具有很好的可重复检测性，且特征描述具有旋转和尺度不变性。</td>
+</tr>
+<tr>
+<td style="text-align:center">[39]Salti S等/2014<br>SHOT: Unique signatures of histograms for surface and texture description</td>
+<td style="text-align:left">将颜色特征加入描述子，增加了特征的描述性。</td>
+</tr>
+<tr>
+<td style="text-align:center">[40]张凯霖等/2017<br>复杂场景下基于C-SHOT特征的3D物体识别与位姿估计</td>
+<td style="text-align:left">将颜色信息加入SHOT特征之中，用于目标与模板之间的匹配，实现了复杂场景下3D物体识别和位姿估计。</td>
+</tr>
+<tr>
+<td style="text-align:center">[42]杨小青等/2016<br>基于法向量改进的ICP算法</td>
+<td style="text-align:left">提出基于法向量改进的ICP算法，根据点云法向量间夹角特征选取关键点，计算关键点的曲率，通过主曲率特征获取初始对应点集，用高斯曲率和点间距离双重约束去除误匹配点对，最后通过四元组法计算最优刚体变换。</td>
+</tr>
+<tr>
+<td style="text-align:center">[43]刘斌等/2016<br>结合八叉树和最近点迭代算法的点云配准</td>
+<td style="text-align:left">首先通过八叉树查找点云重叠之处，然后进行配准，花费时间3~6s，精度达到毫米级。</td>
+</tr>
+<tr>
+<td style="text-align:center">[44]秦绪佳等/2016<br>基于法向量直方图特征描述的点云ICP拼接</td>
+<td style="text-align:left">针对传统的ICP算法收敛速度慢的缺点进行改进，将法向量直方图作为点云特征描述子，优化对应点集的查找，从而改进ICP算法。</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="点云获取系统方案设计"><a href="#点云获取系统方案设计" class="headerlink" title="点云获取系统方案设计"></a>点云获取系统方案设计</h2><h3 id="摄像机成像模型-1"><a href="#摄像机成像模型-1" class="headerlink" title="摄像机成像模型"></a>摄像机成像模型</h3><p>同《硕士_基于编码结构光的立体视觉定位技术的研究与开发》<strong>§4系统数学模型</strong></p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_03双目视觉模型.png" title="双目视觉模型">
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_04针孔相机模型.png" title="针孔相机模型">
+<h3 id="系统硬件选型-系统软件处理"><a href="#系统硬件选型-系统软件处理" class="headerlink" title="系统硬件选型/系统软件处理"></a>系统硬件选型/系统软件处理</h3><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_05编码结构光立体视觉原理图.png" title="编码结构光立体视觉原理图">
+<h3 id="点云邻域及基本特征"><a href="#点云邻域及基本特征" class="headerlink" title="点云邻域及基本特征"></a>点云邻域及基本特征</h3><p>邻域构建方法：</p>
+<ul>
+<li>k近邻搜索</li>
+<li>r半径搜索</li>
+</ul>
+<p>邻域搜索方法：</p>
+<ul>
+<li>kd-tree（k-d树）</li>
+<li>octree（八叉树）</li>
+</ul>
+<p>根据编码结构光所得点云特点，其数据量约为10万以内，在考虑查找速度的前提下，<strong>本文使用更具有计算量和稳健性优势的k-d树划分方法</strong>。</p>
+<p>基本特征（许多特征描述子的基础）：</p>
+<ul>
+<li>法线<br>法线计算方法：<strong>PCA法</strong>（依赖r邻域半径选取）</li>
+<li>曲率：描述了点局部拟合表面的弯曲程度，常用于处理带有曲面的对象<br>曲率计算方法：多项式拟合、<strong>主成分分析法</strong>、移动最小二乘法</li>
+</ul>
+<h2 id="点云预处理和分割"><a href="#点云预处理和分割" class="headerlink" title="点云预处理和分割"></a>点云预处理和分割</h2><p>随机箱体抓取过程中的关键问题：<strong>有效地将单个零件从场景中准确的分离出来</strong></p>
+<h3 id="点云预处理-1"><a href="#点云预处理-1" class="headerlink" title="点云预处理"></a>点云预处理</h3><p>噪声点会对场景分割以及后续目标位姿估计的<strong>精度和速度</strong>造成影响，因此需要进行<strong>预处理</strong>，即去除点云中的噪声点（<strong>冗余点</strong>、<strong>离群点</strong>）。</p>
+<ul>
+<li><strong>冗余点</strong>：多来自<strong>箱体底部平面</strong>点和<strong>四周箱体壁</strong>点，属于非感兴趣部分的无用点</li>
+<li><strong>离群点</strong>：<strong>脱离点云主体</strong>的点，来源于未完全消除的冗余点、孤立的点；<strong>位于边缘</strong>的点测量精度不高，测量结果比较稀疏，也视作离群点。</li>
+</ul>
+<h4 id="冗余点（背景点）去除"><a href="#冗余点（背景点）去除" class="headerlink" title="冗余点（背景点）去除"></a>冗余点（背景点）去除</h4><p>用<strong>随机采样一致性</strong>（RANSAC）算法拟合箱体底部平面方程，再采用<strong>直通滤波器</strong>去除滤除深度值在z值附近的数据点。<br><strong>直通滤波器</strong>：如果根据Z轴的值的大小来进行滤波，滤波器将滤波字段设为Z轴方向，设置可接受的范围(a,b)，即将点云中坐标不在该范围内的点过滤掉。</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_06冗余点去除.png" title="冗余点去除">
+<h4 id="离群点去除"><a href="#离群点去除" class="headerlink" title="离群点去除"></a>离群点去除</h4><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_07场景点云中的离群点.png" title="场景点云中的离群点">
+<p>三类离群点：</p>
+<ul>
+<li>图(a)中离群点为<strong>杂乱的稀疏点</strong>，呈独立分布</li>
+<li>图(b)中离群点为<strong>零件表面的伪边缘点</strong>，是由投影阴影导致的</li>
+<li>图(c)离群点来自<strong>未去除干净的背景点</strong></li>
+</ul>
+<p>离群点在<strong>数学</strong>上的<strong>体现</strong>：（两种判定方式效果相近）</p>
+<ul>
+<li>在<strong>指定半径</strong>中含有<strong>较少的临近点</strong>（<strong>本文选取</strong>）</li>
+<li>在<strong>指定邻近点数量</strong>下具有<strong>较大的平均距离</strong></li>
+</ul>
+<p><strong>半径滤波器</strong>：通过检测数据点<strong>邻域半径r</strong>内的近邻点数目是否小于<strong>预设阈值TH</strong>来消除离群点<br>不同邻域半径下，近邻点数目阈值TH选取也不同，TH过小离群点去除不彻底（图(a)），过大则会去除过度，误删了零件边缘点（图(b)）</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_08r=3邻域半径下去除离群点.png" title="r=3邻域半径下去除离群点">
+<p>文献[9]指出，<strong>实际点云中边缘上点的邻近点数量接近搜索区域近邻点数量最大值的50%</strong><br>故通过统计不同邻域下模板点云的最大邻近点数目，在给定邻域时，<strong>选取接近其对应最大邻近点数目50%的值作为阈值</strong>，可以去除大部分离群点。（但一次滤波很难完全去除离群点）</p>
+<p>☆本文提出<strong>迭代半径滤波方法</strong>：在初始滤波的基础上引入迭代思想，<strong>不改变邻域大小，进行多次重复滤波</strong>，直到滤波前后点云数目收敛于某个固定值，终止迭代。<br>本文采用<strong>k-d树邻近点搜索算法</strong>搜索查询点的近邻点，该算法搜索速度快，执行效率高。</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_09迭代半径滤波_半径滤波.png" title="r=3mm_TH=5_迭代半径滤波相比半径滤波_点云去除率提高了3.40%">
+<h3 id="基于改进欧式聚类的散乱零部件点云分割"><a href="#基于改进欧式聚类的散乱零部件点云分割" class="headerlink" title="基于改进欧式聚类的散乱零部件点云分割"></a>基于改进欧式聚类的散乱零部件点云分割</h3><h4 id="点云分割概述"><a href="#点云分割概述" class="headerlink" title="点云分割概述"></a>点云分割概述</h4><p><strong>聚类分割</strong>在实际<strong>工业</strong>应用中<strong>使用最广泛</strong><br>聚类分割：根据对象的某一特征（如<strong>距离、法线、曲率</strong>等）对点云进行划分，使得同一划分内的点云子集拥有相似的属性。（<strong>关键</strong>在于<strong>特征的选择</strong>）</p>
+<ul>
+<li>相较于<strong>基于模型</strong>的分割方法，分割效率更高</li>
+<li>相较于<strong>基于边缘</strong>的分割方法，分割结果更加准确，鲁棒性好</li>
+<li>相较于<strong>区域生长</strong>分割算法，具有明显的速度优势</li>
+</ul>
+<p>本文选用易实现、速度快的<strong>欧式聚类分割</strong>方法（考虑到工业生产效率和实时性要求）<br>本文提出<strong>基于改进欧式聚类的散乱零件点云分割方法</strong>（欧式聚类的<strong>邻域搜索半径固定</strong>，易出现欠分割或过分割的现象）</p>
+<h4 id="基于欧式聚类的点云分割"><a href="#基于欧式聚类的点云分割" class="headerlink" title="基于欧式聚类的点云分割"></a>基于欧式聚类的点云分割</h4><p>传统的<strong>基于距离</strong>的聚类分割算法是<strong>基于点与点之间的欧式距离</strong>的分割方法<br>其<strong>原理</strong>是：<br>①给定聚类的种子点，建立该点的r邻域，预先设定好邻域半径的阈值大小，位于邻域半径内的点均属于当前类<br>②然后遍历当前类中的点，搜索每个点r邻域半径内的点归到当前类，直至达到设置的约束条件，即类包含的点的数目大于所设的最小数目且小于所设的最大数目</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_10欧式聚类分割算法流程.png" title="欧式聚类分割算法流程">
+<p>由于欧式聚类的<strong>邻域搜索半径r是不变的</strong>，需要手动设定半径阈值，而阈值过小易过分割（图(a)零件丢失边缘信息），阈值过大易欠分割现象（图(b)点云子集包含多个零件）</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_11点云过分割与欠分割.png" title="点云过分割与欠分割">
+<h4 id="基于搜索半径自适应的欧式聚类分割"><a href="#基于搜索半径自适应的欧式聚类分割" class="headerlink" title="基于搜索半径自适应的欧式聚类分割"></a>基于搜索半径自适应的欧式聚类分割</h4><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_12点云分割流程.png" title="点云分割流程">
+<p>☆基于改进欧式聚类的散乱零件点云分割：</p>
+<ul>
+<li>线下模板点云注册<br>随机箱体抓取对象已知、类别单一，易提取单个零件点云<br>点云注册：通过<strong>统计单个对象的某些特征</strong>为后续的杂乱场景分割提供理论依据（参数选取）<ul>
+<li>不同k邻域下点与邻近点之间的<strong>平均距离</strong>和<strong>标准差</strong><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_13不同k邻域下模板点云的平均距离和标准差.png" title="不同k邻域下模板点云的平均距离和标准差"></li>
+<li>不同r邻域下最大邻近<strong>点数目</strong>和点与邻近点之间<strong>法线夹角均值</strong><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_14不同r邻域下模板点云的最大邻近点数目和法线夹角均值.png" title="不同r邻域下模板点云的最大邻近点数目和法线夹角均值">
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>线上场景点云分割<br><strong>基于改进欧式聚类的散乱零件点云分割</strong><ul>
+<li><strong>基于法线夹角的边缘点去除</strong> —— 消除<strong>碰撞物体</strong>间的连接<br>相互碰撞、覆盖的零件点云在碰撞区域（红色区域内）的点的<strong>法线</strong>具有明显差异<br>故本文采用<strong>邻域法线夹角均值</strong>约束方法提取目标点云边缘点<br><strong>难点</strong>：法线夹角<strong>阈值的选取</strong>，经实验验证，将 <strong>“线下模板点云注册”中模板点云邻域法线夹角均值的最小值</strong> 设为阈值可以准确的去除物体接触区域的边缘点<br>法线夹角大于阈值，为边缘点<br>反之，为非边缘点<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_15相互接触工件点云法线示意图.png" title="相互接触工件点云法线示意图"></li>
+<li><strong>搜索半径自适应的欧式聚类分割</strong> —— 在<strong>非边缘</strong>区域选取大的搜索半径，在<strong>边缘</strong>区域选取小的搜索半径<br><strong>难点</strong>：边缘区域的判断，要用到 <strong>“线下模板点云注册”中模板点云的平均距离和标准差</strong><br>若点与其k邻近点之间的<strong>距离均值</strong>在模板点云的平均距离<strong>波动范围内</strong>，则为零件<strong>非边缘点</strong>，取最远邻近点和该点的距离作为搜索半径<br>反之，为零件<strong>边缘点</strong>，取其距离均值为搜索半径<br>自适应搜索半径<script type="math/tex">R_{th}</script>公式：<script type="math/tex; mode=display">
+\begin{cases}
+R_{th} = Max\{Dist[j], j=1,2...k\} & Aver_{SinglePoint}≤D & p_c点为非边缘点 \\
+R_{th} = \frac{1}{k} \sum_{l=1}^{k} Dist[l] & Aver_{SinglePoint}>D & p_c点为边缘点 \\
+\end{cases}
+\\</script>对于点云中的点<script type="math/tex">p_c</script>，搜索距离<script type="math/tex">p_c</script>点最近的k个邻近点，求k个邻近点与<script type="math/tex">p_c</script>点的距离<script type="math/tex">\{Dist[j], j=1,2...k\}</script>，取均值为<script type="math/tex">Aver_{SinglePoint}</script>，计算固定距离阈值<script type="math/tex">D = (mean + μ*Devia)</script>，μ为比例因子</li>
+<li><strong>边缘点补齐</strong> —— 基于距离约束方法<strong>仅补齐感兴趣</strong>零件边缘点<br>根据<strong>边缘点</strong>与其在点云子集中<strong>最邻近点</strong>的距离是否满足阈值进行边缘点补齐<br>距离小于阈值，归入点云子集<br>反之，取下一个边缘点</li>
+</ul>
+</li>
+</ul>
+<h3 id="实验结果与分析"><a href="#实验结果与分析" class="headerlink" title="实验结果与分析"></a>实验结果与分析</h3><h4 id="单组零件点云分割"><a href="#单组零件点云分割" class="headerlink" title="单组零件点云分割"></a>单组零件点云分割</h4><p>模板点云共734个点，对目标点云进行分割，要求分割出的<strong>单个零件点云数目不少于模板点云数目的75%</strong>，方可判定为待抓取对象。</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_16本文算法实验参数.png" title="本文算法实验参数">
+<p>参数选取：<br>基于法线夹角的边缘点去除：</p>
+<ul>
+<li>法线夹角阈值<script type="math/tex">α_{th}</script>：取模板点云法线夹角均值最小值 —— 表3-3</li>
+<li>提取边缘点所用到的搜索半径<script type="math/tex">r_{min}</script>：“法线夹角阈值”对应的r —— 表3-3</li>
+</ul>
+<p>搜索半径自适应的欧式聚类分割：</p>
+<ul>
+<li>邻近点数目k：本文获取到的点云的<strong>平均点间距</strong>对应k=1的平均距离，约为1mm，故半径阈值应大于1.1，选取邻近点数目为5，满足条件且计算量小 —— 表3-2<br>（文献[13]指出，聚类分割时，<strong>良好的半径阈值已经被证明应稍大于输入点云分辨率</strong>（应超过10%），实际上，该参数对于不同的对象会进行微调）</li>
+<li>最小聚类数目Min：应大于模板点云数目的75%，即550≈734×0.75</li>
+<li>最大聚类数目Max：应远大于模板点云数目</li>
+<li>权值μ：用来计算自适应搜索半径，经多次重复实验得到</li>
+</ul>
+<p>边缘点补齐：</p>
+<ul>
+<li>最近邻点阈值<script type="math/tex">TH_k</script>：选取3倍下的点云分辨率</li>
+</ul>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_17点云分割实现.png" title="点云分割实现 (b)中白色为边缘，红色为非边缘">
+<p>对比实验：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">对比实验</th>
+<th style="text-align:center">效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">对比实验一<br>欧式聚类算法</td>
+<td style="text-align:center">取相同参数k=5，μ=1.5<br>计算得到邻域搜索半径为<script type="math/tex">r_E</script>=2.01mm（？？？怎么算）</td>
+</tr>
+<tr>
+<td style="text-align:center">对比实验二<br>区域生长分割算法</td>
+<td style="text-align:center">采用邻近点法线夹角差异作为既定准则<br>参数选取和本文算法一致</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_18欧式聚类结果_区域生长分割结果.png" title="欧式聚类结果 区域生长分割结果">
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_19三种算法分割结果统计.png" title="三种算法分割结果统计">
+<h4 id="多组零件点云分割"><a href="#多组零件点云分割" class="headerlink" title="多组零件点云分割"></a>多组零件点云分割</h4><p>实验对象：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">工件</th>
+<th style="text-align:center">类型</th>
+<th style="text-align:center">详情</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">塑料（目标1）</td>
+<td style="text-align:center">柱型塑料瓶</td>
+<td style="text-align:center">直径21.5mm、长47mm</td>
+</tr>
+<tr>
+<td style="text-align:center">塑料（目标2）</td>
+<td style="text-align:center">柱型塑料瓶</td>
+<td style="text-align:center">直径25mm、长60mm</td>
+</tr>
+<tr>
+<td style="text-align:center">木质（目标3）</td>
+<td style="text-align:center">木质柱体</td>
+<td style="text-align:center">直径25mm、长60mm</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_20三种算法分割效果对比.png" title="三种算法分割效果对比 欧式聚类/区域生长/本文算法">
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_21不同场景下三种算法分割结果图.png" title="不同场景下三种算法分割结果图 本文算法/欧式聚类/区域生长">
+<h4 id="实验结果分析"><a href="#实验结果分析" class="headerlink" title="实验结果分析"></a>实验结果分析</h4><p>结论：</p>
+<ol>
+<li>在目标零件数目相同的情况下，本文算法能够准确的<strong>分割出更多的目标</strong>，分割效率更高</li>
+<li>本文算法<strong>分割出的零件更完整</strong></li>
+<li>本文算法<strong>耗时少</strong>，优于另外两种算法</li>
+</ol>
+<h2 id="点云特征提取与配准"><a href="#点云特征提取与配准" class="headerlink" title="点云特征提取与配准"></a>点云特征提取与配准</h2><h3 id="点云配准概述"><a href="#点云配准概述" class="headerlink" title="点云配准概述"></a>点云配准概述</h3><p>考虑<strong>精度</strong>和<strong>速度</strong>，选取特征<strong>描述性</strong>和<strong>实时性</strong>均优的<strong>SHOT描述子</strong>进行配准。</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">问题</th>
+<th style="text-align:center">trick</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">SHOT特征在相似区域易得到错误的对应关系</td>
+<td style="text-align:center"><strong>SHOT特征融合的点云配准算法</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">边缘稀疏点特征描述差异带来的影响</td>
+<td style="text-align:center">关键点获取阶段，提出<strong>OBB裁剪方法</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">点云相似区域单一的特征匹配识别度低</td>
+<td style="text-align:center"><strong>SHOT和空间位置结合的特征描述子</strong>，实现对特征点的唯一性描述<br>降低误匹配的概率，并提高精配准的速度</td>
+</tr>
+<tr>
+<td style="text-align:center"></td>
+<td style="text-align:center">采用<strong>线下建立不同姿态下的模板点云特征描述库</strong>的方法，对分割出的单个零件点云的关键点在特征库中进行特征匹配，寻找对应点，从而得到单个零件位姿信息</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>注意：<strong>“不同姿态”下的模板点云，疑似使用了类似暴力破解的方法</strong></p>
+<p>配准算法流程图如下：</p>
+<ul>
+<li><strong>线下模板特征建立</strong><br>通过线下处理建立零件模板库，提取模板点云<strong>关键点</strong>，并计算关键点的<strong>特征描述子</strong></li>
+<li><strong>线上点云配准</strong><br>线上配准根据单个零件点云<strong>关键点特征描述子</strong>，查找模板点云中的对应点，选取最佳变换确定两者之间的转换关系</li>
+</ul>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_22点云配准算法流程图.png" title="点云配准算法流程图">
+<h3 id="基于OBB裁剪的关键点获取"><a href="#基于OBB裁剪的关键点获取" class="headerlink" title="基于OBB裁剪的关键点获取"></a>基于OBB裁剪的关键点获取</h3><h4 id="方向包围盒"><a href="#方向包围盒" class="headerlink" title="方向包围盒"></a>方向包围盒</h4><p><strong>包围盒</strong>：用<strong>体积稍大</strong>且<strong>特性简单</strong>的几何体来近似地代替复杂的几何对象。</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_23包围盒分类.png" title="常见的包围盒有有四种">
+<p><strong>本文通过求取点云的OBB进行关键点选取</strong></p>
+<p><strong>方向包围盒</strong>（Oriented bounding box，<strong>OBB</strong>）总体性能要优于其他几种包围盒<br>OBB可以由基准角<script type="math/tex">C(x_c,y_c,z_c)</script>和三个矢量<script type="math/tex">CC1(x_{max},y_{max},z_{max})</script>、<script type="math/tex">CC2(x_{mid},y_{mid},z_{mid})</script>、<script type="math/tex">CC3(x_{min},y_{min},z_{min})</script>表示，分别对应于OBB的最大、中间、最小维度。</p>
+<p>步骤：</p>
+<ol>
+<li>计算点云重心Centriod和归一化协方差矩阵covariance为：<script type="math/tex; mode=display">
+Centriod = \frac{1}{n} \sum_{i=1}^{n} (q_{x_i},q_{y_i},q_{z_i})
+\\
+covariance = 
+\begin{bmatrix}
+ cov(x,x) & cov(x,y) & cov(x,z) \\
+ cov(y,x) & cov(y,y) & cov(y,z) \\
+ cov(z,x) & cov(z,y) & cov(z,z) \\
+\end{bmatrix}</script></li>
+<li>计算本征向量<script type="math/tex">e_0,e_1,e_2</script>，得到新的参考坐标系<script type="math/tex">e_0,e_1,e_0×e_1</script> —— 用PCA</li>
+<li>将点云转换到坐标系<script type="math/tex">e_0,e_1,e_0×e_1</script>下，计算沿坐标轴方向点云的最大、最小、对角线中心点坐标</li>
+<li>根据给定的对角线中心点和包围盒尺寸得到点云包围盒</li>
+</ol>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_24点云方向包围盒示意图.png" title="点云方向包围盒示意图">
+<h4 id="关键点获取"><a href="#关键点获取" class="headerlink" title="关键点获取"></a>关键点获取</h4><p><strong>关键点</strong>为点云中一些特殊的点，通常表示为角点、灰度梯度等<strong>急剧变换的点</strong>，通过对<strong>关键点</strong>进行信息描述可以有效的<strong>表示整幅点云</strong>。<br>关键点的选取可以<strong>减少噪声点</strong>，<strong>提高匹配速度</strong>。</p>
+<p>由于目标点云在深度方向上的分辨率是不同的，呈现在实际空间中就是<strong>位于深度边缘处的点云相对于目标内部点更稀疏</strong>，这会导致稀疏点的特征描述子在寻找模板中的对应匹配点时的差异增大，不利于配准。</p>
+<p>本文提出如下<strong>关键点提取算法</strong>（目的是<strong>使提取到的关键点均位于零件表面非边缘区域</strong>）：</p>
+<ol>
+<li>以变换后点云的深度为依据（即OBB的高），<strong>取OBB高的一半为阈值</strong></li>
+<li>采用<strong>直通滤波器</strong>对点云进行滤波处理，去除深度小于阈值的点，保留余下的点记作候选关键点</li>
+<li>将候选关键点点云进行<strong>反变换到原坐标系下</strong>，用于后续的特征提取与配准</li>
+<li>对关键点云进行<strong>均匀采样</strong>（UniformSampling，US），提高匹配速度。</li>
+</ol>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_25关键点获取.png" title="关键点获取 (b)中蓝色为最终提取到的关键点">
+<h3 id="特征提取与描述"><a href="#特征提取与描述" class="headerlink" title="特征提取与描述"></a>特征提取与描述</h3><h4 id="常见特征描述子"><a href="#常见特征描述子" class="headerlink" title="常见特征描述子"></a>常见特征描述子</h4><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">描述子</th>
+<th style="text-align:center">描述</th>
+<th style="text-align:center">优缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">PFH<br>（点特征直方图）</td>
+<td style="text-align:center">局部特征</td>
+<td style="text-align:center">算法复杂度<script type="math/tex">O(nk^2)</script>，缺点时间消耗大，无法满足实时性要求</td>
+</tr>
+<tr>
+<td style="text-align:center">FPFH<br>（快速点特征直方图）</td>
+<td style="text-align:center">局部特征</td>
+<td style="text-align:center">算法复杂度<script type="math/tex">O(nk)</script>，识别性依然很好<br>PFH的改进</td>
+</tr>
+<tr>
+<td style="text-align:center">SHOT<br>（方向直方图签名描述子）</td>
+<td style="text-align:center">局部特征</td>
+<td style="text-align:center">兼顾描述性和鲁棒性<br>①计算速度快；②正交方向上的小差异导致不同的直方图；③在近平面区域描述性不强</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h4 id="空间位置描述子"><a href="#空间位置描述子" class="headerlink" title="空间位置描述子"></a>空间位置描述子</h4><p>模型和场景点云关键点的<strong>SHOT描述子可以唯一的表示当前点</strong>，但是对于一些邻近的点仍会出现一对多或多对一的情况。<br><strong>本文引入空间位置描述子加以约束</strong>，在计算对应匹配点对时考虑特征点和重心点的关系，以降低误匹配概率。</p>
+<p>对于点云P中任意一点<script type="math/tex">p_i</script><br>点云重心表示为：</p>
+<script type="math/tex; mode=display">Centriod = \frac{1}{n} \sum_{i=1}^{n} (p_{x_i},p_{y_i},p_{z_i})</script><p>特征点和点云重心的对应关系为：</p>
+<script type="math/tex; mode=display">
+f_1(p_i) = || Centriod - p_i ||
+\\
+f_2(p_i) = \frac{ ( p_i - Centriod ) · n_{p_i} }{ | p_i - Centriod | · | n_{p_i} | }</script><ul>
+<li><script type="math/tex">n_{p_i}</script>：点<script type="math/tex">p_i</script>的法向量</li>
+</ul>
+<h3 id="配准实现"><a href="#配准实现" class="headerlink" title="配准实现"></a>配准实现</h3><p>针对<strong>目标点云</strong>中的所有特征点，通过对比特征的相似性，选取其在<strong>模板点云</strong>中的唯一对应点，对应点之间相似度最高。在多组对应点中，根据对应关系得到两片点云的最佳变换矩阵。</p>
+<p>☆<strong>初始配准</strong>的步骤：<br>离线阶段：</p>
+<ol>
+<li>采用 <strong>§6点云特征提取与配准-基于OBB裁剪的关键点获取-关键点获取</strong> 的方法提取<strong>模板点云</strong><script type="math/tex">Q</script>的<strong>关键点</strong>集<script type="math/tex">P_k</script>，记作<script type="math/tex">Model\_KeyPoints</script></li>
+<li>对各关键点计算<strong>SHOT特征描述子</strong><script type="math/tex">FM1_{p_k},k=1,2,...,K</script></li>
+<li>对各关键点计算<strong>空间位置描述子</strong><script type="math/tex">FM2_{p_k}=\{f_1(p_k), f_2(p_k)\},k=1,2,...,K</script></li>
+</ol>
+<p>在线阶段：</p>
+<ol>
+<li><strong>分割</strong>得到单个零件的点云子集<script type="math/tex">O=\{O_j,j=0,1,...,m\}</script>，采用 <strong>§6点云特征提取与配准-基于OBB裁剪的关键点获取-关键点获取</strong> 的方法提取目标点云关键点<script type="math/tex">Scene\_KeyPoints</script></li>
+<li>计算各点云子集的<strong>SHOT描述子</strong><script type="math/tex">F1_{O_j},j=1,2,...,m</script>和<strong>空间位置描述子</strong><script type="math/tex">F2_{O_j}=\{f_1(o_j), f_2(o_j)\},j=1,2,...,m</script></li>
+<li>对于点集<script type="math/tex">O_j</script>中的任意一点<script type="math/tex">q_i</script>，在模板点云中搜索其对应点，若<script type="math/tex">p_i</script>为其对应点，需满足如下条件：<script type="math/tex; mode=display">
+| FM1_{p_i} - F1_{q_i} | / [| FM1_{p_i} + F1_{q_i} |] < ε_1
+\\
+| FM2_{p_i} - F2_{q_i} | / [| FM2_{p_i} + F2_{q_i} |] < ε_2</script>即采用<strong>最小平方误差</strong>的方法获取<strong>特征点</strong>在模板点云中的对应点，若该组对应点的<strong>空间位置描述子</strong>的差异也在预设阈值范围内，则保留当前对应点，反之则舍弃</li>
+<li>对对应点对采用<strong>奇异值分解</strong>算法求解模板点云到目标点云之间的旋转R和平移T，即初始配准结果为：<script type="math/tex; mode=display">Corr = \{ h_i^1, h_i^2 | h_i^1∈Q, h_i^2∈O_j \}</script></li>
+<li>对初始配准结果进行性能评估，可表示为：<script type="math/tex; mode=display">Score = \frac{1}{n} \sum_{i=1}^{n} (R Q_i + T - O_i)^2</script></li>
+</ol>
+<p><strong>精确配准</strong>的思想：通过不断的迭代直到变换达到误差要求<br>设点云<script type="math/tex">Q</script>表示模板点云、<script type="math/tex">P</script>表示目标点云，<script type="math/tex">\{ q_i | q_i ∈ Q \}</script>和<script type="math/tex">\{ p_i | p_i ∈ P \}</script>为对应点，则误差大小计算公式为：</p>
+<script type="math/tex; mode=display">f(R,T) = \frac{1}{N} \sum_{i=1}^{N} || p_i - (R q_i + T) ||^2</script><p>☆<strong>ICP精确配准</strong>的步骤：</p>
+<ol>
+<li>设定初始迭代次数<script type="math/tex">k=0</script>，误差阈值<script type="math/tex">TH_τ</script></li>
+<li>对某一点集<script type="math/tex">q_i ∈ Q</script>，在点云<script type="math/tex">P</script>中找出它的对应点集<script type="math/tex">p_i</script></li>
+<li>计算点云<script type="math/tex">P</script>到<script type="math/tex">Q</script>的刚性变换矩阵，变换后的目标点云记作<script type="math/tex">p'=R p_i + T</script></li>
+<li>由 <strong>上式f(R,T)</strong> 计算配准误差，若<script type="math/tex">f_k - f_{k-1} < TH_τ</script>，程序结束，反之<script type="math/tex">k=k+1</script>，转步骤 <strong>2.</strong> ，直到误差满足要求</li>
+</ol>
+<h3 id="实验结果与分析-1"><a href="#实验结果与分析-1" class="headerlink" title="实验结果与分析"></a>实验结果与分析</h3><p>将分割得到的<strong>单个零件点云</strong>和<strong>模板点云</strong>进行配准实验</p>
+<p>相关参数选取：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">取值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><script type="math/tex">ε_1</script></td>
+<td style="text-align:center">0.02</td>
+</tr>
+<tr>
+<td style="text-align:center"><script type="math/tex">ε_2</script></td>
+<td style="text-align:center">0.02</td>
+</tr>
+<tr>
+<td style="text-align:center">邻域搜索半径</td>
+<td style="text-align:center">5mm</td>
+</tr>
+<tr>
+<td style="text-align:center">SHOT描述子差异阈值</td>
+<td style="text-align:center">0.15</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_26特征对应结果示意图.png" title="特征对应结果示意图">
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">对比实验</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ICP</td>
+</tr>
+<tr>
+<td style="text-align:center">US+FPFH特征配准</td>
+</tr>
+<tr>
+<td style="text-align:center">US+SHOT特征配准</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>统计结果：<br><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_27实验结果与误差统计.png" title="实验结果与误差统计 误差值和算法耗时"></p>
+<p>直观显示：<br><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_28点云配准结果.png" title="点云配准结果"></p>
+<p>结论：</p>
+<ol>
+<li><strong>在精确配准前加入初始配准可以得到更好的配准结果</strong></li>
+<li>本文算法的<strong>配准效果</strong>优于FPFH特征配准、SHOT特征配准算法</li>
+<li>本文算法的<strong>耗时少</strong></li>
+</ol>
+<h2 id="零部件定位与误差分析"><a href="#零部件定位与误差分析" class="headerlink" title="零部件定位与误差分析"></a>零部件定位与误差分析</h2><h3 id="系统搭建"><a href="#系统搭建" class="headerlink" title="系统搭建"></a>系统搭建</h3><p>采用实验室自行搭建的<strong>结构光双目视觉测量系统</strong>（由两台相机、两个工业镜头、一个投影仪、两台PC机等构成）获取多组实验数据，包括<strong>不同对象、相同对象不同混乱场景下</strong>的零部件点云数据，以验证算法的性能（有效性和可靠性）。</p>
+<p>软件平台：Matlab R2014a、PCL 1.8.0、VS2013</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_29系统实物图.png" title="系统实物图">
+<h3 id="预处理算法性能分析"><a href="#预处理算法性能分析" class="headerlink" title="预处理算法性能分析"></a>预处理算法性能分析</h3><p><strong>预处理</strong>的目的：<strong>去除点云中的噪声点</strong><br>相对于冗余点，<strong>离群点</strong>的去除难度更大</p>
+<p>通过统计实验分析相关参数选取的可确定性：</p>
+<ul>
+<li>(图5-2)：邻域半径r=2mm，r=3mm，r=5mm，r=10mm时，不同阈值TH时<strong>滤波算法的迭代次数</strong>，即经过n次迭代之后，点云中点的数目不再发生变化。</li>
+<li>(图5-2)在邻域半径大小固定的情况下，算法的迭代次数随着TH的变化存在一个峰值，使得迭代次数达到最大，然而，<strong>迭代次数最大时得到的结果并不是最优的</strong>。</li>
+<li><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_30不同邻域半径下迭代收敛次数.png" title="不同邻域半径下迭代收敛次数"></li>
+<li>(图5-3)：邻域搜索半径<strong>r=3mm</strong>时，在不同阈值TH下，点云的数目随迭代次数的变化曲线。</li>
+<li><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_31r=3时不同阈值下滤波收敛曲线.png" title="r=3时不同阈值下滤波收敛曲线"></li>
+<li>(图5-3)当TH=11时迭代次数达到峰值，但是此时的点云数目下降严重，在峰值点左侧和右侧各取阈值TH=5和TH=15作对比。<br>可以看出，位于峰值点右侧（即TH=15时）的点云数量急剧变化，最终收敛于0。<br>而位于左侧（即TH=5时）的点云数量变化缓慢，经过8次迭代，最终收敛于一个固定值。</li>
+<li>(图5-3)中的曲线1~7，经过迭代点云数目均收敛于固定的值，此时，迭代前后点云数目不再发生变化。</li>
+<li>经过重复实验，统计结果表明，<strong>邻域内点云数目阈值TH为迭代次数峰值时对应的阈值的一半时，离群点去除效果最好</strong>、且耗时少。</li>
+</ul>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_32离群点去除结果.png" title="邻域半径=3，邻近点数目阈值=5，点云中的离群点被完全消除">
+<h3 id="分割算法性能分析"><a href="#分割算法性能分析" class="headerlink" title="分割算法性能分析"></a>分割算法性能分析</h3><p><strong>场景分割</strong>的目的：<strong>获取单个零件的点云子集</strong><br>场景分割的<strong>难点</strong>：零件之间存在重叠、碰撞，容易产生错误的分割结果</p>
+<p>通过统计实验，分析参数选取的依据、分割结果的可靠性（<strong>以塑料瓶为对象研究</strong>）：</p>
+<h4 id="（1）边缘点提取时参数α-th-的选取"><a href="#（1）边缘点提取时参数α-th-的选取" class="headerlink" title="（1）边缘点提取时参数α_{th}的选取"></a>（1）边缘点提取时参数<script type="math/tex">α_{th}</script>的选取</h4><ul>
+<li>边缘点提取时需要给出邻域法线夹角均值阈值<script type="math/tex">α_{th}</script>，对于场景点云，<strong>提取到边缘点过多，不易出现欠分割</strong>，但会增加后续边缘点补齐的时间，反之，边缘点过少，则会导致欠分割，因此参数<script type="math/tex">α_{th}</script>的选取很重要。</li>
+<li>考虑<strong>边缘点</strong>的邻域法线夹角均值、<strong>模板点云</strong>法线夹角均值的<strong>差异</strong>大于<strong>非边缘点</strong>，只要设定合理的法线夹角阈值<script type="math/tex">α_{th}</script>即可以达到边缘点提取的目的。</li>
+<li>(表3-3)：给出了不用邻域搜索半径下，<strong>邻近点数目最大值</strong>与<strong>邻域内法线夹角均值</strong>的统计结果，法线夹角均值可以作为场景点云分割的阈值<script type="math/tex">α_{th}</script>选取的参照。</li>
+<li><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_14不同r邻域下模板点云的最大邻近点数目和法线夹角均值.png" title="不同r邻域下模板点云的最大邻近点数目和法线夹角均值"></li>
+<li>(图5-5)：以<script type="math/tex">α_{th}</script>值为自变量，以提取到边缘点（非边缘点）数目为因变量，统计邻域搜索半径<strong>r=3</strong>和<strong>r=5</strong>时的实验结果。<strong>蓝色</strong>曲线表示提取到的<strong>边缘点</strong>数目，<strong>红色</strong>则表示<strong>去除边缘点后</strong>的场景点云的数目。</li>
+<li><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_33α对边缘点提取结果的影响.png" title="α对边缘点提取结果的影响"></li>
+<li>(表3-3)当邻域搜索半径r=3时，其对应的<script type="math/tex">α_{th}</script>=65.42°，当r=5时，对应的<script type="math/tex">α_{th}</script>=62.91°，称为<strong>标准阈值</strong>。边缘点提取结果分别对应(图5-6)中的(a)和(d)。</li>
+<li>(图5-6)：为了更加直观的观察和对比边缘提取的效果，分别给出了相同搜索半径下<script type="math/tex">α_{th}</script>选取大于标准阈值（(c)、(f)）、小于标准阈值（(b)、(e)）的实验结果。</li>
+<li><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_34分割结果.png" title="分割结果">
+</li>
+</ul>
+<p>结论（综合(图5-5)、(图5-6)）：</p>
+<ol>
+<li>在邻域搜索半径不变时，当阈值选取<strong>小于标准阈值</strong>时，提取到的<strong>边缘点数目急剧增加</strong>；<br>当<strong>大于阈值</strong>时，提取到的<strong>边缘点数目缓慢减少</strong>，且属于零件碰撞、遮挡区域的点最易判定为边缘点</li>
+<li>无碰撞、遮挡区域提取的关键点对分割的影响相对较小<br>因此，<strong>阈值选取应略大于标准阈值</strong>，多次重复实验表明，<strong>大于标准阈值2°以内的分割效果和速度均优</strong>。</li>
+</ol>
+<h4 id="（2）搜索半径自适应分割中权重因子μ的选取"><a href="#（2）搜索半径自适应分割中权重因子μ的选取" class="headerlink" title="（2）搜索半径自适应分割中权重因子μ的选取"></a>（2）搜索半径自适应分割中权重因子<script type="math/tex">μ</script>的选取</h4><ul>
+<li><strong>搜索半径自适应</strong>的思想：在<strong>非边缘区域</strong>选取<strong>大的搜索半径</strong>，在<strong>边缘区域</strong>选取<strong>小的搜索半径</strong><br>该方法的优势在于<strong>分割速度的提升</strong>，其中权重因子的<script type="math/tex">μ</script>通过<strong>影响自适应分割半径</strong>而影响分割结果。</li>
+<li>(图5-7)：为验证改进的搜索半径自适应的欧式聚类分割方法在速度上的提升，在k邻域相同情况下，统计不同权重下算法的运行速度，并和欧式聚类算法耗时进行对比。<br>图中欧式聚类算法耗时为邻域大小固定情况下多次运行平均耗时。（？？？图中没有欧式聚类算法耗时）</li>
+<li><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_35本文算法耗时.png" title="本文算法耗时"></li>
+<li>(表5-1)：统计算法在不同权重下的分割效果，其中“N”表示分割结果没有出现错误，“Y”表示分割结果出现错误。</li>
+<li><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_36不同邻域下分割效果.png" title="不同邻域下分割效果"></li>
+<li>(图5-7)当k=20时，统计各权重下算法耗时的平均值约434ms，相对于欧式聚类算法（525ms），速度提高了约19.24%；<br>当k=15时，各权重下算法耗时的平均值约为348ms，相对于欧式聚类算法（489ms），速度提高了约28.83%。</li>
+<li>(表5-1)随着<strong>权重因子的增大</strong>，达到临界值后，<strong>分割结果</strong>会出现<strong>错误</strong>。</li>
+<li>(图5-8)：选取k=15，μ=0.6的分割结果。</li>
+<li><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_37分割结果.png" title="分割结果">
+</li>
+</ul>
+<p>结论：</p>
+<ol>
+<li>邻域相同情况下，本文算法的<strong>运行时间</strong>整体小于改进前算法</li>
+<li>算法<strong>运行时间</strong>随着所选取<strong>邻域</strong>的增大而增加</li>
+<li>综合考虑算法的运行速度和效果，<strong>权重因子选取邻域应该在临界值以下</strong>（比如k=15，μ=0.6）</li>
+</ol>
+<h3 id="配准算法性能分析"><a href="#配准算法性能分析" class="headerlink" title="配准算法性能分析"></a>配准算法性能分析</h3><p>课题研究目的：<strong>获取目标零件（相对于模板零件）的位姿信息</strong>，引导机器人进行抓取。<br><strong>抓取零部件</strong>时，需要将零件的位姿信息传递给机器人，<strong>计算其在机器人坐标系下的位置</strong>，机器人根据定位到的抓取点规划抓取路径，最终实施抓取操作。<br>由于模板点云位姿已知，散乱场景中<strong>零件的位姿估计</strong>可转化为<strong>求解模板点云到零件点云之间的变换</strong>。<br>位姿计算的<strong>准确性</strong>通过变换后模板点云和零件点云的<strong>匹配代价</strong>进行评估。</p>
+<p>通过多组实验，计算<strong>不同材质</strong>、<strong>不同散乱场景下</strong>的各零部件的位姿信息，并<strong>对比ICP</strong>配准算法得到的零部件位姿信息，验证算法的有效性：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">工件</th>
+<th style="text-align:center">详情</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">柱形<strong>塑料</strong>零件</td>
+<td style="text-align:center">高度47mm，直径21.5mm</td>
+</tr>
+<tr>
+<td style="text-align:center">柱形<strong>木质</strong>零件</td>
+<td style="text-align:center">高度60mm，直径30mm，共20个</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>（1）塑料材质零件实验<br>针对分割出的<strong>单个零部件</strong>点云子集进行位姿估计：</p>
+<ul>
+<li><strong>列表</strong>展示位姿信息<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_38本文算法_ICP算法得到的各零件位姿信息.png" title="本文算法/ICP算法得到的各零件位姿信息 与(图5-8)中相应编号对应"></li>
+<li>直观观察配准结果<strong>图片</strong><img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_39本文算法_ICP算法各子集配准结果.png" title="本文算法/ICP算法各子集配准结果 红色为模板点云，蓝色为分割出的点云子集"></li>
+<li>将配准结果投射到<strong>原始散乱场景</strong>下<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_40塑料零件配准结果在原图中显示.png" title="塑料零件配准结果在原图中显示">
+</li>
+</ul>
+<p>结论：</p>
+<ol>
+<li>本文算法：14个零件点云只有编号为6、8、12、14的点云子集匹配错误 —— <strong>4个匹配错误</strong></li>
+<li>ICP算法：除了点云子集2，其余点云子集均匹配错误 —— <strong>13个匹配错误</strong></li>
+<li><strong>ICP配准结果不佳原因分析</strong>：<ul>
+<li>待配准两幅点云之间的<strong>初始位置未满足有重叠</strong>的条件，使得匹配结果<strong>陷入局部最优</strong></li>
+<li>零件点云由于遮挡导致的<strong>部分缺失</strong>（如(图5-9)中的点云子集13和14），增大了与模板点云特征的差异，也会造成误匹配</li>
+</ul>
+</li>
+</ol>
+<p>（2）木质材质零件实验<br>为了突出算法<strong>对残缺点云的匹配能力</strong>，将部分缺失的零件子集（如子集8~10）也进行了配准</p>
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_41木质零部件预处理和分割.png" title="木质零部件预处理和分割">
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_42本文算法_ICP算法得到的各零件位姿信息.png" title="本文算法/ICP算法得到的各零件位姿信息">
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_43本文算法_ICP算法各子集配准结果.png" title="本文算法/ICP算法各子集配准结果">
+<img src="/2019/01/17/2019-01-17-imv-random-bin-picking-paper/b_44木质零件配准结果在原图中显示.png" title="木质零件配准结果在原图中显示">
+<p>结论：</p>
+<ol>
+<li>对于<strong>完整的零件</strong>点云子集（如点云子集1~7），<strong>本文算法</strong>均得到了正确的配准结果。</li>
+<li>对于<strong>部分缺失的零件</strong>点云子集（如点云子集8~14），<strong>本文算法</strong>配准具有鲁棒性。</li>
+<li>反观<strong>ICP算法</strong>配准结果，各点云子集配准<strong>均出现错误</strong>。</li>
+<li>木质零件的配准效果优于塑料零件，这是由对象的形状特性导致的，所选取木质工件为<strong>圆柱形</strong>，<strong>具有旋转对称性</strong>，使得降低了配准的难度、增加了算法的鲁棒性。</li>
+</ol>
+<h3 id="误差分析"><a href="#误差分析" class="headerlink" title="误差分析"></a>误差分析</h3><p>影响目标识别和定位精度的影响因素：</p>
+<ol>
+<li>硬件系统的标定误差<br>实验所用到的对象尺寸由<strong>实际测量所得</strong>，其<strong>精确度不足以用来分析定位误差</strong><br><strong>标定板的尺寸是精确的</strong>，可以通过比较标定板上已知两点的测量距离和实际距离之间的差异，<strong>间接的得到系统的定位误差</strong></li>
+<li>三维重构误差<br>基于结构光三维测量系统，中间处理过程包括图像<strong>特征提取</strong>、<strong>立体匹配</strong>，容易受到<strong>光照、图像质量、标定误差</strong>的影响</li>
+<li>点云处理过程中的计算误差<br>①受<strong>外界因素</strong>和<strong>设备自身</strong>的影响，<strong>点云</strong>中存在大量的<strong>噪声点</strong>，无法完全去除的<strong>噪声点参与邻域内的各种计算</strong>，会导致计算结果出现偏差<br>②点云邻域大小的选择，数据处理过程中参数、<strong>阈值的选择</strong>均会影响最终的计算结果<br>③在数据计算过程中，如果出现数据类型的转换，可能<strong>丢失小数点后面一定位数的值</strong></li>
+</ol>
+<h2 id="主要结论与展望-1"><a href="#主要结论与展望-1" class="headerlink" title="主要结论与展望"></a>主要结论与展望</h2><h3 id="主要结论-1"><a href="#主要结论-1" class="headerlink" title="主要结论"></a>主要结论</h3><ol>
+<li>完成<strong>基于编码结构光的三维测量系统</strong>整体方案的设计</li>
+<li>针对机器人随机箱体抓取过程中场景分割困难的问题，提出<strong>基于改进欧式聚类的散乱零件点云分割方法</strong></li>
+<li>针对目标识别和定位问题，提出<strong>基于SHOT特征融合的点云配准方法</strong></li>
+<li>用自行搭建的硬件平台，<strong>获取</strong>不同散乱场景下的零部件<strong>点云数据</strong><br>对采集到的场景点云数据进行预处理、分割、<strong>配准</strong>得到零部件的<strong>六自由度位姿信息</strong>，即<strong>模板点云</strong>相对于<strong>零部件点云</strong>的旋转和平移变换<br>将配准结果用<strong>匹配代价值</strong>表示，以验证位姿估计结果的准确性</li>
+</ol>
+<h3 id="展望-1"><a href="#展望-1" class="headerlink" title="展望"></a>展望</h3><p>完整的抓取还需要许多后续工作</p>
+<ol>
+<li>结构光三维测量系统<strong>获取点云数据的精度有待提高</strong><br>系统只对编码条纹的边缘部分进行重构，获取到的<strong>点云分辨率约1mm</strong>，后续可以优化系统性能，获取更高精度的点云，或<strong>尝试其他的点云获取设备</strong>。</li>
+<li>算法的<strong>适应性有待改进</strong><br>RBP系统解决方案多为用户订制，至今为止，仍然<strong>没有一种通用算法适用于所有的抓取对象</strong>。<br>课题也只对形状简单的零部件进行实验，后续可以<strong>增加对象的复杂性</strong>，验证算法对复杂物体的适用性。</li>
+<li><strong>没有通过抓取成功率验证算法</strong>的优劣<br>课题最终得到了<strong>目标物体相对于模板点云的转换关系</strong>，后续可以将算法整合到机器人系统中，形成一套完整的解决方案。</li>
+</ol>
+<h2 id="我的思考-1"><a href="#我的思考-1" class="headerlink" title="我的思考"></a>我的思考</h2><ol>
+<li><strong>点云分割</strong>时先<strong>去除边缘</strong>的思路很棒</li>
+<li><strong>点云配准</strong>时边缘对配准会造成不利影响，故用方向包围盒的方法<strong>去除边缘</strong></li>
+<li>实验的设计、参数的选取（用统计实验的方法）</li>
+</ol>
+<h1 id="硕士-基于双目视觉的散乱堆放工件拾取系统"><a href="#硕士-基于双目视觉的散乱堆放工件拾取系统" class="headerlink" title="硕士_基于双目视觉的散乱堆放工件拾取系统"></a>硕士_基于双目视觉的散乱堆放工件拾取系统</h1>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+            <a href="/tags/读论文/" rel="tag"># 读论文</a>
+          
+            <a href="/tags/精华/" rel="tag"># 精华</a>
+          
+            <a href="/tags/随机箱体抓取/" rel="tag"># 随机箱体抓取</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/09/2019-01-09-imv-slam-book/" rel="next" title="[SLAM]视觉SLAM十四讲学习笔记">
+                <i class="fa fa-chevron-left"></i> [SLAM]视觉SLAM十四讲学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/01/24/2019-01-24-imv-pointcloud-deeplearning-paper/" rel="prev" title="[机器视觉]读点云深度学习论文">
+                [机器视觉]读点云深度学习论文 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#资料查阅"><span class="nav-number">1.</span> <span class="nav-text">资料查阅</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#硕士（6篇）"><span class="nav-number">1.1.</span> <span class="nav-text">硕士（6篇）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#期刊（1篇）"><span class="nav-number">1.2.</span> <span class="nav-text">期刊（1篇）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#重点部分☆"><span class="nav-number">1.3.</span> <span class="nav-text">重点部分☆</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硕士-基于编码结构光的立体视觉定位技术的研究与开发"><span class="nav-number">2.</span> <span class="nav-text">硕士_基于编码结构光的立体视觉定位技术的研究与开发</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要"><span class="nav-number">2.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RBP系统"><span class="nav-number">2.2.</span> <span class="nav-text">RBP系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#研究进展"><span class="nav-number">2.3.</span> <span class="nav-text">研究进展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RBP研究进展"><span class="nav-number">2.3.1.</span> <span class="nav-text">RBP研究进展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编码结构光研究现状"><span class="nav-number">2.3.2.</span> <span class="nav-text">编码结构光研究现状</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#位姿估计研究现状"><span class="nav-number">2.3.3.</span> <span class="nav-text">位姿估计研究现状</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统数学模型"><span class="nav-number">2.4.</span> <span class="nav-text">系统数学模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#双目视觉基本原理"><span class="nav-number">2.4.1.</span> <span class="nav-text">双目视觉基本原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#摄像机成像模型"><span class="nav-number">2.4.1.1.</span> <span class="nav-text">摄像机成像模型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#摄像机标定"><span class="nav-number">2.4.1.2.</span> <span class="nav-text">摄像机标定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#双目联合标定"><span class="nav-number">2.4.1.3.</span> <span class="nav-text">双目联合标定</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统硬件组成"><span class="nav-number">2.4.2.</span> <span class="nav-text">系统硬件组成</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#系统架构"><span class="nav-number">2.4.2.1.</span> <span class="nav-text">系统架构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#相机与镜头的选择"><span class="nav-number">2.4.2.2.</span> <span class="nav-text">相机与镜头的选择</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#投影仪的选择"><span class="nav-number">2.4.2.3.</span> <span class="nav-text">投影仪的选择</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统软件实现"><span class="nav-number">2.4.3.</span> <span class="nav-text">系统软件实现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基于编码结构光的立体视觉定位技术"><span class="nav-number">2.4.3.1.</span> <span class="nav-text">基于编码结构光的立体视觉定位技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三维重构的原理图"><span class="nav-number">2.4.3.2.</span> <span class="nav-text">三维重构的原理图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#系统工作流程"><span class="nav-number">2.4.3.3.</span> <span class="nav-text">系统工作流程</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#混乱工件三维重构"><span class="nav-number">2.5.</span> <span class="nav-text">混乱工件三维重构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Gray码编码"><span class="nav-number">2.5.1.</span> <span class="nav-text">Gray码编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线移编码"><span class="nav-number">2.5.2.</span> <span class="nav-text">线移编码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#边缘扩散影响"><span class="nav-number">2.5.2.1.</span> <span class="nav-text">边缘扩散影响</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#计算线移区间"><span class="nav-number">2.5.2.2.</span> <span class="nav-text">计算线移区间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线移条纹编码"><span class="nav-number">2.5.2.3.</span> <span class="nav-text">线移条纹编码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Gray码-线移解码"><span class="nav-number">2.5.3.</span> <span class="nav-text">Gray码-线移解码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#图像预处理"><span class="nav-number">2.5.3.1.</span> <span class="nav-text">图像预处理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Gray码解码"><span class="nav-number">2.5.3.2.</span> <span class="nav-text">Gray码解码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#线移条纹解码"><span class="nav-number">2.5.3.3.</span> <span class="nav-text">线移条纹解码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三维重构"><span class="nav-number">2.5.4.</span> <span class="nav-text">三维重构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验验证"><span class="nav-number">2.5.5.</span> <span class="nav-text">实验验证</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#视觉传感器标定"><span class="nav-number">2.5.5.1.</span> <span class="nav-text">视觉传感器标定</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#三维重构-1"><span class="nav-number">2.5.5.2.</span> <span class="nav-text">三维重构</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#混乱工件位姿定位"><span class="nav-number">2.6.</span> <span class="nav-text">混乱工件位姿定位</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#点云预处理"><span class="nav-number">2.6.1.</span> <span class="nav-text">点云预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#点云去噪"><span class="nav-number">2.6.1.1.</span> <span class="nav-text">点云去噪</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#点云分割"><span class="nav-number">2.6.1.2.</span> <span class="nav-text">点云分割</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#点云筛选"><span class="nav-number">2.6.1.3.</span> <span class="nav-text">点云筛选</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ICP优化算法"><span class="nav-number">2.6.2.</span> <span class="nav-text">ICP优化算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#☆遗传算法优化的初始位姿计算"><span class="nav-number">2.6.2.1.</span> <span class="nav-text">☆遗传算法优化的初始位姿计算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#☆阈值约束优化的精确位姿计算"><span class="nav-number">2.6.2.2.</span> <span class="nav-text">☆阈值约束优化的精确位姿计算</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验验证-1"><span class="nav-number">2.6.3.</span> <span class="nav-text">实验验证</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单目标点云注册"><span class="nav-number">2.6.3.1.</span> <span class="nav-text">单目标点云注册</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#粗略位姿估计"><span class="nav-number">2.6.3.2.</span> <span class="nav-text">粗略位姿估计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#精确位姿估计"><span class="nav-number">2.6.3.3.</span> <span class="nav-text">精确位姿估计</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工件三维定位与误差分析"><span class="nav-number">2.7.</span> <span class="nav-text">工件三维定位与误差分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#实验装置"><span class="nav-number">2.7.1.</span> <span class="nav-text">实验装置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#木质工具实验"><span class="nav-number">2.7.2.</span> <span class="nav-text">木质工具实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#塑料工具实验"><span class="nav-number">2.7.3.</span> <span class="nav-text">塑料工具实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#金属工具实验"><span class="nav-number">2.7.4.</span> <span class="nav-text">金属工具实验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#综合分析"><span class="nav-number">2.7.5.</span> <span class="nav-text">综合分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要结论与展望"><span class="nav-number">2.8.</span> <span class="nav-text">主要结论与展望</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主要结论"><span class="nav-number">2.8.1.</span> <span class="nav-text">主要结论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#展望"><span class="nav-number">2.8.2.</span> <span class="nav-text">展望</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我的思考"><span class="nav-number">2.9.</span> <span class="nav-text">我的思考</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硕士-基于点云处理的散乱零部件识别与定位技术的研究"><span class="nav-number">3.</span> <span class="nav-text">硕士_基于点云处理的散乱零部件识别与定位技术的研究</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#摘要-1"><span class="nav-number">3.1.</span> <span class="nav-text">摘要</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#RBP系统-1"><span class="nav-number">3.2.</span> <span class="nav-text">RBP系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#研究进展-1"><span class="nav-number">3.3.</span> <span class="nav-text">研究进展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RBP研究进展-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">RBP研究进展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点云获取方法"><span class="nav-number">3.3.2.</span> <span class="nav-text">点云获取方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点云分割研究现状"><span class="nav-number">3.3.3.</span> <span class="nav-text">点云分割研究现状</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点云配准研究现状"><span class="nav-number">3.3.4.</span> <span class="nav-text">点云配准研究现状</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点云获取系统方案设计"><span class="nav-number">3.4.</span> <span class="nav-text">点云获取系统方案设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#摄像机成像模型-1"><span class="nav-number">3.4.1.</span> <span class="nav-text">摄像机成像模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统硬件选型-系统软件处理"><span class="nav-number">3.4.2.</span> <span class="nav-text">系统硬件选型/系统软件处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#点云邻域及基本特征"><span class="nav-number">3.4.3.</span> <span class="nav-text">点云邻域及基本特征</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点云预处理和分割"><span class="nav-number">3.5.</span> <span class="nav-text">点云预处理和分割</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#点云预处理-1"><span class="nav-number">3.5.1.</span> <span class="nav-text">点云预处理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#冗余点（背景点）去除"><span class="nav-number">3.5.1.1.</span> <span class="nav-text">冗余点（背景点）去除</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#离群点去除"><span class="nav-number">3.5.1.2.</span> <span class="nav-text">离群点去除</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于改进欧式聚类的散乱零部件点云分割"><span class="nav-number">3.5.2.</span> <span class="nav-text">基于改进欧式聚类的散乱零部件点云分割</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#点云分割概述"><span class="nav-number">3.5.2.1.</span> <span class="nav-text">点云分割概述</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于欧式聚类的点云分割"><span class="nav-number">3.5.2.2.</span> <span class="nav-text">基于欧式聚类的点云分割</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基于搜索半径自适应的欧式聚类分割"><span class="nav-number">3.5.2.3.</span> <span class="nav-text">基于搜索半径自适应的欧式聚类分割</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果与分析"><span class="nav-number">3.5.3.</span> <span class="nav-text">实验结果与分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#单组零件点云分割"><span class="nav-number">3.5.3.1.</span> <span class="nav-text">单组零件点云分割</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#多组零件点云分割"><span class="nav-number">3.5.3.2.</span> <span class="nav-text">多组零件点云分割</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实验结果分析"><span class="nav-number">3.5.3.3.</span> <span class="nav-text">实验结果分析</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#点云特征提取与配准"><span class="nav-number">3.6.</span> <span class="nav-text">点云特征提取与配准</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#点云配准概述"><span class="nav-number">3.6.1.</span> <span class="nav-text">点云配准概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于OBB裁剪的关键点获取"><span class="nav-number">3.6.2.</span> <span class="nav-text">基于OBB裁剪的关键点获取</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#方向包围盒"><span class="nav-number">3.6.2.1.</span> <span class="nav-text">方向包围盒</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#关键点获取"><span class="nav-number">3.6.2.2.</span> <span class="nav-text">关键点获取</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#特征提取与描述"><span class="nav-number">3.6.3.</span> <span class="nav-text">特征提取与描述</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常见特征描述子"><span class="nav-number">3.6.3.1.</span> <span class="nav-text">常见特征描述子</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#空间位置描述子"><span class="nav-number">3.6.3.2.</span> <span class="nav-text">空间位置描述子</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配准实现"><span class="nav-number">3.6.4.</span> <span class="nav-text">配准实现</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果与分析-1"><span class="nav-number">3.6.5.</span> <span class="nav-text">实验结果与分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#零部件定位与误差分析"><span class="nav-number">3.7.</span> <span class="nav-text">零部件定位与误差分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#系统搭建"><span class="nav-number">3.7.1.</span> <span class="nav-text">系统搭建</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#预处理算法性能分析"><span class="nav-number">3.7.2.</span> <span class="nav-text">预处理算法性能分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分割算法性能分析"><span class="nav-number">3.7.3.</span> <span class="nav-text">分割算法性能分析</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#（1）边缘点提取时参数α-th-的选取"><span class="nav-number">3.7.3.1.</span> <span class="nav-text">（1）边缘点提取时参数α_{th}的选取</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#（2）搜索半径自适应分割中权重因子μ的选取"><span class="nav-number">3.7.3.2.</span> <span class="nav-text">（2）搜索半径自适应分割中权重因子μ的选取</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配准算法性能分析"><span class="nav-number">3.7.4.</span> <span class="nav-text">配准算法性能分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#误差分析"><span class="nav-number">3.7.5.</span> <span class="nav-text">误差分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主要结论与展望-1"><span class="nav-number">3.8.</span> <span class="nav-text">主要结论与展望</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#主要结论-1"><span class="nav-number">3.8.1.</span> <span class="nav-text">主要结论</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#展望-1"><span class="nav-number">3.8.2.</span> <span class="nav-text">展望</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#我的思考-1"><span class="nav-number">3.9.</span> <span class="nav-text">我的思考</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硕士-基于双目视觉的散乱堆放工件拾取系统"><span class="nav-number">4.</span> <span class="nav-text">硕士_基于双目视觉的散乱堆放工件拾取系统</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

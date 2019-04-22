@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机视觉,读论文,精华,点云,深度学习," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="精读CVPR2017的《3DMatch...》。">
+<meta name="keywords" content="计算机视觉,读论文,精华,点云,深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[点云+深度学习]3DMatch论文解析">
+<meta property="og:url" content="http://yoursite.com/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="精读CVPR2017的《3DMatch...》。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/02_第1个示例结果示意图.jpg">
+<meta property="og:image" content="http://yoursite.com/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/03_结果对比.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/01_3dmatch核心思想.jpg">
+<meta property="og:updated_time" content="2019-04-22T09:03:30.731Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[点云+深度学习]3DMatch论文解析">
+<meta name="twitter:description" content="精读CVPR2017的《3DMatch...》。">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/02_第1个示例结果示意图.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/"/>
+
+
+
+
+
+  <title>[点云+深度学习]3DMatch论文解析 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[点云+深度学习]3DMatch论文解析</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-20T15:15:15+08:00">
+                2019-03-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  精读CVPR2017的《3DMatch...》。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>《3DMatch: Learning Local Geometric Descriptors from RGB-D Reconstructions》</p>
+<h1 id="运行代码"><a href="#运行代码" class="headerlink" title="运行代码"></a>运行代码</h1><h2 id="配置Marvin框架"><a href="#配置Marvin框架" class="headerlink" title="配置Marvin框架"></a>配置<a href="https://github.com/PrincetonVision/marvin" target="_blank" rel="noopener">Marvin框架</a></h2><ol>
+<li>安装Ubuntu 14.04<br> U盘+软碟通</li>
+<li><p>安装cuda 7.5<br> （甚至不用关闭Ubuntu的图形界面）<br> 常用的方式安装不上（官网下载*.run），采用<a href="https://gist.github.com/ShigekiKarita/54731e20dad3482d70ec#file-install-sh-L10" target="_blank" rel="noopener">这样的方式</a>。另一种没有尝试的<a href="https://kislayabhi.github.io/Installing_CUDA_with_Ubuntu/" target="_blank" rel="noopener">方式</a></p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">sudo add-apt-repository ppa:graphics-drivers/ppa</span><br><span class="line">sudo apt-get --purge remove "nvidia*"</span><br><span class="line">sudo apt-get --purge remove "cuda*"</span><br><span class="line"></span><br><span class="line">wget http://developer.download.nvidia.com/compute/cuda/7.5/Prod/local_installers/cuda-repo-ubuntu1404-7-5-local_7.5-18_amd64.deb</span><br><span class="line">sudo dpkg -i cuda-repo-ubuntu1404-7-5-local_7.5-18_amd64.deb</span><br><span class="line">sudo apt-get update</span><br><span class="line">sudo apt-get upgrade</span><br><span class="line">sudo apt-get install cuda</span><br></pre></td></tr></table></figure>
+<p> 配置cuda：<br> sudo nano ~/.bashrc</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export CUDA_HOME=/usr/local/cuda-7.5</span><br><span class="line">export PATH=/usr/local/cuda-7.5/bin$&#123;PATH:+:$&#123;PATH&#125;&#125;</span><br><span class="line">export LD_LIBRARY_PATH=/usr/local/cuda-7.5/lib64$&#123;LD_LIBRARY_PATH:+:$&#123;LD_LIBRARY_PATH&#125;&#125;</span><br></pre></td></tr></table></figure>
+<p> 环境变量立刻生效：</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p> <strong>装完后，输入”nvidia-smi”验证</strong></p>
+</li>
+<li><p>安装cudnn 5.1（<a href="https://blog.csdn.net/jialian_wu/article/details/76507013" target="_blank" rel="noopener">参见</a>中的”④cudnn 5.0安装”）<br> 配置cudnn，拷贝cudnn到cuda的安装目录下</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo cp cuda/include/cudnn.h /usr/local/cuda/include # 复制到 include 中</span><br><span class="line">sudo cp cuda/lib64/libcudnn* /usr/local/cuda/lib64 # 复制到 lib64 中</span><br><span class="line">sudo chmod a+r /usr/local/cuda/include/cudnn.h /usr/local/cuda/lib64/libcudnn* # 将头文件复制进去</span><br></pre></td></tr></table></figure>
+<p> 此处我貌似做了多余的步骤（cudnn在三个地方有，并都设置了软链接，估计是3-起了作用。比较稳妥的方法是如下在三个地方都设置好软链接等）——事实证明，只要把上面的cuda/lib64下的4个cudnn的软链接按照下面的命令设置好即可，其余地方不重要<br> 1-/usr/local/cudnn/v5.1/lib64;/usr/local/cudnn/v5.1/include<br> 2-/usr/local/lib;/usr/local/include<br> 3-/usr/local/cuda-7.5/lib64;/usr/local/cuda-7.5/include</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">sudo tar xvf cudnn-7.5-linux-x64-v5.0-ga.tgz</span><br><span class="line">cd cuda/include</span><br><span class="line">sudo cp *.h /usr/local/include/</span><br><span class="line">../lib64</span><br><span class="line">sudo cp lib* /usr/local/lib/</span><br><span class="line">cd /usr/local/cudnn/v5.1/lib64</span><br><span class="line">sudo chmod +r libcudnn.so.5.1.10</span><br><span class="line">sudo ln -sf libcudnn.so.5.1.10 libcudnn.so.5</span><br><span class="line">sudo ln -sf libcudnn.so.5 libcudnn.so</span><br><span class="line">sudo ldconfig</span><br></pre></td></tr></table></figure>
+<p> <strong>装完后，输入”nvcc -V”验证</strong><br> 查看cuda和cudnn的版本：</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cat /usr/local/cuda/version.txt</span><br><span class="line">cat /usr/local/cuda/include/cudnn.h | grep CUDNN_MAJOR -A 2</span><br><span class="line">nvcc -V</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>安装Marvin<br> 参照<a href="http://marvin.is/" target="_blank" rel="noopener">Marvin官网</a>，用源码编译（可能需要略微修改compile.sh）<br> Marvin的所有代码只在两个文件里（marvin.hpp、marvin.cu）。</p>
+ <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">curl -L https://github.com/PrincetonVision/marvin/tarball/master | tar zx</span><br><span class="line">mv PrincetonVision* marvin &amp;&amp; cd marvin</span><br><span class="line"></span><br><span class="line">./compile.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>测试Marvin<br> 运行examples/mnist/demo.sh</p>
+</li>
+</ol>
+<h2 id="安装Matlab-R2017b"><a href="#安装Matlab-R2017b" class="headerlink" title="安装Matlab R2017b"></a>安装Matlab R2017b</h2><p><a href="https://blog.csdn.net/qq_32892383/article/details/79670871" target="_blank" rel="noopener"><br>ubuntu16.04安装MATLAB R2017b步骤详解（附完整破解文件包）</a></p>
+<p>matlab安装目录：/home/imv/MATLAB/R2017b</p>
+<p>破解：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo cp /home/imv/Downloads/matlab/MATLABR2017b_Linux_Crack/license_standalone.lic /home/imv/MATLAB/R2017b/licenses/</span><br><span class="line">sudo cp /home/imv/Downloads/matlab/MATLABR2017b_Linux_Crack/libmwservices.so /home/imv/MATLAB/R2017b/bin/glnxa64/</span><br></pre></td></tr></table></figure></p>
+<p>如不成功，<a href="https://www.cnblogs.com/taoyuyeit/p/8823311.html" target="_blank" rel="noopener">试</a></p>
+<p>为了访问matlab时不用加路径，添加环境变量可在 /etc/profile中添加以下代码<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$PATH:/home/imv/MATLAB/R2017b/bin</span><br></pre></td></tr></table></figure></p>
+<p>环境变量立即生效<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">source /etc/profile</span><br></pre></td></tr></table></figure></p>
+<h2 id="安装OpenCV"><a href="#安装OpenCV" class="headerlink" title="安装OpenCV"></a>安装OpenCV</h2><p>重要参考：<br><a href="https://blog.csdn.net/honyniu/article/details/46390097" target="_blank" rel="noopener">Ubuntu14.04 OpenCV编译安装</a> —— 配准环境变量<br><a href="https://blog.csdn.net/lien0906/article/details/44774705" target="_blank" rel="noopener">ubuntu 下编译安装cmake、OpenCV</a></p>
+<p>下载OpenCV 2.4.11的<a href="https://opencv.org/releases.html" target="_blank" rel="noopener">源码</a></p>
+<p>cmke-gui界面时改3个地方：把WITH-CUDA和BUILD_opencv_gpu选项去掉打钩，CMAKE_BUILD_TYPE 值输入RELEASE</p>
+<p>多线程编译：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">make -j4</span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure></p>
+<p>再配置环境变量</p>
+<h2 id="QA：3DMatch代码运行失败"><a href="#QA：3DMatch代码运行失败" class="headerlink" title="QA：3DMatch代码运行失败"></a>QA：3DMatch代码运行失败</h2><p>Q：运行”./demo ../data/sample/3dmatch-demo/single-depth-1.ply fragment-1”时报错：”./demo: error while loading shared libraries: libopencv_core.so.2.4: cannot open shared object file: No such file or directory”<br>A：运行<strong>sudo ldconfig -v</strong></p>
+<h1 id="官方代码分析"><a href="#官方代码分析" class="headerlink" title="官方代码分析"></a><a href="https://github.com/andyzeng/3dmatch-toolbox" target="_blank" rel="noopener">官方代码</a>分析</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">例程</th>
+<th style="text-align:center">代码目录</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://github.com/andyzeng/3dmatch-toolbox/blob/master/core/demo.m" target="_blank" rel="noopener">Demo: Align Two Point Clouds with 3DMatch</a><br>使用预训练的3DMatch描述符配准两个点云</td>
+<td style="text-align:center"><script type="math/tex">3dmatch-toolbox/core</script></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/andyzeng/3dmatch-toolbox/blob/master/core/demo.cu" target="_blank" rel="noopener">Converting 3D Data to TDF Voxel Grids</a><br>转换3D数据为TDF体素网格</td>
+<td style="text-align:center"><script type="math/tex">3dmatch-toolbox/core/demo.cu</script><br><script type="math/tex">3dmatch-toolbox/deprecated/pointCloud2AccTDF.m</script><br><script type="math/tex">3dmatch-toolbox/evaluation/model-fitting-apc/pointCloud2TDF.m</script></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/andyzeng/3dmatch-toolbox/blob/master/training/net.json" target="_blank" rel="noopener">Training 3DMatch from RGB-D Reconstructions</a><br>从RGBD三维重建数据集中训练3DMatch描述符</td>
+<td style="text-align:center"><script type="math/tex">3dmatch-toolbox/training</script></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/andyzeng/3dmatch-toolbox/blob/master/depth-fusion/demo.cu" target="_blank" rel="noopener">Multi-Frame Depth TSDF Fusion<br>将多个注册的深度图融合到TSDF体素体积中</a></td>
+<td style="text-align:center"><script type="math/tex">3dmatch-toolbox/depth-fusion</script></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/andyzeng/3dmatch-toolbox/tree/master/evaluation" target="_blank" rel="noopener">Evaluation Code</a><br>评估代码</td>
+<td style="text-align:center"><script type="math/tex">3dmatch-toolbox/evaluation/keypoint-matching</script><br><script type="math/tex">3dmatch-toolbox/evaluation/geometric-registration</script><br><script type="math/tex">3dmatch-toolbox/evaluation/model-fitting-apc</script><br><script type="math/tex">3dmatch-toolbox/evaluation/mesh-correspondence-shape2pose</script></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="Demo-Align-Two-Point-Clouds-with-3DMatch"><a href="#Demo-Align-Two-Point-Clouds-with-3DMatch" class="headerlink" title="Demo: Align Two Point Clouds with 3DMatch"></a>Demo: Align Two Point Clouds with 3DMatch</h2><p>功能：使用预训练的<strong>3DMatch描述子</strong>和<strong>标准的RANSAC</strong>将两组（从单视角深度图投影所得）点云配准</p>
+<p>思路☆：</p>
+<ol>
+<li>给定两组点云 —— 250000个点</li>
+<li>计算随机表面关键点（<strong>random surface keypoints</strong>） —— 500个点</li>
+<li>计算TDF体素网格体积（<strong>TDF voxel grid volumes</strong>）</li>
+<li>计算3DMatch描述子（<strong>3DMatch descriptors</strong>） —— 500个描述符，每个512维</li>
+<li>在3DMatch描述符空间中查找相互最接近（欧氏距离）的关键点 —— 108个点</li>
+<li>用RANSAC估计点云2到点云1的刚性变换</li>
+<li>计算配准百分比（用于回环检测）</li>
+<li>可视化配准结果</li>
+</ol>
+<img src="/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/02_第1个示例结果示意图.jpg" title="第1个示例结果示意图">
+<p>代码梳理：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量名</th>
+<th style="text-align:center">说明</th>
+<th style="text-align:center">维度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">fragment1PointCloud<br>fragment2PointCloud</td>
+<td style="text-align:center">第1/2组<strong>点云</strong></td>
+<td style="text-align:center"><script type="math/tex">size(fragment1PointCloud.Location) == [252179, 3]</script><br><script type="math/tex">size(fragment2PointCloud.Location) == [284874, 3]</script></td>
+</tr>
+<tr>
+<td style="text-align:center">fragment1Keypoints<br>fragment2Keypoints</td>
+<td style="text-align:center">第1/2组点云的<strong>关键点</strong></td>
+<td style="text-align:center"><script type="math/tex">size(fragment1Keypoints) == [500, 3]</script></td>
+</tr>
+<tr>
+<td style="text-align:center">fragment1Descriptors<br>fragment2Descriptors</td>
+<td style="text-align:center">第1/2组点云的<strong>关键点</strong>的3DMatch特征<strong>描述子</strong></td>
+<td style="text-align:center"><script type="math/tex">size(fragment1Descriptors) == [500, 512]</script></td>
+</tr>
+<tr>
+<td style="text-align:center">fragment1MatchKeypoints<br>fragment2MatchKeypoints</td>
+<td style="text-align:center">在3DMatch描述符空间中查找相互最接近的<strong>关键点</strong></td>
+<td style="text-align:center"><script type="math/tex">size(fragment1MatchKeypoints) == [108, 3]</script></td>
+</tr>
+<tr>
+<td style="text-align:center">inlierIdx</td>
+<td style="text-align:center">108个关键点中，使用ransacfitRt()配准成功的关键点</td>
+<td style="text-align:center"><script type="math/tex">size(inlierIdx) == [1,6]</script></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><a href="https://github.com/andyzeng/3dmatch-toolbox/blob/master/core/external/sfm/ransacfitRt.m" target="_blank" rel="noopener">ransacfitRt()</a>的思路☆:</p>
+<ol>
+<li>设定每次从所有的点(108个点)中随机取3个点(s=3)</li>
+<li>用取出的3个点估计点云A到点云B的变换矩阵(3*4)</li>
+<li>根据点云A到点云A’（转换关系*点云B）的欧式距离, 评估出内点（距离&lt;0.05的对应点）</li>
+<li>设定尝试抽样的上限(maxTrials=50000)</li>
+<li>随着尝试, 内点数增加, 根据设定的log除法计算方式, N减小, 直到N小于尝试抽样的次数, 退出循环</li>
+<li>返回最优的变换矩阵和内点</li>
+<li>根据内点重新计算一次变换矩阵(因为之前的变换矩阵是通过抽样的3个点求得，此处内点可能是6个)</li>
+</ol>
+<p>Matlab代码中的对象、函数：<br><a href="https://www.mathworks.com/help/stats/kdtreesearcher.html" target="_blank" rel="noopener">KDTreeSearcher</a><br><a href="https://www.mathworks.com/help/stats/exhaustivesearcher.knnsearch.html" target="_blank" rel="noopener">knnsearch</a><br><a href="https://www.mathworks.com/help/matlab/ref/find.html" target="_blank" rel="noopener">find</a><br><a href="https://www.mathworks.com/help/vision/ref/ransac.html" target="_blank" rel="noopener">ransac</a>——代码中用的是作者自己写的<br><a href="https://www.mathworks.com/help/matlab/ref/repmat.html?s_tid=srchtitle" target="_blank" rel="noopener">repmat</a><br><a href="https://www.mathworks.com/help/vision/ref/pointcloud.html" target="_blank" rel="noopener">pointCloud</a></p>
+<p>Matlab中的knnsearch（支持传入KDTreeSearcher、ExhaustiveSearcher）<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">% knnsearch功能：在X（145个点）中寻找与Y（5个点）中距离最相近的点</span></span><br><span class="line"><span class="comment">% 返回的IdxKDT是Y在X中的索引</span></span><br><span class="line"><span class="comment">% 1.载入数据，执行近邻搜索</span></span><br><span class="line">load fisheriris</span><br><span class="line">rng(<span class="number">1</span>); <span class="comment">% For reproducibility</span></span><br><span class="line">n = <span class="built_in">size</span>(meas,<span class="number">1</span>);</span><br><span class="line">idx = randsample(n,<span class="number">5</span>);</span><br><span class="line">X = meas(~ismember(<span class="number">1</span>:n,idx),:); <span class="comment">% Training data [145,4]</span></span><br><span class="line">Y = meas(idx,:);                <span class="comment">% Query data    [5,4]</span></span><br><span class="line">MdlKDT = KDTreeSearcher(X);</span><br><span class="line">IdxKDT = knnsearch(MdlKDT,Y);</span><br><span class="line"><span class="comment">% 2.比较配准的结果</span></span><br><span class="line"><span class="built_in">i</span> = <span class="number">1</span>; <span class="comment">% 2 3 4 5</span></span><br><span class="line">Y(<span class="built_in">i</span>,:)</span><br><span class="line">X(IdxKDT(<span class="built_in">i</span>),:)</span><br></pre></td></tr></table></figure></p>
+<p>关键代码理解☆：<br><figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">fragment2MatchIdx = <span class="built_in">find</span>((<span class="number">1</span>:<span class="built_in">size</span>(fragment2NNIdx,<span class="number">1</span>))' == fragment1NNIdx(fragment2NNIdx));</span><br><span class="line"></span><br><span class="line"><span class="comment">% 理解</span></span><br><span class="line"><span class="comment">% fragment2NNIdx(6)   % 距离 描述子2中的第6个点 最近的是 描述子1中的第366个点</span></span><br><span class="line"><span class="comment">% fragment1NNIdx(366) % 距离 描述子1中的第366个点 最近的是 描述子2中的第6个点</span></span><br><span class="line"><span class="comment">% =&gt; 描述子2中的第6个点 与 描述子1中的第366个点 互为距离最近，即匹配点</span></span><br><span class="line"><span class="comment">% 等价求的是：fragment1NNIdx(fragment2NNIdx(i)) == i</span></span><br><span class="line"><span class="comment">% 即在A看来距离B最近，在B看来也距离A最近</span></span><br></pre></td></tr></table></figure></p>
+<figure class="highlight matlab"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">fragment2MatchIdx = <span class="built_in">find</span>((<span class="number">1</span>:<span class="built_in">size</span>(fragment2NNIdx,<span class="number">1</span>))' == fragment1NNIdx(fragment2NNIdx));</span><br><span class="line">fragment2MatchKeypoints = fragment2Keypoints(fragment2MatchIdx,:);</span><br><span class="line">fragment1MatchKeypoints = fragment1Keypoints(fragment2NNIdx(fragment2MatchIdx),:);</span><br><span class="line"></span><br><span class="line"><span class="comment">% 上述代码的等价写法：</span></span><br><span class="line"><span class="comment">% fragment1MatchIdx = find((1:size(fragment1NNIdx,1))' == fragment2NNIdx(fragment1NNIdx));</span></span><br><span class="line"><span class="comment">% fragment1MatchKeypoints_2 = fragment1Keypoints(fragment1MatchIdx,:);</span></span><br><span class="line"><span class="comment">% fragment2MatchKeypoints_2 = fragment2Keypoints(fragment1NNIdx(fragment1MatchIdx),:);</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 验证：排序后索引是相同的</span></span><br><span class="line"><span class="comment">% unique(fragment2MatchIdx) == unique(fragment1NNIdx(fragment1MatchIdx))</span></span><br><span class="line"><span class="comment">% unique(fragment1MatchIdx) == unique(fragment2NNIdx(fragment2MatchIdx))</span></span><br><span class="line"></span><br><span class="line"><span class="comment">% 验证：所有点中下面的点距离最近</span></span><br><span class="line"><span class="comment">% i = 1; % 2 3</span></span><br><span class="line"><span class="comment">% mean(abs(fragment2Descriptors(fragment1NNIdx(i), :) - fragment1Descriptors(i, :)))</span></span><br><span class="line"><span class="comment">% mean(abs(fragment1Descriptors(fragment2NNIdx(i), :) - fragment2Descriptors(i, :)))</span></span><br></pre></td></tr></table></figure>
+<h2 id="Converting-3D-Data-to-TDF-Voxel-Grids"><a href="#Converting-3D-Data-to-TDF-Voxel-Grids" class="headerlink" title="Converting 3D Data to TDF Voxel Grids"></a>Converting 3D Data to TDF Voxel Grids</h2><p>功能：将各种形式的3D数据（点云、网格、深度图）转换成截断距离函数（TDF，Truncated Distance Function）值的体素网格（voxel grid）</p>
+<p><a href="https://github.com/andyzeng/3dmatch-toolbox/blob/master/evaluation/model-fitting-apc/pointCloud2TDF.m" target="_blank" rel="noopener">pointCloud2TDF()</a>的思路☆：</p>
+<ol>
+<li><strong>给定点云，计算其X、Y、Z的上下界</strong> —— points.shape == (738, 3)</li>
+<li><strong>根据体素大小</strong>(voxelSize=0.005)<strong>生成网格点坐标矩阵</strong> —— searchPC.shape == (358644, 3)，根据体素大小（采样粒度）算得的x、y、z的长度分别为121、52、57</li>
+<li><strong>使用kd树搜索每个网格点到点云的最短距离</strong> —— nnDist.shape == (358644,)</li>
+<li><strong>对距离进行运算得到TDF值</strong> —— voxelGridTDF.shape == (121, 52, 57)，与x、y、z的长度对应<ul>
+<li>voxelGridTDF = 1.0 - np.minimum(voxelGridTDF / (voxelSize*voxelMargin), 1.0)</li>
+<li>a = <strong>voxelGridTDF / (voxelSize * voxelMargin)</strong> = voxelGridTDF / (0.005 * 5) = voxelGridTDF * 40 —— 把距离放大40倍</li>
+<li>b = <strong>np.minimum(a, 1.0)</strong> —— 比1大的取1，比1小的不变。即<strong>把大于1的值截断，相当于归一化到[0,1]</strong>（距离≥0）。此时1（远离表面）、0（表面上）</li>
+<li>voxelGridTDF = <strong>1.0 - b</strong> —— 翻转操作，仍是[0,1]。此时1（表面上）、0（远离表面）</li>
+</ul>
+</li>
+</ol>
+<p>注意：TDF（Truncated Distance Function）与TSDF（Truncated Signed Distance Function）的区别</p>
+<ul>
+<li><strong>TSDF</strong>：<ul>
+<li>接近0的值：表面（surface）</li>
+<li>接近1的值：自由空间（free space）</li>
+<li>接近-1的值：被遮挡的空间（occluded space）</li>
+</ul>
+</li>
+<li><strong>TDF</strong><ul>
+<li><strong>相比TSDF，删除符号</strong>，失去了自由空间和被遮挡空间之间的区别</li>
+<li>但在部分数据上获得了新属性（对描述子的鲁棒性至关重要）：<strong>体素值之间的最大梯度集中在表面周围</strong>，而不是自由空间和遮挡空间之间的阴影边界</li>
+<li>TDF表示减少了确定摄像机视图不可用的3D数据上的遮挡空间是什么的模糊性</li>
+<li>换句话说，每个体素的TDF值表示该体素的中心与最近的3D表面之间的距离。这些TDF值被截断、归一化、翻转到介于1（表面上）和0（远离表面）之间</li>
+</ul>
+</li>
+</ul>
+<p>注意：np.meshgrid()的使用（把两个数组的笛卡尔积内的元素的第一二个坐标分别放入两个矩阵中）<br><a href="https://blog.csdn.net/littlehaes/article/details/83543459" target="_blank" rel="noopener">3分钟理解np.meshgrid()</a><br><a href="https://blog.csdn.net/lllxxq141592654/article/details/81532855" target="_blank" rel="noopener">numpy.meshgrid()理解</a></p>
+<h2 id="Training-3DMatch-from-RGB-D-Reconstructions"><a href="#Training-3DMatch-from-RGB-D-Reconstructions" class="headerlink" title="Training 3DMatch from RGB-D Reconstructions"></a>Training 3DMatch from RGB-D Reconstructions</h2><p>功能：使用Marvin框架（孪生网络架构），从RGB-D三维重建数据集中随机采样特征对，训练3DMatch。</p>
+<h2 id="Multi-Frame-Depth-TSDF-Fusion"><a href="#Multi-Frame-Depth-TSDF-Fusion" class="headerlink" title="Multi-Frame Depth TSDF Fusion"></a>Multi-Frame Depth TSDF Fusion</h2><p>功能：将多个注册的深度图融合到TSDF体素体积中，然后可用于创建表面网格和点云。</p>
+<p>与作者的<a href="https://github.com/andyzeng/tsdf-fusion-python" target="_blank" rel="noopener">tsdf-fusion-python</a>略有不同，运行同样的数据（3dmatch-toolbox-master\data\sample\depth-fusion-demo）<br><strong>本代码</strong>：二进制格式，267793个点（vertex），只有x、y、z<br><strong>py代码</strong>：Ascii格式，69922个点（vertex），有x、y、z、nx、ny、nz、red、green、blue，139048个面片（face）</p>
+<img src="/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/03_结果对比.png" title="结果对比">
+<h2 id="Evaluation-Code"><a href="#Evaluation-Code" class="headerlink" title="Evaluation Code"></a>Evaluation Code</h2><p>功能：关键点匹配基准、几何注册基准的评估代码，以及论文中实验的参考实现。</p>
+<h3 id="Keypoint-Matching-Benchmark"><a href="#Keypoint-Matching-Benchmark" class="headerlink" title="Keypoint Matching Benchmark"></a><a href="http://3dmatch.cs.princeton.edu/#keypoint-matching-benchmark" target="_blank" rel="noopener">Keypoint Matching Benchmark</a></h3><p>功能：关键点匹配基准</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">代码</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://github.com/andyzeng/3dmatch-toolbox/blob/master/evaluation/keypoint-matching/getError.m" target="_blank" rel="noopener">getError.m</a></td>
+<td style="text-align:center">计算验证集上的性能（false-positive rate (error) at 95% recall）</td>
+<td style="text-align:center">通过读取log文件实现</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/andyzeng/3dmatch-toolbox/blob/master/evaluation/keypoint-matching/test3DMatch.m" target="_blank" rel="noopener">test3DMatch.m</a></td>
+<td style="text-align:center">在验证集上运行3DMatch，以生成log文件</td>
+<td style="text-align:center">注意需要先编译出get3DMatchDescriptors程序</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/andyzeng/3dmatch-toolbox/blob/master/evaluation/keypoint-matching/makeCorresDataset.m" target="_blank" rel="noopener">makeCorresDataset.m</a></td>
+<td style="text-align:center">从RGB-D三维重建数据集中生成自己的点对（correspondence）数据集</td>
+<td style="text-align:center">运行很慢</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Geometric-Registration-Benchmark"><a href="#Geometric-Registration-Benchmark" class="headerlink" title="Geometric Registration Benchmark"></a><a href="http://3dmatch.cs.princeton.edu/#geometric-registration-benchmark" target="_blank" rel="noopener">Geometric Registration Benchmark</a></h3><p>功能：几何配准基准</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">代码</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://github.com/andyzeng/3dmatch-toolbox/blob/master/evaluation/geometric-registration/getKeyptsAndDesc.m" target="_blank" rel="noopener">getKeyptsAndDesc.m</a></td>
+<td style="text-align:center">生成场景片段的中间数据（TDF体素体积、关键点、3DMatch描述符）</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/andyzeng/3dmatch-toolbox/blob/master/evaluation/geometric-registration/runFragmentRegistration.m" target="_blank" rel="noopener">runFragmentRegistration.m</a></td>
+<td style="text-align:center">读取中间数据，并为每对片段运行<strong>基于RANSAC的配准</strong></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/andyzeng/3dmatch-toolbox/blob/master/evaluation/geometric-registration/writeLog.m" target="_blank" rel="noopener">writeLog.m</a></td>
+<td style="text-align:center">从每对片段中读取配准结果并创建log文件</td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/andyzeng/3dmatch-toolbox/blob/master/evaluation/geometric-registration/evaluate.m" target="_blank" rel="noopener">evaluate.m</a></td>
+<td style="text-align:center">从验证的log文件中计算准确度（precision ）和召回率（recall）</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Model-Fitting-for-6D-Object-Pose-Estimation-in-the-Amazon-Picking-Challenge"><a href="#Model-Fitting-for-6D-Object-Pose-Estimation-in-the-Amazon-Picking-Challenge" class="headerlink" title="Model Fitting for 6D Object Pose Estimation in the Amazon Picking Challenge"></a>Model Fitting for 6D Object Pose Estimation in the Amazon Picking Challenge</h3><p>数据相关文件夹：<br>$FromDir=../../data/apc/scenes/office/test/shelf/scene-0000$<br>$ToDir=../../data/apc/scenarios/000000$<br>$ObjDir=../../data/apc/objects$<br>$BenDir=../../data/benchmark/office/test/tote/scene-0000$<br>$BenRootDir=../../data/benchmark$</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">代码</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">convertBenchmark2Scenarios.m</td>
+<td style="text-align:center">将$/apc/scenes$里的一些文件复制到$/apc/scenarios$<br>注意：$/apc/scenarios$里每个子文件夹里的3个文件名是相同的</td>
+<td style="text-align:center">①复制$FromDir/$creativity_chenille_stems.1.segm.ply为$ToDir/$segmentation.ply<br>②尝试复制$FromDir/$creativity_chenille_stems.1.segmentation.TDF.bin为$ToDir/$segmentation.TDF.bin<br>③生成$ToDir/$info.txt</td>
+</tr>
+<tr>
+<td style="text-align:center">convertScenarios2Benchmark.m</td>
+<td style="text-align:center">根据$/apc/scenarios$里的文件生成$/apc/scenes$里的一个文件</td>
+<td style="text-align:center">根据$ToDir/$info.txt决定路径和文件名、根据$ToDir/$ransac.3dmatch.model2segm.txt决定文件里的数据，生成$FromDir/$creativity_chenille_stems.1.ransac.3dmatch.model2segm.txt</td>
+</tr>
+<tr>
+<td style="text-align:center">getModelTDF.m</td>
+<td style="text-align:center">从<strong>物体模型</strong>生成体素网格体积的准确TDF值<br>步骤：读点云（195477×3）、降采样（9601×3）、去噪声（9138×3）、计算TDF（79×64×49）</td>
+<td style="text-align:center">从点云数据$ObjDir/$barkely_hide_bones.ply计算出TDF数据$ObjDir/$barkely_hide_bones.TDF.bin</td>
+</tr>
+<tr>
+<td style="text-align:center">getSegmentationTDF.m</td>
+<td style="text-align:center">从<strong>分割点云</strong>生成体素网格体积的准确TDF值</td>
+<td style="text-align:center">读取$BenDir/$cam.info.txt、$BenRootDir/$labels.mat并计算姿态，读取点云$FromDir/$creativity_chenille_stems.1.segm.ply，计算TDF的值$FromDir/$creativity_chenille_stems.1.segmentation.TDF.bin</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="Mesh-Correspondence-in-Shape2Pose"><a href="#Mesh-Correspondence-in-Shape2Pose" class="headerlink" title="Mesh Correspondence in Shape2Pose"></a>Mesh Correspondence in Shape2Pose</h3><h1 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h1><p>核心思想：提出一种叫做3DMatch的<strong>自监督</strong>特征学习方法，通过一个<strong>3D卷积</strong>神经网络对训练样本的学习，得到一种<strong>局部体积块描述子</strong>，该描述子在<strong>关键点匹配</strong>上达到很好的效果且在新场景下具有很好的鲁棒性。</p>
+<h2 id="局部几何特征学习"><a href="#局部几何特征学习" class="headerlink" title="局部几何特征学习"></a>局部几何特征学习</h2><p>用自监督的方法从RGBD三维重建数据集中学习局部特征描述子</p>
+<h2 id="三维数据表示"><a href="#三维数据表示" class="headerlink" title="三维数据表示"></a>三维数据表示</h2><h2 id="训练数据集"><a href="#训练数据集" class="headerlink" title="训练数据集"></a>训练数据集</h2><img src="/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/01_3dmatch核心思想.jpg" title="3dmatch核心思想">
+<h1 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><h2 id="官方"><a href="#官方" class="headerlink" title="官方"></a>官方</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://arxiv.org/abs/1603.08182" target="_blank" rel="noopener">原始论文：3DMatch</a></td>
+<td style="text-align:center">《3DMatch: Learning Local Geometric Descriptors from RGB-D Reconstructions》</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/andyzeng/3dmatch-toolbox" target="_blank" rel="noopener">代码：3dmatch-toolbox</a></td>
+<td style="text-align:center">基于Marvin（CUDA7.5、cuDNN5.1）、Matlab 2016a、OpenCV2.4.11、Ubuntu14</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://3dmatch.cs.princeton.edu/" target="_blank" rel="noopener">主页</a></td>
+<td style="text-align:center">有数据集下载链接</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://www.youtube.com/watch?v=qNVZl7bCjsU&amp;t=442s" target="_blank" rel="noopener">CVPR2017口头报告视频</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://www.youtube.com/watch?v=gZrsJJtDvvA" target="_blank" rel="noopener">4分钟介绍视频</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/andyzeng/tsdf-fusion-python" target="_blank" rel="noopener">代码：tsdf-fusion-python</a></td>
+<td style="text-align:center">基于pycuda的tsdf实现</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="博客"><a href="#博客" class="headerlink" title="博客"></a>博客</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="http://marvin.is/" target="_blank" rel="noopener">Marvin官网</a></td>
+<td style="text-align:center">普林斯顿大学维护的深度学习框架。C++，仅依赖CUDA 7.5和cuDNN 5.1</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://kns.cnki.net/kcms/detail/Detail.aspx?dbname=CJFDTEMP&amp;filename=XDJS201808016&amp;v=" target="_blank" rel="noopener">论文《一种改进的点云局部几何特征匹配方法_史魁洋》</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/xckkcxxck/article/details/84671024" target="_blank" rel="noopener">使用深度学习进行点云匹配（一）</a></td>
+<td style="text-align:center">第1个示例（Demo: Align Two Point Clouds with 3DMatch）</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/xckkcxxck/article/details/84784003" target="_blank" rel="noopener">使用深度学习进行点云匹配（二）</a></td>
+<td style="text-align:center">第2个示例（Converting 3D Data to TDF Voxel Grids）</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/xckkcxxck/article/details/84936177" target="_blank" rel="noopener">使用深度学习进行点云匹配（三）</a></td>
+<td style="text-align:center">第3个示例（Training 3DMatch from RGB-D Reconstructions）</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/xckkcxxck/article/details/85165276" target="_blank" rel="noopener">使用深度学习进行点云匹配（四）</a></td>
+<td style="text-align:center">更换数据跑第1个示例（Demo: Align Two Point Clouds with 3DMatch）</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/xckkcxxck/article/details/85689916" target="_blank" rel="noopener">使用深度学习进行点云匹配（五）</a></td>
+<td style="text-align:center">TDF的具体含义、如何训练3DMatch描述子</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/xckkcxxck/article/details/88744411" target="_blank" rel="noopener">利用深度学习进行点云匹配（六）</a></td>
+<td style="text-align:center">孪生网络，第3个示例（Training 3DMatch from RGB-D Reconstructions）</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://www.cnblogs.com/21207-iHome/p/6084670.html" target="_blank" rel="noopener">KNN算法与Kd树</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/mjie_liang/article/details/21403937" target="_blank" rel="noopener">刚体变换</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://www.cnblogs.com/weizc/p/5257496.html" target="_blank" rel="noopener">RANSAC算法详解</a> </td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://www.jianshu.com/p/023e5006499d" target="_blank" rel="noopener">回环检测</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://zhuanlan.zhihu.com/p/42112101" target="_blank" rel="noopener">三维重建中的表面模型构建—TSDF算法</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><em>下面是其他的链接</em></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/Ewenwan/MVision" target="_blank" rel="noopener">机器人视觉 移动机器人 VS-SLAM ORB-SLAM2 深度学习目标检测 yolov3 行为检测 opencv PCL 机器学习 无人驾驶</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://zhuanlan.zhihu.com/p/50951557" target="_blank" rel="noopener">一文教你读懂3D目标检测</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="http://www.open3d.org/docs/" target="_blank" rel="noopener">open3d文档</a></td>
+<td style="text-align:center">包含点云处理、KD树</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>从CUDA 7.5版开始，完全支持gcc 4.8，在Ubuntu 14.04和Fedora 21上支持4.9。<br>（实际装的Ubuntu14.04.5的gcc版本是4.8.4）<br><a href="https://www.cnblogs.com/tiandsp/p/9441494.html" target="_blank" rel="noopener">cuda和gcc版本不兼容</a></p>
+<p><a href="https://blog.csdn.net/xunan003/article/details/79939282" target="_blank" rel="noopener">ubuntu14.04降级gcc/g++至4.9版本</a></p>
+<p>gcc、g++降级的命令：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install -y gcc-4.8</span><br><span class="line">sudo apt-get install -y g++-4.8</span><br><span class="line"></span><br><span class="line">cd /usr/bin</span><br><span class="line">sudo rm gcc</span><br><span class="line">sudo ln -s gcc-4.8 gcc</span><br><span class="line">sudo rm g++</span><br><span class="line">sudo ln -s g++-4.8 g++</span><br></pre></td></tr></table></figure></p>
+<p>compile.sh的作用：<br>把”demo.cu”编译成”demo”</p>
+<p>自己跑数据<br>拷贝数据 3DAlignLego1_1.ply、3DAlignLego1_2.ply 到 /home/imv/Downloads/3dmatch-toolbox-master/data/mytest 下</p>
+<p>命令：<br>cd /home/imv/Downloads/3dmatch-toolbox-master/core</p>
+<h1 id="生成关键点和描述子"><a href="#生成关键点和描述子" class="headerlink" title="生成关键点和描述子"></a>生成关键点和描述子</h1><p>./demo ../data/mytest/3DAlignLego1_1.ply 3DAlignLego1_1<br>./demo ../data/mytest/3DAlignLego1_2.ply 3DAlignLego1_2</p>
+<p>./demo ../data/mytest/3DAlignLego1_1_ZoomUp_100_bin.ply 3DAlignLego1_1<br>./demo ../data/mytest/3DAlignLego1_2_ZoomUp_100_bin.ply 3DAlignLego1_2</p>
+<p>运行”./demo ../data/sample/3dmatch-demo/single-depth-1.ply fragment-1”报错：</p>
+<p>Loaded point cloud with 252179 points!<br>Size of TDF voxel grid: 370 x 253 x 324<br>Computing TDF voxel grid…<br>modprobe: ERROR: ../libkmod/libkmod.c:556 kmod_search_moddep() could not open moddep file ‘/lib/modules/4.4.0-146-generic/modules.dep.bin’<br>modprobe: ERROR: ../libkmod/libkmod.c:556 kmod_search_moddep() could not open moddep file ‘/lib/modules/4.4.0-146-generic/modules.dep.bin’<br>modprobe: ERROR: ../libkmod/libkmod-module.c:809 kmod_module_insert_module() could not find module by name=’nvidia_384_uvm’<br>modprobe: ERROR: could not insert ‘nvidia_384_uvm’: Function not implemented<br>CUDA failure at LINE 146: cudaError code 30: This indicates that an unknown internal error has occurred.<br>FatalError. Program Terminated.</p>
+<p>原因貌似是内核版本不对，”/lib/modules”下只有”4.2.0-27-generic”，而非”4.4.0-146-generic”</p>
+<p>查看系统版本<br>sudo lsb_release -a</p>
+<p>查看linux内核版本<br>cat /proc/version</p>
+<p>sudo apt-get install linux-image-4.4.0-146-generic</p>
+<p>win10下编译：<br><a href="https://developer.nvidia.com/cuda-75-downloads-archive" target="_blank" rel="noopener"></a><br><a href="https://developer.nvidia.com/rdp/cudnn-archive" target="_blank" rel="noopener"></a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+            <a href="/tags/读论文/" rel="tag"># 读论文</a>
+          
+            <a href="/tags/精华/" rel="tag"># 精华</a>
+          
+            <a href="/tags/点云/" rel="tag"># 点云</a>
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/19/2019-03-19-imv-deeplearning-pc/" rel="next" title="[电脑配置]Win10+Ubuntu双系统">
+                <i class="fa fa-chevron-left"></i> [电脑配置]Win10+Ubuntu双系统
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/04/01/2019-04-01-imv-pointcloud-pointnet-paper/" rel="prev" title="[点云+深度学习]PointNet论文解析">
+                [点云+深度学习]PointNet论文解析 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#运行代码"><span class="nav-number">1.</span> <span class="nav-text">运行代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Marvin框架"><span class="nav-number">1.1.</span> <span class="nav-text">配置Marvin框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Matlab-R2017b"><span class="nav-number">1.2.</span> <span class="nav-text">安装Matlab R2017b</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装OpenCV"><span class="nav-number">1.3.</span> <span class="nav-text">安装OpenCV</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#QA：3DMatch代码运行失败"><span class="nav-number">1.4.</span> <span class="nav-text">QA：3DMatch代码运行失败</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#官方代码分析"><span class="nav-number">2.</span> <span class="nav-text">官方代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-Align-Two-Point-Clouds-with-3DMatch"><span class="nav-number">2.1.</span> <span class="nav-text">Demo: Align Two Point Clouds with 3DMatch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Converting-3D-Data-to-TDF-Voxel-Grids"><span class="nav-number">2.2.</span> <span class="nav-text">Converting 3D Data to TDF Voxel Grids</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Training-3DMatch-from-RGB-D-Reconstructions"><span class="nav-number">2.3.</span> <span class="nav-text">Training 3DMatch from RGB-D Reconstructions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multi-Frame-Depth-TSDF-Fusion"><span class="nav-number">2.4.</span> <span class="nav-text">Multi-Frame Depth TSDF Fusion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Evaluation-Code"><span class="nav-number">2.5.</span> <span class="nav-text">Evaluation Code</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Keypoint-Matching-Benchmark"><span class="nav-number">2.5.1.</span> <span class="nav-text">Keypoint Matching Benchmark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Geometric-Registration-Benchmark"><span class="nav-number">2.5.2.</span> <span class="nav-text">Geometric Registration Benchmark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-Fitting-for-6D-Object-Pose-Estimation-in-the-Amazon-Picking-Challenge"><span class="nav-number">2.5.3.</span> <span class="nav-text">Model Fitting for 6D Object Pose Estimation in the Amazon Picking Challenge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mesh-Correspondence-in-Shape2Pose"><span class="nav-number">2.5.4.</span> <span class="nav-text">Mesh Correspondence in Shape2Pose</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#核心思想"><span class="nav-number">3.</span> <span class="nav-text">核心思想</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#局部几何特征学习"><span class="nav-number">3.1.</span> <span class="nav-text">局部几何特征学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三维数据表示"><span class="nav-number">3.2.</span> <span class="nav-text">三维数据表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练数据集"><span class="nav-number">3.3.</span> <span class="nav-text">训练数据集</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#细节"><span class="nav-number">4.</span> <span class="nav-text">细节</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#官方"><span class="nav-number">5.1.</span> <span class="nav-text">官方</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#博客"><span class="nav-number">5.2.</span> <span class="nav-text">博客</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生成关键点和描述子"><span class="nav-number">6.</span> <span class="nav-text">生成关键点和描述子</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

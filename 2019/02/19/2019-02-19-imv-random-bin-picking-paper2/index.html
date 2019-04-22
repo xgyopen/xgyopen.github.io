@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机视觉,读论文,精华,随机箱体抓取," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="精读几篇关于随机箱体抓取的论文，此文为笔记。">
+<meta name="keywords" content="计算机视觉,读论文,精华,随机箱体抓取">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]读无序抓取论文2">
+<meta property="og:url" content="http://yoursite.com/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="精读几篇关于随机箱体抓取的论文，此文为笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_01基于Kinect深度图的拾取系统.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_02TrueView系统.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_03埃夫特缸盖抓取系统.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_04总体方案设计图.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_05系统硬件结构图.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_06结构光投射在物体上的效果图.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_07气动夹爪.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_08系统软件架构图.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_09系统通信图.png">
+<meta property="og:image" content="http://yoursite.com/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_10相机相交光轴摆放的双目模型.png">
+<meta property="og:updated_time" content="2019-02-25T02:17:27.264Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]读无序抓取论文2">
+<meta name="twitter:description" content="精读几篇关于随机箱体抓取的论文，此文为笔记。">
+<meta name="twitter:image" content="http://yoursite.com/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_01基于Kinect深度图的拾取系统.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/"/>
+
+
+
+
+
+  <title>[机器视觉]读无序抓取论文2 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]读无序抓取论文2</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-19T16:16:16+08:00">
+                2019-02-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  精读几篇关于随机箱体抓取的论文，此文为笔记。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="硕士-基于双目视觉的散乱堆放工件拾取系统"><a href="#硕士-基于双目视觉的散乱堆放工件拾取系统" class="headerlink" title="硕士_基于双目视觉的散乱堆放工件拾取系统"></a>硕士_基于双目视觉的散乱堆放工件拾取系统</h1><p>本文主要研究的问题是如何在<strong>散乱堆放的工件</strong>堆中用机器视觉<strong>识别</strong>分类工件，驱动工业机器人到达正确的位姿<strong>抓取</strong>将工件并摆放到相应的加工位置</p>
+<img src="/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_01基于Kinect深度图的拾取系统.png" title="基于Kinect深度图的拾取系统">
+<img src="/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_02TrueView系统.png" title="True View系统">
+<img src="/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_03埃夫特缸盖抓取系统.png" title="埃夫特缸盖抓取系统">
+<h2 id="研究进展"><a href="#研究进展" class="headerlink" title="研究进展"></a>研究进展</h2><h3 id="RBP研究进展"><a href="#RBP研究进展" class="headerlink" title="RBP研究进展"></a>RBP研究进展</h3><p>工业界（参考文献[14]、[16]、[22]）：</p>
+<p>机器人四大家族ABB、KUKA、安川、发那科对于机器人视觉拾取的研究和应用处于前沿位置</p>
+<p>学术界（参考文献[10]~[13]、[17]~[21]）：</p>
+<h2 id="系统设计"><a href="#系统设计" class="headerlink" title="系统设计"></a>系统设计</h2><h3 id="总体方案设计"><a href="#总体方案设计" class="headerlink" title="总体方案设计"></a>总体方案设计</h3><p>双目视觉提供了计算两幅图像同名像素点对应的空间点的<strong>三维坐标</strong>的方法，可以在三维的层面上完成工件的识别和定位，最后控制机器人对工件进行准确的抓取。</p>
+<p>针对<strong>工件堆叠</strong>的情况，使用<strong>双目视觉</strong>方法对工件进行抓取。<br>总体方案分为四个部分：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">四层</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">硬件层</td>
+<td style="text-align:left">相机、机器人、视觉系统、投影仪等</td>
+</tr>
+<tr>
+<td style="text-align:center">底层软件依赖库</td>
+<td style="text-align:left">系统开发时使用的库：<strong>OpenCV</strong>、<strong>PCL</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">中间功能模块</td>
+<td style="text-align:left">图像处理模块、点云处理模块、标定模块、机器人通信模块</td>
+</tr>
+<tr>
+<td style="text-align:center">上层功能模块</td>
+<td style="text-align:left">系统主要的功能是重建点云，并识别工件，驱动机器人抓取工件</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_04总体方案设计图.png" title="总体方案设计图">
+<h3 id="系统硬件设计"><a href="#系统硬件设计" class="headerlink" title="系统硬件设计"></a>系统硬件设计</h3><img src="/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_05系统硬件结构图.png" title="系统硬件结构图">
+<ul>
+<li>UR3机器人</li>
+<li>双目相机</li>
+<li>投影仪</li>
+<li>计算机</li>
+<li>气动夹具</li>
+<li>空压机</li>
+</ul>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">硬件</th>
+<th style="text-align:left">型号</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">工业机器人</td>
+<td style="text-align:left">UR3</td>
+</tr>
+<tr>
+<td style="text-align:center">工业相机</td>
+<td style="text-align:left">德国映美精的DKF23UM021工业相机（C MOS感光芯片为1/3’’寸）</td>
+</tr>
+<tr>
+<td style="text-align:center">镜头</td>
+<td style="text-align:left">变焦镜头，参数为C接口，焦距为6-12mm，1/2’’寸的成像圈</td>
+</tr>
+<tr>
+<td style="text-align:center">光源</td>
+<td style="text-align:left"><strong>结构光</strong><br>轰天炮的的DLP-800w高清迷你液晶<strong>投影仪</strong>，分辨率为1280×800dpi，亮度为4000~6000流明，投放距离为0.5~2.9m，投放画面为30~300寸</td>
+</tr>
+<tr>
+<td style="text-align:center">夹具</td>
+<td style="text-align:left">SMC的MHZ2-20两爪<strong>气动夹具</strong>，孔径为20mm，夹持力为66N，手爪打开时距离为34.3mm，手爪闭合时距离为20mm（工件抓取位置大小为24mm）</td>
+</tr>
+<tr>
+<td style="text-align:center">计算机</td>
+<td style="text-align:left">台式电脑，8G内存，i7处理器，硬盘500G</td>
+</tr>
+<tr>
+<td style="text-align:center">实验架</td>
+<td style="text-align:left">实验架固定于UR3机器人的工作台上，限制了机器人与视觉系统之间位置</td>
+</tr>
+<tr>
+<td style="text-align:center">工件箱</td>
+<td style="text-align:left">故<strong>用磨砂纸对工件盒箱内部进行打磨</strong>，使得底板产生漫反射效果，防止工件盒内部反光</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_06结构光投射在物体上的效果图.png" title="结构光投射在物体上的效果图">
+<p>PS：双目测量测量系统对光栅<strong>投影仪</strong>的要求：<strong>亮度均匀、光线投射准确、条纹的对比度高</strong></p>
+<img src="/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_07气动夹爪.png" title="气动夹爪">
+<h3 id="系统软件设计"><a href="#系统软件设计" class="headerlink" title="系统软件设计"></a>系统软件设计</h3><p>VS2010、C++、面向对象的模块化设计</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">五块</th>
+<th style="text-align:left">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">标定模块</td>
+<td style="text-align:left">①<strong>相机标定</strong>：单个相机的内外参数、镜头畸变参数的标定<br>②<strong>立体标定</strong>：两个摄像头之间的旋转平移关系的标定<br>③<strong>手眼标定</strong>：相机与机器人基坐标系之间位置关系的标定</td>
+</tr>
+<tr>
+<td style="text-align:center">图像处理模块</td>
+<td style="text-align:left">获取图像<br>对获取的图像进行滤波、分割等操作<br>分离背景与工件图像，分割投影在工件表面的投影光栅，并匹配相同编码区域<br>控制投影仪与相机的时序，三维重建点云</td>
+</tr>
+<tr>
+<td style="text-align:center">点云处理模块</td>
+<td style="text-align:left"><strong>整个系统的核必模块</strong><br>提取三维的点云关键点，并通过描述算子描述关键<br>建立模板库，通过匹配模板点云的关键点与现实场景中工件点云关键点，估算模板工件与现实工件旋转平移关系，最后通过坐标转换得到机器人抓取位姿</td>
+</tr>
+<tr>
+<td style="text-align:center">通信模块</td>
+<td style="text-align:left">把点云处理模块计算得到的工件的真实位姿作为输入，通过坐标变换，计算得出机器人末端夹具的最终的拾取位姿，并通过TCP通信向机器人发送规划的离散轨迹点，驱动机器人到达相应位姿，最后通过Modbus通信控制气动夹具的闭合抓取工件</td>
+</tr>
+<tr>
+<td style="text-align:center">显示模块</td>
+<td style="text-align:left">双目采集图像的实时显示<br>点云处理模块的显示</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_08系统软件架构图.png" title="系统软件架构图">
+<h3 id="UR3六轴工业机器人的集成"><a href="#UR3六轴工业机器人的集成" class="headerlink" title="UR3六轴工业机器人的集成"></a>UR3六轴工业机器人的集成</h3><p>与UR3通信，控制两个方面：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">控制的方面</th>
+<th style="text-align:center">协议</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">机器人末端夹爪的<strong>位置</strong></td>
+<td style="text-align:center">TCP/IP</td>
+<td style="text-align:center">机器人作为服务器，PC作为客户端</td>
+</tr>
+<tr>
+<td style="text-align:center">用<strong>IO口</strong>控制气动夹具的开闭</td>
+<td style="text-align:center">Modbus</td>
+<td style="text-align:center">机器人作为服务器，PC作为客户端<br>使用libmodbus库实现与机器人的通讯，通过寄存器访问IO口</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_09系统通信图.png" title="系统通信图">
+<h2 id="基于双目视觉的工件点云重建"><a href="#基于双目视觉的工件点云重建" class="headerlink" title="基于双目视觉的工件点云重建"></a>基于双目视觉的工件点云重建</h2><h3 id="双目点云重建原理、相机的摆放"><a href="#双目点云重建原理、相机的摆放" class="headerlink" title="双目点云重建原理、相机的摆放"></a>双目点云重建原理、相机的摆放</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">相机摆放方式</th>
+<th style="text-align:center">优点</th>
+<th style="text-align:center">缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">平行光轴的窄基线方式</td>
+<td style="text-align:center">两幅图像的视场有较大面积的重叠部分，几何变形小，容易匹配</td>
+<td style="text-align:center">精度低</td>
+</tr>
+<tr>
+<td style="text-align:center">相交光轴的宽基线方式</td>
+<td style="text-align:center">与上相反</td>
+<td style="text-align:center">与上相反</td>
+</tr>
+</tbody>
+</table>
+</div>
+<img src="/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/c_10相机相交光轴摆放的双目模型.png" title="相机相交光轴摆放的双目模型">
+<p>本文的重建需要<strong>视场较大面积的重叠</strong>和<strong>较高的精度</strong>，故本文采用<strong>小角度相交的非平行光轴的方式</strong>摆放相机。<br>两个相机摆放位置参数：两相机<strong>光轴夹角20°</strong>，<strong>基线距离为200mm</strong><br>（<strong>文献[25]中有误差模型</strong>）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[35] 吴彰良, 胡鹏浩, 卢荣胜, 宫能刚. 一种双目视觉传感器结构参数设计方法[J]. 传感器技术,2005,03:35-37</span><br><span class="line">[31] Roger Y. Tsai. A versatile camera calibration technique for high-accuracy 3d machine vision metrology using off-the-shelf TV cameras and lenses[J]. IEEE journal of Robotics and Automation, 1987 3 (4), 323-343.</span><br><span class="line">[32] Zhang Z. A flexible new technique for camera calibration[J]. Pattern Analysis and Machine Intelligence,IEEE Transactions on,2000, 22(11): 1330-1334</span><br></pre></td></tr></table></figure></p>
+<h3 id="双目视觉立体标定"><a href="#双目视觉立体标定" class="headerlink" title="双目视觉立体标定"></a>双目视觉立体标定</h3><p>单目相机模型：针孔模型（线性模型）</p>
+<p>系统左右相机的单目标定（非线性模型）</p>
+<ul>
+<li><strong>Tsai两步法</strong>（前提是相机只有径向畸变） —— 文献[31]</li>
+<li><strong>张氏标定法</strong> —— 文献[32]</li>
+</ul>
+<p>系统双目立体标定</p>
+<p>☆<strong>相机与机器人坐标系的标定</strong></p>
+<h3 id="图像预处理"><a href="#图像预处理" class="headerlink" title="图像预处理"></a>图像预处理</h3><h3 id="基于物理编码结构光的匹配方法"><a href="#基于物理编码结构光的匹配方法" class="headerlink" title="基于物理编码结构光的匹配方法"></a>基于物理编码结构光的匹配方法</h3><h3 id="三维坐标计算"><a href="#三维坐标计算" class="headerlink" title="三维坐标计算"></a>三维坐标计算</h3><h2 id="工件识别和定位"><a href="#工件识别和定位" class="headerlink" title="工件识别和定位"></a>工件识别和定位</h2><h3 id="法向量的估计和曲率的计算"><a href="#法向量的估计和曲率的计算" class="headerlink" title="法向量的估计和曲率的计算"></a>法向量的估计和曲率的计算</h3><h3 id="基于区域生长法对工件堆点云的分割"><a href="#基于区域生长法对工件堆点云的分割" class="headerlink" title="基于区域生长法对工件堆点云的分割"></a>基于区域生长法对工件堆点云的分割</h3><h3 id="基于ISS算法的工件关键点提取"><a href="#基于ISS算法的工件关键点提取" class="headerlink" title="基于ISS算法的工件关键点提取"></a>基于ISS算法的工件关键点提取</h3><h3 id="基于SHOT算法的关键点特征描述"><a href="#基于SHOT算法的关键点特征描述" class="headerlink" title="基于SHOT算法的关键点特征描述"></a>基于SHOT算法的关键点特征描述</h3><h3 id="工件位姿估计算法"><a href="#工件位姿估计算法" class="headerlink" title="工件位姿估计算法"></a>工件位姿估计算法</h3><h2 id="机器人抓取方案设计与使用分析"><a href="#机器人抓取方案设计与使用分析" class="headerlink" title="机器人抓取方案设计与使用分析"></a>机器人抓取方案设计与使用分析</h2><h3 id="机器人抓取方案设计"><a href="#机器人抓取方案设计" class="headerlink" title="机器人抓取方案设计"></a>机器人抓取方案设计</h3><h3 id="实验设计"><a href="#实验设计" class="headerlink" title="实验设计"></a>实验设计</h3><h3 id="实验结果及分析"><a href="#实验结果及分析" class="headerlink" title="实验结果及分析"></a>实验结果及分析</h3><h2 id="结论和展望"><a href="#结论和展望" class="headerlink" title="结论和展望"></a>结论和展望</h2><h1 id="硕士-基于点云配准的3D物体检测与定位"><a href="#硕士-基于点云配准的3D物体检测与定位" class="headerlink" title="硕士_基于点云配准的3D物体检测与定位"></a>硕士_基于点云配准的3D物体检测与定位</h1><p>识别的思路</p>
+<h1 id="硕士-基于深度相机的场景物体定位与抓取研究"><a href="#硕士-基于深度相机的场景物体定位与抓取研究" class="headerlink" title="硕士_基于深度相机的场景物体定位与抓取研究"></a>硕士_基于深度相机的场景物体定位与抓取研究</h1><h1 id="硕士-基于双目视觉的散乱堆放工件拾取系统-1"><a href="#硕士-基于双目视觉的散乱堆放工件拾取系统-1" class="headerlink" title="硕士_基于双目视觉的散乱堆放工件拾取系统"></a>硕士_基于双目视觉的散乱堆放工件拾取系统</h1>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+            <a href="/tags/读论文/" rel="tag"># 读论文</a>
+          
+            <a href="/tags/精华/" rel="tag"># 精华</a>
+          
+            <a href="/tags/随机箱体抓取/" rel="tag"># 随机箱体抓取</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/30/2019-01-30-imv-pycv-book/" rel="next" title="[机器视觉]Python计算机视觉学习笔记">
+                <i class="fa fa-chevron-left"></i> [机器视觉]Python计算机视觉学习笔记
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/26/2019-02-26-imv-binocular-vision-benchmark/" rel="prev" title="[机器视觉]双目视觉实验结果对比">
+                [机器视觉]双目视觉实验结果对比 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#硕士-基于双目视觉的散乱堆放工件拾取系统"><span class="nav-number">1.</span> <span class="nav-text">硕士_基于双目视觉的散乱堆放工件拾取系统</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#研究进展"><span class="nav-number">1.1.</span> <span class="nav-text">研究进展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RBP研究进展"><span class="nav-number">1.1.1.</span> <span class="nav-text">RBP研究进展</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统设计"><span class="nav-number">1.2.</span> <span class="nav-text">系统设计</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#总体方案设计"><span class="nav-number">1.2.1.</span> <span class="nav-text">总体方案设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统硬件设计"><span class="nav-number">1.2.2.</span> <span class="nav-text">系统硬件设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统软件设计"><span class="nav-number">1.2.3.</span> <span class="nav-text">系统软件设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#UR3六轴工业机器人的集成"><span class="nav-number">1.2.4.</span> <span class="nav-text">UR3六轴工业机器人的集成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于双目视觉的工件点云重建"><span class="nav-number">1.3.</span> <span class="nav-text">基于双目视觉的工件点云重建</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#双目点云重建原理、相机的摆放"><span class="nav-number">1.3.1.</span> <span class="nav-text">双目点云重建原理、相机的摆放</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双目视觉立体标定"><span class="nav-number">1.3.2.</span> <span class="nav-text">双目视觉立体标定</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图像预处理"><span class="nav-number">1.3.3.</span> <span class="nav-text">图像预处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于物理编码结构光的匹配方法"><span class="nav-number">1.3.4.</span> <span class="nav-text">基于物理编码结构光的匹配方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#三维坐标计算"><span class="nav-number">1.3.5.</span> <span class="nav-text">三维坐标计算</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工件识别和定位"><span class="nav-number">1.4.</span> <span class="nav-text">工件识别和定位</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#法向量的估计和曲率的计算"><span class="nav-number">1.4.1.</span> <span class="nav-text">法向量的估计和曲率的计算</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于区域生长法对工件堆点云的分割"><span class="nav-number">1.4.2.</span> <span class="nav-text">基于区域生长法对工件堆点云的分割</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于ISS算法的工件关键点提取"><span class="nav-number">1.4.3.</span> <span class="nav-text">基于ISS算法的工件关键点提取</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#基于SHOT算法的关键点特征描述"><span class="nav-number">1.4.4.</span> <span class="nav-text">基于SHOT算法的关键点特征描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工件位姿估计算法"><span class="nav-number">1.4.5.</span> <span class="nav-text">工件位姿估计算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#机器人抓取方案设计与使用分析"><span class="nav-number">1.5.</span> <span class="nav-text">机器人抓取方案设计与使用分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#机器人抓取方案设计"><span class="nav-number">1.5.1.</span> <span class="nav-text">机器人抓取方案设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验设计"><span class="nav-number">1.5.2.</span> <span class="nav-text">实验设计</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验结果及分析"><span class="nav-number">1.5.3.</span> <span class="nav-text">实验结果及分析</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结论和展望"><span class="nav-number">1.6.</span> <span class="nav-text">结论和展望</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硕士-基于点云配准的3D物体检测与定位"><span class="nav-number">2.</span> <span class="nav-text">硕士_基于点云配准的3D物体检测与定位</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硕士-基于深度相机的场景物体定位与抓取研究"><span class="nav-number">3.</span> <span class="nav-text">硕士_基于深度相机的场景物体定位与抓取研究</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#硕士-基于双目视觉的散乱堆放工件拾取系统-1"><span class="nav-number">4.</span> <span class="nav-text">硕士_基于双目视觉的散乱堆放工件拾取系统</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

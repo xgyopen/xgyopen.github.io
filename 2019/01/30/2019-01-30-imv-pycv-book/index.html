@@ -1,0 +1,951 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机视觉," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="《Python计算机视觉编程》的学习笔记。">
+<meta name="keywords" content="计算机视觉">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机器视觉]Python计算机视觉学习笔记">
+<meta property="og:url" content="http://yoursite.com/2019/01/30/2019-01-30-imv-pycv-book/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="《Python计算机视觉编程》的学习笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-02-08T04:12:38.247Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机器视觉]Python计算机视觉学习笔记">
+<meta name="twitter:description" content="《Python计算机视觉编程》的学习笔记。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/01/30/2019-01-30-imv-pycv-book/"/>
+
+
+
+
+
+  <title>[机器视觉]Python计算机视觉学习笔记 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/01/30/2019-01-30-imv-pycv-book/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机器视觉]Python计算机视觉学习笔记</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-30T14:14:14+08:00">
+                2019-01-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  《Python计算机视觉编程》的学习笔记。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="本书概要"><a href="#本书概要" class="headerlink" title="本书概要"></a>本书概要</h1><p>《Python计算机视觉编程》的出版日期 2014.7<br>py2.6</p>
+<h2 id="实例索引"><a href="#实例索引" class="headerlink" title="实例索引"></a>实例索引</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">主题</th>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">输入/输出</td>
+<td style="text-align:center">从PCD文件中读取点云数据</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> PIL <span class="keyword">import</span> Image</span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line"></span><br><span class="line">infile = <span class="string">'img.jpg'</span></span><br><span class="line">outfile = os.path.splitext(infile)[<span class="number">0</span>] + <span class="string">".png"</span> <span class="comment"># 分离文件名与扩展名</span></span><br><span class="line"><span class="keyword">try</span>:</span><br><span class="line">    pil_im = Image.open(infile) <span class="comment"># 打开图像</span></span><br><span class="line">    pil_im = pil_im.convert(<span class="string">'L'</span>) <span class="comment"># 转换为灰度图像</span></span><br><span class="line">    pil_im.save(outfile) <span class="comment"># 保存图像</span></span><br><span class="line"><span class="keyword">except</span> IOError:</span><br><span class="line">    print(<span class="string">"cannot convert"</span>, infile)</span><br></pre></td></tr></table></figure>
+<h1 id="CH3-图像到图像的映射"><a href="#CH3-图像到图像的映射" class="headerlink" title="CH3 图像到图像的映射"></a>CH3 图像到图像的映射</h1><ol>
+<li>设计用于估计单应性矩阵的算法</li>
+<li>使用仿射变换进行图像扭曲</li>
+<li>使用相似变换进行图像配准</li>
+<li>使用完全投影变换进行创建全景图像</li>
+</ol>
+<h2 id="单应性变换"><a href="#单应性变换" class="headerlink" title="单应性变换"></a>单应性变换</h2><h3 id="单应性"><a href="#单应性" class="headerlink" title="单应性"></a>单应性</h3><p><strong>单应性变换</strong>：将一个平面内的点，映射到另一个平面内的二维投影变换<br>（平面，指图像或者三维中的平面表面）<br>单应性变换常用于：图像配准、图像纠正、纹理扭曲、创建全景图像</p>
+<p>本质上，单应性变换<script type="math/tex">H</script>，按照下面的方程映射二维中的点（齐次坐标意义下）：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+    x' \\
+    y' \\
+    w' \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    h_1 & h_2 & h_3 \\
+    h_4 & h_5 & h_6 \\
+    h_7 & h_8 & h_9 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x \\
+    y \\
+    w \\
+\end{bmatrix}
+\\
+或
+\\
+X'=HX</script><p>对于二维点、三维点，<strong>齐次坐标</strong>是非常有用的表示方式<br>点的齐次坐标是依赖于其尺度定义的，故<script type="math/tex">x=[x,y,w]=[ax,ay,aw]=[x/w,y/w,1]</script>都表示同一个二维点<br>因此，<strong>单应性矩阵</strong><script type="math/tex">H</script>也仅依赖尺度定义，<strong>具有8个独立的自由度</strong><br>通常使用<script type="math/tex">w=1</script>来归一化点，故点具有唯一的图像坐标x和y，额外的坐标使得可以简单地<strong>使用一个矩阵来表示变换</strong></p>
+<p>存储点：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">行/列存储</th>
+<th style="text-align:center">操作</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">列优先</td>
+<td style="text-align:center"><strong>点的变换</strong></td>
+<td style="text-align:center">n个二维点集存储为齐次坐标意义下的一个3*n数组，便于矩阵乘法</td>
+</tr>
+<tr>
+<td style="text-align:center">行优先</td>
+<td style="text-align:center">聚类、分类</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h3 id="变换"><a href="#变换" class="headerlink" title="变换"></a>变换</h3><p>投影变换中的重要变换：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变换</th>
+<th style="text-align:center">操作</th>
+<th style="text-align:center">应用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">仿射变换</td>
+<td style="text-align:center"><script type="math/tex">w=1</script>，不具有投影变换所具有的强大变形能力<br>包含可逆矩阵<script type="math/tex">A</script>和平移向量<script type="math/tex">t=[t_x,t_y]</script></td>
+<td style="text-align:center">图像扭曲</td>
+</tr>
+<tr>
+<td style="text-align:center">相似变换</td>
+<td style="text-align:center">包含尺度变化的二维<strong>刚体变换</strong>，<script type="math/tex">s</script>指定了变换的尺度，<script type="math/tex">R</script>是角度为θ的旋转矩阵，<script type="math/tex">t</script>是平移向量<br><script type="math/tex">s=1</script>时变换能保持距离不变，为<strong>刚体变换</strong></td>
+<td style="text-align:center">图像配准</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>仿射变换：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+    x' \\
+    y' \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    a_1 & a_2 & t_x \\
+    a_3 & a_4 & t_y \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x \\
+    y \\
+    1 \\
+\end{bmatrix}
+\\
+或
+\\
+X'=
+\begin{bmatrix}
+    A & t \\
+    0 & 1 \\
+\end{bmatrix}
+X</script><p>相似变换：</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+    x' \\
+    y' \\
+    1 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+    s\ cos(θ) & -s\ sin(θ) & t_x \\
+    s\ sin(θ) & s\ cos(θ) & t_y \\
+    0 & 0 & 1 \\
+\end{bmatrix}
+\begin{bmatrix}
+    x \\
+    y \\
+    1 \\
+\end{bmatrix}
+\\
+或
+\\
+X'=
+\begin{bmatrix}
+    s\ R & t \\
+    0 & 1 \\
+\end{bmatrix}
+X</script><h3 id="直接线性变换算法"><a href="#直接线性变换算法" class="headerlink" title="直接线性变换算法"></a>直接线性变换算法</h3><h4 id="DLT公式"><a href="#DLT公式" class="headerlink" title="DLT公式"></a>DLT公式</h4><p>单应性矩阵可由两幅图像（或者平面）中<strong>对应点对</strong>计算出来<br>一个完全投影变换具有8个自由度。根据对应点约束，每个对应点对可以写出两个方程，分别对应于x和y坐标。故<strong>计算单应性矩阵<script type="math/tex">H</script>需要4个对应点对</strong>。</p>
+<p>DLT（Direct Linear Transformation，直接线性变换）是给定4个或者更多对应点对矩阵，来计算单应性矩阵<script type="math/tex">H</script>的算法。</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+    -x_1 & -y_1 & -1 & 0 & 0 & 0 & x_1x'_1 & y_1x'_1 & x'_1 \\
+    0 & 0 & 0 & -x_1 & -y_1 & -1 & x_1y'_1 & y_1y'_1 & y'_1 \\
+    -x_2 & -y_2 & -1 & 0 & 0 & 0 & x_2x'_2 & y_2x'_2 & x'_2 \\
+    0 & 0 & 0 & -x_2 & -y_2 & -1 & x_2y'_2 & y_2y'_2 & y'_2 \\
+    \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots & \vdots \\
+\end{bmatrix}
+\begin{bmatrix}
+    h_1 \\
+    h_2 \\ 
+    h_3 \\
+    h_4 \\
+    h_5 \\
+    h_6 \\
+    h_7 \\
+    h_8 \\
+    h_9 \\
+\end{bmatrix}
+=
+0
+\\
+或
+\\
+Ah=0</script><p>A是具有对应点对二倍数量行数的矩阵<br>可使用<strong>SVD</strong>（Singular Value Decomposition，奇异值分解）找到H的<strong>最小二乘解</strong></p>
+<p>注意：<br>预处理和去处理：<strong>对这些点进行归一化操作，使其均值为0，方差为1</strong><br>因为算法的稳定性取决于坐标的表示情况和部分数值计算的问题，所以归一化操作非常重要</p>
+<h4 id="DLT公式推导"><a href="#DLT公式推导" class="headerlink" title="DLT公式推导"></a><a href="https://blog.csdn.net/czl389/article/details/71524752" target="_blank" rel="noopener">DLT公式推导</a></h4><p>点集<script type="math/tex">X'</script>、<script type="math/tex">X</script>，单应性矩阵<script type="math/tex">H</script>（8个自由度）</p>
+<script type="math/tex; mode=display">
+\begin{bmatrix}
+    u \\
+    v \\
+    1 \\
+\end{bmatrix}
+=
+H
+\begin{bmatrix}
+    x \\
+    y \\
+    1 \\
+\end{bmatrix}</script><script type="math/tex; mode=display">
+H
+=
+\begin{bmatrix}
+    h_1 & h_2 & h_3 \\
+    h_4 & h_5 & h_6 \\
+    h_7 & h_8 & h_9 \\
+\end{bmatrix}</script><p>将上式展开，前2行分别被第3行相除：</p>
+<script type="math/tex; mode=display">
+-h_1 x - h_2 y - h3 + (h_7 x + h_8 y + h_9)u = 0
+\\
+-h_4 x - h_5 y - h6 + (h_7 x + h_8 y + h_9)v = 0</script><p>整理成矩阵的形式，可得：</p>
+<script type="math/tex; mode=display">A_i h = 0</script><p>其中：</p>
+<script type="math/tex; mode=display">A_i = 
+\begin{bmatrix}
+    -x & -y & -1 & 0 & 0 & 0 & ux & uy & u \\
+    0 & 0 & 0 & -x & -y & -1 & vx & vy & v \\
+\end{bmatrix}
+\\
+h = 
+\begin{bmatrix}
+    h_1 & h_2 & h_3 & h_4 & h_5 & h_6 & h_7 & h_8 & h_9
+\end{bmatrix}</script><h3 id="仿射变换"><a href="#仿射变换" class="headerlink" title="仿射变换"></a>仿射变换</h3><p>仿射变换具有6个自由度，需要<strong>3个对应点对</strong>来估计矩阵<script type="math/tex">H</script></p>
+<p>通过将最后两个元素设置为0，即<script type="math/tex">h_7=h_8=0</script>，仿射变换可以用上面的<strong>DLT算法</strong>估计得出<br>这里使用不同的方法来计算单应性矩阵<script type="math/tex">H</script>，详细描述见文献[13]</p>
+<h2 id="图像扭曲"><a href="#图像扭曲" class="headerlink" title="图像扭曲"></a>图像扭曲</h2><p>图像扭曲/仿射扭曲：对图像块应用仿射变换<br>例子：将图像或者图像的一部分放置在另一幅图像中，使得它们能够和指定的区域或者标记物对齐</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> scipy <span class="keyword">import</span> ndimage</span><br><span class="line"></span><br><span class="line">transformed_im = ndimage.affine_transform(im, A, b, size)</span><br></pre></td></tr></table></figure>
+<h3 id="图像中的图像"><a href="#图像中的图像" class="headerlink" title="图像中的图像"></a>图像中的图像</h3><h3 id="分段仿射扭曲"><a href="#分段仿射扭曲" class="headerlink" title="分段仿射扭曲"></a>分段仿射扭曲</h3><p>狄洛克三角剖分</p>
+<h3 id="图像配准"><a href="#图像配准" class="headerlink" title="图像配准"></a>图像配准</h3><p>图像配准：对图像进行变换，</p>
+<h2 id="创建全景图"><a href="#创建全景图" class="headerlink" title="创建全景图"></a>创建全景图</h2><h1 id="CH4-照相机模型与增强现实"><a href="#CH4-照相机模型与增强现实" class="headerlink" title="CH4 照相机模型与增强现实"></a>CH4 照相机模型与增强现实</h1><h2 id="针孔照相机模型"><a href="#针孔照相机模型" class="headerlink" title="针孔照相机模型"></a>针孔照相机模型</h2><h2 id="照相机标定"><a href="#照相机标定" class="headerlink" title="照相机标定"></a>照相机标定</h2><h2 id="以平面和标记物进行姿态估计"><a href="#以平面和标记物进行姿态估计" class="headerlink" title="以平面和标记物进行姿态估计"></a>以平面和标记物进行姿态估计</h2><h2 id="增强现实"><a href="#增强现实" class="headerlink" title="增强现实"></a>增强现实</h2><h1 id="CH5-多视图几何"><a href="#CH5-多视图几何" class="headerlink" title="CH5 多视图几何"></a>CH5 多视图几何</h1><h2 id="对极几何"><a href="#对极几何" class="headerlink" title="对极几何"></a>对极几何</h2><h2 id="照相机和三维结构的计算"><a href="#照相机和三维结构的计算" class="headerlink" title="照相机和三维结构的计算"></a>照相机和三维结构的计算</h2><h2 id="多视图重建"><a href="#多视图重建" class="headerlink" title="多视图重建"></a>多视图重建</h2><h2 id="立体图像"><a href="#立体图像" class="headerlink" title="立体图像"></a>立体图像</h2>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/28/2019-01-28-imv-visionpro-calibration/" rel="next" title="[机器视觉]康耐视的相机标定">
+                <i class="fa fa-chevron-left"></i> [机器视觉]康耐视的相机标定
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/02/19/2019-02-19-imv-random-bin-picking-paper2/" rel="prev" title="[机器视觉]读无序抓取论文2">
+                [机器视觉]读无序抓取论文2 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#本书概要"><span class="nav-number">1.</span> <span class="nav-text">本书概要</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实例索引"><span class="nav-number">1.1.</span> <span class="nav-text">实例索引</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CH3-图像到图像的映射"><span class="nav-number">2.</span> <span class="nav-text">CH3 图像到图像的映射</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单应性变换"><span class="nav-number">2.1.</span> <span class="nav-text">单应性变换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#单应性"><span class="nav-number">2.1.1.</span> <span class="nav-text">单应性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#变换"><span class="nav-number">2.1.2.</span> <span class="nav-text">变换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#直接线性变换算法"><span class="nav-number">2.1.3.</span> <span class="nav-text">直接线性变换算法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#DLT公式"><span class="nav-number">2.1.3.1.</span> <span class="nav-text">DLT公式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DLT公式推导"><span class="nav-number">2.1.3.2.</span> <span class="nav-text">DLT公式推导</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#仿射变换"><span class="nav-number">2.1.4.</span> <span class="nav-text">仿射变换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图像扭曲"><span class="nav-number">2.2.</span> <span class="nav-text">图像扭曲</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#图像中的图像"><span class="nav-number">2.2.1.</span> <span class="nav-text">图像中的图像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分段仿射扭曲"><span class="nav-number">2.2.2.</span> <span class="nav-text">分段仿射扭曲</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图像配准"><span class="nav-number">2.2.3.</span> <span class="nav-text">图像配准</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建全景图"><span class="nav-number">2.3.</span> <span class="nav-text">创建全景图</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CH4-照相机模型与增强现实"><span class="nav-number">3.</span> <span class="nav-text">CH4 照相机模型与增强现实</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#针孔照相机模型"><span class="nav-number">3.1.</span> <span class="nav-text">针孔照相机模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#照相机标定"><span class="nav-number">3.2.</span> <span class="nav-text">照相机标定</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#以平面和标记物进行姿态估计"><span class="nav-number">3.3.</span> <span class="nav-text">以平面和标记物进行姿态估计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#增强现实"><span class="nav-number">3.4.</span> <span class="nav-text">增强现实</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CH5-多视图几何"><span class="nav-number">4.</span> <span class="nav-text">CH5 多视图几何</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对极几何"><span class="nav-number">4.1.</span> <span class="nav-text">对极几何</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#照相机和三维结构的计算"><span class="nav-number">4.2.</span> <span class="nav-text">照相机和三维结构的计算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#多视图重建"><span class="nav-number">4.3.</span> <span class="nav-text">多视图重建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#立体图像"><span class="nav-number">4.4.</span> <span class="nav-text">立体图像</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
