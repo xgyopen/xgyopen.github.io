@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="集成," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="C#调用C++编译的DLL，包含配置OpenCV和Eigen、修改OpenCV的dll名称、不依赖于本机的OpenCV环境运行的方法。">
+<meta name="keywords" content="集成">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[语言集成]C#调用C++编译的DLL">
+<meta property="og:url" content="http://yoursite.com/2019/04/27/2019-04-27-imv-csharp-cpp-dll/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="C#调用C++编译的DLL，包含配置OpenCV和Eigen、修改OpenCV的dll名称、不依赖于本机的OpenCV环境运行的方法。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-27T08:59:05.147Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[语言集成]C#调用C++编译的DLL">
+<meta name="twitter:description" content="C#调用C++编译的DLL，包含配置OpenCV和Eigen、修改OpenCV的dll名称、不依赖于本机的OpenCV环境运行的方法。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/27/2019-04-27-imv-csharp-cpp-dll/"/>
+
+
+
+
+
+  <title>[语言集成]C#调用C++编译的DLL | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/27/2019-04-27-imv-csharp-cpp-dll/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[语言集成]C#调用C++编译的DLL</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-27T09:09:09+08:00">
+                2019-04-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  C#调用C++编译的DLL，包含配置OpenCV和Eigen、修改OpenCV的dll名称、不依赖于本机的OpenCV环境运行的方法。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h1><p>使<strong>C#</strong>在.Net4.0平台、AnyCPU（x64）下能成功调用基于OpenCV、Eigen的<strong>C++</strong>代码编译成的dll</p>
+<ul>
+<li>VisionPro8.2只支持.Net4.0平台、AnyCPU</li>
+<li>IDE：VS2012</li>
+<li>操作系统：Win7 64位</li>
+</ul>
+<h1 id="操作步骤"><a href="#操作步骤" class="headerlink" title="操作步骤"></a>操作步骤</h1><h2 id="C-部分"><a href="#C-部分" class="headerlink" title="C++部分"></a>C++部分</h2><h3 id="新建文件"><a href="#新建文件" class="headerlink" title="新建文件"></a>新建文件</h3><p><strong>新建项目 —— Visual C++ —— .Net Framework 4 —— 空项目</strong><br>项目名称与代码文件名*.h、*.cpp、*.def最好一致，此处均取”defcpp”</p>
+<ul>
+<li>头文件 —— *.h</li>
+<li>源文件 —— *.cpp、*.def</li>
+</ul>
+<p>defcpp.h<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">ifndef</span> DEFCPP_H_</span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">define</span> DEFCPP_H_</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br></pre></td></tr></table></figure></p>
+<p>defcpp.cpp<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">"defcpp.h"</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> a, <span class="keyword">int</span> b)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> a+b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main1</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="built_in">cout</span>&lt;&lt;add(<span class="number">1</span>, <span class="number">2</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>defcpp.def<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">LIBRARY defcpp</span><br><span class="line">EXPORTS</span><br><span class="line">	add</span><br></pre></td></tr></table></figure></p>
+<h3 id="导出dll"><a href="#导出dll" class="headerlink" title="导出dll"></a>导出dll</h3><p><strong>属性页 —— 配置属性 —— 常规 —— 目标文件扩展名（从.exe改为.dll）</strong><br><strong>属性页 —— 配置属性 —— 链接器 —— 输入 —— 模块定义文件（从空改为defcpp.def）</strong><br>点击”重新生成解决方案”，生成dll<br>编译完的dll在C++项目根目录下/Debug/defcpp.dll</p>
+<h3 id="修改平台为64位"><a href="#修改平台为64位" class="headerlink" title="修改平台为64位"></a>修改平台为64位</h3><p><strong>属性页 —— 配置管理器 —— 活动解决方案平台：x64</strong><br>生成 —— 重新生成解决方案<br>编译完的dll在C++项目根目录下/x64/Debug/defcpp.dll</p>
+<h3 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h3><p>把*.def中的内容注释掉（每行开始加;），把defcpp.cpp中的main1()改为main()，即可成功运行</p>
+<h3 id="常见报错"><a href="#常见报错" class="headerlink" title="常见报错"></a>常见报错</h3><p>c++编译dll时可能出现的报错：</p>
+<ol>
+<li>“error LNK1561: 必须定义入口点”<br>解决方法：在属性页中配置 模块定义文件*.def<br>使用dumpbin命令验证dll中的函数是否导出成功<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dumpbin /exports a.dll</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="C-部分-1"><a href="#C-部分-1" class="headerlink" title="C#部分"></a>C#部分</h2><h3 id="调用dll"><a href="#调用dll" class="headerlink" title="调用dll"></a>调用dll</h3><p><strong>新建项目 —— Visual C# —— .Net Framework 4 - Windows窗体应用程序</strong><br>将dll放在C#项目根目录下/bin/Debug/defcpp.dll<br>代码格式正确，即可成功运行</p>
+<p>Form1.cs<br><figure class="highlight csharp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">using</span> System;</span><br><span class="line"><span class="keyword">using</span> System.Collections.Generic;</span><br><span class="line"><span class="keyword">using</span> System.ComponentModel;</span><br><span class="line"><span class="keyword">using</span> System.Data;</span><br><span class="line"><span class="keyword">using</span> System.Drawing;</span><br><span class="line"><span class="keyword">using</span> System.Linq;</span><br><span class="line"><span class="keyword">using</span> System.Text;</span><br><span class="line"><span class="keyword">using</span> System.Windows.Forms;</span><br><span class="line"><span class="keyword">using</span> System.Runtime.InteropServices; <span class="comment">// 调用dll所必须的</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> <span class="title">WindowsFormsApplication1</span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">partial</span> <span class="keyword">class</span> <span class="title">Form1</span> : <span class="title">Form</span></span><br><span class="line">    &#123;</span><br><span class="line">        [<span class="meta">DllImport(<span class="meta-string">"defcpp.dll"</span>, EntryPoint = <span class="meta-string">"add"</span>, CallingConvention = CallingConvention.Cdecl, CharSet = CharSet.Ansi)</span>]</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">extern</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">add</span>(<span class="params"><span class="keyword">int</span> a, <span class="keyword">int</span> b</span>)</span>;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Form1</span>(<span class="params"></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            InitializeComponent();</span><br><span class="line"></span><br><span class="line">            <span class="keyword">int</span> res = <span class="keyword">add</span>(<span class="number">1</span>, <span class="number">2</span>); <span class="comment">// 调用dll中的函数add()</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="常见报错-1"><a href="#常见报错-1" class="headerlink" title="常见报错"></a>常见报错</h3><p>c#调用dll时可能出现的报错：</p>
+<ol>
+<li><p>“检测到LoaderLock 正尝试在OS加载程序锁内执行托管代码。…”<br>解决方法：将C++代码中的main()函数改个名字，重新编译。（C++中写主函数，会导致C#调用时发生死锁）</p>
+</li>
+<li><p>“对PInvoke 函数…的调用导致堆栈不对称”<br>解决方法：修改C#代码中导入dll时的参数[DllImport(… CallingConvention …)]，参考：<a href="https://www.cnblogs.com/JuneZhang/p/3631123.html" target="_blank" rel="noopener">函数调用导致堆栈不对称。原因可能是托管的 PInvoke 签名与非托管的目标签名不匹配</a></p>
+</li>
+<li><p>“试图加载格式不正确的程序。（异常来自HRESULT:0x8007000B）”<br>解决方法：C++编译成的dll的平台（32位/64位），与C#选择的平台不对应</p>
+</li>
+<li><p>关于Any CPU<br>参考：<a href="https://blog.csdn.net/playboy1/article/details/79786996" target="_blank" rel="noopener">关于C#编译方式的一些说明(x86\x64\anycpu)</a></p>
+</li>
+</ol>
+<h3 id="测试结果"><a href="#测试结果" class="headerlink" title="测试结果"></a>测试结果</h3><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">C++</th>
+<th style="text-align:center">C#</th>
+<th style="text-align:center">运行结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">.Net 4.0、平台Win32</td>
+<td style="text-align:center">.Net 4.0、目标平台x86</td>
+<td style="text-align:center"><strong>成功</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">同上</td>
+<td style="text-align:center">.Net 4.0、目标平台Any CPU/x64</td>
+<td style="text-align:center">失败</td>
+</tr>
+<tr>
+<td style="text-align:center">.Net 4.0、平台x64</td>
+<td style="text-align:center">.Net 4.0、目标平台Any CPU/x64</td>
+<td style="text-align:center"><strong>成功</strong></td>
+</tr>
+<tr>
+<td style="text-align:center">同上</td>
+<td style="text-align:center">.Net 4.0、目标平台x86</td>
+<td style="text-align:center">失败</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>小结：事实证明，c#选择.Net 4.0、.Net 4.5效果相同，关键在于32位/64位需要对应</p>
+<h1 id="进阶"><a href="#进阶" class="headerlink" title="进阶"></a>进阶</h1><h2 id="非本机运行"><a href="#非本机运行" class="headerlink" title="非本机运行"></a>非本机运行</h2><p>目标：C#代码与dll拷贝到其他电脑时不必配置环境变量<br>操作：将涉及到的OpenCV的dll拷贝到与自己生成的dll同一目录下，即可成功运行<br>测试：改变OpenCV的dll所在目录的文件夹名称</p>
+<h2 id="更改OpenCV的dll名称"><a href="#更改OpenCV的dll名称" class="headerlink" title="更改OpenCV的dll名称"></a>更改OpenCV的dll名称</h2><h1 id="配置OpenCV（64位）、Eigen"><a href="#配置OpenCV（64位）、Eigen" class="headerlink" title="配置OpenCV（64位）、Eigen"></a>配置OpenCV（64位）、Eigen</h1><p>OpenCV2.4.9的安装目录：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\_xmvision\opencv\</span><br></pre></td></tr></table></figure></p>
+<p>Eigen3.3.5的安装目录（修改eigen的原始目录名为eigen3）：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\_xmvision\eigen3下</span><br></pre></td></tr></table></figure></p>
+<h2 id="配置OpenCV"><a href="#配置OpenCV" class="headerlink" title="配置OpenCV"></a>配置OpenCV</h2><h3 id="环境变量PATH（使编译可以找到32位-64位的dll、-dll-pdb-ilk）"><a href="#环境变量PATH（使编译可以找到32位-64位的dll、-dll-pdb-ilk）" class="headerlink" title="环境变量PATH（使编译可以找到32位/64位的dll、.dll .pdb .ilk）"></a>环境变量PATH（使编译可以找到32位/64位的dll、.dll .pdb .ilk）</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\_xmvision\opencv\build\x64\vc11\bin</span><br></pre></td></tr></table></figure>
+<h3 id="VC-目录-gt-包含目录（C-程序可以include-opencv、-h-hpp）"><a href="#VC-目录-gt-包含目录（C-程序可以include-opencv、-h-hpp）" class="headerlink" title="VC++目录-&gt;包含目录（C++程序可以include opencv、.h .hpp）"></a>VC++目录-&gt;包含目录（C++程序可以include opencv、.h .hpp）</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">D:\_xmvision\opencv\build\include</span><br><span class="line">D:\_xmvision\opencv\build\include\opencv</span><br><span class="line">D:\_xmvision\opencv\build\include\opencv2</span><br></pre></td></tr></table></figure>
+<h3 id="VC-目录-gt-库目录（静态链接库、-lib-exp）"><a href="#VC-目录-gt-库目录（静态链接库、-lib-exp）" class="headerlink" title="VC++目录-&gt;库目录（静态链接库、.lib .exp）"></a>VC++目录-&gt;库目录（静态链接库、.lib .exp）</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\_xmvision\opencv\build\x64\vc11\lib</span><br></pre></td></tr></table></figure>
+<h3 id="链接器-gt-输入-gt-附加依赖项（动态链接库的）"><a href="#链接器-gt-输入-gt-附加依赖项（动态链接库的）" class="headerlink" title="链接器-&gt;输入-&gt;附加依赖项（动态链接库的）"></a>链接器-&gt;输入-&gt;附加依赖项（动态链接库的）</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">opencv_calib3d249d.lib</span><br><span class="line">opencv_contrib249d.lib</span><br><span class="line">opencv_core249d.lib</span><br><span class="line">opencv_features2d249d.lib</span><br><span class="line">opencv_flann249d.lib</span><br><span class="line">opencv_gpu249d.lib</span><br><span class="line">opencv_highgui249d.lib</span><br><span class="line">opencv_imgproc249d.lib</span><br><span class="line">opencv_legacy249d.lib</span><br><span class="line">opencv_ml249d.lib</span><br><span class="line">opencv_nonfree249d.lib</span><br><span class="line">opencv_objdetect249d.lib</span><br><span class="line">opencv_ocl249d.lib</span><br><span class="line">opencv_photo249d.lib</span><br><span class="line">opencv_stitching249d.lib</span><br><span class="line">opencv_superres249d.lib</span><br><span class="line">opencv_ts249d.lib</span><br><span class="line">opencv_video249d.lib</span><br><span class="line">opencv_videostab249d.lib</span><br></pre></td></tr></table></figure>
+<h3 id="用python获取”附加依赖项”"><a href="#用python获取”附加依赖项”" class="headerlink" title="用python获取”附加依赖项”"></a>用python获取”附加依赖项”</h3><p>在ipython中输入如下命令：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 切换目录</span></span><br><span class="line">cd D:\_xmvision\opencv\build\x64\vc11\lib</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取文件</span></span><br><span class="line"><span class="keyword">import</span> os</span><br><span class="line">file_list = os.listdir()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 过滤出"d.lib"结尾的文件名</span></span><br><span class="line">file_lib_list = [x <span class="keyword">for</span> x <span class="keyword">in</span> file_list <span class="keyword">if</span> x[<span class="number">-5</span>:]==<span class="string">"d.lib"</span>] <span class="comment"># debug使用的lib</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 输出文件名</span></span><br><span class="line"><span class="keyword">for</span> ele <span class="keyword">in</span> file_lib_list:</span><br><span class="line">	print(ele)</span><br></pre></td></tr></table></figure></p>
+<h2 id="配置Eigen"><a href="#配置Eigen" class="headerlink" title="配置Eigen"></a>配置Eigen</h2><h3 id="VC-目录-gt-包含目录"><a href="#VC-目录-gt-包含目录" class="headerlink" title="VC++目录-&gt;包含目录"></a>VC++目录-&gt;包含目录</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">D:\_xmvision\eigen3</span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><h2 id="编译dll"><a href="#编译dll" class="headerlink" title="编译dll"></a>编译dll</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/zhangzhe_0305/article/details/78399224" target="_blank" rel="noopener">如何通过C#调用OpenCV函数（自制OpenCV的c++ dll文件）</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://zhuanlan.zhihu.com/p/29161824" target="_blank" rel="noopener">C#调用Win32 C++动态链接库那些事</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="配置环境"><a href="#配置环境" class="headerlink" title="配置环境"></a>配置环境</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://sourceforge.net/projects/opencvlibrary/files/opencv-win/2.4.9/opencv-2.4.9.exe/download" target="_blank" rel="noopener">OpenCV2.4.9下载</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://bitbucket.org/eigen/eigen/downloads/?tab=tags" target="_blank" rel="noopener">eigen3.3.5下载</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://www.cnblogs.com/rainbow70626/p/8819119.html" target="_blank" rel="noopener">C++矩阵库 Eigen 简介</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/j_d_c/article/details/78899538" target="_blank" rel="noopener">【Eigen】VS2012配置Eigen</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="修改dll名称"><a href="#修改dll名称" class="headerlink" title="修改dll名称"></a>修改dll名称</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/encesu/article/details/24014065" target="_blank" rel="noopener">将opencv的dll 动态连接库改名字，变成自己想要的动态连接库名字</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>常见报错：配置完成后，编译成功，运行程序时出现：”无法启动此程序 因为计算机中丢失opencv_core243d.dll”<br>解决方法：重启计算机即可</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/集成/" rel="tag"># 集成</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/20/2019-04-21-deeplearning-tensorflow/" rel="next" title="[深度学习框架]TensorFlow入门">
+                <i class="fa fa-chevron-left"></i> [深度学习框架]TensorFlow入门
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">48</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#目标"><span class="nav-number">1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#操作步骤"><span class="nav-number">2.</span> <span class="nav-text">操作步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#C-部分"><span class="nav-number">2.1.</span> <span class="nav-text">C++部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#新建文件"><span class="nav-number">2.1.1.</span> <span class="nav-text">新建文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#导出dll"><span class="nav-number">2.1.2.</span> <span class="nav-text">导出dll</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改平台为64位"><span class="nav-number">2.1.3.</span> <span class="nav-text">修改平台为64位</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调试技巧"><span class="nav-number">2.1.4.</span> <span class="nav-text">调试技巧</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见报错"><span class="nav-number">2.1.5.</span> <span class="nav-text">常见报错</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#C-部分-1"><span class="nav-number">2.2.</span> <span class="nav-text">C#部分</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#调用dll"><span class="nav-number">2.2.1.</span> <span class="nav-text">调用dll</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常见报错-1"><span class="nav-number">2.2.2.</span> <span class="nav-text">常见报错</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#测试结果"><span class="nav-number">2.2.3.</span> <span class="nav-text">测试结果</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#进阶"><span class="nav-number">3.</span> <span class="nav-text">进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#非本机运行"><span class="nav-number">3.1.</span> <span class="nav-text">非本机运行</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更改OpenCV的dll名称"><span class="nav-number">3.2.</span> <span class="nav-text">更改OpenCV的dll名称</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#配置OpenCV（64位）、Eigen"><span class="nav-number">4.</span> <span class="nav-text">配置OpenCV（64位）、Eigen</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置OpenCV"><span class="nav-number">4.1.</span> <span class="nav-text">配置OpenCV</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境变量PATH（使编译可以找到32位-64位的dll、-dll-pdb-ilk）"><span class="nav-number">4.1.1.</span> <span class="nav-text">环境变量PATH（使编译可以找到32位/64位的dll、.dll .pdb .ilk）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VC-目录-gt-包含目录（C-程序可以include-opencv、-h-hpp）"><span class="nav-number">4.1.2.</span> <span class="nav-text">VC++目录-&gt;包含目录（C++程序可以include opencv、.h .hpp）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#VC-目录-gt-库目录（静态链接库、-lib-exp）"><span class="nav-number">4.1.3.</span> <span class="nav-text">VC++目录-&gt;库目录（静态链接库、.lib .exp）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#链接器-gt-输入-gt-附加依赖项（动态链接库的）"><span class="nav-number">4.1.4.</span> <span class="nav-text">链接器-&gt;输入-&gt;附加依赖项（动态链接库的）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用python获取”附加依赖项”"><span class="nav-number">4.1.5.</span> <span class="nav-text">用python获取”附加依赖项”</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Eigen"><span class="nav-number">4.2.</span> <span class="nav-text">配置Eigen</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#VC-目录-gt-包含目录"><span class="nav-number">4.2.1.</span> <span class="nav-text">VC++目录-&gt;包含目录</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译dll"><span class="nav-number">5.1.</span> <span class="nav-text">编译dll</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置环境"><span class="nav-number">5.2.</span> <span class="nav-text">配置环境</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改dll名称"><span class="nav-number">5.3.</span> <span class="nav-text">修改dll名称</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

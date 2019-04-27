@@ -90,7 +90,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/02_第1个示例结果示意图.jpg">
 <meta property="og:image" content="http://yoursite.com/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/03_结果对比.png">
 <meta property="og:image" content="http://yoursite.com/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/01_3dmatch核心思想.jpg">
-<meta property="og:updated_time" content="2019-04-22T09:03:30.731Z">
+<meta property="og:updated_time" content="2019-04-23T06:45:41.498Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[点云+深度学习]3DMatch论文解析">
 <meta name="twitter:description" content="精读CVPR2017的《3DMatch...》。">
@@ -563,40 +563,71 @@
 </tbody>
 </table>
 </div>
-<h3 id="Model-Fitting-for-6D-Object-Pose-Estimation-in-the-Amazon-Picking-Challenge"><a href="#Model-Fitting-for-6D-Object-Pose-Estimation-in-the-Amazon-Picking-Challenge" class="headerlink" title="Model Fitting for 6D Object Pose Estimation in the Amazon Picking Challenge"></a>Model Fitting for 6D Object Pose Estimation in the Amazon Picking Challenge</h3><p>数据相关文件夹：<br>$FromDir=../../data/apc/scenes/office/test/shelf/scene-0000$<br>$ToDir=../../data/apc/scenarios/000000$<br>$ObjDir=../../data/apc/objects$<br>$BenDir=../../data/benchmark/office/test/tote/scene-0000$<br>$BenRootDir=../../data/benchmark$</p>
+<h3 id="Model-Fitting-for-6D-Object-Pose-Estimation-in-the-Amazon-Picking-Challenge"><a href="#Model-Fitting-for-6D-Object-Pose-Estimation-in-the-Amazon-Picking-Challenge" class="headerlink" title="Model Fitting for 6D Object Pose Estimation in the Amazon Picking Challenge"></a>Model Fitting for 6D Object Pose Estimation in the Amazon Picking Challenge</h3><p>功能：评估3DMatch在Shelf＆Tote数据集上的6D姿态估计能力</p>
+<p>数据相关文件夹：<br>$FromDir=../../data/apc/scenes/office/test/shelf/scene-0000$<br>$ToDir=../../data/apc/scenarios/000000$<br>$ObjDir=../../data/apc/objects$<br>$BenDir=../../data/benchmark/office/test/tote/scene-0000$<br>$BenRootDir=../../data/benchmark$</p>
 <div class="table-container">
 <table>
 <thead>
 <tr>
 <th style="text-align:center">代码</th>
 <th style="text-align:center">功能</th>
-<th style="text-align:center">说明</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td style="text-align:center">convertBenchmark2Scenarios.m</td>
 <td style="text-align:center">将$/apc/scenes$里的一些文件复制到$/apc/scenarios$<br>注意：$/apc/scenarios$里每个子文件夹里的3个文件名是相同的</td>
-<td style="text-align:center">①复制$FromDir/$creativity_chenille_stems.1.segm.ply为$ToDir/$segmentation.ply<br>②尝试复制$FromDir/$creativity_chenille_stems.1.segmentation.TDF.bin为$ToDir/$segmentation.TDF.bin<br>③生成$ToDir/$info.txt</td>
 </tr>
 <tr>
 <td style="text-align:center">convertScenarios2Benchmark.m</td>
 <td style="text-align:center">根据$/apc/scenarios$里的文件生成$/apc/scenes$里的一个文件</td>
-<td style="text-align:center">根据$ToDir/$info.txt决定路径和文件名、根据$ToDir/$ransac.3dmatch.model2segm.txt决定文件里的数据，生成$FromDir/$creativity_chenille_stems.1.ransac.3dmatch.model2segm.txt</td>
 </tr>
 <tr>
 <td style="text-align:center">getModelTDF.m</td>
 <td style="text-align:center">从<strong>物体模型</strong>生成体素网格体积的准确TDF值<br>步骤：读点云（195477×3）、降采样（9601×3）、去噪声（9138×3）、计算TDF（79×64×49）</td>
-<td style="text-align:center">从点云数据$ObjDir/$barkely_hide_bones.ply计算出TDF数据$ObjDir/$barkely_hide_bones.TDF.bin</td>
 </tr>
 <tr>
 <td style="text-align:center">getSegmentationTDF.m</td>
 <td style="text-align:center">从<strong>分割点云</strong>生成体素网格体积的准确TDF值</td>
-<td style="text-align:center">读取$BenDir/$cam.info.txt、$BenRootDir/$labels.mat并计算姿态，读取点云$FromDir/$creativity_chenille_stems.1.segm.ply，计算TDF的值$FromDir/$creativity_chenille_stems.1.segmentation.TDF.bin</td>
+</tr>
+<tr>
+<td style="text-align:center">getKeypoints.m</td>
+<td style="text-align:center">从<strong>物体模型</strong>和<strong>分割点云</strong>中随机采样表面关键点，并保存到二进制文件</td>
+</tr>
+<tr>
+<td style="text-align:center">getDescriptors.m</td>
+<td style="text-align:center">调用编译好的get3DMatchDescriptors，为<strong>物体模型</strong>和<strong>分割点云</strong>生成3DMatch描述子</td>
+</tr>
+<tr>
+<td style="text-align:center">runModelFitting.m</td>
+<td style="text-align:center">循环遍历每个场景（预扫描对象模型与场景点云分割之间的<strong>模型匹配实例</strong>），并进行基于RANSAC的几何配准以预测对象姿态<br>调用自己写的<strong>clusterCallback()</strong>函数</td>
+</tr>
+<tr>
+<td style="text-align:center">getError.m</td>
+<td style="text-align:center">计算”Shelf＆Tote”基准数据集的预测6D姿态和真实标签之间的误差</td>
+</tr>
+<tr>
+<td style="text-align:center">clusterCallback.m函数</td>
+<td style="text-align:center">通过在两组3D关键点及其描述子之间运行基于RANSAC的几何配准，来预测<strong>物体模型</strong>和<strong>分割点云</strong>之间的物体姿态</td>
+</tr>
+<tr>
+<td style="text-align:center">pointCloud2TDF.m函数</td>
+<td style="text-align:center">从点云计算TDF值<br>很慢</td>
 </tr>
 </tbody>
 </table>
 </div>
+<h4 id="convertBenchmark2Scenarios-m"><a href="#convertBenchmark2Scenarios-m" class="headerlink" title="convertBenchmark2Scenarios.m"></a>convertBenchmark2Scenarios.m</h4><p>①复制$FromDir/$creativity_chenille_stems.1.segm.ply为$ToDir/$segmentation.ply<br>②尝试复制$FromDir/$creativity_chenille_stems.1.segmentation.TDF.bin为$ToDir/$segmentation.TDF.bin<br>③生成$ToDir/$info.txt</p>
+<h4 id="convertScenarios2Benchmark-m"><a href="#convertScenarios2Benchmark-m" class="headerlink" title="convertScenarios2Benchmark.m"></a>convertScenarios2Benchmark.m</h4><p>根据$ToDir/$info.txt决定路径和文件名、根据$ToDir/$ransac.3dmatch.model2segm.txt决定文件里的数据，生成$FromDir/$creativity_chenille_stems.1.ransac.3dmatch.model2segm.txt</p>
+<h4 id="getModelTDF-m"><a href="#getModelTDF-m" class="headerlink" title="getModelTDF.m"></a>getModelTDF.m</h4><p>从点云数据$ObjDir/$barkely_hide_bones.ply计算出TDF数据$ObjDir/$barkely_hide_bones.TDF.bin</p>
+<h4 id="getSegmentationTDF-m"><a href="#getSegmentationTDF-m" class="headerlink" title="getSegmentationTDF.m"></a>getSegmentationTDF.m</h4><p>读取$BenDir/$cam.info.txt、$BenRootDir/$labels.mat并计算姿态，读取点云$FromDir/$creativity_chenille_stems.1.segm.ply，计算TDF的值$FromDir/$creativity_chenille_stems.1.segmentation.TDF.bin</p>
+<h4 id="getKeypoints-m"><a href="#getKeypoints-m" class="headerlink" title="getKeypoints.m"></a>getKeypoints.m</h4><p>①读取信息$ToDir/$info.txt（没用到）、点云数据$ToDir/$segmentation.ply（没用到）、TDF值$ToDir/$segmentation.TDF.bin，从中随机抽取1000个关键点并保存$ToDir/$segmentation.keypoints.bin<br>②读取点云数据$ObjDir/$barkely_hide_bones.ply（没用到）、TDF值$ObjDir/$barkely_hide_bones.TDF.bin，从中随机抽取1000个关键点并保存$ObjDir/$barkely_hide_bones.keypoints.bin</p>
+<h4 id="getDescriptors-m"><a href="#getDescriptors-m" class="headerlink" title="getDescriptors.m"></a>getDescriptors.m</h4><p>①读取点云数据$ToDir/$segmentation.ply（没用到）、TDF值数据$ToDir/$segmentation.TDF.bin、关键点数据$ToDir/$segmentation.keypoints.bin，将关键点数据写到<strong>data.bin</strong>（1000×30×30×30，临时数据）中，修改网络架构tmp.json，运行网络、载入<strong>data.bin</strong>、生成<strong>feat.bin</strong>（临时数据），将描述子保存为$ToDir/$segmentation.keypoints.3dmatch.descriptors.bin<br>②读取点云数据$ObjDir/$barkely_hide_bones.ply（没用到）、TDF值数据$ObjDir/$barkely_hide_bones.TDF.bin、关键点数据$ObjDir/$barkely_hide_bones.keypoints.bin，将关键点数据写到<strong>data.bin</strong>（1000×30×30×30，临时数据）中，修改网络架构tmp.json，运行网络、载入<strong>data.bin</strong>、生成<strong>feat.bin</strong>（临时数据），将描述子保存为$ObjDir/$barkely_hide_bones.keypoints.3dmatch.descriptors.bin</p>
+<h4 id="getError-m"><a href="#getError-m" class="headerlink" title="getError.m"></a>getError.m</h4><p>①读取物体姿态的预测值（1063×1）、真实标签（1043×1）3dmatch-apc-predictions.mat、testing-split.mat，物体名（39×1）objectNames.mat，物体名及其属性（39×1）$BenRootDir/$objects.mat</p>
+<p>②计算预测的6D物体姿态表现（旋转/平移准确率）subsetAcc、2D物体分割表现（准确率/召回率）subsetSegmPrecRec<br>分门别类统计：总体、各个场景、不同程度的场景混乱（cluttered）、不同程度的场景遮挡（occluded）、物体形变（deformable）、物体失去深度、物体微弱（thin）</p>
+<p>③打印结果</p>
+<p>偏差计算方法☆：<br>旋转欧拉角的偏差<strong>errorRot</strong>：两个旋转矩阵之间的变换关系=&gt;转为欧拉角=&gt;转为角度=&gt;转为绝对值=&gt;处理角度为90、180、360的特殊情况=&gt;计算平均值<br>平移向量的偏差<strong>errorTrans</strong>：两平移向量之间的欧氏距离<br>errorRot&lt;15为真<br>errorTrans&lt;0.05为真</p>
+<h4 id="clusterCallback-m"><a href="#clusterCallback-m" class="headerlink" title="clusterCallback.m"></a>clusterCallback.m</h4><p>①读取文件信息$ToDir/$info.txt<br>②读取分割点云数据（12896×3）及其TDF值数据（87×60×49）$ToDir/$segmentation.ply、$ToDir/$segmentation.TDF.bin<br>③读取物体模型数据（246909×3）及其TDF值数据（113×61×48）$ObjDir/$creativity_chenille_stems.ply、$ObjDir/$creativity_chenille_stems.TDF.bin<br>④读取分割点云关键点（1000×3）、物体模型关键点（1000×3）$ToDir/$segmentation.keypoints.bin、$ObjDir/$creativity_chenille_stems.keypoints.bin<br>⑤读取分割点云关键点描述子（1000×512）、物体模型关键点描述子（1000×512）$ToDir/$segmentation.keypoints.3dmatch.descriptors.bin、$ObjDir/$creativity_chenille_stems.keypoints.3dmatch.descriptors.bin<br>⑥寻找两者之间的匹配最近点（168×3）<br>⑦使用RANSAC估计从物体模型到分割点云的刚性变换，并保存姿态估计数据$ToDir/$ransac.3dmatch.model2segm.txt</p>
 <h3 id="Mesh-Correspondence-in-Shape2Pose"><a href="#Mesh-Correspondence-in-Shape2Pose" class="headerlink" title="Mesh Correspondence in Shape2Pose"></a>Mesh Correspondence in Shape2Pose</h3><h1 id="核心思想"><a href="#核心思想" class="headerlink" title="核心思想"></a>核心思想</h1><p>核心思想：提出一种叫做3DMatch的<strong>自监督</strong>特征学习方法，通过一个<strong>3D卷积</strong>神经网络对训练样本的学习，得到一种<strong>局部体积块描述子</strong>，该描述子在<strong>关键点匹配</strong>上达到很好的效果且在新场景下具有很好的鲁棒性。</p>
 <h2 id="局部几何特征学习"><a href="#局部几何特征学习" class="headerlink" title="局部几何特征学习"></a>局部几何特征学习</h2><p>用自监督的方法从RGBD三维重建数据集中学习局部特征描述子</p>
 <h2 id="三维数据表示"><a href="#三维数据表示" class="headerlink" title="三维数据表示"></a>三维数据表示</h2><h2 id="训练数据集"><a href="#训练数据集" class="headerlink" title="训练数据集"></a>训练数据集</h2><img src="/2019/03/20/2019-03-20-imv-pointcloud-3dmatch-paper/01_3dmatch核心思想.jpg" title="3dmatch核心思想">
@@ -861,7 +892,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">48</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -907,7 +938,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#运行代码"><span class="nav-number">1.</span> <span class="nav-text">运行代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Marvin框架"><span class="nav-number">1.1.</span> <span class="nav-text">配置Marvin框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Matlab-R2017b"><span class="nav-number">1.2.</span> <span class="nav-text">安装Matlab R2017b</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装OpenCV"><span class="nav-number">1.3.</span> <span class="nav-text">安装OpenCV</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#QA：3DMatch代码运行失败"><span class="nav-number">1.4.</span> <span class="nav-text">QA：3DMatch代码运行失败</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#官方代码分析"><span class="nav-number">2.</span> <span class="nav-text">官方代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-Align-Two-Point-Clouds-with-3DMatch"><span class="nav-number">2.1.</span> <span class="nav-text">Demo: Align Two Point Clouds with 3DMatch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Converting-3D-Data-to-TDF-Voxel-Grids"><span class="nav-number">2.2.</span> <span class="nav-text">Converting 3D Data to TDF Voxel Grids</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Training-3DMatch-from-RGB-D-Reconstructions"><span class="nav-number">2.3.</span> <span class="nav-text">Training 3DMatch from RGB-D Reconstructions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multi-Frame-Depth-TSDF-Fusion"><span class="nav-number">2.4.</span> <span class="nav-text">Multi-Frame Depth TSDF Fusion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Evaluation-Code"><span class="nav-number">2.5.</span> <span class="nav-text">Evaluation Code</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Keypoint-Matching-Benchmark"><span class="nav-number">2.5.1.</span> <span class="nav-text">Keypoint Matching Benchmark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Geometric-Registration-Benchmark"><span class="nav-number">2.5.2.</span> <span class="nav-text">Geometric Registration Benchmark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-Fitting-for-6D-Object-Pose-Estimation-in-the-Amazon-Picking-Challenge"><span class="nav-number">2.5.3.</span> <span class="nav-text">Model Fitting for 6D Object Pose Estimation in the Amazon Picking Challenge</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mesh-Correspondence-in-Shape2Pose"><span class="nav-number">2.5.4.</span> <span class="nav-text">Mesh Correspondence in Shape2Pose</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#核心思想"><span class="nav-number">3.</span> <span class="nav-text">核心思想</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#局部几何特征学习"><span class="nav-number">3.1.</span> <span class="nav-text">局部几何特征学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三维数据表示"><span class="nav-number">3.2.</span> <span class="nav-text">三维数据表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练数据集"><span class="nav-number">3.3.</span> <span class="nav-text">训练数据集</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#细节"><span class="nav-number">4.</span> <span class="nav-text">细节</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#官方"><span class="nav-number">5.1.</span> <span class="nav-text">官方</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#博客"><span class="nav-number">5.2.</span> <span class="nav-text">博客</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生成关键点和描述子"><span class="nav-number">6.</span> <span class="nav-text">生成关键点和描述子</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#运行代码"><span class="nav-number">1.</span> <span class="nav-text">运行代码</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Marvin框架"><span class="nav-number">1.1.</span> <span class="nav-text">配置Marvin框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装Matlab-R2017b"><span class="nav-number">1.2.</span> <span class="nav-text">安装Matlab R2017b</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装OpenCV"><span class="nav-number">1.3.</span> <span class="nav-text">安装OpenCV</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#QA：3DMatch代码运行失败"><span class="nav-number">1.4.</span> <span class="nav-text">QA：3DMatch代码运行失败</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#官方代码分析"><span class="nav-number">2.</span> <span class="nav-text">官方代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo-Align-Two-Point-Clouds-with-3DMatch"><span class="nav-number">2.1.</span> <span class="nav-text">Demo: Align Two Point Clouds with 3DMatch</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Converting-3D-Data-to-TDF-Voxel-Grids"><span class="nav-number">2.2.</span> <span class="nav-text">Converting 3D Data to TDF Voxel Grids</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Training-3DMatch-from-RGB-D-Reconstructions"><span class="nav-number">2.3.</span> <span class="nav-text">Training 3DMatch from RGB-D Reconstructions</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Multi-Frame-Depth-TSDF-Fusion"><span class="nav-number">2.4.</span> <span class="nav-text">Multi-Frame Depth TSDF Fusion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Evaluation-Code"><span class="nav-number">2.5.</span> <span class="nav-text">Evaluation Code</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Keypoint-Matching-Benchmark"><span class="nav-number">2.5.1.</span> <span class="nav-text">Keypoint Matching Benchmark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Geometric-Registration-Benchmark"><span class="nav-number">2.5.2.</span> <span class="nav-text">Geometric Registration Benchmark</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Model-Fitting-for-6D-Object-Pose-Estimation-in-the-Amazon-Picking-Challenge"><span class="nav-number">2.5.3.</span> <span class="nav-text">Model Fitting for 6D Object Pose Estimation in the Amazon Picking Challenge</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#convertBenchmark2Scenarios-m"><span class="nav-number">2.5.3.1.</span> <span class="nav-text">convertBenchmark2Scenarios.m</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#convertScenarios2Benchmark-m"><span class="nav-number">2.5.3.2.</span> <span class="nav-text">convertScenarios2Benchmark.m</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getModelTDF-m"><span class="nav-number">2.5.3.3.</span> <span class="nav-text">getModelTDF.m</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getSegmentationTDF-m"><span class="nav-number">2.5.3.4.</span> <span class="nav-text">getSegmentationTDF.m</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getKeypoints-m"><span class="nav-number">2.5.3.5.</span> <span class="nav-text">getKeypoints.m</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getDescriptors-m"><span class="nav-number">2.5.3.6.</span> <span class="nav-text">getDescriptors.m</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#getError-m"><span class="nav-number">2.5.3.7.</span> <span class="nav-text">getError.m</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#clusterCallback-m"><span class="nav-number">2.5.3.8.</span> <span class="nav-text">clusterCallback.m</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Mesh-Correspondence-in-Shape2Pose"><span class="nav-number">2.5.4.</span> <span class="nav-text">Mesh Correspondence in Shape2Pose</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#核心思想"><span class="nav-number">3.</span> <span class="nav-text">核心思想</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#局部几何特征学习"><span class="nav-number">3.1.</span> <span class="nav-text">局部几何特征学习</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三维数据表示"><span class="nav-number">3.2.</span> <span class="nav-text">三维数据表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#训练数据集"><span class="nav-number">3.3.</span> <span class="nav-text">训练数据集</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#细节"><span class="nav-number">4.</span> <span class="nav-text">细节</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#官方"><span class="nav-number">5.1.</span> <span class="nav-text">官方</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#博客"><span class="nav-number">5.2.</span> <span class="nav-text">博客</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#生成关键点和描述子"><span class="nav-number">6.</span> <span class="nav-text">生成关键点和描述子</span></a></li></ol></div>
             
 
           </div>
