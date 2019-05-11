@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="计算机视觉,读论文,点云,深度学习," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="精读点云配准的文章PointNetLK。">
+<meta name="keywords" content="计算机视觉,读论文,点云,深度学习">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[点云+深度学习]PointNetLK论文解析">
+<meta property="og:url" content="http://yoursite.com/2019/05/03/2019-05-03-imv-pointcloud-pointnetlk-paper/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="精读点云配准的文章PointNetLK。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-11T06:14:55.006Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[点云+深度学习]PointNetLK论文解析">
+<meta name="twitter:description" content="精读点云配准的文章PointNetLK。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/03/2019-05-03-imv-pointcloud-pointnetlk-paper/"/>
+
+
+
+
+
+  <title>[点云+深度学习]PointNetLK论文解析 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/03/2019-05-03-imv-pointcloud-pointnetlk-paper/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[点云+深度学习]PointNetLK论文解析</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-03T12:12:12+08:00">
+                2019-05-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  精读点云配准的文章PointNetLK。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>《PointNetLK: Robust &amp; Efficient Point Cloud Registration using PointNet》</p>
+<h1 id="代码运行"><a href="#代码运行" class="headerlink" title="代码运行"></a>代码运行</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">文件</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">ex1_train.sh</td>
+<td style="text-align:center">训练PointNet分类器，并转移到PointNetLK</td>
+</tr>
+<tr>
+<td style="text-align:center">ex1_genrot.sh</td>
+<td style="text-align:center">为测试生成扰动</td>
+</tr>
+<tr>
+<td style="text-align:center">ex1_test_pointlk.sh</td>
+<td style="text-align:center">测试PointNetLK</td>
+</tr>
+<tr>
+<td style="text-align:center">ex1_test_icp.sh</td>
+<td style="text-align:center">测试ICP</td>
+</tr>
+<tr>
+<td style="text-align:center">ex1_result_stat.sh</td>
+<td style="text-align:center">计算上述测试的平均误差</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>离线运行代码<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">nohup python train.py &gt;&gt; log_train.out &amp;</span><br></pre></td></tr></table></figure></p>
+<h2 id="ex1-train-sh"><a href="#ex1-train-sh" class="headerlink" title="ex1_train.sh"></a>ex1_train.sh</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 1. 切换目录，为输出创建文件夹</span><br><span class="line">cd /home/amax/xw/xgy/pointcloud/PointNetLK-master/experiments</span><br><span class="line">mkdir results</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 2. 首先，训练一个分类器（跑7小时）</span><br><span class="line">python train_classifier.py \</span><br><span class="line"> -o ex1_classifier_190408 \</span><br><span class="line"> -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 \</span><br><span class="line"> -c ./sampledata/modelnet40_half1.txt \</span><br><span class="line"> -l ex1_classifier_190408.log \</span><br><span class="line"> -j 8 \</span><br><span class="line"> -b 256 \</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 结果之一保存在 results/ex1_classifier_190408_feat_best.pth</span><br><span class="line"><span class="meta">#</span> 此文件是计算PointNet特征的模型</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 3. 训练PointNetLK，为了分类微调PointNet特征（上述文件）（跑19小时）</span><br><span class="line">python train_pointlk.py \</span><br><span class="line"> -o ex1_pointlk_190408 \</span><br><span class="line"> -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 \</span><br><span class="line"> -c ./sampledata/modelnet40_half1.txt \</span><br><span class="line"> -l ex1_pointlk_190408.log \</span><br><span class="line"> --transfer-from ex1_classifier_190408_feat_best.pth \</span><br><span class="line"> --epochs 400 \</span><br><span class="line"> -j 8 \</span><br><span class="line"> </span><br><span class="line"><span class="meta">#</span> 训练模型 results/ex1_pointlk_190408_model_best.pth</span><br></pre></td></tr></table></figure>
+<p>移动pth等到results文件夹中？？？</p>
+<h2 id="ex1-genrot-sh"><a href="#ex1-genrot-sh" class="headerlink" title="ex1_genrot.sh"></a>ex1_genrot.sh</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 为每个物体生成扰动（每个'ModelNet40/[category]/test/*'）</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 1. 切换目录，为输出创建文件夹</span><br><span class="line">cd /home/amax/xw/xgy/pointcloud/PointNetLK-master/experiments</span><br><span class="line">mkdir -p results/ex1/gt</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 2. 测试类别（19条命令，只有最后不同"pert_000.csv --deg 0.0"）</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_000.csv --deg 0.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_010.csv --deg 10.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_020.csv --deg 20.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_030.csv --deg 30.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_040.csv --deg 40.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_050.csv --deg 50.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_060.csv --deg 60.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_070.csv --deg 70.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_080.csv --deg 80.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_090.csv --deg 90.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_100.csv --deg 100.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_110.csv --deg 110.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_120.csv --deg 120.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_130.csv --deg 130.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_140.csv --deg 140.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_150.csv --deg 150.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_160.csv --deg 160.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_170.csv --deg 170.0</span><br><span class="line">python generate_rotations.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/gt/pert_180.csv --deg 180.0</span><br></pre></td></tr></table></figure>
+<h2 id="ex1-test-pointlk-sh"><a href="#ex1-test-pointlk-sh" class="headerlink" title="ex1_test_pointlk.sh"></a>ex1_test_pointlk.sh</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 1. 切换目录，为输出创建文件夹</span><br><span class="line">cd /home/amax/xw/xgy/pointcloud/PointNetLK-master/experiments</span><br><span class="line">mkdir -p results/ex1/plk</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 2. 测试和训练模型的类别、扰动</span><br><span class="line"><span class="meta">#</span> 使用给定的扰动测试PointNetLK（19条命令，只有微小不同"result_000.csv pert_000.csv log_000.log"）</span><br><span class="line"><span class="meta">#</span> （最后可以加上" --device cuda:0"，但会报显存溢出）</span><br><span class="line">python test_pointlk.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt --pretrained ./results/ex1_pointlk_190408_model_best.pth -o ./results/ex1/plk/result_000.csv -p ./results/ex1/gt/pert_000.csv -l ./results/ex1/plk/log_000.log -j 8</span><br><span class="line">python test_pointlk.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt --pretrained ./results/ex1_pointlk_190408_model_best.pth -o ./results/ex1/plk/result_010.csv -p ./results/ex1/gt/pert_010.csv -l ./results/ex1/plk/log_010.log -j 8</span><br><span class="line">python test_pointlk.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt --pretrained ./results/ex1_pointlk_190408_model_best.pth -o ./results/ex1/plk/result_020.csv -p ./results/ex1/gt/pert_020.csv -l ./results/ex1/plk/log_020.log -j 8</span><br><span class="line">python test_pointlk.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt --pretrained ./results/ex1_pointlk_190408_model_best.pth -o ./results/ex1/plk/result_030.csv -p ./results/ex1/gt/pert_030.csv -l ./results/ex1/plk/log_030.log -j 8</span><br></pre></td></tr></table></figure>
+<h2 id="ex1-test-icp-sh"><a href="#ex1-test-icp-sh" class="headerlink" title="ex1_test_icp.sh"></a>ex1_test_icp.sh</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 1. 切换目录，为输出创建文件夹</span><br><span class="line">cd /home/amax/xw/xgy/pointcloud/PointNetLK-master/experiments</span><br><span class="line">mkdir -p results/ex1/icp</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> 2. 测试的类别、扰动</span><br><span class="line"><span class="meta">#</span> 使用给定的扰动测试ICP（19条命令，只有微小不同"result_000.csv pert_000.csv log_000.log"）</span><br><span class="line"><span class="meta">#</span> 会运行几天（5天左右），提升线程数对速度似乎没有影响</span><br><span class="line">python test_icp.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/icp/result_000.csv -p ./results/ex1/gt/pert_000.csv -l ./results/ex1/icp/log_000.log -j 8</span><br><span class="line">python test_icp.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/icp/result_010.csv -p ./results/ex1/gt/pert_010.csv -l ./results/ex1/icp/log_010.log -j 8</span><br><span class="line">python test_icp.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/icp/result_020.csv -p ./results/ex1/gt/pert_020.csv -l ./results/ex1/icp/log_020.log </span><br><span class="line">python test_icp.py -i /home/amax/xw/xgy/pointcloud/PointNetLK-master/ModelNet40 -c ./sampledata/modelnet40_half1.txt --format wt -o ./results/ex1/icp/result_030.csv -p ./results/ex1/gt/pert_030.csv -l ./results/ex1/icp/log_030.log</span><br></pre></td></tr></table></figure>
+<h2 id="ex1-result-stat-sh"><a href="#ex1-result-stat-sh" class="headerlink" title="ex1_result_stat.sh"></a>ex1_result_stat.sh</h2><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> 添加 'result_*.csv' 到 'result.csv'</span><br><span class="line"><span class="meta">#</span>RES= ./results/ex1/plk</span><br><span class="line"><span class="meta">#</span> （19条命令，只有微小不同"result_000.csv --val 0"）</span><br><span class="line">python result_stat.py --hdr &gt; ./results/ex1/plk/result.csv</span><br><span class="line">python result_stat.py -i ./results/ex1/plk/result_000.csv --val 0 &gt;&gt; ./results/ex1/plk/result.csv</span><br><span class="line">python result_stat.py -i ./results/ex1/plk/result_010.csv --val 10 &gt;&gt; ./results/ex1/plk/result.csv</span><br><span class="line">python result_stat.py -i ./results/ex1/plk/result_020.csv --val 20 &gt;&gt; ./results/ex1/plk/result.csv</span><br><span class="line">python result_stat.py -i ./results/ex1/plk/result_030.csv --val 30 &gt;&gt; ./results/ex1/plk/result.csv</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span>RES= ./results/ex1/icp</span><br><span class="line">python result_stat.py --hdr &gt; ./results/ex1/icp/result.csv</span><br><span class="line">python result_stat.py -i ./results/ex1/icp/result_000.csv --val 0 &gt;&gt; ./results/ex1/icp/result.csv</span><br><span class="line">python result_stat.py -i ./results/ex1/icp/result_010.csv --val 10 &gt;&gt; ./results/ex1/icp/result.csv</span><br><span class="line">python result_stat.py -i ./results/ex1/icp/result_020.csv --val 20 &gt;&gt; ./results/ex1/icp/result.csv</span><br><span class="line">python result_stat.py -i ./results/ex1/icp/result_030.csv --val 30 &gt;&gt; ./results/ex1/icp/result.csv</span><br></pre></td></tr></table></figure>
+<h2 id="ex1-genpert-sh"><a href="#ex1-genpert-sh" class="headerlink" title="ex1_genpert.sh"></a>ex1_genpert.sh</h2><p>针对的是CADset4tracking_fixed_perturbation数据集</p>
+<h1 id="代码解析"><a href="#代码解析" class="headerlink" title="代码解析"></a>代码解析</h1><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">文件</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">train_classifier.py</td>
+<td style="text-align:center">训练PointNet分类器（用于迁移学习）</td>
+</tr>
+<tr>
+<td style="text-align:center">train_pointlk.py</td>
+<td style="text-align:center">训练PointNetLK</td>
+</tr>
+<tr>
+<td style="text-align:center">generate_rotation.py</td>
+<td style="text-align:center">生成6自由度的扰动（旋转和平移）（为了测试）</td>
+</tr>
+<tr>
+<td style="text-align:center">test_pointlk.py</td>
+<td style="text-align:center">测试PointNetLK</td>
+</tr>
+<tr>
+<td style="text-align:center">test_icp.py</td>
+<td style="text-align:center">测试ICP</td>
+</tr>
+<tr>
+<td style="text-align:center">result_stat.py</td>
+<td style="text-align:center">计算上述测试的平均误差</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="generate-rotations-py"><a href="#generate-rotations-py" class="headerlink" title="generate_rotations.py"></a>generate_rotations.py</h2><p>实测下来，wv与wt的旋转相同（前3位），平移不同（后3位）（疑似是wv的实现有问题）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"></span><br><span class="line"><span class="comment"># 命令行指定的参数</span></span><br><span class="line">_deg = <span class="number">60.0</span> <span class="comment"># 扰动角度</span></span><br><span class="line">_max_trans = <span class="number">0.3</span> <span class="comment"># 最大偏移</span></span><br><span class="line">_format = <span class="string">'wt'</span> <span class="comment"># wv (twist-vector), wt means rotation- and translation-vector)</span></span><br><span class="line">_outfile = <span class="string">'pert_060.csv'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># batch_size由训练集长度决定，batch_size = len(testset)</span></span><br><span class="line">batch_size = <span class="number">1202</span></span><br><span class="line"></span><br><span class="line">amp = _deg * math.pi / <span class="number">180.0</span> <span class="comment"># 角度转弧度</span></span><br><span class="line">w = torch.randn(batch_size, <span class="number">3</span>)</span><br><span class="line">w = w / w.norm(p=<span class="number">2</span>, dim=<span class="number">1</span>, keepdim=<span class="keyword">True</span>) * amp</span><br><span class="line">t = torch.rand(batch_size, <span class="number">3</span>) * _max_trans</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> _format == <span class="string">'wv'</span>:</span><br><span class="line">	<span class="comment"># the output: twist vectors.</span></span><br><span class="line">	<span class="keyword">import</span> ptlk</span><br><span class="line">	R = ptlk.so3.exp(w) <span class="comment"># (N, 3) --&gt; (N, 3, 3) # 实际是罗德里格斯变换，等价于cv2.Rodrigues(np.array(w[0]))[0]</span></span><br><span class="line">	G = torch.zeros(batch_size, <span class="number">4</span>, <span class="number">4</span>)</span><br><span class="line">	G[:, <span class="number">3</span>, <span class="number">3</span>] = <span class="number">1</span></span><br><span class="line">	G[:, <span class="number">0</span>:<span class="number">3</span>, <span class="number">0</span>:<span class="number">3</span>] = R</span><br><span class="line">	G[:, <span class="number">0</span>:<span class="number">3</span>, <span class="number">3</span>] = t</span><br><span class="line"></span><br><span class="line">	x = ptlk.se3.log(G) <span class="comment"># --&gt; (N, 6) # 前3位旋转可以用罗德里格斯变换求解，等价于cv2.Rodrigues(np.array(G[0][0:3,0:3]))[0]，后3位未知</span></span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">	<span class="comment"># rotation-vector and translation-vector</span></span><br><span class="line">	x = torch.cat((w, t), dim=<span class="number">1</span>) <span class="comment"># w是旋转、t是平移</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># np.savetxt(_outfile, x, delimiter=',')</span></span><br></pre></td></tr></table></figure>
+<h2 id="result-stat-py"><a href="#result-stat-py" class="headerlink" title="result_stat.py"></a>result_stat.py</h2><p>读取 test_pointlk.py/test_icp.py 生成的csv，计算平均误差</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">1.</span> test_pointlk.py/test_icp.py 保存的csv有<span class="number">12</span>列，</span><br><span class="line">前<span class="number">6</span>列是预测的值，后<span class="number">6</span>列是真实的值：</span><br><span class="line"></span><br><span class="line">[<span class="string">'h_w1'</span>, <span class="string">'h_w2'</span>, <span class="string">'h_w3'</span>, <span class="string">'h_v1'</span>, <span class="string">'h_v2'</span>, <span class="string">'h_v3'</span>, \</span><br><span class="line"> <span class="string">'g_w1'</span>, <span class="string">'g_w2'</span>, <span class="string">'g_w3'</span>, <span class="string">'g_v1'</span>, <span class="string">'g_v2'</span>, <span class="string">'g_v3'</span>]</span><br><span class="line"><span class="comment"># h: estimated</span></span><br><span class="line"><span class="comment"># g: ground-truth twist vectors</span></span><br><span class="line"></span><br><span class="line"><span class="number">2.</span> result_stat.py 保存的csv有<span class="number">5</span>列</span><br><span class="line">第<span class="number">1</span>个值是文件索引</span><br><span class="line">第<span class="number">2</span>、<span class="number">3</span>个值是估计的姿态的平移、旋转误差</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">[<span class="string">'val, me_pos, me_rad, me_twist, me_vel'</span>]</span><br><span class="line"><span class="comment"># val: given value (for x-axis)</span></span><br><span class="line"><span class="comment"># me_pos: mean error of estimated position (distance)</span></span><br><span class="line"><span class="comment"># me_rad: mean error of estimated rotation (angle in radian)</span></span><br><span class="line"><span class="comment"># me_twist: mean error represented as norm of twist vector</span></span><br><span class="line"><span class="comment"># me_vel: translation part of the twist. (rotation part is me_rad)</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"><span class="keyword">import</span> ptlk</span><br><span class="line"></span><br><span class="line">_infile = <span class="string">'result_010.csv'</span></span><br><span class="line">_val = <span class="number">20</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 读取csv，并分离为预测值、真实值</span></span><br><span class="line">npdata = np.loadtxt(args.infile, delimiter=<span class="string">','</span>, skiprows=<span class="number">1</span>)  <span class="comment"># --&gt; (N, 12)</span></span><br><span class="line">res = torch.from_numpy(npdata).view(<span class="number">-1</span>, <span class="number">12</span>)</span><br><span class="line">x_hat = res[:, <span class="number">0</span>:<span class="number">6</span>]   <span class="comment"># estimated twist vector</span></span><br><span class="line">x_mgt = -res[:, <span class="number">6</span>:<span class="number">12</span>] <span class="comment"># (minus) ground-truth</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 预测值转为4*4矩阵 乘 真实值转为4*4矩阵的逆，如果两者很接近，相乘结果应接近单位阵</span></span><br><span class="line">g_hat = ptlk.se3.exp(x_hat) <span class="comment"># [N, 4, 4], estimated matrices</span></span><br><span class="line">g_igt = ptlk.se3.exp(x_mgt) <span class="comment"># [N, 4, 4], inverse of ground-truth</span></span><br><span class="line">dg = g_hat.bmm(g_igt) <span class="comment"># [N, 4, 4]. if correct, dg == identity matrices.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 取相乘结果的平移部分，转为长度为6的向量，取向量前3个数（旋转），取向量后3个数（平移）</span></span><br><span class="line">dp = dg[:, <span class="number">0</span>:<span class="number">3</span>, <span class="number">3</span>]    <span class="comment"># [N, 3], position error</span></span><br><span class="line">dx = ptlk.se3.log(dg) <span class="comment"># [N, 6], twist error</span></span><br><span class="line">dw = dx[:, <span class="number">0</span>:<span class="number">3</span>]       <span class="comment"># [N, 3], rotation part of the twist error</span></span><br><span class="line">dv = dx[:, <span class="number">3</span>:<span class="number">6</span>]       <span class="comment"># [N, 3], translation part</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 求上述4个数据的2范数，作为结果输出</span></span><br><span class="line">ep = dp.norm(p=<span class="number">2</span>, dim=<span class="number">1</span>) <span class="comment"># [N]</span></span><br><span class="line">ex = dx.norm(p=<span class="number">2</span>, dim=<span class="number">1</span>) <span class="comment"># [N]</span></span><br><span class="line">ew = dw.norm(p=<span class="number">2</span>, dim=<span class="number">1</span>) <span class="comment"># [N]</span></span><br><span class="line">ev = dv.norm(p=<span class="number">2</span>, dim=<span class="number">1</span>) <span class="comment"># [N]</span></span><br><span class="line"></span><br><span class="line">e = torch.stack((ep, ew, ex, ev)) <span class="comment"># [4, N]</span></span><br><span class="line">me = torch.mean(e, dim=<span class="number">1</span>) <span class="comment"># [4]</span></span><br><span class="line"></span><br><span class="line">line = <span class="string">','</span>.join(map(str, me.numpy().tolist()))</span><br><span class="line">print(<span class="string">'&#123;&#125;,&#123;&#125;'</span>.format(_val, line))</span><br></pre></td></tr></table></figure>
+<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><h2 id="官方"><a href="#官方" class="headerlink" title="官方"></a>官方</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://arxiv.org/abs/1903.05711" target="_blank" rel="noopener">原始论文：PointNetLK</a></td>
+<td style="text-align:center"><a href="https://youtu.be/J2ClR5OZuLc" target="_blank" rel="noopener">演示视频</a></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/hmgoforth/PointNetLK" target="_blank" rel="noopener">代码：PointNetLK</a></td>
+<td style="text-align:center">PyTorch 0.4.0</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
+          
+            <a href="/tags/读论文/" rel="tag"># 读论文</a>
+          
+            <a href="/tags/点云/" rel="tag"># 点云</a>
+          
+            <a href="/tags/深度学习/" rel="tag"># 深度学习</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/02/2019-05-02-imv-pointcloud-sgpn-paper/" rel="next" title="[点云+深度学习]SGPN论文解析">
+                <i class="fa fa-chevron-left"></i> [点云+深度学习]SGPN论文解析
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/04/2019-05-04-imv-deeplearning-pytorch/" rel="prev" title="[深度学习框架]PyTorch">
+                [深度学习框架]PyTorch <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#代码运行"><span class="nav-number">1.</span> <span class="nav-text">代码运行</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ex1-train-sh"><span class="nav-number">1.1.</span> <span class="nav-text">ex1_train.sh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ex1-genrot-sh"><span class="nav-number">1.2.</span> <span class="nav-text">ex1_genrot.sh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ex1-test-pointlk-sh"><span class="nav-number">1.3.</span> <span class="nav-text">ex1_test_pointlk.sh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ex1-test-icp-sh"><span class="nav-number">1.4.</span> <span class="nav-text">ex1_test_icp.sh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ex1-result-stat-sh"><span class="nav-number">1.5.</span> <span class="nav-text">ex1_result_stat.sh</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ex1-genpert-sh"><span class="nav-number">1.6.</span> <span class="nav-text">ex1_genpert.sh</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代码解析"><span class="nav-number">2.</span> <span class="nav-text">代码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#generate-rotations-py"><span class="nav-number">2.1.</span> <span class="nav-text">generate_rotations.py</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#result-stat-py"><span class="nav-number">2.2.</span> <span class="nav-text">result_stat.py</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">3.</span> <span class="nav-text">参考</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#官方"><span class="nav-number">3.1.</span> <span class="nav-text">官方</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="机械臂," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="《ABB六轴机器人入门使用教程》读书笔记。">
+<meta name="keywords" content="机械臂">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[机械臂]工业机器人知识点扫盲">
+<meta property="og:url" content="http://yoursite.com/2019/04/29/2019-04-29-imv-industrial-robot-book/index.html">
+<meta property="og:site_name" content="xgyopen blog">
+<meta property="og:description" content="《ABB六轴机器人入门使用教程》读书笔记。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-04-29T03:25:59.821Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[机械臂]工业机器人知识点扫盲">
+<meta name="twitter:description" content="《ABB六轴机器人入门使用教程》读书笔记。">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/04/29/2019-04-29-imv-industrial-robot-book/"/>
+
+
+
+
+
+  <title>[机械臂]工业机器人知识点扫盲 | xgyopen blog</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">xgyopen blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/29/2019-04-29-imv-industrial-robot-book/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="xgyopen">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile_photo.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="xgyopen blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[机械臂]工业机器人知识点扫盲</h1>
+        
+
+        <div class="post-meta">
+		
+		  
+
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-04-29T11:11:11+08:00">
+                2019-04-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+              <div class="post-description">
+                  《ABB六轴机器人入门使用教程》读书笔记。
+              </div>
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="ABB机器人认知"><a href="#ABB机器人认知" class="headerlink" title="ABB机器人认知"></a>ABB机器人认知</h1><h2 id="机器人项目实施流程"><a href="#机器人项目实施流程" class="headerlink" title="机器人项目实施流程"></a>机器人项目实施流程</h2><ol>
+<li>项目分析（机器人选型、现场布局、设备间通信）</li>
+<li>机器人组装</li>
+<li>零点校准</li>
+<li>工具坐标系建立</li>
+<li>工件坐标系建立</li>
+<li>I/O信号配置</li>
+<li>编程</li>
+<li>自动运行</li>
+</ol>
+<h2 id="工业机器人组成"><a href="#工业机器人组成" class="headerlink" title="工业机器人组成"></a>工业机器人组成</h2><ol>
+<li><p>机器人本体<br>又称操作机，是工业机器人的机械主体，是用来完成规定任务的<strong>执行机构</strong><br>机器人本体组成：机械臂、驱动装置、传动装置、内部传感器<br>机械臂包括：基座、腰部、手臂（大臂和小臂）、手腕</p>
+</li>
+<li><p>控制器</p>
+</li>
+<li>示教器</li>
+</ol>
+<h1 id="机器人操作基础"><a href="#机器人操作基础" class="headerlink" title="机器人操作基础"></a>机器人操作基础</h1><h1 id="机器人零点校准"><a href="#机器人零点校准" class="headerlink" title="机器人零点校准"></a>机器人零点校准</h1><h1 id="机器人坐标系建立"><a href="#机器人坐标系建立" class="headerlink" title="机器人坐标系建立"></a>机器人坐标系建立</h1><h1 id="机器人编程基础"><a href="#机器人编程基础" class="headerlink" title="机器人编程基础"></a>机器人编程基础</h1><h1 id="机器人I-O通信"><a href="#机器人I-O通信" class="headerlink" title="机器人I/O通信"></a>机器人I/O通信</h1><h1 id="机器人基本指令"><a href="#机器人基本指令" class="headerlink" title="机器人基本指令"></a>机器人基本指令</h1><h1 id="编程实例"><a href="#编程实例" class="headerlink" title="编程实例"></a>编程实例</h1><h1 id="异常事件"><a href="#异常事件" class="headerlink" title="异常事件"></a>异常事件</h1><h1 id="RobotStudio离线仿真"><a href="#RobotStudio离线仿真" class="headerlink" title="RobotStudio离线仿真"></a>RobotStudio离线仿真</h1><h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><h2 id="编译dll"><a href="#编译dll" class="headerlink" title="编译dll"></a>编译dll</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://blog.csdn.net/zhangzhe_0305/article/details/78399224" target="_blank" rel="noopener">如何通过C#调用OpenCV函数（自制OpenCV的c++ dll文件）</a></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://zhuanlan.zhihu.com/p/29161824" target="_blank" rel="noopener">C#调用Win32 C++动态链接库那些事</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/机械臂/" rel="tag"># 机械臂</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/04/27/2019-04-27-imv-csharp-cpp-dll/" rel="next" title="[语言集成]C#调用C++编译的DLL">
+                <i class="fa fa-chevron-left"></i> [语言集成]C#调用C++编译的DLL
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/05/01/2019-05-01-python-advance-book/" rel="prev" title="[Python进阶]Python进阶">
+                [Python进阶]Python进阶 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile_photo.jpg"
+                alt="xgyopen" />
+            
+              <p class="site-author-name" itemprop="name">xgyopen</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ABB机器人认知"><span class="nav-number">1.</span> <span class="nav-text">ABB机器人认知</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#机器人项目实施流程"><span class="nav-number">1.1.</span> <span class="nav-text">机器人项目实施流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#工业机器人组成"><span class="nav-number">1.2.</span> <span class="nav-text">工业机器人组成</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#机器人操作基础"><span class="nav-number">2.</span> <span class="nav-text">机器人操作基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#机器人零点校准"><span class="nav-number">3.</span> <span class="nav-text">机器人零点校准</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#机器人坐标系建立"><span class="nav-number">4.</span> <span class="nav-text">机器人坐标系建立</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#机器人编程基础"><span class="nav-number">5.</span> <span class="nav-text">机器人编程基础</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#机器人I-O通信"><span class="nav-number">6.</span> <span class="nav-text">机器人I/O通信</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#机器人基本指令"><span class="nav-number">7.</span> <span class="nav-text">机器人基本指令</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编程实例"><span class="nav-number">8.</span> <span class="nav-text">编程实例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#异常事件"><span class="nav-number">9.</span> <span class="nav-text">异常事件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#RobotStudio离线仿真"><span class="nav-number">10.</span> <span class="nav-text">RobotStudio离线仿真</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">11.</span> <span class="nav-text">参考</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译dll"><span class="nav-number">11.1.</span> <span class="nav-text">编译dll</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">xgyopen</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
+</body>
+</html>
