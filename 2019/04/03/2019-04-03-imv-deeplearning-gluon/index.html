@@ -102,7 +102,7 @@
 <meta property="og:image" content="http://yoursite.com/2019/04/03/2019-04-03-imv-deeplearning-gluon/ch5_06池化运算.svg">
 <meta property="og:image" content="http://yoursite.com/2019/04/03/2019-04-03-imv-deeplearning-gluon/ch8_01前端后端.svg">
 <meta property="og:image" content="http://yoursite.com/2019/04/03/2019-04-03-imv-deeplearning-gluon/ch8_02多GPU数据并行.svg">
-<meta property="og:updated_time" content="2019-05-10T13:02:16.681Z">
+<meta property="og:updated_time" content="2019-05-12T13:14:45.670Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[深度学习框架]Gluon">
 <meta name="twitter:description" content="Gluon/MXNet的学习笔记。">
@@ -345,6 +345,13 @@
       
         <p>19年4月3日的最新正式版：MXNet 1.4</p>
 <h1 id="《动手学深度学习》"><a href="#《动手学深度学习》" class="headerlink" title="《动手学深度学习》"></a>《动手学深度学习》</h1><h2 id="深度学习简介"><a href="#深度学习简介" class="headerlink" title="深度学习简介"></a>深度学习简介</h2><p>深度学习是具有多级表示的<strong>表征学习</strong>方法<br>在机器学习的众多研究方向中，<strong>表征学习</strong>关注如何自动找出表示数据的合适方式，以便更好地将输入变换为正确的输出</p>
+<p>成功的机器学习有四个要素：</p>
+<ul>
+<li><strong>数据</strong></li>
+<li>转换数据的<strong>模型</strong></li>
+<li>衡量模型好坏的<strong>损失函数</strong></li>
+<li>调整模型权重来最小化损失函数的<strong>优化算法</strong></li>
+</ul>
 <h2 id="预备知识"><a href="#预备知识" class="headerlink" title="预备知识"></a>预备知识</h2><h3 id="NDArray与numpy"><a href="#NDArray与numpy" class="headerlink" title="NDArray与numpy"></a>NDArray与numpy</h3><p>GPU支持、自动求导、异步支持</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mxnet <span class="keyword">import</span> ndarray <span class="keyword">as</span> nd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">x = np.ones((<span class="number">2</span>,<span class="number">3</span>))</span><br><span class="line"></span><br><span class="line">y = nd.array(x)  <span class="comment"># numpy -&gt; mxnet</span></span><br><span class="line">z = y.asnumpy()  <span class="comment"># mxnet -&gt; numpy</span></span><br></pre></td></tr></table></figure>
 <h3 id="NDArray的自动求导"><a href="#NDArray的自动求导" class="headerlink" title="NDArray的自动求导"></a>NDArray的自动求导</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> mxnet.ndarray <span class="keyword">as</span> nd</span><br><span class="line"><span class="keyword">import</span> mxnet.autograd <span class="keyword">as</span> ag</span><br><span class="line"></span><br><span class="line">x = nd.array([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]])</span><br><span class="line">x.attach_grad() <span class="comment"># 申请存储梯度所需要的内存</span></span><br><span class="line"><span class="keyword">with</span> ag.record(): <span class="comment"># 要求MXNet记录与求梯度有关的计算</span></span><br><span class="line">    y = x * <span class="number">2</span></span><br><span class="line">    z = y * x</span><br><span class="line">z.backward() <span class="comment"># 自动求梯度</span></span><br><span class="line"></span><br><span class="line">print(<span class="string">'x.grad: '</span>, x.grad)</span><br><span class="line">x.grad == <span class="number">4</span>*x</span><br></pre></td></tr></table></figure>
@@ -734,7 +741,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-count">61</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>

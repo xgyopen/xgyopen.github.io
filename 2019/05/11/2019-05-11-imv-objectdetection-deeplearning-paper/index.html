@@ -87,10 +87,18 @@
 <meta property="og:site_name" content="xgyopen blog">
 <meta property="og:description" content="梳理物体检测的相关工作，此文为笔记。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-11T07:37:37.359Z">
+<meta property="og:image" content="http://yoursite.com/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/rcnn.svg">
+<meta property="og:image" content="http://yoursite.com/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/fast-rcnn.svg">
+<meta property="og:image" content="http://yoursite.com/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/faster-rcnn.svg">
+<meta property="og:image" content="http://yoursite.com/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/yolo.svg">
+<meta property="og:image" content="http://yoursite.com/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/ssd.svg">
+<meta property="og:image" content="http://yoursite.com/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/ssd_1网络架构.png">
+<meta property="og:image" content="http://yoursite.com/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/ssd_2损失函数.png">
+<meta property="og:updated_time" content="2019-05-12T14:14:21.957Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[物体检测]物体检测论文梳理">
 <meta name="twitter:description" content="梳理物体检测的相关工作，此文为笔记。">
+<meta name="twitter:image" content="http://yoursite.com/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/rcnn.svg">
 
 
 
@@ -409,10 +417,66 @@
 <td style="text-align:center">Joseph Redmon/University of Washington</td>
 <td style="text-align:center">一阶段</td>
 </tr>
+<tr>
+<td style="text-align:center"><a href="https://arxiv.org/abs/1711.06897" target="_blank" rel="noopener">RefineDet</a></td>
+<td style="text-align:center"></td>
+<td style="text-align:center">CVPR2018</td>
+<td style="text-align:center"></td>
+</tr>
 </tbody>
 </table>
 </div>
-<h1 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.jiqizhixin.com/articles/092301" target="_blank" rel="noopener">（机器之心）从R-CNN到RFBNet，目标检测架构5年演进全盘点</a></p>
+<h1 id="简图比较"><a href="#简图比较" class="headerlink" title="简图比较"></a>简图比较</h1><h2 id="R-CNN系列"><a href="#R-CNN系列" class="headerlink" title="R-CNN系列"></a>R-CNN系列</h2><img src="/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/rcnn.svg" title="rcnn">
+<img src="/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/fast-rcnn.svg" title="fast-rcnn">
+<img src="/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/faster-rcnn.svg" title="faster-rcnn">
+<h2 id="YOLO"><a href="#YOLO" class="headerlink" title="YOLO"></a>YOLO</h2><img src="/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/yolo.svg" title="yolo">
+<h2 id="SSD"><a href="#SSD" class="headerlink" title="SSD"></a>SSD</h2><img src="/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/ssd.svg" title="ssd">
+<h1 id="SSD-1"><a href="#SSD-1" class="headerlink" title="SSD"></a>SSD</h1><h2 id="核心设计理念"><a href="#核心设计理念" class="headerlink" title="核心设计理念"></a>核心设计理念</h2><ol>
+<li>采用多尺度特征图用于检测（好）</li>
+<li>设置先验框（快）</li>
+<li>采用卷积进行检测（特征块不用pooling）</li>
+</ol>
+<h2 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h2><ol>
+<li>正负样本获得（难例挖掘）</li>
+<li>从特征块中预测bbox和cls（不使用pooling，而是通过concat）</li>
+</ol>
+<h2 id="数据"><a href="#数据" class="headerlink" title="数据"></a>数据</h2><p>PASCAL VOC2007<br>PASCAL VOC2012<br>COCO</p>
+<h2 id="模型"><a href="#模型" class="headerlink" title="模型"></a>模型</h2><img src="/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/ssd_1网络架构.png" title="SSD网络架构">
+<p>每一层的大小的推断代码<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">from</span> mxnet.gluon <span class="keyword">import</span> nn</span><br><span class="line"><span class="keyword">from</span> mxnet <span class="keyword">import</span> nd</span><br><span class="line"></span><br><span class="line"><span class="comment"># data_Conv6为Conv6层的数据, 此层上应用的卷积操作是op_Conv6</span></span><br><span class="line">data_Conv6 = nd.random.randn(<span class="number">1</span>,<span class="number">1024</span>,<span class="number">19</span>,<span class="number">19</span>) <span class="comment"># 输入输出数据格式是 batch x channel x height x width</span></span><br><span class="line">print(<span class="string">"data_Conv6.shape ="</span>, data_Conv6.shape)</span><br><span class="line"></span><br><span class="line">op_Conv6 = nn.Conv2D(<span class="number">1024</span>, kernel_size=<span class="number">1</span>) <span class="comment"># Conv: 1*1*1024</span></span><br><span class="line">op_Conv6.initialize(force_reinit=<span class="keyword">True</span>)</span><br><span class="line">data_Conv7 = op_Conv6(data_Conv6) <span class="comment"># 19*19*1024</span></span><br><span class="line">print(<span class="string">"data_Conv7.shape ="</span>, data_Conv7.shape)</span><br><span class="line"></span><br><span class="line">op_Conv7 = nn.Sequential()</span><br><span class="line">op_Conv7.add(nn.Conv2D(<span class="number">256</span>, kernel_size=<span class="number">1</span>)) <span class="comment"># Conv: 1*1*256</span></span><br><span class="line">op_Conv7.add(nn.Conv2D(<span class="number">512</span>, kernel_size=<span class="number">3</span>, padding=<span class="number">1</span>, strides=<span class="number">2</span>)) <span class="comment"># Conv: 3*3*512-s2</span></span><br><span class="line">op_Conv7.initialize(force_reinit=<span class="keyword">True</span>)</span><br><span class="line">data_Conv8_2 = op_Conv7(data_Conv7) <span class="comment"># 10*10*512</span></span><br><span class="line">print(<span class="string">"data_Conv8_2.shape ="</span>, data_Conv8_2.shape)</span><br><span class="line"></span><br><span class="line">op_Conv8_2 = nn.Sequential()</span><br><span class="line">op_Conv8_2.add(nn.Conv2D(<span class="number">128</span>, kernel_size=<span class="number">1</span>)) <span class="comment"># Conv: 1*1*128</span></span><br><span class="line">op_Conv8_2.add(nn.Conv2D(<span class="number">256</span>, kernel_size=<span class="number">3</span>, padding=<span class="number">1</span>, strides=<span class="number">2</span>)) <span class="comment"># Conv: 3*3*256-s2</span></span><br><span class="line">op_Conv8_2.initialize(force_reinit=<span class="keyword">True</span>)</span><br><span class="line">data_Conv9_2 = op_Conv8_2(data_Conv8_2) <span class="comment"># 10*10*512</span></span><br><span class="line">print(<span class="string">"data_Conv9_2.shape ="</span>, data_Conv9_2.shape)</span><br><span class="line"></span><br><span class="line">op_Conv9_2 = nn.Sequential()</span><br><span class="line">op_Conv9_2.add(nn.Conv2D(<span class="number">128</span>, kernel_size=<span class="number">1</span>)) <span class="comment"># Conv: 1*1*128</span></span><br><span class="line">op_Conv9_2.add(nn.Conv2D(<span class="number">256</span>, kernel_size=<span class="number">3</span>, strides=<span class="number">1</span>)) <span class="comment"># Conv: 3*3*256-s1</span></span><br><span class="line">op_Conv9_2.initialize(force_reinit=<span class="keyword">True</span>)</span><br><span class="line">data_Conv10_2 = op_Conv9_2(data_Conv9_2) <span class="comment"># 10*10*512</span></span><br><span class="line">print(<span class="string">"data_Conv10_2.shape ="</span>, data_Conv10_2.shape)</span><br><span class="line"></span><br><span class="line">op_Conv10_2 = nn.Sequential()</span><br><span class="line">op_Conv10_2.add(nn.Conv2D(<span class="number">128</span>, kernel_size=<span class="number">1</span>)) <span class="comment"># Conv: 1*1*128</span></span><br><span class="line">op_Conv10_2.add(nn.Conv2D(<span class="number">256</span>, kernel_size=<span class="number">3</span>, strides=<span class="number">1</span>)) <span class="comment"># Conv: 3*3*256-s1</span></span><br><span class="line">op_Conv10_2.initialize(force_reinit=<span class="keyword">True</span>)</span><br><span class="line">data_Conv11_2 = op_Conv10_2(data_Conv10_2) <span class="comment"># 10*10*512</span></span><br><span class="line">print(<span class="string">"data_Conv11_2.shape ="</span>, data_Conv11_2.shape)</span><br></pre></td></tr></table></figure></p>
+<h2 id="损失函数"><a href="#损失函数" class="headerlink" title="损失函数"></a>损失函数</h2><img src="/2019/05/11/2019-05-11-imv-objectdetection-deeplearning-paper/ssd_2损失函数.png" title="SSD损失函数">
+<h2 id="优化算法"><a href="#优化算法" class="headerlink" title="优化算法"></a>优化算法</h2><p>SGD</p>
+<ul>
+<li>initial learning rate 10−3</li>
+<li>0.9 momentum</li>
+<li>0.0005 weight decay</li>
+<li>batch size 32</li>
+</ul>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">链接</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://arxiv.org/pdf/1512.02325.pdf" target="_blank" rel="noopener">Paper</a>、<a href="http://www.cs.unc.edu/~wliu/papers/ssd_eccv2016_slide.pdf" target="_blank" rel="noopener">Slide</a>、<a href="https://github.com/weiliu89/caffe/tree/ssd" target="_blank" rel="noopener">Code-Caffe</a></td>
+<td style="text-align:center">官方</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://zhuanlan.zhihu.com/p/33544892" target="_blank" rel="noopener">目标检测 SSD原理与实现</a></td>
+<td style="text-align:center">讲解细致，有tf实现</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://www.cnblogs.com/xuanyuyt/p/7447111.html#_label2" target="_blank" rel="noopener">深度学习笔记（七）SSD 论文阅读笔记简化</a></td>
+<td style="text-align:center">讲解细致，尤其是正负样本获得，可继续阅读同一作者的<a href="https://www.cnblogs.com/xuanyuyt/p/7222867.html" target="_blank" rel="noopener">深度学习笔记（七）SSD 论文阅读笔记</a></td>
+</tr>
+</tbody>
+</table>
+</div>
+<h1 id="Faster-R-CNN"><a href="#Faster-R-CNN" class="headerlink" title="Faster R-CNN"></a>Faster R-CNN</h1><p><a href="https://www.cnblogs.com/xuanyuyt/p/6209910.html" target="_blank" rel="noopener">Faster R-CNN论文详解</a></p>
+<h1 id="参考-1"><a href="#参考-1" class="headerlink" title="参考"></a>参考</h1><p><a href="https://www.jiqizhixin.com/articles/092301" target="_blank" rel="noopener">（机器之心）从R-CNN到RFBNet，目标检测架构5年演进全盘点</a><br><a href="https://zhuanlan.zhihu.com/p/36088972" target="_blank" rel="noopener">【重磅】基于深度学习的目标检测算法综述</a><br><a href="https://zhuanlan.zhihu.com/p/60834912" target="_blank" rel="noopener">白话mAP</a></p>
 
       
     </div>
@@ -544,7 +608,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">55</span>
+                  <span class="site-state-item-count">61</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -590,7 +654,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#计算机视觉顶会（ICCV、CVPR、ECCV）"><span class="nav-number">1.</span> <span class="nav-text">计算机视觉顶会（ICCV、CVPR、ECCV）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#计算机视觉顶会（ICCV、CVPR、ECCV）"><span class="nav-number">1.</span> <span class="nav-text">计算机视觉顶会（ICCV、CVPR、ECCV）</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#简图比较"><span class="nav-number">2.</span> <span class="nav-text">简图比较</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#R-CNN系列"><span class="nav-number">2.1.</span> <span class="nav-text">R-CNN系列</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#YOLO"><span class="nav-number">2.2.</span> <span class="nav-text">YOLO</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SSD"><span class="nav-number">2.3.</span> <span class="nav-text">SSD</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SSD-1"><span class="nav-number">3.</span> <span class="nav-text">SSD</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#核心设计理念"><span class="nav-number">3.1.</span> <span class="nav-text">核心设计理念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#难点"><span class="nav-number">3.2.</span> <span class="nav-text">难点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据"><span class="nav-number">3.3.</span> <span class="nav-text">数据</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#模型"><span class="nav-number">3.4.</span> <span class="nav-text">模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#损失函数"><span class="nav-number">3.5.</span> <span class="nav-text">损失函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#优化算法"><span class="nav-number">3.6.</span> <span class="nav-text">优化算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参考"><span class="nav-number">3.7.</span> <span class="nav-text">参考</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Faster-R-CNN"><span class="nav-number">4.</span> <span class="nav-text">Faster R-CNN</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参考-1"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
             
 
           </div>
