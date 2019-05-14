@@ -87,7 +87,7 @@
 <meta property="og:site_name" content="xgyopen blog">
 <meta property="og:description" content="精读PointNet系列的文章。">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-02T04:32:29.027Z">
+<meta property="og:updated_time" content="2019-05-13T08:39:06.836Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[点云+深度学习]PointNet论文解析">
 <meta name="twitter:description" content="精读PointNet系列的文章。">
@@ -328,6 +328,27 @@
 
       
         <p>《PointNet: Deep Learning on Point Sets for 3D Classification and Segmentation》<br>《PointNet++: Deep Hierarchical Feature Learning on Point Sets in a Metric Space》<br>《Frustum PointNets for 3D Object Detection from RGB-D Data》</p>
+<p>MXNet的PointNet实现：</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th style="text-align:center">内容</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><a href="https://github.com/Zehaos/mx-pointnet" target="_blank" rel="noopener">Zehaos/mx-pointnet</a></td>
+<td style="text-align:center">符号式</td>
+</tr>
+<tr>
+<td style="text-align:center"><a href="https://github.com/hnVfly/pointnet.mxnet" target="_blank" rel="noopener">hnVfly/pointnet.mxnet</a></td>
+<td style="text-align:center">命令式</td>
+</tr>
+</tbody>
+</table>
+</div>
 <h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><p>系统：Ubuntu14.04<br>步骤：安装CUDA、安装CuDNN、安装Anaconda<br>参考：<a href="https://blog.csdn.net/fdqw_sph/article/details/78745375" target="_blank" rel="noopener">史上最全的ubuntu16.04安装nvidia驱动+cuda9.0+cuDnn7.0</a></p>
 <h2 id="安装CUDA9-0"><a href="#安装CUDA9-0" class="headerlink" title="安装CUDA9.0"></a>安装CUDA9.0</h2><p>安装opengl一定不要选</p>
 <p>安装完后，配置CUDA的环境变量<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">sudo nano /etc/profile</span><br><span class="line"></span><br><span class="line">在文件末尾添加：</span><br><span class="line">export PATH=/usr/local/cuda-9.0/bin:$PATH</span><br><span class="line">export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64$LD_LIBRARY_PATH</span><br><span class="line"></span><br><span class="line">重启</span><br><span class="line"></span><br><span class="line">安装g++（编译cuda例子时需要）：</span><br><span class="line">sudo apt-get install build-essential</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sudo nano ~/.bashrc</span><br><span class="line"></span><br><span class="line">在文件末尾添加：</span><br><span class="line">export PATH=/usr/local/cuda-9.0/bin$&#123;PATH:+:$&#123;PATH&#125;&#125;</span><br><span class="line">export LD_LIBRARY_PATH=/usr/local/cuda-9.0/lib64$&#123;LD_LIBRARY_PATH:+:$&#123;LD_LIBRARY_PATH&#125;&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sudo nano /etc/profile</span><br><span class="line"></span><br><span class="line">在文件末尾添加：</span><br><span class="line">export PATH=/usr/local/cuda/bin:$PATH</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sudo nano /etc/ld.so.conf.d/cuda.conf</span><br><span class="line"></span><br><span class="line">在文件末尾添加：</span><br><span class="line">/usr/local/cuda/lib64</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">sudo ldconfig</span><br></pre></td></tr></table></figure></p>
@@ -547,7 +568,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">61</span>
+                  <span class="site-state-item-count">62</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -560,7 +581,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">28</span>
+                  <span class="site-state-item-count">29</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
