@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="计算机视觉,读论文,精华,点云,深度学习," />
+  <meta name="keywords" content="计算机视觉,精华,读论文,点云,深度学习," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="精读PointNet系列的文章。">
-<meta name="keywords" content="计算机视觉,读论文,精华,点云,深度学习">
+<meta name="keywords" content="计算机视觉,精华,读论文,点云,深度学习">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[点云+深度学习]PointNet论文解析">
 <meta property="og:url" content="http://yoursite.com/2019/04/01/2019-04-01-imv-pointcloud-pointnet-paper/index.html">
@@ -433,9 +433,9 @@
 </tbody>
 </table>
 </div>
-<p>运行pointnet++代码前需要先编译tf的运算：<br>本机环境：Ubuntu 16.04、TF1.6.0、CUDA9.0、cuDNN7.0.5<br>pointnet2-master/tf_ops/3d_interpolation/tf_interpolate_compile.sh<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span> TF1.4</span><br><span class="line">g++ -std=c++11 tf_interpolate.cpp -o tf_interpolate_so.so -shared -fPIC -I /home/amax/anaconda3/lib/python3.6/site-packages/tensorflow/include -I /usr/local/cuda-9.0/include -I /home/amax/anaconda3/lib/python3.6/site-packages/tensorflow/include/external/nsync/public -lcudart -L /usr/local/cuda-9.0/lib64/ -L/home/amax/anaconda3/lib/python3.6/site-packages/tensorflow -ltensorflow_framework -O2 -D_GLIBCXX_USE_CXX11_ABI=0</span><br></pre></td></tr></table></figure></p>
-<p>pointnet++/pointnet2-master/tf_ops/grouping/tf_grouping_compile.sh<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>/bin/bash</span><br><span class="line">/usr/local/cuda-9.0/bin/nvcc tf_grouping_g.cu -o tf_grouping_g.cu.o -c -O2 -DGOOGLE_CUDA=1 -x cu -Xcompiler -fPIC</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> TF1.4</span><br><span class="line">g++ -std=c++11 tf_grouping.cpp tf_grouping_g.cu.o -o tf_grouping_so.so -shared -fPIC -I /home/amax/anaconda3/lib/python3.6/site-packages/tensorflow/include -I /usr/local/cuda-9.0/include -I /home/amax/anaconda3/lib/python3.6/site-packages/tensorflow/include/external/nsync/public -lcudart -L /usr/local/cuda-9.0/lib64/ -L/home/amax/anaconda3/lib/python3.6/site-packages/tensorflow -ltensorflow_framework -O2 -D_GLIBCXX_USE_CXX11_ABI=0</span><br></pre></td></tr></table></figure></p>
-<p>pointnet2-master/tf_ops/sampling/tf_sampling_compile.sh<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span>/bin/bash</span><br><span class="line">/usr/local/cuda-9.0/bin/nvcc tf_sampling_g.cu -o tf_sampling_g.cu.o -c -O2 -DGOOGLE_CUDA=1 -x cu -Xcompiler -fPIC</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> TF1.4</span><br><span class="line">g++ -std=c++11 tf_sampling.cpp tf_sampling_g.cu.o -o tf_sampling_so.so -shared -fPIC -I /home/amax/anaconda3/lib/python3.6/site-packages/tensorflow/include -I /usr/local/cuda-9.0/include -I /home/amax/anaconda3/lib/python3.6/site-packages/tensorflow/include/external/nsync/public -lcudart -L /usr/local/cuda-9.0/lib64/ -L/home/amax/anaconda3/lib/python3.6/site-packages/tensorflow -ltensorflow_framework -O2 -D_GLIBCXX_USE_CXX11_ABI=0</span><br></pre></td></tr></table></figure></p>
+<p>运行pointnet++代码前需要先编译tf的运算：<br>本机环境：Ubuntu 16.04、TF1.6.0、CUDA9.0、cuDNN7.0.5<br>pointnet2-master/tf_ops/3d_interpolation/tf_interpolate_compile.sh<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> TF1.4</span></span><br><span class="line">g++ -std=c++11 tf_interpolate.cpp -o tf_interpolate_so.so -shared -fPIC -I /home/amax/anaconda3/lib/python3.6/site-packages/tensorflow/include -I /usr/local/cuda-9.0/include -I /home/amax/anaconda3/lib/python3.6/site-packages/tensorflow/include/external/nsync/public -lcudart -L /usr/local/cuda-9.0/lib64/ -L/home/amax/anaconda3/lib/python3.6/site-packages/tensorflow -ltensorflow_framework -O2 -D_GLIBCXX_USE_CXX11_ABI=0</span><br></pre></td></tr></table></figure></p>
+<p>pointnet++/pointnet2-master/tf_ops/grouping/tf_grouping_compile.sh<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">/bin/bash</span></span><br><span class="line">/usr/local/cuda-9.0/bin/nvcc tf_grouping_g.cu -o tf_grouping_g.cu.o -c -O2 -DGOOGLE_CUDA=1 -x cu -Xcompiler -fPIC</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> TF1.4</span></span><br><span class="line">g++ -std=c++11 tf_grouping.cpp tf_grouping_g.cu.o -o tf_grouping_so.so -shared -fPIC -I /home/amax/anaconda3/lib/python3.6/site-packages/tensorflow/include -I /usr/local/cuda-9.0/include -I /home/amax/anaconda3/lib/python3.6/site-packages/tensorflow/include/external/nsync/public -lcudart -L /usr/local/cuda-9.0/lib64/ -L/home/amax/anaconda3/lib/python3.6/site-packages/tensorflow -ltensorflow_framework -O2 -D_GLIBCXX_USE_CXX11_ABI=0</span><br></pre></td></tr></table></figure></p>
+<p>pointnet2-master/tf_ops/sampling/tf_sampling_compile.sh<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">/bin/bash</span></span><br><span class="line">/usr/local/cuda-9.0/bin/nvcc tf_sampling_g.cu -o tf_sampling_g.cu.o -c -O2 -DGOOGLE_CUDA=1 -x cu -Xcompiler -fPIC</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> TF1.4</span></span><br><span class="line">g++ -std=c++11 tf_sampling.cpp tf_sampling_g.cu.o -o tf_sampling_so.so -shared -fPIC -I /home/amax/anaconda3/lib/python3.6/site-packages/tensorflow/include -I /usr/local/cuda-9.0/include -I /home/amax/anaconda3/lib/python3.6/site-packages/tensorflow/include/external/nsync/public -lcudart -L /usr/local/cuda-9.0/lib64/ -L/home/amax/anaconda3/lib/python3.6/site-packages/tensorflow -ltensorflow_framework -O2 -D_GLIBCXX_USE_CXX11_ABI=0</span><br></pre></td></tr></table></figure></p>
 <p><a href="http://www.mooc.ai/open/course/501" target="_blank" rel="noopener">深度学习在点云分割中的应用（CVPR2018）</a></p>
 
       
@@ -456,9 +456,9 @@
           
             <a href="/tags/计算机视觉/" rel="tag"># 计算机视觉</a>
           
-            <a href="/tags/读论文/" rel="tag"># 读论文</a>
-          
             <a href="/tags/精华/" rel="tag"># 精华</a>
+          
+            <a href="/tags/读论文/" rel="tag"># 读论文</a>
           
             <a href="/tags/点云/" rel="tag"># 点云</a>
           
